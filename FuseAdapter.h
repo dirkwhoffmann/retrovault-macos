@@ -10,6 +10,8 @@
 #include "Vamiga.h"
 #include "FuseAPI.h"
 
+using std::string;
+
 class FuseAdapter {
 
 #include "FuseAdapterCallbacks.h"

@@ -8,6 +8,7 @@
 // -----------------------------------------------------------------------------
 
 #include "FuseAdapter.h"
+#include <sys/mount.h>
 
 fuse_operations
 FuseAdapter::callbacks = {
@@ -44,13 +45,18 @@ FuseAdapter::myMain()
 {
     printf("useAdapter::myMain()\n");
 
+    string mountpoint = "/Volumes/loop";
+
+    // Unmount the volume if it is still mounted
+    (void)unmount(mountpoint.c_str(), 0);
+
     std::vector<std::string> params = {
 
         "loopback",
         "-onative_xattr,volname=loopback,norm_insensitive",
         // "-f",
         "-d",
-        "/Volumes/loop"
+        mountpoint
     };
 
     std::vector<char *> argv;
