@@ -11,7 +11,7 @@
 
 // REMOVE ASAP
 static const char* file_name = "hello.txt";
-static const char* file_content = "Hello FUSE!\n";
+static const char* file_content = "Hello from FUSE!\n";
 
 int
 FuseAdapter::getattr(const char* path, struct stat* st)
@@ -160,7 +160,14 @@ FuseAdapter::read(const char* path, char* buf, size_t size, off_t offset, struct
 int
 FuseAdapter::_read(const char* path, char* buf, size_t size, off_t offset, struct fuse_file_info* fi)
 {
-    return 0;
+    size_t len = strlen(file_content);
+    if (strcmp(path + 1, "hello.txt") != 0)
+        return -ENOENT;
+    if (offset >= len)
+        return 0;
+    size_t to_copy = size < len - offset ? size : len - offset;
+    memcpy(buf, file_content + offset, to_copy);
+    return (int)to_copy;
 }
 
 int
@@ -211,6 +218,7 @@ FuseAdapter::_readdir(const char* path, void* buf, fuse_fill_dir_t filler,
 void *
 FuseAdapter::init(struct fuse_conn_info* conn)
 {
+    printf("FuseAdapter::init\n");
     return self()._init(conn);
 }
 

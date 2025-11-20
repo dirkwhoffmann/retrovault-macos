@@ -22,8 +22,7 @@ class FuseAdapter {
 
 public:
     
-    void myMain();
-    int myMain(int argc, char *argv[]);
+    int myMain();
 };
 
 
