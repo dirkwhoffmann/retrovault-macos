@@ -6,14 +6,83 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		504EAD252ECF00CE008CF9FC /* EmulatorProxy.mm in Sources */ = {isa = PBXBuildFile; fileRef = 504EAD212ECF00CE008CF9FC /* EmulatorProxy.mm */; };
+		504EAD262ECF00CE008CF9FC /* TypeExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504EAD232ECF00CE008CF9FC /* TypeExtensions.swift */; };
+		504EAD272ECF00CE008CF9FC /* ProxyExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504EAD222ECF00CE008CF9FC /* ProxyExtensions.swift */; };
+		504EAD2D2ECF0266008CF9FC /* FuseAdapter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 504EAD2C2ECF0263008CF9FC /* FuseAdapter.cpp */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		504EA7BD2ECE39E8008CF9FC /* vMount.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = vMount.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		504EAD1F2ECF00CE008CF9FC /* Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
+		504EAD202ECF00CE008CF9FC /* EmulatorProxy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EmulatorProxy.h; sourceTree = "<group>"; };
+		504EAD212ECF00CE008CF9FC /* EmulatorProxy.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = EmulatorProxy.mm; sourceTree = "<group>"; };
+		504EAD222ECF00CE008CF9FC /* ProxyExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProxyExtensions.swift; sourceTree = "<group>"; };
+		504EAD232ECF00CE008CF9FC /* TypeExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypeExtensions.swift; sourceTree = "<group>"; };
+		504EAD2A2ECF024E008CF9FC /* FuseAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FuseAdapter.h; sourceTree = "<group>"; };
+		504EAD2C2ECF0263008CF9FC /* FuseAdapter.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FuseAdapter.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		504EAD092ECE3D14008CF9FC /* Exceptions for "Core" folder in "vMount" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				CMakeLists.txt,
+				Components/Agnus/Blitter/CMakeLists.txt,
+				Components/Agnus/CMakeLists.txt,
+				Components/Agnus/Copper/CMakeLists.txt,
+				Components/Agnus/DmaDebugger/CMakeLists.txt,
+				Components/Agnus/Sequencer/CMakeLists.txt,
+				Components/CIA/CMakeLists.txt,
+				Components/CMakeLists.txt,
+				Components/CPU/CMakeLists.txt,
+				Components/CPU/Moira/CMakeLists.txt,
+				Components/Denise/CMakeLists.txt,
+				Components/Memory/CMakeLists.txt,
+				Components/Paula/Audio/CMakeLists.txt,
+				Components/Paula/CMakeLists.txt,
+				Components/Paula/DiskController/CMakeLists.txt,
+				Components/Paula/UART/CMakeLists.txt,
+				Components/RTC/CMakeLists.txt,
+				Components/Zorro/CMakeLists.txt,
+				FileSystems/CMakeLists.txt,
+				Infrastructure/CMakeLists.txt,
+				Media/CMakeLists.txt,
+				Media/DiskFiles/CMakeLists.txt,
+				Media/RomFiles/CMakeLists.txt,
+				Misc/CMakeLists.txt,
+				Misc/LogicAnalyzer/CMakeLists.txt,
+				Misc/OSDebugger/CMakeLists.txt,
+				Misc/RegressionTester/CMakeLists.txt,
+				Misc/RemoteServers/CMakeLists.txt,
+				Misc/RetroShell/CMakeLists.txt,
+				Peripherals/CMakeLists.txt,
+				Peripherals/Drive/CMakeLists.txt,
+				Peripherals/Joystick/CMakeLists.txt,
+				Peripherals/Keyboard/CMakeLists.txt,
+				Peripherals/Monitor/CMakeLists.txt,
+				Peripherals/Mouse/CMakeLists.txt,
+				Ports/CMakeLists.txt,
+				ThirdParty/CMakeLists.txt,
+				Utilities/CMakeLists.txt,
+			);
+			target = 504EA7BC2ECE39E8008CF9FC /* vMount */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		504EA7BF2ECE39E8008CF9FC /* vMount */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = vMount;
+			sourceTree = "<group>";
+		};
+		504EAC5D2ECE3D14008CF9FC /* Core */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				504EAD092ECE3D14008CF9FC /* Exceptions for "Core" folder in "vMount" target */,
+			);
+			path = Core;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -32,6 +101,10 @@
 		504EA7B42ECE39E8008CF9FC = {
 			isa = PBXGroup;
 			children = (
+				504EAD2A2ECF024E008CF9FC /* FuseAdapter.h */,
+				504EAD2C2ECF0263008CF9FC /* FuseAdapter.cpp */,
+				504EAC5D2ECE3D14008CF9FC /* Core */,
+				504EAD242ECF00CE008CF9FC /* ObjCProxy */,
 				504EA7BF2ECE39E8008CF9FC /* vMount */,
 				504EA7BE2ECE39E8008CF9FC /* Products */,
 			);
@@ -43,6 +116,18 @@
 				504EA7BD2ECE39E8008CF9FC /* vMount.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		504EAD242ECF00CE008CF9FC /* ObjCProxy */ = {
+			isa = PBXGroup;
+			children = (
+				504EAD1F2ECF00CE008CF9FC /* Bridging-Header.h */,
+				504EAD202ECF00CE008CF9FC /* EmulatorProxy.h */,
+				504EAD212ECF00CE008CF9FC /* EmulatorProxy.mm */,
+				504EAD222ECF00CE008CF9FC /* ProxyExtensions.swift */,
+				504EAD232ECF00CE008CF9FC /* TypeExtensions.swift */,
+			);
+			path = ObjCProxy;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -62,6 +147,7 @@
 			);
 			fileSystemSynchronizedGroups = (
 				504EA7BF2ECE39E8008CF9FC /* vMount */,
+				504EAC5D2ECE3D14008CF9FC /* Core */,
 			);
 			name = vMount;
 			packageProductDependencies = (
@@ -119,6 +205,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				504EAD2D2ECF0266008CF9FC /* FuseAdapter.cpp in Sources */,
+				504EAD252ECF00CE008CF9FC /* EmulatorProxy.mm in Sources */,
+				504EAD262ECF00CE008CF9FC /* TypeExtensions.swift in Sources */,
+				504EAD272ECF00CE008CF9FC /* ProxyExtensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -178,6 +268,10 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					Core,
+					/usr/local/include,
+				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 26.1;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
@@ -185,6 +279,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OBJC_INTEROP_MODE = objcxx;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -236,12 +331,17 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					Core,
+					/usr/local/include,
+				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MACOSX_DEPLOYMENT_TARGET = 26.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = macosx;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OBJC_INTEROP_MODE = objcxx;
 			};
 			name = Release;
 		};
@@ -273,6 +373,7 @@
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "ObjCProxy/Bridging-Header.h";
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 			};
@@ -306,6 +407,7 @@
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "ObjCProxy/Bridging-Header.h";
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 			};

@@ -10,11 +10,14 @@ import Cocoa
 @main
 class AppDelegate: NSObject, NSApplicationDelegate {
 
-    
-
+    var adapter: FuseAdapterProxy?
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Insert code here to initialize your application
+
+        adapter = FuseAdapterProxy()
+        
+        try? adapter?.launch()
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
