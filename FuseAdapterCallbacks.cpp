@@ -8,6 +8,7 @@
 // -----------------------------------------------------------------------------
 
 #include "FuseAdapter.h"
+#include "FuseDebug.h"
 
 // REMOVE ASAP
 static const char* file_name = "hello.txt";
@@ -218,13 +219,14 @@ FuseAdapter::_readdir(const char* path, void* buf, fuse_fill_dir_t filler,
 void *
 FuseAdapter::init(struct fuse_conn_info* conn)
 {
-    printf("FuseAdapter::init\n");
     return self()._init(conn);
 }
 
 void *
 FuseAdapter::_init(struct fuse_conn_info* conn)
 {
+    log([conn](std::ostream &os){ dump(os, conn); });
+
     return this;
 }
 

@@ -8,7 +8,9 @@
 // -----------------------------------------------------------------------------
 
 #include "FuseAdapter.h"
+#include "MutableFileSystem.h"
 #include <sys/mount.h>
+#include <iostream>
 
 fuse_operations
 FuseAdapter::callbacks = {
@@ -40,32 +42,59 @@ FuseAdapter::callbacks = {
     */
 };
 
+void
+FuseAdapter::log(const std::function<void(std::ostream &)> &func)
+{
+    if (debug) {
+
+        std::stringstream ss;
+        func(ss);
+        std::cout << ss.str();
+    }
+}
+
 int
 FuseAdapter::myMain()
 {
-    printf("useAdapter::myMain()\n");
+    const char *demo = "/tmp/demo.adf";
 
-    string mountpoint = "/Volumes/loop";
+    try {
+        log("Trying to load {}...\n", demo);
+        adf = new ADFFile(demo);
+        assert(adf != nullptr);
 
-    // Unmount the volume if it is still mounted
-    (void)unmount(mountpoint.c_str(), 0);
+        log("Extracting file system...\n");
+        fs = new MutableFileSystem(*adf);
+        assert(fs != nullptr);
 
-    std::vector<std::string> params = {
+        string mountpoint = "/Volumes/adf";
 
-        "loopback",
-        "-onative_xattr,volname=loopback,norm_insensitive",
-        // "-f",
-        "-d",
-        mountpoint
-    };
+        // Unmount the volume if it is still mounted
+        log("Unmounting existing volume {}...\n", mountpoint);
+        (void)unmount(mountpoint.c_str(), 0);
 
-    std::vector<char *> argv;
-    for (auto& s : params) argv.push_back(s.data());
+        std::vector<std::string> params = {
 
-    printf("Calling fuse_main\n");
-    auto result = fuse_main((int)argv.size(), argv.data(), &callbacks, this);
+            "vmount",
+            "-onative_xattr,volname=adf,norm_insensitive",
+            // "-f",
+            "-d",
+            mountpoint
+        };
 
-    printf("Exiting with error code %d\n", result);
-    return result;
+        std::vector<char *> argv;
+        for (auto& s : params) argv.push_back(s.data());
+
+        log("Calling fuse_main\n");
+        auto result = fuse_main((int)argv.size(), argv.data(), &callbacks, this);
+
+        printf("Exiting with error code %d\n", result);
+        return result;
+
+    } catch (std::exception &e) {
+
+        printf("Error: %s\n", e.what());
+    }
+    return 1;
 }
 

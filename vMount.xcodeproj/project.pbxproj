@@ -14,6 +14,7 @@
 		507724952ECF26F800DB04C5 /* libfuse.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 507724942ECF26BF00DB04C5 /* libfuse.2.dylib */; };
 		507724962ECF2FA300DB04C5 /* libfuse.2.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 507724942ECF26BF00DB04C5 /* libfuse.2.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		5077249B2ECF8B8400DB04C5 /* FuseAdapterCallbacks.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 507724992ECF6AE100DB04C5 /* FuseAdapterCallbacks.cpp */; };
+		5077249F2ECFA78E00DB04C5 /* FuseDebug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5077249E2ECFA78D00DB04C5 /* FuseDebug.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -43,6 +44,8 @@
 		507724992ECF6AE100DB04C5 /* FuseAdapterCallbacks.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FuseAdapterCallbacks.cpp; sourceTree = "<group>"; };
 		5077249A2ECF843500DB04C5 /* FuseAdapterCallbacks.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FuseAdapterCallbacks.h; sourceTree = "<group>"; };
 		5077249C2ECF8BC000DB04C5 /* FuseAPI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FuseAPI.h; sourceTree = "<group>"; };
+		5077249D2ECFA78500DB04C5 /* FuseDebug.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FuseDebug.h; sourceTree = "<group>"; };
+		5077249E2ECFA78D00DB04C5 /* FuseDebug.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FuseDebug.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -129,6 +132,8 @@
 				504EAD2C2ECF0263008CF9FC /* FuseAdapter.cpp */,
 				5077249A2ECF843500DB04C5 /* FuseAdapterCallbacks.h */,
 				507724992ECF6AE100DB04C5 /* FuseAdapterCallbacks.cpp */,
+				5077249D2ECFA78500DB04C5 /* FuseDebug.h */,
+				5077249E2ECFA78D00DB04C5 /* FuseDebug.cpp */,
 				504EAC5D2ECE3D14008CF9FC /* Core */,
 				504EAD242ECF00CE008CF9FC /* ObjCProxy */,
 				504EA7BF2ECE39E8008CF9FC /* vMount */,
@@ -242,6 +247,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				504EAD2D2ECF0266008CF9FC /* FuseAdapter.cpp in Sources */,
+				5077249F2ECFA78E00DB04C5 /* FuseDebug.cpp in Sources */,
 				5077249B2ECF8B8400DB04C5 /* FuseAdapterCallbacks.cpp in Sources */,
 				504EAD252ECF00CE008CF9FC /* EmulatorProxy.mm in Sources */,
 				504EAD262ECF00CE008CF9FC /* TypeExtensions.swift in Sources */,
