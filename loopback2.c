@@ -1,33 +1,41 @@
 //
-//  FuseAdapter.cpp
+//  loopback2.c
 //  vMount
 //
 //  Created by Dirk Hoffmann on 20.11.25.
 //
 
-#include "FuseAdapter.h"
-#include "fuse.h"
+#if 0
 
-extern "C" {
+#include <AvailabilityMacros.h>
 
-    int loopbackMain(int argc, char *argv[]);
-    int loopback2Main(int argc, char *argv[]);
-}
+#define HAVE_ACCESS 0
 
-fuse_operations
-FuseAdapter::loopback_oper = {
+#define FUSE_USE_VERSION 26
 
-    .getattr     = my_getattr,
-    .readdir     = my_readdir,
-    .open        = my_open,
-    .read        = my_read,
-};
+#define _GNU_SOURCE
+
+#include <dirent.h>
+#include <errno.h>
+#include <fcntl.h>
+#include <fuse.h>
+#include <stdbool.h>
+#include <stddef.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/attr.h>
+#include <sys/mount.h>
+#include <sys/param.h>
+#include <sys/time.h>
+#include <sys/vnode.h>
+#include <sys/xattr.h>
+#include <unistd.h>
 
 static const char* file_name = "hello.txt";
 static const char* file_content = "Hello FUSE!\n";
 
-int
-FuseAdapter::my_getattr(const char *path, struct stat *st)
+static int my_getattr(const char *path, struct stat *st)
 {
     memset(st, 0, sizeof(*st));
 
@@ -47,8 +55,7 @@ FuseAdapter::my_getattr(const char *path, struct stat *st)
     return -ENOENT;
 }
 
-int
-FuseAdapter::my_readdir(const char* path,
+static int my_readdir(const char* path,
                       void* buf,
                       fuse_fill_dir_t filler,
                       off_t offset,
@@ -63,8 +70,7 @@ FuseAdapter::my_readdir(const char* path,
     return 0;
 }
 
-int
-FuseAdapter::my_open(const char* path, struct fuse_file_info *fi)
+static int my_open(const char* path, struct fuse_file_info *fi)
 {
     if (strcmp(path + 1, file_name) != 0)
         return -ENOENT;
@@ -75,12 +81,11 @@ FuseAdapter::my_open(const char* path, struct fuse_file_info *fi)
 //
 // read – return actual fake file contents.
 //
-int
-FuseAdapter::my_read(const char* path,
-                     char* buf,
-                     size_t size,
-                     off_t offset,
-                     struct fuse_file_info *fi)
+static int my_read(const char* path,
+                   char* buf,
+                   size_t size,
+                   off_t offset,
+                   struct fuse_file_info *fi)
 {
     if (strcmp(path + 1, file_name) != 0)
         return -ENOENT;
@@ -96,49 +101,31 @@ FuseAdapter::my_read(const char* path,
     return (int)to_copy;
 }
 
-void
-FuseAdapter::myMain()
-{
-    printf("useAdapter::myMain()\n");
+static struct fuse_operations loopback_oper = {
 
-    std::vector<std::string> params = {
+    .getattr     = my_getattr,
+    .readdir     = my_readdir,
+    .open        = my_open,
+    .read        = my_read,
+};
 
-        "loopback",
-        "-onative_xattr,volname=loopback,norm_insensitive",
-//        "-omodules=threadid:subdir,subdir=/tmp/dir,native_xattr,volname=loopback,norm_insensitive",
-        "-f",
-        "-d",
-        "/Volumes/loop"
-    };
+struct loopback {
 
-    std::vector<char *> argv;
-    for (auto& s : params) argv.push_back(s.data());
-    // auto result = loopbackMain((int)argv.size(), argv.data());
+    uint32_t blocksize;
+    bool case_insensitive;
+};
+static struct loopback loopback;
 
+static const struct fuse_opt loopback_opts[] = {
 
-
-    auto result = myMain((int)argv.size(), argv.data());
-    printf("Result = %d\n", result);
-}
+    { "fsblocksize=%u", offsetof(struct loopback, blocksize), 0 },
+    { "case_insensitive", offsetof(struct loopback, case_insensitive), true },
+    FUSE_OPT_END
+};
 
 int
-FuseAdapter::myMain(int argc, char *argv[])
+loopback2Main(int argc, char *argv[])
 {
-
-    struct loopback {
-
-        uint32_t blocksize;
-        bool case_insensitive;
-    };
-    loopback loopback;
-
-    const struct fuse_opt loopback_opts[] = {
-
-        { "fsblocksize=%u", offsetof(struct loopback, blocksize), 0 },
-        { "case_insensitive", offsetof(struct loopback, case_insensitive), true },
-        FUSE_OPT_END
-    };
-
     int res = 0;
     struct fuse_args args = FUSE_ARGS_INIT(argc, argv);
 
@@ -155,6 +142,6 @@ FuseAdapter::myMain(int argc, char *argv[])
 
     fuse_opt_free_args(&args);
     return res;
-
 }
+#endif
 
