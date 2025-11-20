@@ -7,23 +7,7 @@
 // See https://mozilla.org/MPL/2.0 for license information
 // -----------------------------------------------------------------------------
 
-#include "Vamiga.h"
-#include "FuseAPI.h"
+#pragma once
 
-class FuseAdapter {
-
-#include "FuseAdapterCallbacks.h"
-
-    static fuse_operations callbacks;
-
-    static FuseAdapter &self() {
-        return *(static_cast<FuseAdapter *>(fuse_get_context()->private_data));
-    }
-
-public:
-    
-    void myMain();
-    int myMain(int argc, char *argv[]);
-};
-
-
+#define FUSE_USE_VERSION 26
+#include "fuse.h"

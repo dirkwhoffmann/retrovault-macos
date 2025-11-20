@@ -11,10 +11,9 @@
 		504EAD262ECF00CE008CF9FC /* TypeExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504EAD232ECF00CE008CF9FC /* TypeExtensions.swift */; };
 		504EAD272ECF00CE008CF9FC /* ProxyExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504EAD222ECF00CE008CF9FC /* ProxyExtensions.swift */; };
 		504EAD2D2ECF0266008CF9FC /* FuseAdapter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 504EAD2C2ECF0263008CF9FC /* FuseAdapter.cpp */; };
-		504EAD2F2ECF0D55008CF9FC /* loopback.c in Sources */ = {isa = PBXBuildFile; fileRef = 504EAD2E2ECF0D4C008CF9FC /* loopback.c */; };
 		507724952ECF26F800DB04C5 /* libfuse.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 507724942ECF26BF00DB04C5 /* libfuse.2.dylib */; };
 		507724962ECF2FA300DB04C5 /* libfuse.2.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 507724942ECF26BF00DB04C5 /* libfuse.2.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		507724982ECF3F4200DB04C5 /* loopback2.c in Sources */ = {isa = PBXBuildFile; fileRef = 507724972ECF3F3900DB04C5 /* loopback2.c */; };
+		5077249B2ECF8B8400DB04C5 /* FuseAdapterCallbacks.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 507724992ECF6AE100DB04C5 /* FuseAdapterCallbacks.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -40,9 +39,10 @@
 		504EAD232ECF00CE008CF9FC /* TypeExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypeExtensions.swift; sourceTree = "<group>"; };
 		504EAD2A2ECF024E008CF9FC /* FuseAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FuseAdapter.h; sourceTree = "<group>"; };
 		504EAD2C2ECF0263008CF9FC /* FuseAdapter.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FuseAdapter.cpp; sourceTree = "<group>"; };
-		504EAD2E2ECF0D4C008CF9FC /* loopback.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = loopback.c; sourceTree = "<group>"; };
 		507724942ECF26BF00DB04C5 /* libfuse.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libfuse.2.dylib; path = /usr/local/lib/libfuse.2.dylib; sourceTree = "<absolute>"; };
-		507724972ECF3F3900DB04C5 /* loopback2.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = loopback2.c; sourceTree = "<group>"; };
+		507724992ECF6AE100DB04C5 /* FuseAdapterCallbacks.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FuseAdapterCallbacks.cpp; sourceTree = "<group>"; };
+		5077249A2ECF843500DB04C5 /* FuseAdapterCallbacks.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FuseAdapterCallbacks.h; sourceTree = "<group>"; };
+		5077249C2ECF8BC000DB04C5 /* FuseAPI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FuseAPI.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -124,10 +124,11 @@
 		504EA7B42ECE39E8008CF9FC = {
 			isa = PBXGroup;
 			children = (
-				507724972ECF3F3900DB04C5 /* loopback2.c */,
-				504EAD2E2ECF0D4C008CF9FC /* loopback.c */,
+				5077249C2ECF8BC000DB04C5 /* FuseAPI.h */,
 				504EAD2A2ECF024E008CF9FC /* FuseAdapter.h */,
 				504EAD2C2ECF0263008CF9FC /* FuseAdapter.cpp */,
+				5077249A2ECF843500DB04C5 /* FuseAdapterCallbacks.h */,
+				507724992ECF6AE100DB04C5 /* FuseAdapterCallbacks.cpp */,
 				504EAC5D2ECE3D14008CF9FC /* Core */,
 				504EAD242ECF00CE008CF9FC /* ObjCProxy */,
 				504EA7BF2ECE39E8008CF9FC /* vMount */,
@@ -241,11 +242,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				504EAD2D2ECF0266008CF9FC /* FuseAdapter.cpp in Sources */,
-				507724982ECF3F4200DB04C5 /* loopback2.c in Sources */,
+				5077249B2ECF8B8400DB04C5 /* FuseAdapterCallbacks.cpp in Sources */,
 				504EAD252ECF00CE008CF9FC /* EmulatorProxy.mm in Sources */,
 				504EAD262ECF00CE008CF9FC /* TypeExtensions.swift in Sources */,
 				504EAD272ECF00CE008CF9FC /* ProxyExtensions.swift in Sources */,
-				504EAD2F2ECF0D55008CF9FC /* loopback.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

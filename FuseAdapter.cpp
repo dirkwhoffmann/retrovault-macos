@@ -1,100 +1,45 @@
+// -----------------------------------------------------------------------------
+// This file is part of vMount
 //
-//  FuseAdapter.cpp
-//  vMount
+// Copyright (C) Dirk W. Hoffmann. www.dirkwhoffmann.de
+// Licensed under the Mozilla Public License v2
 //
-//  Created by Dirk Hoffmann on 20.11.25.
-//
+// See https://mozilla.org/MPL/2.0 for license information
+// -----------------------------------------------------------------------------
 
 #include "FuseAdapter.h"
-#include "fuse.h"
 
+/*
 extern "C" {
 
     int loopbackMain(int argc, char *argv[]);
     int loopback2Main(int argc, char *argv[]);
 }
+*/
 
 fuse_operations
-FuseAdapter::loopback_oper = {
+FuseAdapter::callbacks = {
 
-    .getattr     = my_getattr,
-    .readdir     = my_readdir,
-    .open        = my_open,
-    .read        = my_read,
+    .getattr    = getattr,
+    .readlink   = readlink,
+    .mkdir      = mkdir,
+    .unlink     = unlink,
+    .rmdir      = rmdir,
+    .rename     = rename,
+    .chmod      = chmod,
+    .chown      = chown,
+    .truncate   = truncate,
+    .open       = open,
+    .read       = read,
+    .write      = write,
+    .statfs     = statfs,
+    .readdir    = readdir,
+    .init       = init,
+    .destroy    = destroy,
+    .access     = access,
+    .create     = create,
+    .utimens    = utimens
 };
-
-static const char* file_name = "hello.txt";
-static const char* file_content = "Hello FUSE!\n";
-
-int
-FuseAdapter::my_getattr(const char *path, struct stat *st)
-{
-    memset(st, 0, sizeof(*st));
-
-    if (strcmp(path, "/") == 0) {
-        st->st_mode = S_IFDIR | 0755;
-        st->st_nlink = 1;
-        return 0;
-    }
-
-    if (strcmp(path+1, file_name) == 0) {
-        st->st_mode = S_IFREG | 0444;
-        st->st_nlink = 1;
-        st->st_size = strlen(file_content);
-        return 0;
-    }
-
-    return -ENOENT;
-}
-
-int
-FuseAdapter::my_readdir(const char* path,
-                      void* buf,
-                      fuse_fill_dir_t filler,
-                      off_t offset,
-                      struct fuse_file_info *fi)
-{
-    if (strcmp(path, "/") != 0)
-        return -ENOENT;
-
-    filler(buf, ".",  NULL, 0);
-    filler(buf, "..", NULL, 0);
-    filler(buf, file_name, NULL, 0);
-    return 0;
-}
-
-int
-FuseAdapter::my_open(const char* path, struct fuse_file_info *fi)
-{
-    if (strcmp(path + 1, file_name) != 0)
-        return -ENOENT;
-
-    return 0;   // success
-}
-
-//
-// read – return actual fake file contents.
-//
-int
-FuseAdapter::my_read(const char* path,
-                     char* buf,
-                     size_t size,
-                     off_t offset,
-                     struct fuse_file_info *fi)
-{
-    if (strcmp(path + 1, file_name) != 0)
-        return -ENOENT;
-
-    size_t len = strlen(file_content);
-
-    if (offset >= len)
-        return 0;
-
-    size_t to_copy = size < len - offset ? size : len - offset;
-    memcpy(buf, file_content + offset, to_copy);
-
-    return (int)to_copy;
-}
 
 void
 FuseAdapter::myMain()
@@ -105,8 +50,7 @@ FuseAdapter::myMain()
 
         "loopback",
         "-onative_xattr,volname=loopback,norm_insensitive",
-//        "-omodules=threadid:subdir,subdir=/tmp/dir,native_xattr,volname=loopback,norm_insensitive",
-        "-f",
+        // "-f",
         "-d",
         "/Volumes/loop"
     };
@@ -151,7 +95,7 @@ FuseAdapter::myMain(int argc, char *argv[])
     umask(0);
 
     printf("Calling fuse_main\n");
-    res = fuse_main(args.argc, args.argv, &loopback_oper, NULL);
+    res = fuse_main(args.argc, args.argv, &callbacks, this);
 
     fuse_opt_free_args(&args);
     return res;
