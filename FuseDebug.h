@@ -10,10 +10,6 @@
 #pragma once
 
 #include "FuseAPI.h"
-#include <functional>
-#include <string>
-#include <iostream>
-#include <sstream>
 
 const bool debug = true;
 

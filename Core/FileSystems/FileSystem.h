@@ -255,7 +255,7 @@ public:
     FSBlock &seek(const FSBlock &top, const string &name);
     const FSBlock &seek(const FSBlock &top, const FSName &name) const;
     const FSBlock &seek(const FSBlock &top, const fs::path &name) const;
-    const FSBlock &seek(const FSBlock &v, const string &name) const;
+    const FSBlock &seek(const FSBlock &top, const string &name) const;
 
     // Seeks all items satisfying a predicate
     std::vector<const FSBlock *> find(const FSOpt &opt) const;

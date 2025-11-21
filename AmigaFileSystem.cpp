@@ -45,9 +45,19 @@ static const char* file_name = "hello.txt";
 static const char* file_content = "Hello from FUSE!\n";
 
 int
-AmigaFileSystem::getattr(const char* path, struct stat* st)
+AmigaFileSystem::getattr(const char *path, struct stat *st)
 {
     memset(st, 0, sizeof(*st));
+
+    printf("Seeking %s in Amiga file system...\n", path);
+
+    if (auto *node = fs->seekPtr(&fs->root(), string(path)); node) {
+
+        auto size = node->getFileSize();
+        printf("Found Amiga file %p with %d bytes\n", node, size);
+
+
+    }
 
     if (strcmp(path, "/") == 0) {
         st->st_mode = S_IFDIR | 0755;
@@ -66,7 +76,7 @@ AmigaFileSystem::getattr(const char* path, struct stat* st)
 }
 
 int
-AmigaFileSystem::open(const char* path, struct fuse_file_info* fi)
+AmigaFileSystem::open(const char *path, struct fuse_file_info *fi)
 {
     if (strcmp(path + 1, file_name) != 0)
         return -ENOENT;
@@ -96,7 +106,17 @@ AmigaFileSystem::readdir(const char* path, void* buf, fuse_fill_dir_t filler,
 
     filler(buf, ".",  NULL, 0);
     filler(buf, "..", NULL, 0);
-    filler(buf, file_name, NULL, 0);
+
+    // Extract the directory tree
+    FSTree tree(fs->root(), { .recursive = false });
+
+    // Walk the tree
+    tree.bfsWalk( [&](const FSTree &it) {
+
+        auto name = it.node->getName();
+        printf("File: %s\n", name.c_str());
+        filler(buf, name.c_str(), NULL, 0);
+    });
 
     return 0;
 }

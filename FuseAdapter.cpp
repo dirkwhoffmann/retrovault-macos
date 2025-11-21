@@ -69,20 +69,23 @@ FuseAdapter::mount(string mountpoint)
 }
 
 int
-FuseAdapter::getattr(const char* path, struct stat* st)
+FuseAdapter::getattr(const char *path, struct stat* st)
 {
+    log("[getattr] ({})\n", path);
     return self().delegate->getattr(path, st);
 }
 
 int
 FuseAdapter::open(const char* path, struct fuse_file_info* fi)
 {
+    log("[open] ({})\n", path);
     return self().delegate->open(path, fi);
 }
 
 int
 FuseAdapter::read(const char* path, char* buf, size_t size, off_t offset, struct fuse_file_info* fi)
 {
+    log("[read] ({}, size: {}, offset: {})\n", path, size, offset);
     return self().delegate->read(path, buf, size, offset, fi);
 }
 
@@ -90,6 +93,7 @@ int
 FuseAdapter::readdir(const char* path, void* buf, fuse_fill_dir_t filler,
                off_t offset, struct fuse_file_info* fi)
 {
+    log("[readdir] ({}, offset: {})\n", path, offset);
     return self().delegate->readdir(path, buf, filler, offset, fi);
 }
 

@@ -10,19 +10,14 @@
 #include "FuseAPI.h"
 #include "FuseDelegate.h"
 #include "FuseDebug.h"
-#include <iostream>
-#include <expected>
-#include <functional>
-
-using std::string;
 
 class FuseAdapter {
 
-    static t_getattr    getattr;//    t_getattr   _getattr;
-    static t_open       open;  //     t_open      _open;
-    static t_read       read;    //   t_read      _read;
-    static t_readdir    readdir; //   t_readdir   _readdir;
-    static t_init       init;    //   t_init      _init;
+    static t_getattr    getattr;
+    static t_open       open;
+    static t_read       read;
+    static t_readdir    readdir;
+    static t_init       init;
 
     static fuse_operations callbacks;
 
@@ -34,8 +29,6 @@ public:
 
     bool debug = true;
     FuseDelegate *delegate = nullptr;
-
-    // std::expected<int, bool> test();
 
 public:
 

@@ -10,7 +10,6 @@
 #pragma once
 
 #include "FuseAPI.h"
-#include "stdio.h"
 
 /*
 // File system object attributes
@@ -88,39 +87,16 @@ public:
 
     virtual ~FuseDelegate() = default;
 
-    virtual int getattr(const char* path,
-                        struct stat* stbuf)
-    {
-        printf("getattr: Should not be here\n");
-        return -ENOSYS;
-    }
+    // Low-level API (raw FUSE callbacks)
+    virtual t_getattr    getattr;
+    virtual t_open       open;
+    virtual t_read       read;
+    virtual t_readdir    readdir;
+    virtual t_init       init;
 
-    virtual int open(const char* path,
-                     struct fuse_file_info* fi)
-    {
-        return -ENOSYS;
-    }
-
-    virtual int read(const char* path,
-                     char* buf,
-                     size_t size,
-                     off_t offset,
-                     struct fuse_file_info* fi)
-    {
-        return -ENOSYS;
-    }
-
-    virtual int readdir(const char* path,
-                        void* buf,
-                        fuse_fill_dir_t filler,
-                        off_t offset,
-                        struct fuse_file_info* fi)
-    {
-        return -ENOSYS;
-    }
-
-    virtual void *init(struct fuse_conn_info* conn)
-    {
-        return nullptr;
-    }
+    // High-level API (C++ convenience)
+    std::expected<struct stat, int> getattr(const string &path);
+    std::expected<struct fuse_file_info, int> open(const string &path, struct fuse_file_info* fi);
+    std::expected<struct fuse_file_info, int> read(const string &path, size_t size, off_t offset);
+    std::expected<std::vector<string>, int> read(const string &path);
 };
