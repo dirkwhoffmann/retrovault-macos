@@ -12,6 +12,7 @@
 #include "Emulator.h"
 #include "StringUtils.h"
 #include <regex>
+#include <algorithm>
 
 #include "Chrono.h"
 

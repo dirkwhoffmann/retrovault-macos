@@ -41,6 +41,7 @@ FuseAdapter::_getattr(const char* path, struct stat* st)
     return -ENOENT;
 }
 
+/*
 int
 FuseAdapter::readlink(const char* path, char* buf, size_t size)
 {
@@ -136,6 +137,7 @@ FuseAdapter::_truncate(const char* path, off_t size)
 {
     return 0;
 }
+*/
 
 int
 FuseAdapter::open(const char* path, struct fuse_file_info* fi)
@@ -171,6 +173,7 @@ FuseAdapter::_read(const char* path, char* buf, size_t size, off_t offset, struc
     return (int)to_copy;
 }
 
+/*
 int
 FuseAdapter::write(const char* path, const char* buf, size_t size, off_t offset, struct fuse_file_info* fi)
 {
@@ -194,6 +197,7 @@ FuseAdapter::_statfs(const char* path, struct statvfs* st)
 {
     return 0;
 }
+*/
 
 int
 FuseAdapter::readdir(const char* path, void* buf, fuse_fill_dir_t filler,
@@ -230,6 +234,7 @@ FuseAdapter::_init(struct fuse_conn_info* conn)
     return this;
 }
 
+/*
 void
 FuseAdapter::destroy(void* private_data)
 {
@@ -277,3 +282,4 @@ FuseAdapter::_utimens(const char* path, const struct timespec tv[2])
 {
     return 0;
 }
+*/

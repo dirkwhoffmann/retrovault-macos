@@ -14,6 +14,7 @@
 #include "Buffer.h"
 #include "RingBuffer.h"
 #include <concepts>
+#include <type_traits>
 
 namespace vamiga {
 

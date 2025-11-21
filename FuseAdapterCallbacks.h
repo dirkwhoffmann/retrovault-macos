@@ -7,6 +7,8 @@
 // See https://mozilla.org/MPL/2.0 for license information
 // -----------------------------------------------------------------------------
 
+/*
+
 #define API(return_type, name, ...) \
     static return_type name(__VA_ARGS__); return_type _##name(__VA_ARGS__);
 
@@ -31,3 +33,4 @@ API(int, create, const char *, mode_t, struct fuse_file_info *)
 API(int, utimens, const char *, const struct timespec tv[2])
 
 #undef API
+*/

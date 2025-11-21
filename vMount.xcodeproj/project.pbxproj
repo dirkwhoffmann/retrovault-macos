@@ -15,6 +15,7 @@
 		507724962ECF2FA300DB04C5 /* libfuse.2.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 507724942ECF26BF00DB04C5 /* libfuse.2.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		5077249B2ECF8B8400DB04C5 /* FuseAdapterCallbacks.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 507724992ECF6AE100DB04C5 /* FuseAdapterCallbacks.cpp */; };
 		5077249F2ECFA78E00DB04C5 /* FuseDebug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5077249E2ECFA78D00DB04C5 /* FuseDebug.cpp */; };
+		507724A22ED0619000DB04C5 /* FuseDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 507724A12ED0618E00DB04C5 /* FuseDelegate.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -46,6 +47,9 @@
 		5077249C2ECF8BC000DB04C5 /* FuseAPI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FuseAPI.h; sourceTree = "<group>"; };
 		5077249D2ECFA78500DB04C5 /* FuseDebug.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FuseDebug.h; sourceTree = "<group>"; };
 		5077249E2ECFA78D00DB04C5 /* FuseDebug.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FuseDebug.cpp; sourceTree = "<group>"; };
+		507724A02ED0618500DB04C5 /* FuseDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FuseDelegate.h; sourceTree = "<group>"; };
+		507724A12ED0618E00DB04C5 /* FuseDelegate.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FuseDelegate.cpp; sourceTree = "<group>"; };
+		507724A32ED0716900DB04C5 /* FuseAdapterTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FuseAdapterTypes.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -127,9 +131,12 @@
 		504EA7B42ECE39E8008CF9FC = {
 			isa = PBXGroup;
 			children = (
+				507724A32ED0716900DB04C5 /* FuseAdapterTypes.h */,
 				5077249C2ECF8BC000DB04C5 /* FuseAPI.h */,
 				504EAD2A2ECF024E008CF9FC /* FuseAdapter.h */,
 				504EAD2C2ECF0263008CF9FC /* FuseAdapter.cpp */,
+				507724A02ED0618500DB04C5 /* FuseDelegate.h */,
+				507724A12ED0618E00DB04C5 /* FuseDelegate.cpp */,
 				5077249A2ECF843500DB04C5 /* FuseAdapterCallbacks.h */,
 				507724992ECF6AE100DB04C5 /* FuseAdapterCallbacks.cpp */,
 				5077249D2ECFA78500DB04C5 /* FuseDebug.h */,
@@ -250,6 +257,7 @@
 				5077249F2ECFA78E00DB04C5 /* FuseDebug.cpp in Sources */,
 				5077249B2ECF8B8400DB04C5 /* FuseAdapterCallbacks.cpp in Sources */,
 				504EAD252ECF00CE008CF9FC /* EmulatorProxy.mm in Sources */,
+				507724A22ED0619000DB04C5 /* FuseDelegate.cpp in Sources */,
 				504EAD262ECF00CE008CF9FC /* TypeExtensions.swift in Sources */,
 				504EAD272ECF00CE008CF9FC /* ProxyExtensions.swift in Sources */,
 			);
@@ -399,6 +407,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				AUTOMATION_APPLE_EVENTS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++23";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -445,6 +454,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				AUTOMATION_APPLE_EVENTS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++23";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;

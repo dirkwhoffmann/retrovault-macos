@@ -13,6 +13,7 @@
 #include <thread>
 #include <future>
 #include <latch>
+#include <mutex>
 
 namespace vamiga::util {
 

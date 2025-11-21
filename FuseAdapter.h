@@ -10,24 +10,38 @@
 #include "VAmiga.h"
 #include "Media.h"
 #include "FuseAPI.h"
+#include "FuseDelegate.h"
+
+#include <expected>
 
 using std::string;
 using namespace vamiga;
 
 class FuseAdapter {
 
-#include "FuseAdapterCallbacks.h"
-
-    bool debug = true;
-
-    ADFFile *adf = nullptr;
-    MutableFileSystem *fs = nullptr;
+    static t_getattr    getattr;    t_getattr   _getattr;
+    static t_open       open;       t_open      _open;
+    static t_read       read;       t_read      _read;
+    static t_readdir    readdir;    t_readdir   _readdir;
+    static t_init       init;       t_init      _init;
 
     static fuse_operations callbacks;
 
     static FuseAdapter &self() {
         return *(static_cast<FuseAdapter *>(fuse_get_context()->private_data));
     }
+
+public:
+
+    bool debug = true;
+    FuseDelegate *delegate = nullptr;
+
+    // MOVE TO AmigaFileSystem
+    ADFFile *adf = nullptr;
+    MutableFileSystem *fs = nullptr;
+
+
+    // std::expected<int, bool> test();
 
 public:
 

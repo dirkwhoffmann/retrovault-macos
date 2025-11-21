@@ -13,6 +13,7 @@
 #include "Parser.h"
 #include <algorithm>
 #include <utility>
+#include <ostream>
 
 namespace vamiga {
 
