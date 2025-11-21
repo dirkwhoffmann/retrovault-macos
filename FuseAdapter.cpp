@@ -42,59 +42,60 @@ FuseAdapter::callbacks = {
     */
 };
 
-void
-FuseAdapter::log(const std::function<void(std::ostream &)> &func)
+int
+FuseAdapter::mount(string mountpoint)
 {
-    if (debug) {
+    // Unmount the volume if it is still mounted
+    log("Unmounting existing volume {}...\n", mountpoint);
+    (void)unmount(mountpoint.c_str(), 0);
 
-        std::stringstream ss;
-        func(ss);
-        std::cout << ss.str();
-    }
+    std::vector<std::string> params = {
+
+        "vmount",
+        "-onative_xattr,volname=adf,norm_insensitive",
+        // "-f",
+        "-d",
+        mountpoint
+    };
+
+    std::vector<char *> argv;
+    for (auto& s : params) argv.push_back(s.data());
+
+    printf("Calling fuse_main %p\n", this);
+    auto result = fuse_main((int)argv.size(), argv.data(), &callbacks, this);
+
+    printf("Exiting with error code %d\n", result);
+    return result;
 }
 
 int
-FuseAdapter::myMain()
+FuseAdapter::getattr(const char* path, struct stat* st)
 {
-    const char *demo = "/tmp/demo.adf";
-
-    try {
-        log("Trying to load {}...\n", demo);
-        adf = new ADFFile(demo);
-        assert(adf != nullptr);
-
-        log("Extracting file system...\n");
-        fs = new MutableFileSystem(*adf);
-        assert(fs != nullptr);
-
-        string mountpoint = "/Volumes/adf";
-
-        // Unmount the volume if it is still mounted
-        log("Unmounting existing volume {}...\n", mountpoint);
-        (void)unmount(mountpoint.c_str(), 0);
-
-        std::vector<std::string> params = {
-
-            "vmount",
-            "-onative_xattr,volname=adf,norm_insensitive",
-            // "-f",
-            "-d",
-            mountpoint
-        };
-
-        std::vector<char *> argv;
-        for (auto& s : params) argv.push_back(s.data());
-
-        log("Calling fuse_main\n");
-        auto result = fuse_main((int)argv.size(), argv.data(), &callbacks, this);
-
-        printf("Exiting with error code %d\n", result);
-        return result;
-
-    } catch (std::exception &e) {
-
-        printf("Error: %s\n", e.what());
-    }
-    return 1;
+    return self().delegate->getattr(path, st);
 }
 
+int
+FuseAdapter::open(const char* path, struct fuse_file_info* fi)
+{
+    return self().delegate->open(path, fi);
+}
+
+int
+FuseAdapter::read(const char* path, char* buf, size_t size, off_t offset, struct fuse_file_info* fi)
+{
+    return self().delegate->read(path, buf, size, offset, fi);
+}
+
+int
+FuseAdapter::readdir(const char* path, void* buf, fuse_fill_dir_t filler,
+               off_t offset, struct fuse_file_info* fi)
+{
+    return self().delegate->readdir(path, buf, filler, offset, fi);
+}
+
+void *
+FuseAdapter::init(struct fuse_conn_info* conn)
+{
+    self().delegate->init(conn);
+    return &self();
+}

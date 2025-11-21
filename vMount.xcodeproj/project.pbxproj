@@ -16,6 +16,8 @@
 		5077249B2ECF8B8400DB04C5 /* FuseAdapterCallbacks.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 507724992ECF6AE100DB04C5 /* FuseAdapterCallbacks.cpp */; };
 		5077249F2ECFA78E00DB04C5 /* FuseDebug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5077249E2ECFA78D00DB04C5 /* FuseDebug.cpp */; };
 		507724A22ED0619000DB04C5 /* FuseDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 507724A12ED0618E00DB04C5 /* FuseDelegate.cpp */; };
+		507724A62ED0843800DB04C5 /* AmigaFileSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 507724A52ED0843700DB04C5 /* AmigaFileSystem.cpp */; };
+		507724A92ED0889700DB04C5 /* RetroMounter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 507724A82ED0889500DB04C5 /* RetroMounter.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -50,6 +52,10 @@
 		507724A02ED0618500DB04C5 /* FuseDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FuseDelegate.h; sourceTree = "<group>"; };
 		507724A12ED0618E00DB04C5 /* FuseDelegate.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FuseDelegate.cpp; sourceTree = "<group>"; };
 		507724A32ED0716900DB04C5 /* FuseAdapterTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FuseAdapterTypes.h; sourceTree = "<group>"; };
+		507724A42ED0841B00DB04C5 /* AmigaFileSystem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AmigaFileSystem.h; sourceTree = "<group>"; };
+		507724A52ED0843700DB04C5 /* AmigaFileSystem.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AmigaFileSystem.cpp; sourceTree = "<group>"; };
+		507724A72ED0888E00DB04C5 /* RetroMounter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RetroMounter.h; sourceTree = "<group>"; };
+		507724A82ED0889500DB04C5 /* RetroMounter.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = RetroMounter.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -131,12 +137,16 @@
 		504EA7B42ECE39E8008CF9FC = {
 			isa = PBXGroup;
 			children = (
+				507724A72ED0888E00DB04C5 /* RetroMounter.h */,
+				507724A82ED0889500DB04C5 /* RetroMounter.cpp */,
 				507724A32ED0716900DB04C5 /* FuseAdapterTypes.h */,
 				5077249C2ECF8BC000DB04C5 /* FuseAPI.h */,
 				504EAD2A2ECF024E008CF9FC /* FuseAdapter.h */,
 				504EAD2C2ECF0263008CF9FC /* FuseAdapter.cpp */,
 				507724A02ED0618500DB04C5 /* FuseDelegate.h */,
 				507724A12ED0618E00DB04C5 /* FuseDelegate.cpp */,
+				507724A42ED0841B00DB04C5 /* AmigaFileSystem.h */,
+				507724A52ED0843700DB04C5 /* AmigaFileSystem.cpp */,
 				5077249A2ECF843500DB04C5 /* FuseAdapterCallbacks.h */,
 				507724992ECF6AE100DB04C5 /* FuseAdapterCallbacks.cpp */,
 				5077249D2ECFA78500DB04C5 /* FuseDebug.h */,
@@ -254,7 +264,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				504EAD2D2ECF0266008CF9FC /* FuseAdapter.cpp in Sources */,
+				507724A92ED0889700DB04C5 /* RetroMounter.cpp in Sources */,
 				5077249F2ECFA78E00DB04C5 /* FuseDebug.cpp in Sources */,
+				507724A62ED0843800DB04C5 /* AmigaFileSystem.cpp in Sources */,
 				5077249B2ECF8B8400DB04C5 /* FuseAdapterCallbacks.cpp in Sources */,
 				504EAD252ECF00CE008CF9FC /* EmulatorProxy.mm in Sources */,
 				507724A22ED0619000DB04C5 /* FuseDelegate.cpp in Sources */,

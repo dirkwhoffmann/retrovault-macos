@@ -7,7 +7,7 @@
 // See https://www.gnu.org for license information
 // -----------------------------------------------------------------------------
 
-extension FuseAdapterProxy {
+extension RetroMounterProxy {
 
     func launch() throws {
 

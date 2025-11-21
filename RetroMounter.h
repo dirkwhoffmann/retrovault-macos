@@ -7,5 +7,11 @@
 // See https://mozilla.org/MPL/2.0 for license information
 // -----------------------------------------------------------------------------
 
-#include "FuseDelegate.h"
+#pragma once
 
+class RetroMounter {
+
+public:
+
+    int launch();
+};

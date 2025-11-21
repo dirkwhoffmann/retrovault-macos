@@ -10,6 +10,7 @@
 #pragma once
 
 #include "FuseAPI.h"
+#include "stdio.h"
 
 /*
 // File system object attributes
@@ -88,9 +89,9 @@ public:
     virtual ~FuseDelegate() = default;
 
     virtual int getattr(const char* path,
-                        struct stat* stbuf,
-                        struct fuse_file_info* fi)
+                        struct stat* stbuf)
     {
+        printf("getattr: Should not be here\n");
         return -ENOSYS;
     }
 
@@ -118,8 +119,7 @@ public:
         return -ENOSYS;
     }
 
-    virtual void *init(struct fuse_conn_info* conn,
-                       struct fuse_config* cfg)
+    virtual void *init(struct fuse_conn_info* conn)
     {
         return nullptr;
     }

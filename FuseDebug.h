@@ -11,6 +11,33 @@
 
 #include "FuseAPI.h"
 #include <functional>
+#include <string>
+#include <iostream>
+#include <sstream>
+
+const bool debug = true;
+
+inline static void
+log(const std::function<void(std::ostream &)> &func)
+{
+    if (debug) {
+
+        std::stringstream ss;
+        func(ss);
+        std::cout << ss.str();
+    }
+}
+
+template<typename... Args>
+inline void log(const char* fmt, Args&&... args) {
+
+    if (debug) {
+
+        std::string message = std::vformat(fmt, std::make_format_args(args...));
+        std::cout << message;
+    }
+}
 
 void dump(std::ostream &os, fuse_conn_info *p);
 void dump(std::ostream &os, fuse_context *p);
+

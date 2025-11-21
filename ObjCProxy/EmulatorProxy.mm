@@ -9,7 +9,7 @@
 
 #import "config.h"
 #import "EmulatorProxy.h"
-#import "FuseAdapter.h"
+#import "RetroMounter.h"
 
 #import "VAmiga.h"
 #import "Emulator.h"
@@ -2217,29 +2217,28 @@ NSString *EventSlotName(EventSlot slot)
 
 
 //
-// FuseAdapter
+// RetroMounter
 //
 
-@implementation FuseAdapterProxy
+@implementation RetroMounterProxy
 
 - (instancetype) init
 {
     if (!(self = [super init]))
         return self;
 
-    obj = new FuseAdapter();
-
+    obj = new RetroMounter();
     return self;
 }
 
-- (FuseAdapter *)adapter
+- (RetroMounter *)adapter
 {
-    return (FuseAdapter *)obj;
+    return (RetroMounter *)obj;
 }
 
 - (void)launch:(ExceptionWrapper *)ex
 {
-    try { [self adapter]->myMain(); }
+    try { [self adapter]->launch(); }
     catch (AppError &error) { [ex save:error]; }
 }
 

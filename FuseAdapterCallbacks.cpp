@@ -7,6 +7,8 @@
 // See https://mozilla.org/MPL/2.0 for license information
 // -----------------------------------------------------------------------------
 
+#if 0
+
 #include "FuseAdapter.h"
 #include "FuseDebug.h"
 
@@ -283,3 +285,5 @@ FuseAdapter::_utimens(const char* path, const struct timespec tv[2])
     return 0;
 }
 */
+
+#endif

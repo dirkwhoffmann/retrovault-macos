@@ -163,10 +163,10 @@ NSString *EventSlotName(EventSlot slot);
 
 
 //
-// FuseAdapter
+// RetroMounter
 //
 
-@interface FuseAdapterProxy : CoreComponentProxy {
+@interface RetroMounterProxy : CoreComponentProxy {
 
 }
 

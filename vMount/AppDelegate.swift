@@ -10,14 +10,14 @@ import Cocoa
 @main
 class AppDelegate: NSObject, NSApplicationDelegate {
 
-    var adapter: FuseAdapterProxy?
+    var mounter: RetroMounterProxy?
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Insert code here to initialize your application
 
-        adapter = FuseAdapterProxy()
-        
-        try? adapter?.launch()
+        mounter = RetroMounterProxy()
+
+        try? mounter?.launch()
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
