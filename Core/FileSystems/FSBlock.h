@@ -365,8 +365,8 @@ public:
     
     isize writeData(std::ostream &os) const;
     isize writeData(std::ostream &os, isize size) const;
-    isize extractData(Buffer<u8> &buf) const;
     isize writeData(Buffer<u8> &buf, isize offset, isize count) const;
+    isize extractData(Buffer<u8> &buf) const;
 
     
     //

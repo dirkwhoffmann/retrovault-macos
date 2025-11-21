@@ -49,26 +49,21 @@ AmigaFileSystem::getattr(const char *path, struct stat *st)
 {
     memset(st, 0, sizeof(*st));
 
-    printf("Seeking %s in Amiga file system...\n", path);
-
-    if (auto *node = fs->seekPtr(&fs->root(), string(path)); node) {
-
-        auto size = node->getFileSize();
-        printf("Found Amiga file %p with %d bytes\n", node, size);
-
-
-    }
-
     if (strcmp(path, "/") == 0) {
-        st->st_mode = S_IFDIR | 0755;
+        st->st_mode  = S_IFDIR | 0755;
         st->st_nlink = 1;
         return 0;
     }
 
-    if (strcmp(path+1, file_name) == 0) {
-        st->st_mode = S_IFREG | 0444;
+    if (auto *node = fs->seekPtr(&fs->root(), string(path)); node) {
+
+        auto size = node->getFileSize();
+        // auto prot = node->getProtectionBits();
+        auto dir  = node->isDirectory();
+
+        st->st_mode  = dir ? (S_IFDIR | 0755) : (S_IFREG | 0644);
         st->st_nlink = 1;
-        st->st_size = strlen(file_content);
+        st->st_size  = size;
         return 0;
     }
 
@@ -78,23 +73,35 @@ AmigaFileSystem::getattr(const char *path, struct stat *st)
 int
 AmigaFileSystem::open(const char *path, struct fuse_file_info *fi)
 {
-    if (strcmp(path + 1, file_name) != 0)
-        return -ENOENT;
+    if (auto *node = fs->seekPtr(&fs->root(), string(path)); node) {
 
-    return 0;   // success
+        return 0;
+    }
+    
+    return -ENOENT;
 }
 
 int
 AmigaFileSystem::read(const char* path, char* buf, size_t size, off_t offset, struct fuse_file_info* fi)
 {
-    size_t len = strlen(file_content);
-    if (strcmp(path + 1, "hello.txt") != 0)
-        return -ENOENT;
-    if (offset >= len)
-        return 0;
-    size_t to_copy = size < len - offset ? size : len - offset;
-    memcpy(buf, file_content + offset, to_copy);
-    return (int)to_copy;
+    if (auto *node = fs->seekPtr(&fs->root(), string(path)); node) {
+
+        // Get data
+        Buffer<u8> buffer; node->extractData(buffer);
+
+        // Check if the offset is in range
+        if (offset >= buffer.size) return 0;
+
+        // Determine the number of bytes to copy
+        auto count = std::min(size, size_t(buffer.size - offset));
+
+        // Copy data
+        memcpy(buf, buffer.ptr + offset, count);
+
+        return (int)count;
+    }
+
+    return -ENOENT;
 }
 
 int
