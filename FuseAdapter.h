@@ -13,11 +13,11 @@
 
 class FuseAdapter {
 
-    static t_getattr    getattr;
-    static t_open       open;
-    static t_read       read;
-    static t_readdir    readdir;
-    static t_init       init;
+    static FUSE_GETATTR;
+    static FUSE_OPEN;
+    static FUSE_READ;
+    static FUSE_READDIR;
+    static FUSE_INIT;
 
     static fuse_operations callbacks;
 

@@ -18,11 +18,11 @@ public:
     virtual ~FuseDelegate() = default;
 
     // Low-level API (raw FUSE callbacks)
-    virtual t_getattr       getattr;
-    virtual t_open          open;
-    virtual t_read          read;
-    virtual t_readdir       readdir;
-    virtual t_init          init;
+    virtual FUSE_GETATTR { return -ENOSYS; }
+    virtual FUSE_OPEN    { return -ENOSYS; }
+    virtual FUSE_READ    { return -ENOSYS; }
+    virtual FUSE_READDIR { return -ENOSYS; }
+    virtual FUSE_INIT    { return nullptr; }
 
     // High-level API (C++ convenience)
     /*

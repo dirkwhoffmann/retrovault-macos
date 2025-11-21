@@ -9,6 +9,7 @@
 
 #include "FuseDelegate.h"
 
+/*
 int
 FuseDelegate::getattr(const char*, struct stat*)
 {
@@ -42,3 +43,5 @@ FuseDelegate::init(struct fuse_conn_info* conn)
 {
     return nullptr;
 }
+
+*/
