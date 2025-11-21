@@ -25,11 +25,11 @@ class AmigaFileSystem : FuseDelegate {
 
 public:
 
-    t_getattr  getattr override;
-    t_open     open override;
-    t_read     read override;
-    t_readdir  readdir override;
-    t_init     init override;
+    t_getattr  getattr  override;
+    t_open     open     override;
+    t_read     read     override;
+    t_readdir  readdir  override;
+    t_init     init     override;
 
     AmigaFileSystem(string &filename);
 

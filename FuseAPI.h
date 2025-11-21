@@ -23,6 +23,7 @@
 namespace fs = std::filesystem;
 using std::string;
 using std::expected;
+using std::unexpected;
 
 // File system object attributes
 using t_getattr  = int(const char *, struct stat *);
@@ -90,3 +91,16 @@ using t_poll = int(const char *, struct fuse_file_info *, struct fuse_pollhandle
 // Write buffer (macFUSE extension)
 using t_write_buf = int(const char *, struct fuse_bufvec *, off_t, struct fuse_file_info *);
 using t_read_buf  = int(const char *, struct fuse_bufvec **, size_t, off_t, struct fuse_file_info *);
+
+
+//
+// C++ API
+//
+
+/*
+using t_getattr_cpp = expected<struct stat, int>(const fs::path&);
+using t_open_cpp = expected<void, int>(const fs::path&, struct fuse_file_info&);
+using t_read_cpp = expected<string, int>(const fs::path&, size_t, off_t, const struct fuse_file_info&);
+using t_readdir_cpp = expected<std::vector<string>, int>(const fs::path&);
+using t_init_cpp = void *(struct fuse_conn_info &);
+*/

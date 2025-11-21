@@ -100,6 +100,9 @@ FuseAdapter::readdir(const char* path, void* buf, fuse_fill_dir_t filler,
 void *
 FuseAdapter::init(struct fuse_conn_info* conn)
 {
-    self().delegate->init(conn);
+    // We ignore the result of the delegate method
+    (void)self().delegate->init(conn);
+
+    // Instead, we return a pointer to the FUSE adapter
     return &self();
 }

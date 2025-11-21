@@ -10,23 +10,19 @@
 #include "FuseDelegate.h"
 
 int
-FuseDelegate::getattr(const char* path, struct stat* stbuf)
+FuseDelegate::getattr(const char*, struct stat*)
 {
     return -ENOSYS;
 }
 
 int
-FuseDelegate::open(const char* path, struct fuse_file_info* fi)
+FuseDelegate::open(const char*, struct fuse_file_info*)
 {
     return -ENOSYS;
 }
 
 int
-FuseDelegate::read(const char* path,
-                   char* buf,
-                   size_t size,
-                   off_t offset,
-                   struct fuse_file_info* fi)
+FuseDelegate::read(const char*, char*, size_t, off_t, struct fuse_file_info*)
 {
     return -ENOSYS;
 }
