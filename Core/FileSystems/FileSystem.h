@@ -130,6 +130,12 @@ public:
     isize numBytes() const noexcept { return storage.numBytes(); }
     isize blockSize() const noexcept { return storage.blockSize(); }
 
+    // Reports usage information
+    isize freeBlocks() const noexcept { return storage.freeBlocks(); }
+    isize usedBlocks() const noexcept { return storage.usedBlocks(); }
+    isize freeBytes() const noexcept { return storage.freeBytes(); }
+    isize usedBytes() const noexcept { return storage.usedBytes(); }
+
     // Analyzes the root block
     FSName getName() const noexcept;
     string getCreationDate() const noexcept;

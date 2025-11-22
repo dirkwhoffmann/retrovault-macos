@@ -25,9 +25,15 @@ class AmigaFileSystem : FuseDelegate {
 
 public:
 
+    static int posixErrno(const AppError &err);
+
     FUSE_GETATTR override;
+    FUSE_MKDIR   override;
+    FUSE_RMDIR   override;
+    FUSE_RENAME  override;
     FUSE_OPEN    override;
     FUSE_READ    override;
+    FUSE_STATFS  override;
     FUSE_READDIR override;
     FUSE_INIT    override;
 

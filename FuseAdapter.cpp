@@ -30,8 +30,8 @@ FuseAdapter::callbacks = {
     .read       = read,
     /*
     .write      = write,
-    .statfs     = statfs,
      */
+    .statfs     = statfs,
     .readdir    = readdir,
     .init       = init,
     /*
@@ -87,6 +87,13 @@ FuseAdapter::read(const char* path, char* buf, size_t size, off_t offset, struct
 {
     log("[read] ({}, size: {}, offset: {})\n", path, size, offset);
     return self().delegate->read(path, buf, size, offset, fi);
+}
+
+int
+FuseAdapter::statfs(const char *path, struct statvfs *st)
+{
+    log("[statfs] ({})\n", path);
+    return self().delegate->statfs(path, st);
 }
 
 int
