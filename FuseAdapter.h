@@ -15,13 +15,19 @@ class FuseAdapter {
 
     static FUSE_GETATTR;
     static FUSE_MKDIR;
+    static FUSE_UNLINK;
     static FUSE_RMDIR;
     static FUSE_RENAME;
+    static FUSE_CHMOD;
+    static FUSE_CHOWN;
     static FUSE_OPEN;
     static FUSE_READ;
     static FUSE_STATFS;
     static FUSE_READDIR;
     static FUSE_INIT;
+    static FUSE_DESTROY;
+    static FUSE_ACCESS;
+    static FUSE_CREATE;
     static FUSE_UTIMENS;
 
     static fuse_operations callbacks;

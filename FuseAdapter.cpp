@@ -20,9 +20,7 @@ FuseAdapter::callbacks = {
     .readlink   = readlink,
     */
     .mkdir      = mkdir,
-    /*
     .unlink     = unlink,
-     */
     .rmdir      = rmdir,
     .rename     = rename,
     /*
@@ -87,6 +85,13 @@ FuseAdapter::mkdir(const char *path, mode_t mode)
 }
 
 int
+FuseAdapter::unlink(const char *path)
+{
+    log("[unlink] ({})\n", path);
+    return self().delegate->unlink(path);
+}
+
+int
 FuseAdapter::rmdir(const char *path)
 {
     log("[rmdir] ({})\n", path);
@@ -142,10 +147,30 @@ FuseAdapter::init(struct fuse_conn_info* conn)
     return &self();
 }
 
+void
+FuseAdapter::destroy(void *ptr)
+{
+    log("[destroy] ({})\n", ptr);
+    self().delegate->destroy(ptr);
+}
+
+int
+FuseAdapter::access(const char *path, const int mask)
+{
+    log("[access] {}, {}\n", path, mask);
+    return self().delegate->access(path, mask);
+}
+
+int
+FuseAdapter::create(const char *path, mode_t mode, struct fuse_file_info *fi)
+{
+    log("[create] {}, {}\n", path, mode);
+    return self().delegate->create(path, mode, fi);
+}
+
 int
 FuseAdapter::utimens(const char *path, const struct timespec tv[2])
 {
     log("[utimens] ({})\n", path);
     return self().delegate->utimens(path, tv);
 }
-

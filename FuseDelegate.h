@@ -17,14 +17,21 @@ public:
 
     virtual ~FuseDelegate() = default;
 
-    virtual FUSE_GETATTR { return -ENOSYS; }
-    virtual FUSE_MKDIR   { return -ENOSYS; }
-    virtual FUSE_RMDIR   { return -ENOSYS; }
-    virtual FUSE_RENAME  { return -ENOSYS; }
-    virtual FUSE_OPEN    { return -ENOSYS; }
-    virtual FUSE_READ    { return -ENOSYS; }
-    virtual FUSE_STATFS  { return -ENOSYS; }
-    virtual FUSE_READDIR { return -ENOSYS; }
-    virtual FUSE_INIT    { return nullptr; }
-    virtual FUSE_UTIMENS { return -ENOSYS; }
+    virtual FUSE_GETATTR  { return -ENOSYS; }
+    virtual FUSE_MKDIR    { return -ENOSYS; }
+    virtual FUSE_UNLINK   { return -ENOSYS; }
+    virtual FUSE_RMDIR    { return -ENOSYS; }
+    virtual FUSE_RENAME   { return -ENOSYS; }
+    virtual FUSE_CHMOD    { return -ENOSYS; }
+    virtual FUSE_CHOWN    { return -ENOSYS; }
+    virtual FUSE_TRUNCATE { return -ENOSYS; }
+    virtual FUSE_OPEN     { return -ENOSYS; }
+    virtual FUSE_READ     { return -ENOSYS; }
+    virtual FUSE_STATFS   { return -ENOSYS; }
+    virtual FUSE_READDIR  { return -ENOSYS; }
+    virtual FUSE_INIT     { return nullptr; }
+    virtual FUSE_DESTROY  { }
+    virtual FUSE_ACCESS   { return -ENOSYS; }
+    virtual FUSE_CREATE   { return -ENOSYS; }
+    virtual FUSE_UTIMENS  { return -ENOSYS; }
 };

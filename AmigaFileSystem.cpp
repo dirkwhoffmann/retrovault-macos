@@ -156,7 +156,7 @@ AmigaFileSystem::mkdir(const char *path, mode_t mode)
 }
 
 int
-AmigaFileSystem::rmdir(const char *path)
+AmigaFileSystem::unlink(const char *path)
 {
     auto fullpath = fs::path(path);
     auto parent   = fullpath.parent_path();
@@ -164,13 +164,21 @@ AmigaFileSystem::rmdir(const char *path)
 
     return fsexec([&]{
 
-        // Seek the parent directory
         auto &node = fs->seek(fs->root(), parent);
-        if (!node.isDirectory()) throw AppError(Fault::FS_NOT_A_DIRECTORY);
-
-        // Remove the directory
         fs->deleteFile(node);
         return 0;
+    });
+}
+
+int
+AmigaFileSystem::rmdir(const char *path)
+{
+    return fsexec([&]{
+
+        // TODO: THE FILESYSTEM CLASS IS CURRENTLY MISSING THE ABILITY TO
+        // REMOVE A DIRECTORY. FIX THIS FIRST.
+
+        return -ENOSYS;
     });
 }
 
@@ -190,13 +198,49 @@ AmigaFileSystem::rename(const char *oldpath, const char *newpath)
 
     return fsexec([&]{
 
-        // Seek the item to rename
+        // Seek item
         auto &node = fs->seek(fs->root(), string(oldpath));
 
         // Rename it
         fs->rename(node, newpath);
         return 0;
     });
+}
+
+int
+AmigaFileSystem::chmod(const char *path, mode_t mode)
+{
+    return fsexec([&]{
+
+        // Seek item
+        auto &node = fs->seek(fs->root(), string(path));
+
+        /*
+        const unsigned perms =
+        ( mode & S_IRUSR ? ??? : 0 ) |
+        ( mode & S_IWUSR ? ??? : 0 ) |
+        ( mode & S_IXUSR ? ??? : 0 );
+        */
+
+        // node.set???
+        return -ENOENT;
+    });
+}
+
+int
+AmigaFileSystem::chown(const char *path, uid_t uid, gid_t gid)
+{
+    return fsexec([&]{
+
+        (void)fs->seek(fs->root(), string(path));
+        return 0;
+    });
+}
+
+int
+AmigaFileSystem::truncate(const char *path, off_t size)
+{
+    return -ENOENT;
 }
 
 int
@@ -211,7 +255,7 @@ AmigaFileSystem::open(const char *path, struct fuse_file_info *fi)
 }
 
 int
-AmigaFileSystem::read(const char* path, char* buf, size_t size, off_t offset, struct fuse_file_info* fi)
+AmigaFileSystem::read(const char *path, char *buf, size_t size, off_t offset, struct fuse_file_info* fi)
 {
     return fsexec([&]{
 
@@ -257,8 +301,8 @@ AmigaFileSystem::statfs(const char *path, struct statvfs *st)
 }
 
 int
-AmigaFileSystem::readdir(const char* path, void* buf, fuse_fill_dir_t filler,
-                          off_t offset, struct fuse_file_info* fi)
+AmigaFileSystem::readdir(const char *path, void *buf, fuse_fill_dir_t filler,
+                          off_t offset, struct fuse_file_info *fi)
 {
     return fsexec([&]{
 
@@ -283,9 +327,27 @@ AmigaFileSystem::readdir(const char* path, void* buf, fuse_fill_dir_t filler,
 }
 
 void *
-AmigaFileSystem::init(struct fuse_conn_info* conn)
+AmigaFileSystem::init(struct fuse_conn_info *conn)
 {
     return nullptr;
+}
+
+void
+AmigaFileSystem::destroy(void *)
+{
+
+}
+
+int
+AmigaFileSystem::access(const char *path, const int mask)
+{
+    return -ENOENT;
+}
+
+int
+AmigaFileSystem::create(const char *path, mode_t mode, struct fuse_file_info *fi)
+{
+    return -ENOENT;
 }
 
 int

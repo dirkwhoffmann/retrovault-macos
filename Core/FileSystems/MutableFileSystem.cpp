@@ -533,7 +533,7 @@ MutableFileSystem::copy(const FSBlock &item, FSBlock &dest, const FSName &name)
 void
 MutableFileSystem::deleteFile(const FSBlock &node)
 {
-    if (!node.isFile()) return;
+    if (!node.isFile()) throw AppError(Fault::FS_NOT_A_FILE, node.absName());
 
     // Collect all blocks occupied by this file
     auto dataBlocks = collectDataBlocks(node.nr);

@@ -27,16 +27,23 @@ public:
 
     static int posixErrno(const AppError &err);
 
-    FUSE_GETATTR override;
-    FUSE_MKDIR   override;
-    FUSE_RMDIR   override;
-    FUSE_RENAME  override;
-    FUSE_OPEN    override;
-    FUSE_READ    override;
-    FUSE_STATFS  override;
-    FUSE_READDIR override;
-    FUSE_INIT    override;
-    FUSE_UTIMENS override;
+    FUSE_GETATTR  override;
+    FUSE_MKDIR    override;
+    FUSE_UNLINK   override;
+    FUSE_RMDIR    override;
+    FUSE_RENAME   override;
+    FUSE_CHMOD    override;
+    FUSE_CHOWN    override;
+    FUSE_TRUNCATE override;
+    FUSE_OPEN     override;
+    FUSE_READ     override;
+    FUSE_STATFS   override;
+    FUSE_READDIR  override;
+    FUSE_INIT     override;
+    FUSE_DESTROY  override;
+    FUSE_ACCESS   override;
+    FUSE_CREATE   override;
+    FUSE_UTIMENS  override;
 
     AmigaFileSystem(string &filename);
 
