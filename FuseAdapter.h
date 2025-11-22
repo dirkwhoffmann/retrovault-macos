@@ -22,6 +22,7 @@ class FuseAdapter {
     static FUSE_STATFS;
     static FUSE_READDIR;
     static FUSE_INIT;
+    static FUSE_UTIMENS;
 
     static fuse_operations callbacks;
 

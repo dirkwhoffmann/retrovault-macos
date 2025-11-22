@@ -26,4 +26,5 @@ public:
     virtual FUSE_STATFS  { return -ENOSYS; }
     virtual FUSE_READDIR { return -ENOSYS; }
     virtual FUSE_INIT    { return nullptr; }
+    virtual FUSE_UTIMENS { return -ENOSYS; }
 };

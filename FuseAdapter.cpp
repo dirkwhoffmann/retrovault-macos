@@ -18,10 +18,14 @@ FuseAdapter::callbacks = {
     .getattr    = getattr,
     /*
     .readlink   = readlink,
+    */
     .mkdir      = mkdir,
+    /*
     .unlink     = unlink,
+     */
     .rmdir      = rmdir,
     .rename     = rename,
+    /*
     .chmod      = chmod,
     .chown      = chown,
     .truncate   = truncate,
@@ -38,8 +42,8 @@ FuseAdapter::callbacks = {
     .destroy    = destroy,
     .access     = access,
     .create     = create,
+     */
     .utimens    = utimens
-    */
 };
 
 int
@@ -76,6 +80,27 @@ FuseAdapter::getattr(const char *path, struct stat* st)
 }
 
 int
+FuseAdapter::mkdir(const char *path, mode_t mode)
+{
+    log("[getattr] ({}, {})\n", path, mode);
+    return self().delegate->mkdir(path, mode);
+}
+
+int
+FuseAdapter::rmdir(const char *path)
+{
+    log("[rmdir] ({})\n", path);
+    return self().delegate->rmdir(path);
+}
+
+int
+FuseAdapter::rename(const char *oldpath, const char *newpath)
+{
+    log("[rename] ({}, {})\n", oldpath, newpath);
+    return self().delegate->rename(oldpath, newpath);
+}
+
+int
 FuseAdapter::open(const char* path, struct fuse_file_info* fi)
 {
     log("[open] ({})\n", path);
@@ -107,9 +132,20 @@ FuseAdapter::readdir(const char* path, void* buf, fuse_fill_dir_t filler,
 void *
 FuseAdapter::init(struct fuse_conn_info* conn)
 {
+    log("[init] ");
+    log([conn](std::ostream &os){ dump(os, conn); });
+
     // We ignore the result of the delegate method
     (void)self().delegate->init(conn);
 
     // Instead, we return a pointer to the FUSE adapter
     return &self();
 }
+
+int
+FuseAdapter::utimens(const char *path, const struct timespec tv[2])
+{
+    log("[utimens] ({})\n", path);
+    return self().delegate->utimens(path, tv);
+}
+

@@ -36,6 +36,7 @@ public:
     FUSE_STATFS  override;
     FUSE_READDIR override;
     FUSE_INIT    override;
+    FUSE_UTIMENS override;
 
     AmigaFileSystem(string &filename);
 

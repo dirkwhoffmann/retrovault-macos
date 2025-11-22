@@ -285,6 +285,12 @@ AmigaFileSystem::readdir(const char* path, void* buf, fuse_fill_dir_t filler,
 void *
 AmigaFileSystem::init(struct fuse_conn_info* conn)
 {
-    log([conn](std::ostream &os){ dump(os, conn); });
-    return this;
+    return nullptr;
+}
+
+int
+AmigaFileSystem::utimens(const char *path, const struct timespec tv[2])
+{
+    // NOT IMPLEMENTED YET
+    return 0;
 }
