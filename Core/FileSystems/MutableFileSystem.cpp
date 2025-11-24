@@ -229,35 +229,63 @@ MutableFileSystem::allocate()
     read(i)->type = FSBlockType::UNKNOWN;
     markAsAllocated(i);
     ap = (i + 1) % numBlocks();
-    return (i);
+    return i;
 }
 
 void
-MutableFileSystem::allocate(isize count, std::vector<Block> &result)
+MutableFileSystem::allocate(isize count, std::vector<Block> &result, std::vector<Block> prealloc)
 {
+    /* Allocate multiple blocks and return them in `result`.
+     *
+     * Parameters:
+     *
+     * count    – number of blocks to allocate
+     * result   – vector to store the allocated blocks
+     * prealloc – optional list of pre-allocated blocks. If not empty, these
+     *            blocks are used first: the allocator moves blocks from
+     *            `prealloc` into `result` until `prealloc` is empty.
+     *            Remaining blocks (if any) are allocated normally.
+     *
+     * Notes:
+     *
+     * - The function does not modify `prealloc` outside of moving blocks.
+     * - Guarantees that `result` contains exactly `count` blocks upon return.
+     */
+
+    // Step 1: Use pre-allocated blocks first
+    while (!prealloc.empty() && count > 0) {
+
+        result.push_back(prealloc.back());
+        prealloc.pop_back();
+        count--;
+    }
+
+    // Step 2: Allocate remaining blocks from free space
     Block i = ap;
-    
-    // Try to find enough free blocks
     while (count > 0) {
-        
+
         if (isEmpty(i)) {
-            
+
             read(i)->type = FSBlockType::UNKNOWN;
-            result.push_back(Block(i));
+            result.push_back(i);
             count--;
         }
-                
-        if ((i = (i + 1) % numBlocks()) == ap && count) {
-        
+
+        // Move to the next block
+        i = (i + 1) % numBlocks();
+
+        // Fail if we looped all the way and still need blocks
+        if (i == ap && count > 0) {
+
             debug(FS_DEBUG, "No more free blocks\n");
             throw AppError(Fault::FS_OUT_OF_SPACE);
         }
     }
-    
-    // Success: Mark all blocks as allocated
-    for (const auto &it : result) markAsAllocated(it);
 
-    // Advance the allocation pointer
+    // Step 3: Mark all blocks as allocated
+    for (const auto &b : result) markAsAllocated(b);
+
+    // Step 4: Advance allocation pointer
     ap = i;
 }
 
@@ -266,6 +294,12 @@ MutableFileSystem::deallocateBlock(Block nr)
 {
     storage[nr].init(FSBlockType::EMPTY);
     markAsFree(nr);
+}
+
+void
+MutableFileSystem::deallocateBlocks(const std::vector<Block> &nrs)
+{
+    for (Block nr : nrs) { deallocateBlock(nr); }
 }
 
 void
@@ -292,30 +326,24 @@ MutableFileSystem::addDataBlock(Block at, isize id, Block head, Block prev)
     }
 }
 
-FSBlock *
+FSBlock &
 MutableFileSystem::newUserDirBlock(const FSName &name)
 {
-    if (Block nr = allocate()) {
+    Block nr = allocate();
 
-        storage[nr].init(FSBlockType::USERDIR);
-        storage[nr].setName(name);
-        return read(nr);
-    }
- 
-    return nullptr;
+    storage[nr].init(FSBlockType::USERDIR);
+    storage[nr].setName(name);
+    return at(nr);
 }
 
-FSBlock *
+FSBlock &
 MutableFileSystem::newFileHeaderBlock(const FSName &name)
 {
-    if (Block nr = allocate()) {
+    Block nr = allocate();
 
-        storage[nr].init(FSBlockType::FILEHEADER);
-        storage[nr].setName(name);
-        return read(nr);
-    }
-    
-    return nullptr;
+    storage[nr].init(FSBlockType::FILEHEADER);
+    storage[nr].setName(name);
+    return at(nr);
 }
 
 void
@@ -390,32 +418,83 @@ MutableFileSystem::createDir(FSBlock &at, const FSName &name)
         // Error out if the file already exists
         if (seekPtr(&at, name)) throw(AppError(Fault::FS_EXISTS, name.cpp_str()));
 
-        if (FSBlock *block = newUserDirBlock(name); block) {
-
-            block->setParentDirRef(at.nr);
-            addToHashTable(at.nr, block->nr);
-            return *block;
-        }
-        throw AppError(Fault::FS_OUT_OF_SPACE);
+        FSBlock &block = newUserDirBlock(name);
+        block.setParentDirRef(at.nr);
+        addToHashTable(at.nr, block.nr);
+        return block;
     }
     throw AppError(Fault::FS_NOT_A_DIRECTORY, at.absName());
 }
 
 FSBlock &
+MutableFileSystem::link(FSBlock &at, const FSName &name)
+{
+    FSBlock &fhb = newFileHeaderBlock(name);
+
+    try {
+        link(at, name, fhb);
+    } catch(...) {
+        deallocateBlock(fhb.nr);
+        throw;
+    }
+
+    return fhb;
+}
+
+void
+MutableFileSystem::link(FSBlock &at, const FSName &name, FSBlock &fhb)
+{
+    // Files can only be linked to directories
+    if (!at.isDirectory()) throw AppError(Fault::FS_NOT_A_DIRECTORY);
+
+    // Error out if the file already exists
+    if (seekPtr(&at, name)) throw(AppError(Fault::FS_EXISTS, name.cpp_str()));
+
+    // Wire up
+    fhb.setParentDirRef(at.nr);
+    addToHashTable(at.nr, fhb.nr);
+}
+
+void
+MutableFileSystem::unlink(const FSBlock &fhb)
+{
+    // Only files can be unlinked
+    if (!fhb.isFile()) throw AppError(Fault::FS_NOT_A_FILE);
+
+    // Remove the file from the hash table
+    deleteFromHashTable(fhb);
+}
+
+
+void
+MutableFileSystem::reclaim(const FSBlock &fhb)
+{
+    if (!fhb.isFile()) throw AppError(Fault::FS_NOT_A_FILE, fhb.absName());
+
+    // Collect all blocks occupied by this file
+    auto dataBlocks = collectDataBlocks(fhb.nr);
+    auto listBlocks = collectListBlocks(fhb.nr);
+
+    // Remove all blocks
+    storage.erase(fhb.nr); markAsFree(fhb.nr);
+    for (auto &it : dataBlocks) { storage.erase(it); markAsFree(it); }
+    for (auto &it : listBlocks) { storage.erase(it); markAsFree(it); }
+}
+
+
+FSBlock &
 MutableFileSystem::createFile(FSBlock &at, const FSName &name)
 {
+    // TODO: MOVE TO DOS LAYER AND USE THE LINK FUNCTION
     if (at.isDirectory()) {
 
         // Error out if the file already exists
         if (seekPtr(&at, name)) throw(AppError(Fault::FS_EXISTS, name.cpp_str()));
 
-        if (FSBlock *block = newFileHeaderBlock(name); block) {
-
-            block->setParentDirRef(at.nr);
-            addToHashTable(at.nr, block->nr);
-            return *block;
-        }
-        throw AppError(Fault::FS_OUT_OF_SPACE);
+        FSBlock &block = newFileHeaderBlock(name);
+        block.setParentDirRef(at.nr);
+        addToHashTable(at.nr, block.nr);
+        return block;
     }
     throw AppError(Fault::FS_NOT_A_DIRECTORY, at.absName());
 }
@@ -484,6 +563,12 @@ MutableFileSystem::createFile(FSBlock &top, const FSName &name, const string &st
 }
 
 void
+MutableFileSystem::truncate(FSBlock &at, isize size)
+{
+
+}
+
+void
 MutableFileSystem::rename(FSBlock &item, const FSName &name)
 {
     // Renaming the root node renames the name of the file system
@@ -533,6 +618,10 @@ MutableFileSystem::copy(const FSBlock &item, FSBlock &dest, const FSName &name)
 void
 MutableFileSystem::deleteFile(const FSBlock &node)
 {
+    unlink(node);
+    reclaim(node);
+
+    /*
     if (!node.isFile()) throw AppError(Fault::FS_NOT_A_FILE, node.absName());
 
     // Collect all blocks occupied by this file
@@ -546,6 +635,7 @@ MutableFileSystem::deleteFile(const FSBlock &node)
     storage.erase(node.nr); markAsFree(node.nr);
     for (auto &it : dataBlocks) { storage.erase(it); markAsFree(it); }
     for (auto &it : listBlocks) { storage.erase(it); markAsFree(it); }
+    */
 }
 
 void
@@ -660,8 +750,50 @@ MutableFileSystem::addData(FSBlock &block, const u8 *buf, isize size)
 }
 
 void
-MutableFileSystem::allocateFileBlocks(isize bytes, std::vector<Block> &listBlocks, std::vector<Block> &dataBlocks)
+MutableFileSystem::allocateFileBlocks(isize bytes,
+                                      std::vector<Block> &listBlocks,
+                                      std::vector<Block> &dataBlocks)
 {
+    /* This function takes a file size and two lists:
+
+            listBlocks  – pre-allocated list blocks (extension blocks)
+            dataBlocks  – pre-allocated data blocks
+
+        It first determines how many blocks of each type are required to store
+        a file of the given size. If the caller provided more blocks than needed,
+        the surplus blocks are freed. If fewer blocks are provided, new blocks
+        are allocated and appended to the respective lists.
+    */
+
+    auto freeSurplus = [&](std::vector<Block> &blocks, usize count) {
+
+        if (blocks.size() > count) {
+
+            for (auto i = count; i < blocks.size(); i++) {
+                deallocateBlock(blocks[i]);
+            }
+            blocks.resize(count);
+
+        } else {
+
+            blocks.reserve(count);
+        }
+    };
+
+    isize dataBlocksNeeded = 0;
+    auto ensureDataBlocks = [&](isize n) {
+
+        dataBlocksNeeded += n;
+        while (dataBlocks.size() < dataBlocksNeeded) allocate(1, dataBlocks);
+    };
+
+    isize listBlocksNeeded = 0;
+    auto ensureListBlocks = [&](isize n) {
+
+        listBlocksNeeded += n;
+        while (listBlocks.size() < listBlocksNeeded) allocate(1, listBlocks);
+    };
+
     isize numDataBlocks         = requiredDataBlocks(bytes);
     isize numListBlocks         = requiredFileListBlocks(bytes);
     isize refsPerBlock          = (traits.bsize / 4) - 56;
@@ -677,25 +809,28 @@ MutableFileSystem::allocateFileBlocks(isize bytes, std::vector<Block> &listBlock
     debug(FS_DEBUG, "    References in list blocks : %ld\n", refsInListBlocks);
     debug(FS_DEBUG, "References in last list block : %ld\n", refsInLastListBlock);
 
-    listBlocks.reserve(numListBlocks);
-    dataBlocks.reserve(numDataBlocks);
+    // Free the surplus list blocks
+    freeSurplus(listBlocks, numListBlocks);
+    freeSurplus(dataBlocks, numDataBlocks);
 
     if (traits.ofs()) {
 
         // Header block -> Data blocks -> List block -> Data blocks ... List block -> Data blocks
-        allocate(refsInHeaderBlock, dataBlocks);
+        ensureDataBlocks(refsInHeaderBlock);
+
         for (isize i = 0; i < numListBlocks; i++) {
-            allocate(1, listBlocks);
-            allocate(i < numListBlocks - 1 ? refsPerBlock : refsInLastListBlock, dataBlocks);
+
+            ensureListBlocks(1);
+            ensureDataBlocks(i < numListBlocks - 1 ? refsPerBlock : refsInLastListBlock);
         }
     }
     
     if (traits.ffs()) {
         
         // Header block -> Data blocks -> All list block -> All remaining data blocks
-        allocate(refsInHeaderBlock, dataBlocks);
-        allocate(numListBlocks, listBlocks);
-        allocate(refsInListBlocks, dataBlocks);
+        ensureDataBlocks(refsInHeaderBlock);
+        ensureListBlocks(numListBlocks);
+        ensureDataBlocks(refsInListBlocks);
     }
 
     // Rectify checksums

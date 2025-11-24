@@ -69,10 +69,13 @@ public:
     Block allocate();
 
     // Allocates multiple blocks
-    void allocate(isize count, std::vector<Block> &result);
+    void allocate(isize count, std::vector<Block> &result, std::vector<Block> prealloc = {});
 
     // Deallocates a block
     void deallocateBlock(Block nr);
+
+    // Allocates multiple blocks
+    void deallocateBlocks(const std::vector<Block> &nrs);
 
     // Updates the checksums in all blocks
     void updateChecksums() noexcept;
@@ -89,8 +92,8 @@ private:
     void addDataBlock(Block at, isize id, Block head, Block prev);
 
     // Creates a new block of a certain kind
-    FSBlock *newUserDirBlock(const FSName &name);
-    FSBlock *newFileHeaderBlock(const FSName &name);
+    FSBlock &newUserDirBlock(const FSName &name);
+    FSBlock &newFileHeaderBlock(const FSName &name);
 
 
     //
@@ -130,11 +133,24 @@ public:
     // Creates a new directory
     FSBlock &createDir(FSBlock &at, const FSName &name);
 
+    // Creates a directory entry
+    FSBlock &link(FSBlock &at, const FSName &name);
+    void link(FSBlock &at, const FSName &name, FSBlock &fhb);
+
+    // Removes a directory entry
+    void unlink(const FSBlock &fhb);
+
+    // Frees the file header block and all related data blocks
+    void reclaim(const FSBlock &fhb);
+
     // Creates a new file
     FSBlock &createFile(FSBlock &at, const FSName &name);
     FSBlock &createFile(FSBlock &at, const FSName &name, const Buffer<u8> &buf);
     FSBlock &createFile(FSBlock &at, const FSName &name, const u8 *buf, isize size);
     FSBlock &createFile(FSBlock &at, const FSName &name, const string &str);
+
+    // Changing size
+    void truncate(FSBlock &at, isize size);
 
     // Renames a file or directory
     void rename(FSBlock &item, const FSName &name);

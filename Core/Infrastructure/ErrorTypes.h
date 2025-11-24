@@ -158,15 +158,15 @@ enum class Fault : long
     
     // File system
     FS_UNKNOWN,
-    FS_OUT_OF_RANGE,
-    FS_INVALID_PATH,
-    FS_INVALID_REGEX,
+    FS_OUT_OF_RANGE,    // (-> POSIX EINVAL )
+    FS_INVALID_PATH,    // UNUSED -> Delete
+    FS_INVALID_REGEX,   // (-> POSIX EINVAL )
     FS_NOT_A_DIRECTORY,
     FS_NOT_A_FILE,
     FS_NOT_A_FILE_OR_DIRECTORY,
     FS_NOT_FOUND,
-    FS_EXISTS,
-    FS_CANNOT_OPEN,
+    FS_EXISTS, 
+    FS_CANNOT_OPEN,     // Unused -> Delete
 
     FS_UNINITIALIZED,
     FS_UNFORMATTED,
