@@ -15,13 +15,23 @@
 
 using namespace vamiga;
 
+namespace vamiga {
+
+class MutableFileSystem;
+class DosFileSystem;
+
+}
+
 class AmigaFileSystem : FuseDelegate {
 
     // Amiga Disk File
     ADFFile *adf = nullptr;
 
-    // File system extracted from the ADF
-    class MutableFileSystem *fs = nullptr;
+    // Raw file system extracted from the ADF
+    MutableFileSystem *fs = nullptr;
+
+    // DOS layer on top of 'fs'
+    DosFileSystem *dos = nullptr;
 
 public:
 

@@ -10,7 +10,8 @@
 #include "AmigaFileSystem.h"
 #include "VAmiga.h"
 #include "Media.h"
-#include "MutableFileSystem.h"
+// #include "MutableFileSystem.h"
+#include "DosFileSystem.h"
 #include "FuseAdapter.h"
 #include "FuseDebug.h"
 
@@ -96,9 +97,14 @@ AmigaFileSystem::AmigaFileSystem(string &filename)
     adf = new ADFFile(filename);
     assert(adf != nullptr);
 
-    log("Extracting file system...\n");
+    log("Extracting raw file system...\n");
     fs = new MutableFileSystem(*adf);
     assert(fs != nullptr);
+
+    log("Wrapping into DOS layer...\n");
+    dos = new DosFileSystem(*fs);
+    assert(dos != nullptr);
+
 }
 
 int

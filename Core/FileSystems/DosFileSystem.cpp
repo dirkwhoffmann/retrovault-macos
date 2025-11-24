@@ -33,7 +33,7 @@ DosFileSystem::ensureMeta(Block nr)
 HandleRef
 DosFileSystem::open(const fs::path &path, u32 flags)
 {
-    // Resolve node
+    // Resolve node (may throw)
     auto &node = fs.seek(fs.root(), path);
 
     // Create a unique identifier

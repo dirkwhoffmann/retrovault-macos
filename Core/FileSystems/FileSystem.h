@@ -45,7 +45,8 @@ class FileSystem : public CoreObject, public Inspectable<FSInfo, FSStats> {
     friend class  FSDoctor;
     friend struct FSHashTable;
     friend struct FSPartition;
-
+    friend class  MutableFileSystem;
+    
 public:
 
     // Disk doctor
@@ -145,6 +146,26 @@ public:
     string getBootBlockName() const noexcept;
     BootBlockType bootBlockType() const noexcept;
     bool hasVirus() const noexcept { return bootBlockType() == BootBlockType::VIRUS; }
+
+
+    //
+    // Querying file properties
+    //
+
+public:
+    
+    FSStat getStat(Block nr) const;
+    FSStat getStat(const FSBlock &fhd) const;
+
+
+    // Returns the number of required blocks to store a file of certain size
+    isize requiredBlocks(isize fileSize) const;
+
+private:
+
+    // Returns the number of required file list or data blocks
+    isize requiredFileListBlocks(isize fileSize) const;
+    isize requiredDataBlocks(isize fileSize) const;
 
 
     //

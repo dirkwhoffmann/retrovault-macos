@@ -311,6 +311,69 @@ FileSystem::bootBlockType() const noexcept
     return BootBlockImage(storage[0].data(), storage[1].data()).type;
 }
 
+FSStat
+FileSystem::getStat(Block nr) const
+{
+    return getStat(at(nr));
+}
+
+FSStat
+FileSystem::getStat(const FSBlock &fhd) const
+{
+    isize size = fhd.getFileSize();
+    isize blocks = requiredBlocks(size);
+
+    FSStat result = {
+
+        .size   = size,
+        .blocks = blocks,
+        .prot   = fhd.getProtectionBits(),
+        .ctime  = fhd.getCreationDate(),
+        .mtime  = fhd.getModificationDate()
+    };
+
+    return result;
+}
+
+isize
+FileSystem::requiredDataBlocks(isize fileSize) const
+{
+    // Compute the capacity of a single data block
+    isize numBytes = traits.bsize - (traits.ofs() ? 24 : 0);
+
+    // Compute the required number of data blocks
+    return (fileSize + numBytes - 1) / numBytes;
+}
+
+isize
+FileSystem::requiredFileListBlocks(isize fileSize) const
+{
+    // Compute the required number of data blocks
+    isize numBlocks = requiredDataBlocks(fileSize);
+
+    // Compute the number of data block references in a single block
+    isize numRefs = (traits.bsize / 4) - 56;
+
+    // Small files do not require any file list block
+    if (numBlocks <= numRefs) return 0;
+
+    // Compute the required number of additional file list blocks
+    return (numBlocks - 1) / numRefs;
+}
+
+isize
+FileSystem::requiredBlocks(isize fileSize) const
+{
+    isize numDataBlocks = requiredDataBlocks(fileSize);
+    isize numFileListBlocks = requiredFileListBlocks(fileSize);
+
+    debug(FS_DEBUG, "Required file header blocks : %d\n",  1);
+    debug(FS_DEBUG, "       Required data blocks : %ld\n", numDataBlocks);
+    debug(FS_DEBUG, "  Required file list blocks : %ld\n", numFileListBlocks);
+
+    return 1 + numDataBlocks + numFileListBlocks;
+}
+
 FSBlock *
 FileSystem::read(Block nr) noexcept
 {

@@ -154,6 +154,7 @@ MutableFileSystem::setName(FSName name)
     }
 }
 
+/*
 isize
 MutableFileSystem::requiredDataBlocks(isize fileSize) const
 {
@@ -192,6 +193,7 @@ MutableFileSystem::requiredBlocks(isize fileSize) const
     
     return 1 + numDataBlocks + numFileListBlocks;
 }
+*/
 
 bool
 MutableFileSystem::allocatable(isize count) const

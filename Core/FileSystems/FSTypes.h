@@ -423,6 +423,6 @@ typedef struct
 {
     isize blockReads;
 }
-FSStats;
+FSStats; // TODO: Rename to FSMetrics(?) as it sounds similar to FSStat
 
 }
