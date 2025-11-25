@@ -16,18 +16,6 @@ DosFileSystem::DosFileSystem(MutableFileSystem &fs) : fs(fs)
 
 }
 
-FSStat
-DosFileSystem::getStat(Block nr) const
-{
-    return fs.getStat(nr);
-}
-
-FSStat
-DosFileSystem::getStat(const FSBlock &fhd) const
-{
-    return fs.getStat(fhd);
-}
-
 NodeMeta *
 DosFileSystem::getMeta(Block nr)
 {
@@ -40,6 +28,57 @@ DosFileSystem::ensureMeta(Block nr)
 {
     auto [it, inserted] = meta.try_emplace(nr);
     return it->second;
+}
+
+FSStat
+DosFileSystem::getStat(Block nr) const
+{
+    return fs.getStat(nr);
+}
+
+FSStat
+DosFileSystem::getStat(const FSBlock &fhd) const
+{
+    return fs.getStat(fhd);
+}
+
+void
+DosFileSystem::mkdir(const fs::path &path)
+{
+    auto parent = path.parent_path();
+    auto name   = path.filename();
+
+    // Lookup destination directory
+    auto &node  = fs.seek(fs.root(), parent);
+
+    // Create directory
+    auto &udb = fs.createDir(node, FSName(name));
+
+    // Create meta info
+    auto &info = ensureMeta(udb);
+    info.linkCount = 1;
+}
+
+void
+DosFileSystem::rmdir(const fs::path &path)
+{
+    // Lookup directory
+    auto &node = fs.seek(fs.root(), path);
+
+    // Only empty directories can be removed
+    fs.ensureEmptyDirectory(node);
+
+    if (auto *info = getMeta(node); info) {
+
+        // Remove directory entry
+        fs.unlink(node);
+
+        // Decrement link count
+        if (info->linkCount > 0) info->linkCount--;
+
+        // Maybe delete
+        tryReclaim(node);
+    }
 }
 
 HandleRef

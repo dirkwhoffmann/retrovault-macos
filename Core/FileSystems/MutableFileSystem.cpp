@@ -415,17 +415,16 @@ MutableFileSystem::rectifyAllocationMap()
 FSBlock &
 MutableFileSystem::createDir(FSBlock &at, const FSName &name)
 {
-    if (at.isDirectory()) {
+    ensureDirectory(at);
 
-        // Error out if the file already exists
-        if (seekPtr(&at, name)) throw(AppError(Fault::FS_EXISTS, name.cpp_str()));
+    // Error out if the file already exists
+    if (seekPtr(&at, name)) throw(AppError(Fault::FS_EXISTS, name.cpp_str()));
 
-        FSBlock &block = newUserDirBlock(name);
-        block.setParentDirRef(at.nr);
-        addToHashTable(at.nr, block.nr);
-        return block;
-    }
-    throw AppError(Fault::FS_NOT_A_DIRECTORY, at.absName());
+    FSBlock &block = newUserDirBlock(name);
+    block.setParentDirRef(at.nr);
+    addToHashTable(at.nr, block.nr);
+
+    return block;
 }
 
 FSBlock &
@@ -458,36 +457,46 @@ MutableFileSystem::link(FSBlock &at, const FSName &name, FSBlock &fhb)
 }
 
 void
-MutableFileSystem::unlink(const FSBlock &fhb)
+MutableFileSystem::unlink(const FSBlock &node)
 {
-    // Only files can be unlinked
-    if (!fhb.isFile()) throw AppError(Fault::FS_NOT_A_FILE);
+    // Check block type
+    if (!node.isFile() && !node.isDirectory()) throw AppError(Fault::FS_NOT_A_FILE);
 
     // Remove the file from the hash table
-    deleteFromHashTable(fhb);
+    deleteFromHashTable(node);
 }
 
 
 void
-MutableFileSystem::reclaim(const FSBlock &fhb)
+MutableFileSystem::reclaim(const FSBlock &node)
 {
-    if (!fhb.isFile()) throw AppError(Fault::FS_NOT_A_FILE, fhb.absName());
+    if (node.isDirectory()) {
 
-    // Collect all blocks occupied by this file
-    auto dataBlocks = collectDataBlocks(fhb.nr);
-    auto listBlocks = collectListBlocks(fhb.nr);
+        // Remove user directory block
+        storage.erase(node.nr); markAsFree(node.nr);
+        return;
+    }
 
-    // Remove all blocks
-    storage.erase(fhb.nr); markAsFree(fhb.nr);
-    for (auto &it : dataBlocks) { storage.erase(it); markAsFree(it); }
-    for (auto &it : listBlocks) { storage.erase(it); markAsFree(it); }
+    if (node.isFile()) {
+
+        // Collect all blocks occupied by this file
+        auto dataBlocks = collectDataBlocks(node.nr);
+        auto listBlocks = collectListBlocks(node.nr);
+
+        // Remove all blocks
+        storage.erase(node.nr); markAsFree(node.nr);
+        for (auto &it : dataBlocks) { storage.erase(it); markAsFree(it); }
+        for (auto &it : listBlocks) { storage.erase(it); markAsFree(it); }
+        return;
+    }
+
+    throw AppError(Fault::FS_NOT_A_FILE_OR_DIRECTORY, node.absName());
 }
 
 
 FSBlock &
 MutableFileSystem::createFile(FSBlock &at, const FSName &name)
 {
-    // TODO: MOVE TO DOS LAYER AND USE THE LINK FUNCTION
     if (at.isDirectory()) {
 
         // Error out if the file already exists
@@ -639,6 +648,22 @@ MutableFileSystem::deleteFile(const FSBlock &node)
     for (auto &it : listBlocks) { storage.erase(it); markAsFree(it); }
     */
 }
+
+/*
+void
+MutableFileSystem::rmdir(const FSBlock &at)
+{
+    // Only directories can be removed
+    if (!at.isDirectory()) throw AppError(Fault::FS_NOT_A_DIRECTORY);
+
+    // The directory must be empty
+    FSTree tree(at, FSOpt{});
+    if (!tree.empty()) throw AppError(Fault::FS_DIR_NOT_EMPTY);
+
+    // Remove directory from hash table
+    deleteFromHashTable(at);
+}
+*/
 
 void
 MutableFileSystem::addToHashTable(const FSBlock &item)

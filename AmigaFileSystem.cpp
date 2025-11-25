@@ -10,7 +10,6 @@
 #include "AmigaFileSystem.h"
 #include "VAmiga.h"
 #include "Media.h"
-// #include "MutableFileSystem.h"
 #include "DosFileSystem.h"
 #include "FuseAdapter.h"
 #include "FuseDebug.h"
@@ -113,10 +112,10 @@ AmigaFileSystem::mount(string &mountpoint)
     FuseAdapter adapter;
 
     adapter.delegate = this;
-    printf("adapter.delegate = %p\n", adapter.delegate);
+
+    // Mount (blocking call)
     auto err = adapter.mount(mountpoint);
 
-    assert(false);
     return err;
 }
 
@@ -151,14 +150,9 @@ AmigaFileSystem::getattr(const char *path, struct stat *st)
 int
 AmigaFileSystem::mkdir(const char *path, mode_t mode)
 {
-    auto fullpath = fs::path(path);
-    auto parent   = fullpath.parent_path();
-    auto name     = fullpath.filename();
-
     return fsexec([&]{
 
-        auto &node = fs->seek(fs->root(), parent);
-        fs->createDir(node, name);
+        dos->mkdir(path);
         return 0;
     });
 }
@@ -174,6 +168,7 @@ AmigaFileSystem::unlink(const char *path)
 
         auto &node = fs->seek(fs->root(), parent);
         fs->deleteFile(node);
+
         return 0;
     });
 }
@@ -183,10 +178,8 @@ AmigaFileSystem::rmdir(const char *path)
 {
     return fsexec([&]{
 
-        // TODO: THE FILESYSTEM CLASS IS CURRENTLY MISSING THE ABILITY TO
-        // REMOVE A DIRECTORY. FIX THIS FIRST.
-
-        return -ENOSYS;
+        dos->rmdir(path);
+        return 0;
     });
 }
 

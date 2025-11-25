@@ -345,6 +345,12 @@ public:
     void require_formatted() const;
     void require_file_or_directory(const FSBlock &block) const;
 
+    void ensureFile(const FSBlock &node);
+    void ensureFileOrDirectory(const FSBlock &node);
+    void ensureDirectory(const FSBlock &node);
+    void ensureNotRoot(const FSBlock &node);
+    void ensureEmptyDirectory(const FSBlock &node);
+
 
     //
     // GUI helper functions

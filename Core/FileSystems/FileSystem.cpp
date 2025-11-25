@@ -1127,6 +1127,41 @@ FileSystem::require_file_or_directory(const FSBlock &node) const
 }
 
 void
+FileSystem::ensureFile(const FSBlock &node)
+{
+    if (!node.isFile()) throw AppError(Fault::FS_NOT_A_FILE);
+}
+
+void
+FileSystem::ensureFileOrDirectory(const FSBlock &node)
+{
+    if (!node.isRegular()) throw AppError(Fault::FS_NOT_A_FILE_OR_DIRECTORY);
+
+}
+
+void
+FileSystem::ensureDirectory(const FSBlock &node)
+{
+    if (!node.isDirectory()) throw AppError(Fault::FS_NOT_A_DIRECTORY);
+}
+
+void
+FileSystem::ensureNotRoot(const FSBlock &node)
+{
+    if (node.isRoot()) throw AppError(Fault::FS_INVALID_PATH);
+}
+
+void
+FileSystem::ensureEmptyDirectory(const FSBlock &node)
+{
+    ensureDirectory(node);
+
+    if (FSTree(node, { .recursive = false }).size() != 0) {
+        throw AppError(Fault::FS_DIR_NOT_EMPTY);
+    }
+}
+
+void
 FileSystem::createUsageMap(u8 *buffer, isize len) const
 {
     storage.createUsageMap(buffer, len);

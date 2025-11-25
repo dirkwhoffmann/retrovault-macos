@@ -78,6 +78,16 @@ private:
 
 
     //
+    // Handling directories
+    //
+
+public:
+    
+    void mkdir(const fs::path &path);
+    void rmdir(const fs::path &path);
+
+
+    //
     // Handling files
     //
 

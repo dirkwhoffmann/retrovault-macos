@@ -167,6 +167,9 @@ public:
     // Delete a file
     void deleteFile(const FSBlock &at);
 
+    // Deletes a directory
+    // void rmdir(const FSBlock &at);
+
 private:
 
     // Adds a hash-table entry for a given item
