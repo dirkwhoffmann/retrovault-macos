@@ -197,16 +197,13 @@ AmigaFileSystem::chmod(const char *path, mode_t mode)
 }
 
 int
-AmigaFileSystem::chown(const char *path, uid_t uid, gid_t gid)
-{
-    return -ENOENT;
-}
-
-int
 AmigaFileSystem::truncate(const char *path, off_t size)
 {
-    return -ENOENT;
-}
+    return fsexec([&]{
+
+        dos->truncate(path, size);
+        return 0;
+    });}
 
 int
 AmigaFileSystem::open(const char *path, struct fuse_file_info *fi)

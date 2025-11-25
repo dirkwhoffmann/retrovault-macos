@@ -43,7 +43,6 @@ public:
     FUSE_RMDIR    override;
     FUSE_RENAME   override;
     FUSE_CHMOD    override;
-    FUSE_CHOWN    override;
     FUSE_TRUNCATE override;
     FUSE_OPEN     override;
     FUSE_READ     override;

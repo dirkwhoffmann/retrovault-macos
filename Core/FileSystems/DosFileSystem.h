@@ -99,12 +99,17 @@ public:
     isize lseek(HandleRef ref, isize offset, u16 whence = 0);
     void move(const fs::path &oldPath, const fs::path &newPath);
     void chmod(const fs::path &path, mode_t mode);
+    void truncate(const fs::path &path, isize size);
 
 private:
 
     void tryReclaim(const FSBlock &block);
 
     Handle &getHandle(HandleRef ref);
+
+    FSBlock &ensureFile(const fs::path &path);
+    FSBlock &ensureFileOrDirectory(const fs::path &path);
+    FSBlock &ensureDirectory(const fs::path &path);
 };
 
 }

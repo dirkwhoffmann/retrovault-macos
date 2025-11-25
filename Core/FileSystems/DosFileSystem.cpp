@@ -171,6 +171,30 @@ DosFileSystem::getHandle(HandleRef ref)
     return it->second;
 }
 
+FSBlock &
+DosFileSystem::ensureFile(const fs::path &path)
+{
+    auto &node = fs.seek(fs.root(), path);
+    fs.ensureFile(node);
+    return node;
+}
+
+FSBlock &
+DosFileSystem::ensureFileOrDirectory(const fs::path &path)
+{
+    auto &node = fs.seek(fs.root(), path);
+    fs.ensureFileOrDirectory(node);
+    return node;
+}
+
+FSBlock &
+DosFileSystem::ensureDirectory(const fs::path &path)
+{
+    auto &node = fs.seek(fs.root(), path);
+    fs.ensureDirectory(node);
+    return node;
+}
+
 void
 DosFileSystem::create(const fs::path &path)
 {
@@ -229,16 +253,20 @@ DosFileSystem::move(const fs::path &oldPath, const fs::path &newPath)
 void
 DosFileSystem::chmod(const fs::path &path, mode_t mode)
 {
-    auto &node = fs.seek(fs.root(), path);
-    fs.ensureFile(node);
-
-    u32 prot = node.getProtectionBits();
+    auto &node = ensureFile(path);
+    u32 prot   = node.getProtectionBits();
 
     if (mode & S_IRUSR) prot &= ~0x01; else prot |= 0x01;
     if (mode & S_IWUSR) prot &= ~0x02; else prot |= 0x02;
     if (mode & S_IXUSR) prot &= ~0x04; else prot |= 0x04;
 
     node.setProtectionBits(prot);
+}
+
+void
+DosFileSystem::truncate(const fs::path &path, isize size)
+{
+    fs.truncate(ensureFile(path), size);
 }
 
 }
