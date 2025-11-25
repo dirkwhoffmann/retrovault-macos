@@ -54,7 +54,8 @@ FuseAdapter::mount(string mountpoint)
     std::vector<std::string> params = {
 
         "vmount",
-        "-onative_xattr,volname=adf,norm_insensitive",
+        // "-onative_xattr,volname=adf,norm_insensitive",
+        "-ovolname=adf,norm_insensitive",
         // "-f",
         "-d",
         mountpoint

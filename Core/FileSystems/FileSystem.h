@@ -157,7 +157,8 @@ public:
     FSStat getStat(Block nr) const;
     FSStat getStat(const FSBlock &fhd) const;
 
-
+private:
+    
     // Returns the number of required blocks to store a file of certain size
     isize requiredBlocks(isize fileSize) const;
 

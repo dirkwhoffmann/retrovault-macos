@@ -60,16 +60,33 @@ public:
 
     explicit DosFileSystem(MutableFileSystem &fs);
 
+    //
+    // Querying file properties
+    //
+
+public:
+
+    FSStat getStat(Block nr) const;
+    FSStat getStat(const FSBlock &fhd) const;
+
+private:
+
     NodeMeta *getMeta(Block nr);
     NodeMeta *getMeta(const FSBlock &block) { return getMeta(block.nr); }
     NodeMeta &ensureMeta(Block nr);
     NodeMeta &ensureMeta(const FSBlock &block) { return ensureMeta(block.nr); }
 
+
+    //
+    // Handling files
+    //
+
+public:
+
     HandleRef open(const fs::path &path, u32 flags);
     void close(HandleRef handle);
     void unlink(const fs::path &path);
     void create(const fs::path &path);
-
     isize lseek(HandleRef ref, isize offset, u16 whence = 0);
 
 private:

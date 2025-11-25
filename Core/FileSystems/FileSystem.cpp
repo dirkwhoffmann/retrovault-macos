@@ -328,6 +328,7 @@ FileSystem::getStat(const FSBlock &fhd) const
         .size   = size,
         .blocks = blocks,
         .prot   = fhd.getProtectionBits(),
+        .isDir  = fhd.isDirectory(),
         .ctime  = fhd.getCreationDate(),
         .mtime  = fhd.getModificationDate()
     };

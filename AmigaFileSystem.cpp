@@ -127,21 +127,23 @@ AmigaFileSystem::getattr(const char *path, struct stat *st)
 
     return fsexec([&]{
 
-        // TODO: The code below should already cover this case. Remove this
-        if (strcmp(path, "/") == 0) {
-            st->st_mode  = S_IFDIR | 0755;
-            st->st_nlink = 1;
-            return 0;
-        }
+        auto &node  = fs->seek(fs->root(), string(path));
+        auto stat   = fs->getStat(node);
+        auto create = stat.ctime.time();
+        auto modify = stat.mtime.time();
 
-        auto &node = fs->seek(fs->root(), string(path));
-        auto size = node.getFileSize();
-        // auto prot = node.getProtectionBits();
-        auto dir  = node.isDirectory();
-
-        st->st_mode  = dir ? (S_IFDIR | 0755) : (S_IFREG | 0644);
+        st->st_mode = stat.mode();
         st->st_nlink = 1;
-        st->st_size  = size;
+        st->st_size = stat.size;
+        st->st_birthtimespec.tv_sec  = create;
+        st->st_birthtimespec.tv_nsec = 0;
+        st->st_mtimespec.tv_sec      = modify ? modify : create;
+        st->st_mtimespec.tv_nsec     = 0;
+        st->st_ctimespec.tv_sec      = modify ? modify : create;
+        st->st_ctimespec.tv_nsec     = 0;
+        st->st_atimespec.tv_sec      = modify ? modify : create;
+        st->st_atimespec.tv_nsec     = 0;
+
         return 0;
     });
 }

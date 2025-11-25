@@ -92,11 +92,14 @@ struct FSTime {
 
 struct FSStat {
 
-    isize size;                // File size in bytes
-    isize blocks;              // Number of occupied blocks
-    u32 prot;                  // Protection flags
-    FSTime ctime;              // Creation time
-    FSTime mtime;              // Last modification time
+    isize size;         // File size in bytes
+    isize blocks;       // Number of occupied blocks
+    u32 prot;           // Protection flags
+    bool isDir;         // Is it a directory?
+    FSTime ctime;       // Creation time
+    FSTime mtime;       // Last modification time
+
+    mode_t mode() const;
 };
 
 }

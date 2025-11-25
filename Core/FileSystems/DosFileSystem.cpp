@@ -16,6 +16,18 @@ DosFileSystem::DosFileSystem(MutableFileSystem &fs) : fs(fs)
 
 }
 
+FSStat
+DosFileSystem::getStat(Block nr) const
+{
+    return fs.getStat(nr);
+}
+
+FSStat
+DosFileSystem::getStat(const FSBlock &fhd) const
+{
+    return fs.getStat(fhd);
+}
+
 NodeMeta *
 DosFileSystem::getMeta(Block nr)
 {
