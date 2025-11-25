@@ -66,8 +66,7 @@ public:
 
 public:
 
-    FSStat getStat(Block nr) const;
-    FSStat getStat(const FSBlock &fhd) const;
+    FSStat getStat(const fs::path &path) const;
 
 private:
 

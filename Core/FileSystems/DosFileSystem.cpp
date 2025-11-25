@@ -31,15 +31,9 @@ DosFileSystem::ensureMeta(Block nr)
 }
 
 FSStat
-DosFileSystem::getStat(Block nr) const
+DosFileSystem::getStat(const fs::path &path) const
 {
-    return fs.getStat(nr);
-}
-
-FSStat
-DosFileSystem::getStat(const FSBlock &fhd) const
-{
-    return fs.getStat(fhd);
+    return fs.getStat(fs.seek(fs.root(), path));
 }
 
 void

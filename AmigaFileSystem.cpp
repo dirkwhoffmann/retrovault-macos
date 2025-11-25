@@ -126,8 +126,7 @@ AmigaFileSystem::getattr(const char *path, struct stat *st)
 
     return fsexec([&]{
 
-        auto &node  = fs->seek(fs->root(), string(path));
-        auto stat   = fs->getStat(node);
+        auto stat   = dos->getStat(path);
         auto create = stat.ctime.time();
         auto modify = stat.mtime.time();
 
