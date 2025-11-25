@@ -215,4 +215,30 @@ DosFileSystem::lseek(HandleRef ref, isize offset, u16 whence)
     return newOffset;
 }
 
+void
+DosFileSystem::move(const fs::path &oldPath, const fs::path &newPath)
+{
+    auto newDir  = newPath.parent_path();
+    auto newName = newPath.filename();
+    auto &src    = fs.seek(fs.root(), oldPath);
+    auto &dst    = fs.seek(fs.root(), newDir);
+
+    fs.move(src, dst, newName);
+}
+
+void
+DosFileSystem::chmod(const fs::path &path, mode_t mode)
+{
+    auto &node = fs.seek(fs.root(), path);
+    fs.ensureFile(node);
+
+    u32 prot = node.getProtectionBits();
+
+    if (mode & S_IRUSR) prot &= ~0x01; else prot |= 0x01;
+    if (mode & S_IWUSR) prot &= ~0x02; else prot |= 0x02;
+    if (mode & S_IXUSR) prot &= ~0x04; else prot |= 0x04;
+
+    node.setProtectionBits(prot);
+}
+
 }

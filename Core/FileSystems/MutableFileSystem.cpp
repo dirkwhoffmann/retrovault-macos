@@ -592,7 +592,7 @@ MutableFileSystem::rename(FSBlock &item, const FSName &name)
 void
 MutableFileSystem::move(FSBlock &item, const FSBlock &dest, const FSName &name)
 {
-    if (!dest.isDirectory()) throw AppError(Fault::FS_NOT_A_DIRECTORY, dest.absName());
+    ensureDirectory(dest);
 
     // Remove the item from the hash table
     deleteFromHashTable(item);

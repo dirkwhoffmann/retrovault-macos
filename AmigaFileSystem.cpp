@@ -113,7 +113,7 @@ AmigaFileSystem::mount(string &mountpoint)
 
     adapter.delegate = this;
 
-    // Mount (blocking call)
+    // Make a blocking call to mount...
     auto err = adapter.mount(mountpoint);
 
     return err;
@@ -159,15 +159,9 @@ AmigaFileSystem::mkdir(const char *path, mode_t mode)
 int
 AmigaFileSystem::unlink(const char *path)
 {
-    auto fullpath = fs::path(path);
-    auto parent   = fullpath.parent_path();
-    auto name     = fullpath.filename();
-
     return fsexec([&]{
 
-        auto &node = fs->seek(fs->root(), parent);
-        fs->deleteFile(node);
-
+        dos->unlink(path);
         return 0;
     });
 }
@@ -185,24 +179,9 @@ AmigaFileSystem::rmdir(const char *path)
 int
 AmigaFileSystem::rename(const char *oldpath, const char *newpath)
 {
-    /*
-    auto fullpath = fs::path(path);
-    auto parent   = fullpath.parent_path();
-    auto name     = fullpath.filename();
-    */
-
-    // TODO: THIS FUNCTION WILL LIKELY NOT WORK
-    // What happens if new path is at a different location?
-    // The fs->rename function cannot handle that.
-    // TODO: ADD rename(node, fs::path) which internally can call MOVE?!
-
     return fsexec([&]{
 
-        // Seek item
-        auto &node = fs->seek(fs->root(), string(oldpath));
-
-        // Rename it
-        fs->rename(node, newpath);
+        dos->move(oldpath, newpath);
         return 0;
     });
 }
@@ -212,29 +191,15 @@ AmigaFileSystem::chmod(const char *path, mode_t mode)
 {
     return fsexec([&]{
 
-        // Seek item
-        auto &node = fs->seek(fs->root(), string(path));
-
-        /*
-        const unsigned perms =
-        ( mode & S_IRUSR ? ??? : 0 ) |
-        ( mode & S_IWUSR ? ??? : 0 ) |
-        ( mode & S_IXUSR ? ??? : 0 );
-        */
-
-        // node.set???
-        return -ENOENT;
+        dos->chmod(path, mode);
+        return 0;
     });
 }
 
 int
 AmigaFileSystem::chown(const char *path, uid_t uid, gid_t gid)
 {
-    return fsexec([&]{
-
-        (void)fs->seek(fs->root(), string(path));
-        return 0;
-    });
+    return -ENOENT;
 }
 
 int
@@ -246,12 +211,11 @@ AmigaFileSystem::truncate(const char *path, off_t size)
 int
 AmigaFileSystem::open(const char *path, struct fuse_file_info *fi)
 {
-    if (auto *node = fs->seekPtr(&fs->root(), string(path)); node) {
+    return fsexec([&]{
 
+        fi->fh = dos->open(path, (u32)fi->flags);
         return 0;
-    }
-    
-    return -ENOENT;
+    });
 }
 
 int

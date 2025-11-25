@@ -97,6 +97,8 @@ public:
     void unlink(const fs::path &path);
     void create(const fs::path &path);
     isize lseek(HandleRef ref, isize offset, u16 whence = 0);
+    void move(const fs::path &oldPath, const fs::path &newPath);
+    void chmod(const fs::path &path, mode_t mode);
 
 private:
 

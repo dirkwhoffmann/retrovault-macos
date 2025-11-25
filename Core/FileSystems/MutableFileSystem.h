@@ -80,14 +80,7 @@ public:
     // Updates the checksums in all blocks
     void updateChecksums() noexcept;
 
-    // Returns the number of required blocks to store a file of certain size
-    // isize requiredBlocks(isize fileSize) const;
-
 private:
-
-    // Returns the number of required file list or data blocks
-    // isize requiredFileListBlocks(isize fileSize) const;
-    // isize requiredDataBlocks(isize fileSize) const;
 
     // Adds a new block of a certain kind
     void addFileListBlock(Block at, Block head, Block prev);
@@ -166,9 +159,6 @@ public:
 
     // Delete a file
     void deleteFile(const FSBlock &at);
-
-    // Deletes a directory
-    // void rmdir(const FSBlock &at);
 
 private:
 
