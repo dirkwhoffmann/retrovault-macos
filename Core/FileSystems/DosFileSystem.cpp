@@ -113,7 +113,7 @@ DosFileSystem::readDir(const fs::path &path)
 HandleRef
 DosFileSystem::open(const fs::path &path, u32 flags)
 {
-    // Resolve node (may throw)
+    // Resolve path
     auto &node = fs.seek(fs.root(), path);
 
     // Create a unique identifier

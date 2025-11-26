@@ -578,51 +578,6 @@ MutableFileSystem::createFile(FSBlock &top, const FSName &name, const u8 *buf, i
     */
 }
 
-/*
-FSBlock &
-MutableFileSystem::createFile(FSBlock &top, FSBlock &fhb, const u8 *buf, isize size)
-{
-    // Number of data block references held in a file header or list block
-    const usize numRefs = ((traits.bsize / 4) - 56);
-
-    // Allocate blocks
-    std::vector<Block> listBlocks;
-    std::vector<Block> dataBlocks;
-    allocateFileBlocks(size, listBlocks, dataBlocks);
-
-    for (usize i = 0; i < listBlocks.size(); i++) {
-
-        // Add a list block
-        addFileListBlock(listBlocks[i], fhb.nr, i == 0 ? fhb.nr : listBlocks[i-1]);
-    }
-
-    for (usize i = 0; i < dataBlocks.size(); i++) {
-
-        // Add a data block
-        addDataBlock(dataBlocks[i], i + 1, fhb.nr, i == 0 ? fhb.nr : dataBlocks[i-1]);
-
-        // Determine the list block managing this data block
-        FSBlock *lb = read((i < numRefs) ? fhb.nr : listBlocks[i / numRefs - 1]);
-
-        // Link the data block
-        lb->addDataBlockRef(dataBlocks[0], dataBlocks[i]);
-
-        // Add data bytes
-        isize written = addData(dataBlocks[i], buf, size);
-        buf += written;
-        size -= written;
-    }
-
-    // Rectify checksums
-    for (auto &it : listBlocks) { at(it).updateChecksum(); }
-    for (auto &it : dataBlocks) { at(it).updateChecksum(); }
-    fhb.updateChecksum();
-    // top.updateChecksum();
-
-    return fhb;
-}
-*/
-
 FSBlock &
 MutableFileSystem::createFile(FSBlock &fhb,
                               const u8 *buf, isize size,
@@ -651,6 +606,7 @@ MutableFileSystem::createFile(FSBlock &fhb,
         // Add a data block
         addDataBlock(dataBlocks[i], i + 1, fhb.nr, i == 0 ? fhb.nr : dataBlocks[i-1]);
 
+        /*
         // Determine the list block managing this data block
         FSBlock *lb = read((i < numRefs) ? fhb.nr : listBlocks[i / numRefs - 1]);
 
@@ -661,6 +617,7 @@ MutableFileSystem::createFile(FSBlock &fhb,
         isize written = addData(dataBlocks[i], buf, size);
         buf += written;
         size -= written;
+        */
     }
 
     // Set file size
@@ -691,11 +648,18 @@ void
 MutableFileSystem::resize(FSBlock &at, const Buffer<u8> &data)
 {
     // Collect all blocks occupied by this file
-    auto dataBlocks = collectDataBlocks(at.nr);
     auto listBlocks = collectListBlocks(at.nr);
+    auto dataBlocks = collectDataBlocks(at.nr);
+
+    // The first list block is the file header block itself. Remove it
+    listBlocks.erase(listBlocks.begin());
+
+    printf("Reusing %zu list blocks\n", listBlocks.size());
+    printf("Reusing %zu data blocks\n", dataBlocks.size());
 
     // Update the file contents
-    createFile(at, data.ptr, data.size, dataBlocks, listBlocks);
+    printf("Creating file (data = %p, size = %ld)...\n", data.ptr, data.size);
+    createFile(at, data.ptr, data.size, listBlocks, dataBlocks);
 }
 
 void

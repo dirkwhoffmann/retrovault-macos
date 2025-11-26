@@ -267,7 +267,7 @@ FSAttr::mode() const
 
     // Mirror owner permissions to group and others
     if (mode & S_IRUSR) mode |= S_IRGRP | S_IROTH;
-    // if (mode & S_IWUSR) mode |= S_IWGRP | S_IWOTH;
+    if (mode & S_IWUSR) mode |= S_IWGRP | S_IWOTH;
     if (mode & S_IXUSR) mode |= S_IXGRP | S_IXOTH;
 
     return mode;

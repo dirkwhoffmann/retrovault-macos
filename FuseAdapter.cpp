@@ -23,24 +23,22 @@ FuseAdapter::callbacks = {
     .unlink     = unlink,
     .rmdir      = rmdir,
     .rename     = rename,
-    /*
     .chmod      = chmod,
+    /*
     .chown      = chown,
-    .truncate   = truncate,
      */
+    .truncate   = truncate,
     .open       = open,
     .read       = read,
-    /*
     .write      = write,
-     */
     .statfs     = statfs,
     .readdir    = readdir,
     .init       = init,
-    /*
     .destroy    = destroy,
+    /*
     .access     = access,
-    .create     = create,
      */
+    .create     = create,
     .utimens    = utimens
 };
 
@@ -56,8 +54,8 @@ FuseAdapter::mount(string mountpoint)
         "vmount",
         // "-onative_xattr,volname=adf,norm_insensitive",
         "-ovolname=adf,norm_insensitive",
-        // "-f",
-        "-d",
+        "-f",
+        // "-d",
         mountpoint
     };
 

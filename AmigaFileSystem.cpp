@@ -22,8 +22,10 @@ int fsexec(Fn &&fn)
     try {
         return fn();
     } catch (const AppError &err) {
+        log("AppError: {} ({})\n", AmigaFileSystem::posixErrno(err), err.what());
         return -AmigaFileSystem::posixErrno(err);
     } catch (...) {
+        log("Error: {}\n", EIO);
         return -EIO;
     }
 }
@@ -299,6 +301,7 @@ AmigaFileSystem::create(const char *path, mode_t mode, struct fuse_file_info *fi
     return fsexec([&]{
 
         dos->create(path);
+        fi->fh = dos->open(path, mode);
         return 0;
     });
 }
