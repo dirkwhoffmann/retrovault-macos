@@ -126,13 +126,13 @@ AmigaFileSystem::getattr(const char *path, struct stat *st)
 
     return fsexec([&]{
 
-        auto stat   = dos->getStat(path);
-        auto create = stat.ctime.time();
-        auto modify = stat.mtime.time();
+        auto attr   = dos->attr(path);
+        auto create = attr.ctime.time();
+        auto modify = attr.mtime.time();
 
-        st->st_mode = stat.mode();
+        st->st_mode = attr.mode();
         st->st_nlink = 1;
-        st->st_size = stat.size;
+        st->st_size = attr.size;
         st->st_birthtimespec.tv_sec  = create;
         st->st_birthtimespec.tv_nsec = 0;
         st->st_mtimespec.tv_sec      = modify ? modify : create;
@@ -240,9 +240,10 @@ AmigaFileSystem::statfs(const char *path, struct statvfs *st)
 {
     memset(st, 0, sizeof(*st));
 
-    const auto blockSize = (unsigned long)fs->blockSize();
-    const auto total     = (fsblkcnt_t)fs->numBlocks();
-    const auto free      = (fsblkcnt_t)fs->freeBlocks();
+    const auto &stat     = dos->stat();
+    const auto blockSize = (unsigned long)stat.bsize;
+    const auto total     = (fsblkcnt_t)stat.total;
+    const auto free      = (fsblkcnt_t)stat.free;
 
     st->f_bsize   = blockSize;         // Preferred block size
     st->f_frsize  = blockSize;         // Fundamental block size
@@ -295,7 +296,11 @@ AmigaFileSystem::access(const char *path, const int mask)
 int
 AmigaFileSystem::create(const char *path, mode_t mode, struct fuse_file_info *fi)
 {
-    return -ENOENT;
+    return fsexec([&]{
+
+        dos->create(path);
+        return 0;
+    });
 }
 
 int

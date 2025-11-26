@@ -90,7 +90,7 @@ struct FSTime {
     string str() const;
 };
 
-struct FSStat {
+struct FSAttr {
 
     isize size;         // File size in bytes
     isize blocks;       // Number of occupied blocks
@@ -100,6 +100,13 @@ struct FSStat {
     FSTime mtime;       // Last modification time
 
     mode_t mode() const;
+};
+
+struct FSStat {
+
+    isize bsize;        // Block size in bytes
+    isize total;        // Total number of file system blocks
+    isize free;         // Number of free blocks
 };
 
 }

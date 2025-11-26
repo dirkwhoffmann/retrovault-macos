@@ -154,8 +154,8 @@ public:
 
 public:
     
-    FSStat getStat(Block nr) const;
-    FSStat getStat(const FSBlock &fhd) const;
+    FSAttr getStat(Block nr) const;
+    FSAttr getStat(const FSBlock &fhd) const;
 
 private:
     

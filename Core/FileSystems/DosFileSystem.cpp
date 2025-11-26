@@ -37,7 +37,18 @@ DosFileSystem::ensureMeta(HandleRef ref)
 }
 
 FSStat
-DosFileSystem::getStat(const fs::path &path) const
+DosFileSystem::stat() const noexcept
+{
+    return {
+
+        .bsize = fs.blockSize(),
+        .total = fs.numBlocks(),
+        .free  = fs.freeBlocks()
+    };
+}
+
+FSAttr
+DosFileSystem::attr(const fs::path &path) const
 {
     return fs.getStat(fs.seek(fs.root(), path));
 }

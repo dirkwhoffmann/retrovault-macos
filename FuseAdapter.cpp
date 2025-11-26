@@ -74,56 +74,77 @@ FuseAdapter::mount(string mountpoint)
 int
 FuseAdapter::getattr(const char *path, struct stat* st)
 {
-    log("[getattr] ({})\n", path);
+    log("[getattr] {}\n", path);
     return self().delegate->getattr(path, st);
 }
 
 int
 FuseAdapter::mkdir(const char *path, mode_t mode)
 {
-    log("[getattr] ({}, {})\n", path, mode);
+    log("[mkdir] {}, {}\n", path, mode);
     return self().delegate->mkdir(path, mode);
 }
 
 int
 FuseAdapter::unlink(const char *path)
 {
-    log("[unlink] ({})\n", path);
+    log("[unlink] {}\n", path);
     return self().delegate->unlink(path);
 }
 
 int
 FuseAdapter::rmdir(const char *path)
 {
-    log("[rmdir] ({})\n", path);
+    log("[rmdir] {}\n", path);
     return self().delegate->rmdir(path);
 }
 
 int
 FuseAdapter::rename(const char *oldpath, const char *newpath)
 {
-    log("[rename] ({}, {})\n", oldpath, newpath);
+    log("[rename] {}, {}\n", oldpath, newpath);
     return self().delegate->rename(oldpath, newpath);
+}
+
+int
+FuseAdapter::chmod(const char *path, mode_t mode)
+{
+    log("[rename] {}, {}\n", path, mode);
+    return self().delegate->chmod(path, mode);
+}
+
+int
+FuseAdapter::truncate(const char* path, off_t size)
+{
+    log("[truncate] {}, {}\n", path, size);
+    return self().delegate->truncate(path, size);
 }
 
 int
 FuseAdapter::open(const char* path, struct fuse_file_info* fi)
 {
-    log("[open] ({})\n", path);
+    log("[open] {}\n", path);
     return self().delegate->open(path, fi);
 }
 
 int
 FuseAdapter::read(const char* path, char* buf, size_t size, off_t offset, struct fuse_file_info* fi)
 {
-    log("[read] ({}, size: {}, offset: {})\n", path, size, offset);
+    log("[read] {}, {}, {}\n", path, size, offset);
     return self().delegate->read(path, buf, size, offset, fi);
+}
+
+int
+FuseAdapter::write(const char* path, const char* buf, size_t size, off_t offset, struct fuse_file_info* fi)
+{
+    log("[write] {}, {}, {}\n", path, size, offset);
+    return self().delegate->write(path, buf, size, offset, fi);
 }
 
 int
 FuseAdapter::statfs(const char *path, struct statvfs *st)
 {
-    log("[statfs] ({})\n", path);
+    log("[statfs] {}\n", path);
     return self().delegate->statfs(path, st);
 }
 
@@ -131,14 +152,14 @@ int
 FuseAdapter::readdir(const char* path, void* buf, fuse_fill_dir_t filler,
                off_t offset, struct fuse_file_info* fi)
 {
-    log("[readdir] ({}, offset: {})\n", path, offset);
+    log("[readdir] {}, {}\n", path, offset);
     return self().delegate->readdir(path, buf, filler, offset, fi);
 }
 
 void *
 FuseAdapter::init(struct fuse_conn_info* conn)
 {
-    log("[init] ");
+    log("[init]");
     log([conn](std::ostream &os){ dump(os, conn); });
 
     // We ignore the result of the delegate method
@@ -151,7 +172,7 @@ FuseAdapter::init(struct fuse_conn_info* conn)
 void
 FuseAdapter::destroy(void *ptr)
 {
-    log("[destroy] ({})\n", ptr);
+    log("[destroy] {}\n", ptr);
     self().delegate->destroy(ptr);
 }
 
@@ -172,6 +193,6 @@ FuseAdapter::create(const char *path, mode_t mode, struct fuse_file_info *fi)
 int
 FuseAdapter::utimens(const char *path, const struct timespec tv[2])
 {
-    log("[utimens] ({})\n", path);
+    log("[utimens] {}\n", path);
     return self().delegate->utimens(path, tv);
 }

@@ -253,7 +253,7 @@ FSTime::str() const
 }
 
 mode_t
-FSStat::mode() const
+FSAttr::mode() const
 {
     mode_t mode = 0;
 

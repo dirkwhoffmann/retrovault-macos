@@ -311,19 +311,19 @@ FileSystem::bootBlockType() const noexcept
     return BootBlockImage(storage[0].data(), storage[1].data()).type;
 }
 
-FSStat
+FSAttr
 FileSystem::getStat(Block nr) const
 {
     return getStat(at(nr));
 }
 
-FSStat
+FSAttr
 FileSystem::getStat(const FSBlock &fhd) const
 {
     isize size = fhd.getFileSize();
     isize blocks = requiredBlocks(size);
 
-    FSStat result = {
+    FSAttr result = {
 
         .size   = size,
         .blocks = blocks,

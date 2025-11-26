@@ -64,12 +64,21 @@ public:
     explicit DosFileSystem(MutableFileSystem &fs);
 
     //
+    // Querying file system properties
+    //
+
+public:
+
+    FSStat stat() const noexcept;
+
+
+    //
     // Querying file properties
     //
 
 public:
 
-    FSStat getStat(const fs::path &path) const;
+    FSAttr attr(const fs::path &path) const;
 
 private:
 
