@@ -220,21 +220,18 @@ AmigaFileSystem::read(const char *path, char *buf, size_t size, off_t offset, st
 {
     return fsexec([&]{
 
-        auto &node = fs->seek(fs->root(), string(path));
+        auto count = dos->read(HandleRef(fi->fh), std::span{(u8 *)buf, size});
+        return count;
+    });
+}
 
-        // Get data
-        Buffer<u8> buffer; node.extractData(buffer);
+int
+AmigaFileSystem::write(const char *path, const char *buf, size_t size, off_t offset, struct fuse_file_info *fi)
+{
+    return fsexec([&]{
 
-        // Check if the offset is in range
-        if (offset >= buffer.size) return 0;
-
-        // Determine the number of bytes to copy
-        auto count = std::min(size, size_t(buffer.size - offset));
-
-        // Copy data
-        memcpy(buf, buffer.ptr + offset, count);
-
-        return (int)count;
+        auto count = dos->write(HandleRef(fi->fh), std::span{(u8 *)buf, size});
+        return count;
     });
 }
 
@@ -267,22 +264,12 @@ AmigaFileSystem::readdir(const char *path, void *buf, fuse_fill_dir_t filler,
 {
     return fsexec([&]{
 
-        auto &node = fs->seek(fs->root(), string(path));
-
         filler(buf, ".",  NULL, 0);
         filler(buf, "..", NULL, 0);
 
-        // Extract the directory tree
-        FSTree tree(node, { .recursive = false });
-
-        // Walk the tree
-        tree.bfsWalk( [&](const FSTree &it) {
-
-            auto name = it.node->getName();
-            printf("File: %s\n", name.c_str());
+        for (auto &name : dos->readDir(path)) {
             filler(buf, name.c_str(), NULL, 0);
-        });
-
+        }
         return 0;
     });
 }

@@ -30,6 +30,12 @@ DosFileSystem::ensureMeta(Block nr)
     return it->second;
 }
 
+NodeMeta &
+DosFileSystem::ensureMeta(HandleRef ref)
+{
+    return ensureMeta(getHandle(ref).headerBlock);
+}
+
 FSStat
 DosFileSystem::getStat(const fs::path &path) const
 {
@@ -75,6 +81,24 @@ DosFileSystem::rmdir(const fs::path &path)
     }
 }
 
+std::vector<FSName>
+DosFileSystem::readDir(const fs::path &path)
+{
+    std::vector<FSName> result;
+
+    auto &node = fs.seek(fs.root(), path);
+
+    // Extract the directory tree
+    FSTree tree(node, { .recursive = false });
+
+    // Walk the tree
+    tree.bfsWalk( [&](const FSTree &it) {
+        result.push_back(it.node->getName());
+    });
+
+    return result;
+}
+
 HandleRef
 DosFileSystem::open(const fs::path &path, u32 flags)
 {
@@ -98,7 +122,7 @@ DosFileSystem::open(const fs::path &path, u32 flags)
 
     // Evaluate flags
     if ((flags & O_TRUNC) && (flags & (O_WRONLY | O_RDWR))) {
-        fs.truncate(node, 0);
+        fs.resize(node, 0);
     }
     if (flags & O_APPEND) {
         handle.offset = lseek(ref, 0, SEEK_END);
@@ -266,7 +290,60 @@ DosFileSystem::chmod(const fs::path &path, mode_t mode)
 void
 DosFileSystem::truncate(const fs::path &path, isize size)
 {
-    fs.truncate(ensureFile(path), size);
+    fs.resize(ensureFile(path), size);
+}
+
+isize
+DosFileSystem::read(HandleRef ref, std::span<u8> buffer)
+{
+    auto &handle = getHandle(ref);
+    auto &node   = fs.at(handle.headerBlock);
+    auto &meta   = ensureMeta(node.nr);
+
+    // Cache the file if necessary
+    if (meta.cache.empty()) { node.extractData(meta.cache); }
+
+    // Check for EOF
+    if (handle.offset >= meta.cache.size) return 0;
+
+    // Compute the number of bytes to read
+    auto count = std::min(meta.cache.size - handle.offset, (isize)buffer.size());
+
+    // Copy the requested range
+    std::memcpy(buffer.data(), meta.cache.ptr + handle.offset, count);
+
+    // Advance the handle offset
+    handle.offset += count;
+
+    return count;
+}
+
+isize
+DosFileSystem::write(HandleRef ref, std::span<const u8> buffer)
+{
+    auto &handle = getHandle(ref);
+    auto &node   = fs.at(handle.headerBlock);
+    auto &meta   = ensureMeta(node.nr);
+
+    // Cache the file if necessary
+    if (meta.cache.empty()) { node.extractData(meta.cache); }
+
+    // Determine the new file size
+    auto newSize = std::max(meta.cache.size, handle.offset + (isize)buffer.size());
+
+    // Resize the cached file if necessary (pad with 0)
+    meta.cache.resize(newSize, 0);
+
+    // Compute the number of bytes to write
+    auto count = buffer.size();
+
+    // Update data
+    std::memcpy(meta.cache.ptr + handle.offset, buffer.data(), count);
+
+    // Write back
+    fs.resize(node, meta.cache);
+
+    return count;
 }
 
 }

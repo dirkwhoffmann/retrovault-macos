@@ -141,11 +141,26 @@ public:
     // Creates a new file
     FSBlock &createFile(FSBlock &at, const FSName &name);
     FSBlock &createFile(FSBlock &at, const FSName &name, const Buffer<u8> &buf);
-    FSBlock &createFile(FSBlock &at, const FSName &name, const u8 *buf, isize size);
     FSBlock &createFile(FSBlock &at, const FSName &name, const string &str);
+    FSBlock &createFile(FSBlock &at, const FSName &name, const u8 *buf, isize size);
 
-    // Changing size
-    void truncate(FSBlock &at, isize size);
+private:
+
+    // FSBlock &createFile(FSBlock &at, FSBlock &fhb, const u8 *buf, isize size);
+    FSBlock &createFile(FSBlock &fhb,
+                        const u8 *buf, isize size,
+                        std::vector<Block> listBlocks = {},
+                        std::vector<Block> dataBlocks = {});
+
+public:
+    
+    // Changes the size of an existing file, pads with 0
+    void resize(FSBlock &at, isize size);
+
+    // Changes the size and cotents of an existing file
+    void resize(FSBlock &at, const Buffer<u8> &data);
+
+    // Update file contents with new data
 
     // Renames a file or directory
     void rename(FSBlock &item, const FSName &name);

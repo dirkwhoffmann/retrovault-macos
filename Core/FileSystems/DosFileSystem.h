@@ -41,6 +41,9 @@ struct NodeMeta {
 
     // Number of open handles
     isize openCount() { return openHandles.size(); };
+
+    // File cache
+    Buffer<u8> cache;
 };
 
 class DosFileSystem {
@@ -74,6 +77,7 @@ private:
     NodeMeta *getMeta(const FSBlock &block) { return getMeta(block.nr); }
     NodeMeta &ensureMeta(Block nr);
     NodeMeta &ensureMeta(const FSBlock &block) { return ensureMeta(block.nr); }
+    NodeMeta &ensureMeta(HandleRef ref);
 
 
     //
@@ -85,6 +89,7 @@ public:
     void mkdir(const fs::path &path);
     void rmdir(const fs::path &path);
 
+    std::vector<FSName> readDir(const fs::path &path);
 
     //
     // Handling files
@@ -100,6 +105,10 @@ public:
     void move(const fs::path &oldPath, const fs::path &newPath);
     void chmod(const fs::path &path, mode_t mode);
     void truncate(const fs::path &path, isize size);
+    isize read(HandleRef ref, std::span<u8> buffer);
+    isize write(HandleRef ref, std::span<const u8> buffer);
+
+
 
 private:
 

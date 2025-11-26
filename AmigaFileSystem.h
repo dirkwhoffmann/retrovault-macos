@@ -46,6 +46,7 @@ public:
     FUSE_TRUNCATE override;
     FUSE_OPEN     override;
     FUSE_READ     override;
+    FUSE_WRITE    override;
     FUSE_STATFS   override;
     FUSE_READDIR  override;
     FUSE_INIT     override;
