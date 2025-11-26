@@ -24,6 +24,7 @@ class FuseAdapter {
     static FUSE_READ;
     static FUSE_WRITE;
     static FUSE_STATFS;
+    static FUSE_RELEASE;
     static FUSE_READDIR;
     static FUSE_INIT;
     static FUSE_DESTROY;

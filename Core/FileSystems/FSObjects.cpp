@@ -204,7 +204,6 @@ FSTime::time() const
     // Shift reference point from Jan 1, 1978 (Amiga) to Jan 1, 1970 (Unix)
     t += (8 * 365 + 2) * secPerDay;
 
-    printf("days: %x mins: %x ticks: %x t = %ld = 0x%x\n", days, mins, ticks, t, t);
     return (time_t)t;
 }
 

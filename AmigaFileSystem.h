@@ -48,6 +48,7 @@ public:
     FUSE_READ     override;
     FUSE_WRITE    override;
     FUSE_STATFS   override;
+    FUSE_RELEASE  override;
     FUSE_READDIR  override;
     FUSE_INIT     override;
     FUSE_DESTROY  override;

@@ -651,11 +651,7 @@ MutableFileSystem::resize(FSBlock &at, const Buffer<u8> &data)
     auto listBlocks = collectListBlocks(at.nr);
     auto dataBlocks = collectDataBlocks(at.nr);
 
-    printf("Reusing %zu list blocks\n", listBlocks.size());
-    printf("Reusing %zu data blocks\n", dataBlocks.size());
-
     // Update the file contents
-    printf("Creating file (data = %p, size = %ld)...\n", data.ptr, data.size);
     createFile(at, data.ptr, data.size, listBlocks, dataBlocks);
 }
 

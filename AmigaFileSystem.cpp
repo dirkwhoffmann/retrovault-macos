@@ -22,10 +22,10 @@ int fsexec(Fn &&fn)
     try {
         return fn();
     } catch (const AppError &err) {
-        log("AppError: {} ({})\n", AmigaFileSystem::posixErrno(err), err.what());
+        log("           Error: {} ({})\n", AmigaFileSystem::posixErrno(err), err.what());
         return -AmigaFileSystem::posixErrno(err);
     } catch (...) {
-        log("Error: {}\n", EIO);
+        log("           Exception: {}\n", EIO);
         return -EIO;
     }
 }
@@ -259,6 +259,16 @@ AmigaFileSystem::statfs(const char *path, struct statvfs *st)
     st->f_namemax = 30;                // Amiga filename limit (OFS/FFS)
 
     return 0;
+}
+
+int
+AmigaFileSystem::release(const char *path, struct fuse_file_info *fi)
+{
+    return fsexec([&]{
+
+        dos->close(fi->fh);
+        return 0;
+    });
 }
 
 int

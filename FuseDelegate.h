@@ -29,6 +29,7 @@ public:
     virtual FUSE_READ     { return -ENOSYS; }
     virtual FUSE_WRITE    { return -ENOSYS; }
     virtual FUSE_STATFS   { return -ENOSYS; }
+    virtual FUSE_RELEASE  { return -ENOSYS; }
     virtual FUSE_READDIR  { return -ENOSYS; }
     virtual FUSE_INIT     { return nullptr; }
     virtual FUSE_DESTROY  { }
