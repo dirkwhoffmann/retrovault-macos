@@ -16,6 +16,7 @@
 
 using namespace vamiga;
 
+/*
 template <typename Fn>
 int fsexec(Fn &&fn)
 {
@@ -29,6 +30,7 @@ int fsexec(Fn &&fn)
         return -EIO;
     }
 }
+*/
 
 int
 AmigaFileSystem::posixErrno(const AppError &err)

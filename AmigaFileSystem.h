@@ -10,6 +10,7 @@
 #pragma once
 
 #include "FuseDelegate.h"
+#include "FuseDebug.h"
 #include "VAmiga.h"
 #include "Media.h"
 
@@ -33,9 +34,16 @@ class AmigaFileSystem : FuseDelegate {
     // DOS layer on top of 'fs'
     DosFileSystem *dos = nullptr;
 
+    // Synchronization lock
+    std::mutex mtx;
+
 public:
 
     static int posixErrno(const AppError &err);
+
+    AmigaFileSystem(string &filename);
+
+    int mount(string &mountpoint);
 
     FUSE_GETATTR  override;
     FUSE_MKDIR    override;
@@ -56,7 +64,20 @@ public:
     FUSE_CREATE   override;
     FUSE_UTIMENS  override;
 
-    AmigaFileSystem(string &filename);
+private:
 
-    int mount(string &mountpoint);
+    template <typename Fn> isize fsexec(Fn &&fn) {
+
+        std::lock_guard<std::mutex> guard(mtx);
+
+        try {
+            return fn();
+        } catch (const AppError &err) {
+            log("           Error: {} ({})\n", AmigaFileSystem::posixErrno(err), err.what());
+            return -AmigaFileSystem::posixErrno(err);
+        } catch (...) {
+            log("           Exception: {}\n", EIO);
+            return -EIO;
+        }
+    }
 };
