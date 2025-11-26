@@ -948,10 +948,16 @@ FileSystem::exists(const FSBlock &top, const fs::path &path) const
 std::vector<const FSBlock *>
 FileSystem::collectDataBlocks(const FSBlock &node) const
 {
-    std::vector<const FSBlock *> result;
+    // Gather all blocks containing data block references
+    auto blocks = collectListBlocks(node);
+    blocks.push_back(&node);
 
-    // Iterate through all list blocks and collect all data block references
-    for (auto &it : collectListBlocks(node)) {
+    // Setup the result vector
+    std::vector<const FSBlock *> result;
+    result.reserve(blocks.size() * node.getMaxDataBlockRefs());
+
+    // Crawl through blocks and collect all data block references
+    for (auto &it : blocks) {
 
         isize num = std::min(it->getNumDataBlockRefs(), it->getMaxDataBlockRefs());
         for (isize i = 0; i < num; i++) {
@@ -967,6 +973,7 @@ std::vector<Block>
 FileSystem::collectDataBlocks(Block ref) const
 {
     std::vector<Block> result;
+
     if (auto *ptr = read(ref)) {
         for (auto &it: collectDataBlocks(*ptr)) result.push_back(it->nr);
     }
@@ -976,19 +983,30 @@ FileSystem::collectDataBlocks(Block ref) const
 std::vector<const FSBlock *>
 FileSystem::collectListBlocks(const FSBlock &node) const
 {
-    return collect(node, [&](auto *block) { return block->getNextListBlock(); });
+    std::vector<const FSBlock *> result;
+
+    if (auto *ptr = node.getNextListBlock()) {
+        result = collect(*ptr, [&](auto *block) { return block->getNextListBlock(); });
+    }
+    return result;
 }
 
 std::vector<Block>
 FileSystem::collectListBlocks(const Block ref) const
 {
-    return collect(ref, [&](auto *block) { return block->getNextListBlock(); });
+    std::vector<Block> result;
+
+    if (auto *ptr = read(ref)) {
+        for (auto &it: collectDataBlocks(*ptr)) result.push_back(it->nr);
+    }
+    return result;
 }
 
 std::vector<Block>
 FileSystem::collectHashedBlocks(Block ref, isize bucket) const
 {
     std::vector<Block> result;
+
     if (auto *ptr = read(ref)) {
         for (auto &it: collectHashedBlocks(*ptr, bucket)) result.push_back(it->nr);
     }

@@ -651,9 +651,6 @@ MutableFileSystem::resize(FSBlock &at, const Buffer<u8> &data)
     auto listBlocks = collectListBlocks(at.nr);
     auto dataBlocks = collectDataBlocks(at.nr);
 
-    // The first list block is the file header block itself. Remove it
-    listBlocks.erase(listBlocks.begin());
-
     printf("Reusing %zu list blocks\n", listBlocks.size());
     printf("Reusing %zu data blocks\n", dataBlocks.size());
 
