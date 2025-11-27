@@ -16,7 +16,6 @@
 		5077249F2ECFA78E00DB04C5 /* FuseDebug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5077249E2ECFA78D00DB04C5 /* FuseDebug.cpp */; };
 		507724A22ED0619000DB04C5 /* FuseDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 507724A12ED0618E00DB04C5 /* FuseDelegate.cpp */; };
 		507724A62ED0843800DB04C5 /* AmigaFileSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 507724A52ED0843700DB04C5 /* AmigaFileSystem.cpp */; };
-		507724A92ED0889700DB04C5 /* RetroMounter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 507724A82ED0889500DB04C5 /* RetroMounter.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -51,8 +50,6 @@
 		507724A12ED0618E00DB04C5 /* FuseDelegate.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FuseDelegate.cpp; sourceTree = "<group>"; };
 		507724A42ED0841B00DB04C5 /* AmigaFileSystem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AmigaFileSystem.h; sourceTree = "<group>"; };
 		507724A52ED0843700DB04C5 /* AmigaFileSystem.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AmigaFileSystem.cpp; sourceTree = "<group>"; };
-		507724A72ED0888E00DB04C5 /* RetroMounter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RetroMounter.h; sourceTree = "<group>"; };
-		507724A82ED0889500DB04C5 /* RetroMounter.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = RetroMounter.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -145,8 +142,6 @@
 			isa = PBXGroup;
 			children = (
 				50559ADE2ED870190001AEEF /* FuseAdapterDelegate.h */,
-				507724A72ED0888E00DB04C5 /* RetroMounter.h */,
-				507724A82ED0889500DB04C5 /* RetroMounter.cpp */,
 				5077249C2ECF8BC000DB04C5 /* FuseAPI.h */,
 				504EAD2A2ECF024E008CF9FC /* FuseAdapter.h */,
 				504EAD2C2ECF0263008CF9FC /* FuseAdapter.cpp */,
@@ -269,7 +264,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				504EAD2D2ECF0266008CF9FC /* FuseAdapter.cpp in Sources */,
-				507724A92ED0889700DB04C5 /* RetroMounter.cpp in Sources */,
 				5077249F2ECFA78E00DB04C5 /* FuseDebug.cpp in Sources */,
 				507724A62ED0843800DB04C5 /* AmigaFileSystem.cpp in Sources */,
 				504EAD252ECF00CE008CF9FC /* EmulatorProxy.mm in Sources */,
