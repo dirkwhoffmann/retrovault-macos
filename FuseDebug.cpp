@@ -15,6 +15,9 @@
 using namespace vamiga::util;
 using namespace vamiga;
 
+bool logging = true;
+
+/*
 void
 dump(std::ostream &os, fuse_conn_info *p)
 {
@@ -50,3 +53,4 @@ dump(std::ostream os, fuse_context *p)
     }
     os << "}" << std::endl;
 }
+*/

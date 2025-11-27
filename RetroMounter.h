@@ -9,7 +9,16 @@
 
 #pragma once
 
+#include "FuseAdapter.h"
+#include "AmigaFileSystem.h"
+
 class RetroMounter {
+
+    // Fuse adapter
+    FuseAdapter adapter;
+
+    // Virtual file system
+    std::unique_ptr<AmigaFileSystem> afs;
 
 public:
 

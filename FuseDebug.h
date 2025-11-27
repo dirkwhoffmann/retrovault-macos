@@ -11,29 +11,35 @@
 
 #include "FuseAPI.h"
 
-const bool debug = true;
+extern bool logging;
 
-inline static void
-log(const std::function<void(std::ostream &)> &func)
-{
-    if (debug) {
+#define mylog(format, ...) \
+if (logging) { fprintf(stderr, format __VA_OPT__(,) __VA_ARGS__); }
 
-        std::stringstream ss;
-        func(ss);
-        std::cout << ss.str();
-    }
-}
+/*
+ inline static void
+ mylog(const std::function<void(std::ostream &)> &func)
+ {
+ if (debug) {
 
-template<typename... Args>
-inline void log(const char* fmt, Args&&... args) {
+ std::stringstream ss;
+ func(ss);
+ std::cout << ss.str();
+ }
+ }
 
-    if (debug) {
+ template<typename... Args>
+ inline void mylog(const char* fmt, Args&&... args) {
 
-        std::string message = std::vformat(fmt, std::make_format_args(args...));
-        std::cout << message;
-    }
-}
+ if (debug) {
 
-void dump(std::ostream &os, fuse_conn_info *p);
-void dump(std::ostream &os, fuse_context *p);
+ // std::string message = std::vformat(fmt, std::make_format_args(args...));
+ std::string message = "TODO";
+ std::cout << message;
+ }
+ }
 
+ void dump(std::ostream &os, fuse_conn_info *p);
+ void dump(std::ostream &os, fuse_context *p);
+
+ */

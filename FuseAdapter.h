@@ -10,8 +10,14 @@
 #include "FuseAPI.h"
 #include "FuseDelegate.h"
 #include "FuseDebug.h"
+#include <thread>
 
 class FuseAdapter {
+
+    std::thread fuseThread;
+    struct fuse *gateway = nullptr;
+    fuse_chan *channel = nullptr;
+    fs::path mountpoint;
 
     static FUSE_GETATTR;
     static FUSE_MKDIR;
@@ -45,5 +51,5 @@ public:
 
 public:
 
-    int mount(string mountpoint);
+    void mount(const fs::path &mountpoint, void *userdata = nullptr);
 };

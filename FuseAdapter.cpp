@@ -9,8 +9,9 @@
 
 #include "FuseAdapter.h"
 #include "MutableFileSystem.h"
-#include <sys/mount.h>
+#include <fuse.h>
 #include <iostream>
+#include <sys/mount.h>
 
 fuse_operations
 FuseAdapter::callbacks = {
@@ -37,19 +38,62 @@ FuseAdapter::callbacks = {
     .utimens    = utimens
 };
 
-int
-FuseAdapter::mount(string mountpoint)
+void
+FuseAdapter::mount(const fs::path &mp, void *userdata)
 {
-    // Unmount the volume if it is still mounted
-    log("Unmounting existing volume {}...\n", mountpoint);
+    mountpoint = mp;
+
+    // Unmount existing volume (if any)
+    mylog("Unmounting existing volume %s...\n", mountpoint.string().c_str());
     (void)unmount(mountpoint.c_str(), 0);
 
+    if (fuseThread.joinable()) {
+        printf("Joining...\n");
+        fuseThread.join();
+    }
+
+    fuseThread = std::thread([&]() {
+
+        struct fuse_args args = FUSE_ARGS_INIT(0, nullptr);
+
+        try {
+
+            printf("mp.c_str() = %s\n", mountpoint.c_str());
+
+            channel = fuse_mount(mountpoint.c_str(), &args);
+            if (!channel) {
+
+                printf("Channel is null\n");
+                return;
+            }
+            gateway = fuse_new(channel, &args, &callbacks, sizeof(callbacks), userdata);
+
+            if (gateway) {
+
+                printf("Gateway = %p\n", gateway);
+                
+                // Blocking loop (runs until unmounted or fuse_exit called)
+                fuse_loop(gateway);
+
+                // Cleanup
+                fuse_destroy(gateway);
+            }
+
+            // Remove the mountpoint
+            fuse_unmount(mountpoint.c_str(), channel);
+
+        } catch (std::exception &e) {
+            printf("Exception: %s\n", e.what());
+        }
+    });
+
+    /*
     std::vector<std::string> params = {
 
         "vmount",
         // "-onative_xattr,volname=adf,norm_insensitive",
         "-ovolname=adf,norm_insensitive",
-        "-f",
+        // "-f",
         // "-d",
         mountpoint
     };
@@ -62,89 +106,90 @@ FuseAdapter::mount(string mountpoint)
 
     printf("Exiting with error code %d\n", result);
     return result;
+    */
 }
 
 int
 FuseAdapter::getattr(const char *path, struct stat* st)
 {
-    log("[getattr]  {}\n", path);
+    mylog("[getattr]  %s\n", path);
     return self().delegate->getattr(path, st);
 }
 
 int
 FuseAdapter::mkdir(const char *path, mode_t mode)
 {
-    log("[mkdir]    {}, {}\n", path, mode);
+    mylog("[mkdir]    %s, %x\n", path, mode);
     return self().delegate->mkdir(path, mode);
 }
 
 int
 FuseAdapter::unlink(const char *path)
 {
-    log("[unlink]   {}\n", path);
+    mylog("[unlink]   %s\n", path);
     return self().delegate->unlink(path);
 }
 
 int
 FuseAdapter::rmdir(const char *path)
 {
-    log("[rmdir]    {}\n", path);
+    mylog("[rmdir]    %s\n", path);
     return self().delegate->rmdir(path);
 }
 
 int
 FuseAdapter::rename(const char *oldpath, const char *newpath)
 {
-    log("[rename]   {}, {}\n", oldpath, newpath);
+    mylog("[rename]   %s, %s\n", oldpath, newpath);
     return self().delegate->rename(oldpath, newpath);
 }
 
 int
 FuseAdapter::chmod(const char *path, mode_t mode)
 {
-    log("[chmod]    {}, {}\n", path, mode);
+    mylog("[chmod]    %s, %x\n", path, mode);
     return self().delegate->chmod(path, mode);
 }
 
 int
 FuseAdapter::truncate(const char* path, off_t size)
 {
-    log("[truncate] {}, {}\n", path, size);
+    mylog("[truncate] %s, %lld\n", path, size);
     return self().delegate->truncate(path, size);
 }
 
 int
 FuseAdapter::open(const char* path, struct fuse_file_info* fi)
 {
-    log("[open]     {}\n", path);
+    mylog("[open]     %s\n", path);
     return self().delegate->open(path, fi);
 }
 
 int
 FuseAdapter::read(const char* path, char* buf, size_t size, off_t offset, struct fuse_file_info* fi)
 {
-    log("[read]     {}, {}, {}\n", path, size, offset);
+    mylog("[read]     %s, %ld, %lld\n", path, size, offset);
     return self().delegate->read(path, buf, size, offset, fi);
 }
 
 int
 FuseAdapter::write(const char* path, const char* buf, size_t size, off_t offset, struct fuse_file_info* fi)
 {
-    log("[write]    {}, {}, {}\n", path, size, offset);
+    mylog("[write]    %s, %ld, %lld\n", path, size, offset);
     return self().delegate->write(path, buf, size, offset, fi);
 }
 
 int
 FuseAdapter::statfs(const char *path, struct statvfs *st)
 {
-    log("[statfs]   {}\n", path);
+    mylog("[statfs]   %s\n", path);
     return self().delegate->statfs(path, st);
 }
 
 int
 FuseAdapter::release(const char *path, struct fuse_file_info *fi)
 {
-    log("[release]  {}\n", path);
+    mylog("[release]  %s\n", path);
     return self().delegate->release(path, fi);
 }
 
@@ -152,15 +197,14 @@ int
 FuseAdapter::readdir(const char* path, void* buf, fuse_fill_dir_t filler,
                off_t offset, struct fuse_file_info* fi)
 {
-    log("[readdir]  {}, {}\n", path, offset);
+    mylog("[readdir]  %s, %lld\n", path, offset);
     return self().delegate->readdir(path, buf, filler, offset, fi);
 }
 
 void *
 FuseAdapter::init(struct fuse_conn_info* conn)
 {
-    log("[init]");
-    log([conn](std::ostream &os){ dump(os, conn); });
+    mylog("[init]");
 
     // We ignore the result of the delegate method
     (void)self().delegate->init(conn);
@@ -172,27 +216,27 @@ FuseAdapter::init(struct fuse_conn_info* conn)
 void
 FuseAdapter::destroy(void *ptr)
 {
-    log("[destroy]  {}\n", ptr);
+    mylog("[destroy]  %p\n", ptr);
     self().delegate->destroy(ptr);
 }
 
 int
 FuseAdapter::access(const char *path, const int mask)
 {
-    log("[access]   {}, {}\n", path, mask);
+    mylog("[access]   %s, %x\n", path, mask);
     return self().delegate->access(path, mask);
 }
 
 int
 FuseAdapter::create(const char *path, mode_t mode, struct fuse_file_info *fi)
 {
-    log("[create]   {}, {}\n", path, mode);
+    mylog("[create]   %s, %x\n", path, mode);
     return self().delegate->create(path, mode, fi);
 }
 
 int
 FuseAdapter::utimens(const char *path, const struct timespec tv[2])
 {
-    log("[utimens]  {}\n", path);
+    mylog("[utimens]  %s\n", path);
     return self().delegate->utimens(path, tv);
 }

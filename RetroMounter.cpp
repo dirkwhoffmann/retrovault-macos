@@ -18,13 +18,21 @@ using namespace vamiga;
 int
 RetroMounter::launch()
 {
-    string demo = "/tmp/demo.adf";
-    string mountpoint = "/Volumes/adf";
+    fs::path demo = "/tmp/demo.adf";
+    fs::path mountpoint = "/Volumes/adf";
 
     try {
 
-        AmigaFileSystem amigaFS(demo);
-        amigaFS.mount(mountpoint);
+        printf("RetroMounter: Creating AmigaFileSystem...\n");
+        afs = std::make_unique<AmigaFileSystem>(demo);
+
+        printf("RetroMounter: Connecting the file system to the adpater...\n");
+        adapter.delegate = afs.get();
+
+        printf("RetroMounter: Mounting volume...\n");
+        adapter.mount(mountpoint);
+
+        printf("RetroMounter: Mounted.\n");
 
     } catch (std::exception &e) {
 

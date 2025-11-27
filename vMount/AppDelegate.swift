@@ -17,7 +17,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         mounter = RetroMounterProxy()
 
-        try? mounter?.launch()
+        do { try mounter?.launch() }
+        catch { print("Error launching RetroMounter: \(error)") }
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {

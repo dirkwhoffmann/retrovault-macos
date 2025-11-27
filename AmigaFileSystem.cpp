@@ -11,7 +11,6 @@
 #include "VAmiga.h"
 #include "Media.h"
 #include "DosFileSystem.h"
-#include "FuseAdapter.h"
 #include "FuseDebug.h"
 
 using namespace vamiga;
@@ -94,22 +93,31 @@ AmigaFileSystem::posixErrno(const AppError &err)
     }
 }
 
-AmigaFileSystem::AmigaFileSystem(string &filename)
+AmigaFileSystem::AmigaFileSystem(const fs::path &filename)
 {
-    log("Trying to load {}...\n", filename.c_str());
+    mylog("Trying to load %s...\n", filename.string().c_str());
     adf = new ADFFile(filename);
     assert(adf != nullptr);
 
-    log("Extracting raw file system...\n");
+    mylog("Extracting raw file system...\n");
     fs = new MutableFileSystem(*adf);
     assert(fs != nullptr);
 
-    log("Wrapping into DOS layer...\n");
+    std::stringstream ss;
+    fs->dump(Category::Info, ss);
+    std::cout << ss.str();
+
+    mylog("Wrapping into DOS layer...\n");
     dos = new DosFileSystem(*fs);
     assert(dos != nullptr);
-
 }
 
+AmigaFileSystem::~AmigaFileSystem()
+{
+    printf("Destroying AmigaFileSystem\n");
+}
+
+/*
 int
 AmigaFileSystem::mount(string &mountpoint)
 {
@@ -117,11 +125,13 @@ AmigaFileSystem::mount(string &mountpoint)
 
     adapter.delegate = this;
 
-    // Make a blocking call to mount...
-    auto err = adapter.mount(mountpoint);
+    printf("Calling adapter.mount...\n");
+    adapter.mount(mountpoint);
 
-    return err;
+    printf("Mounted.\n");
+    return 0;
 }
+*/
 
 int
 AmigaFileSystem::getattr(const char *path, struct stat *st)
@@ -225,7 +235,7 @@ AmigaFileSystem::read(const char *path, char *buf, size_t size, off_t offset, st
     return fsexec([&]{
 
         auto count = dos->read(HandleRef(fi->fh), std::span{(u8 *)buf, size});
-        return count;
+        return int(count);
     });
 }
 
@@ -235,7 +245,7 @@ AmigaFileSystem::write(const char *path, const char *buf, size_t size, off_t off
     return fsexec([&]{
 
         auto count = dos->write(HandleRef(fi->fh), std::span{(u8 *)buf, size});
-        return count;
+        return int(count);
     });
 }
 

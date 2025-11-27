@@ -23,7 +23,7 @@ class DosFileSystem;
 
 }
 
-class AmigaFileSystem : FuseDelegate {
+class AmigaFileSystem : public FuseDelegate {
 
     // Amiga Disk File
     ADFFile *adf = nullptr;
@@ -41,9 +41,10 @@ public:
 
     static int posixErrno(const AppError &err);
 
-    AmigaFileSystem(string &filename);
+    AmigaFileSystem(const fs::path &filename);
+    ~AmigaFileSystem();
 
-    int mount(string &mountpoint);
+    // int mount(string &mountpoint);
 
     FUSE_GETATTR  override;
     FUSE_MKDIR    override;
@@ -66,17 +67,17 @@ public:
 
 private:
 
-    template <typename Fn> isize fsexec(Fn &&fn) {
+    template <typename Fn> int fsexec(Fn &&fn) {
 
         std::lock_guard<std::mutex> guard(mtx);
 
         try {
             return fn();
         } catch (const AppError &err) {
-            log("           Error: {} ({})\n", AmigaFileSystem::posixErrno(err), err.what());
+            mylog("           Error: {} ({})\n", AmigaFileSystem::posixErrno(err), err.what());
             return -AmigaFileSystem::posixErrno(err);
         } catch (...) {
-            log("           Exception: {}\n", EIO);
+            mylog("           Exception: {}\n", EIO);
             return -EIO;
         }
     }
