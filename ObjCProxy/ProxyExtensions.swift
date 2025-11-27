@@ -9,10 +9,10 @@
 
 extension RetroMounterProxy {
 
-    func launch() throws {
+    func mount(url: URL) throws {
 
         let exception = ExceptionWrapper()
-        launch(exception)
+        mount(url, exception: exception)
         if exception.fault != .OK { throw AppError(exception) }
     }
 }

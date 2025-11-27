@@ -2236,10 +2236,15 @@ NSString *EventSlotName(EventSlot slot)
     return (RetroMounter *)obj;
 }
 
-- (void)launch:(ExceptionWrapper *)ex
+- (void)mount:(NSURL *)url exception:(ExceptionWrapper *)ex
 {
-    try { [self adapter]->launch(); }
+    try { [self adapter]->mount([url fileSystemRepresentation]); }
     catch (AppError &error) { [ex save:error]; }
+}
+
+- (void)unmount
+{
+    [self adapter]->unmount();
 }
 
 @end

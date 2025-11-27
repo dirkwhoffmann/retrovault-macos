@@ -22,5 +22,6 @@ class RetroMounter {
 
 public:
 
-    int launch();
+    void mount(const fs::path &path);
+    void unmount();
 };

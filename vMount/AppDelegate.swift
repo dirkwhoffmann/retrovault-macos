@@ -1,34 +1,45 @@
+// -----------------------------------------------------------------------------
+// This file is part of vMount
 //
-//  AppDelegate.swift
-//  vMount
+// Copyright (C) Dirk W. Hoffmann. www.dirkwhoffmann.de
+// Licensed under the GNU General Public License v3
 //
-//  Created by Dirk Hoffmann on 19.11.25.
-//
+// See https://www.gnu.org for license information
+// -----------------------------------------------------------------------------
 
 import Cocoa
 
 @main
 class AppDelegate: NSObject, NSApplicationDelegate {
 
-    var mounter: RetroMounterProxy?
+    var mounter = RetroMounter()
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-        // Insert code here to initialize your application
 
+        /*
         mounter = RetroMounterProxy()
 
         do { try mounter?.launch() }
         catch { print("Error launching RetroMounter: \(error)") }
+        */
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
-        // Insert code here to tear down your application
+
+        mounter.unmountAll()
     }
 
     func applicationSupportsSecureRestorableState(_ app: NSApplication) -> Bool {
-        return true
+        return false
     }
 
+    func application(_ application: NSApplication, open urls: [URL]) {
+
+        print("application open: urls = \(urls)")
+        urls.forEach { mounter.mount(url: $0) }
+
+
+    }
 
 }
 

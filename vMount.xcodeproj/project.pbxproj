@@ -100,11 +100,21 @@
 			);
 			target = 504EA7BC2ECE39E8008CF9FC /* vMount */;
 		};
+		50559ADA2ED851640001AEEF /* Exceptions for "vMount" folder in "vMount" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 504EA7BC2ECE39E8008CF9FC /* vMount */;
+		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		504EA7BF2ECE39E8008CF9FC /* vMount */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				50559ADA2ED851640001AEEF /* Exceptions for "vMount" folder in "vMount" target */,
+			);
 			path = vMount;
 			sourceTree = "<group>";
 		};
@@ -420,6 +430,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_RESOURCE_ACCESS_PHOTO_LIBRARY = NO;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = vMount/Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_NSMainStoryboardFile = Main;
 				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
@@ -467,6 +478,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_RESOURCE_ACCESS_PHOTO_LIBRARY = NO;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = vMount/Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_NSMainStoryboardFile = Main;
 				INFOPLIST_KEY_NSPrincipalClass = NSApplication;

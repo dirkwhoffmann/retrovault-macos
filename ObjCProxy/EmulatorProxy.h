@@ -170,7 +170,8 @@ NSString *EventSlotName(EventSlot slot);
 
 }
 
-- (void)launch:(ExceptionWrapper *)ex;
+- (void)mount:(NSURL *)url exception:(ExceptionWrapper *)ex;
+- (void)unmount;
 
 @end
 

@@ -45,12 +45,7 @@ FuseAdapter::mount(const fs::path &mp)
 
     // Unmount existing volume (if any)
     mylog("Unmounting existing volume %s...\n", mountpoint.string().c_str());
-    (void)unmount(mountpoint.c_str(), 0);
-
-    if (fuseThread.joinable()) {
-        printf("Joining...\n");
-        fuseThread.join();
-    }
+    (void)::unmount(mountpoint.c_str(), 0);
 
     fuseThread = std::thread([&]() {
 
@@ -68,20 +63,25 @@ FuseAdapter::mount(const fs::path &mp)
                 return;
             }
             gateway = fuse_new(channel, &args, &callbacks, sizeof(callbacks), this);
+            if (!gateway) {
 
-            if (gateway) {
-
-                printf("Gateway = %p\n", gateway);
-                
-                // Blocking loop (runs until unmounted or fuse_exit called)
-                fuse_loop(gateway);
-
-                // Cleanup
-                fuse_destroy(gateway);
+                printf("Gateway is null\n");
+                fuse_unmount(mountpoint.c_str(), channel);
+                return;
             }
 
+            // Blocking loop (runs until unmounted or fuse_exit called)
+            printf("Launching fuse loop...\n");
+            fuse_loop(gateway);
+
+
             // Remove the mountpoint
+            printf("Unmouting %s\n", mountpoint.c_str());
             fuse_unmount(mountpoint.c_str(), channel);
+
+            // Cleanup
+            printf("Destroy..\n");
+            fuse_destroy(gateway);
 
         } catch (std::exception &e) {
             printf("Exception: %s\n", e.what());
@@ -89,25 +89,47 @@ FuseAdapter::mount(const fs::path &mp)
     });
 
     /*
-    std::vector<std::string> params = {
+     std::vector<std::string> params = {
 
-        "vmount",
-        // "-onative_xattr,volname=adf,norm_insensitive",
-        "-ovolname=adf,norm_insensitive",
-        // "-f",
-        // "-d",
-        mountpoint
-    };
+     "vmount",
+     // "-onative_xattr,volname=adf,norm_insensitive",
+     "-ovolname=adf,norm_insensitive",
+     // "-f",
+     // "-d",
+     mountpoint
+     };
 
-    std::vector<char *> argv;
-    for (auto& s : params) argv.push_back(s.data());
+     std::vector<char *> argv;
+     for (auto& s : params) argv.push_back(s.data());
 
-    printf("Calling fuse_main %p\n", this);
-    auto result = fuse_main((int)argv.size(), argv.data(), &callbacks, this);
+     printf("Calling fuse_main %p\n", this);
+     auto result = fuse_main((int)argv.size(), argv.data(), &callbacks, this);
 
-    printf("Exiting with error code %d\n", result);
-    return result;
-    */
+     printf("Exiting with error code %d\n", result);
+     return result;
+     */
+}
+
+void
+FuseAdapter::unmount()
+{
+    printf("FuseAdapter::unmount()\n");
+
+    if (gateway) {
+
+        printf("Calling fuse_exit...\n");
+        // Signal fuse to exit
+        fuse_exit(gateway);
+    }
+
+    printf("Waiting for the thread to terminate...\n");
+    if (fuseThread.joinable()) {
+
+        // Wait for clean shutdown
+        fuseThread.join();
+    }
+
+    printf("Done.\n");
 }
 
 int

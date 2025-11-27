@@ -74,10 +74,10 @@ private:
         try {
             return fn();
         } catch (const AppError &err) {
-            mylog("           Error: {} ({})\n", AmigaFileSystem::posixErrno(err), err.what());
+            mylog("           Error: %d (%s)\n", AmigaFileSystem::posixErrno(err), err.what());
             return -AmigaFileSystem::posixErrno(err);
         } catch (...) {
-            mylog("           Exception: {}\n", EIO);
+            mylog("           Exception: %d\n", EIO);
             return -EIO;
         }
     }
