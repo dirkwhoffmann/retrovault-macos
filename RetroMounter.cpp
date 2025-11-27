@@ -7,6 +7,7 @@
 // See https://mozilla.org/MPL/2.0 for license information
 // -----------------------------------------------------------------------------
 
+/*
 #include "RetroMounter.h"
 #include "AmigaFileSystem.h"
 #include "FuseDebug.h"
@@ -44,3 +45,4 @@ RetroMounter::unmount()
 {
     adapter.unmount();
 }
+*/

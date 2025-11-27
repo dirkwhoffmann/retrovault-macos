@@ -171,6 +171,8 @@ NSString *EventSlotName(EventSlot slot);
 
 }
 
++ (instancetype)make:(NSURL *)url exception:(ExceptionWrapper *)ex;
+
 - (void)mount:(NSURL *)url exception:(ExceptionWrapper *)ex;
 - (void)unmount;
 - (void)setListener:(const void *)listener function:(AdapterCallback *)func;

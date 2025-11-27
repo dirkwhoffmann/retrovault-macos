@@ -7,6 +7,7 @@
 // See https://mozilla.org/MPL/2.0 for license information
 // -----------------------------------------------------------------------------
 
+/*
 #pragma once
 
 #include "FuseAdapter.h"
@@ -27,3 +28,4 @@ public:
     void mount(const fs::path &path);
     void unmount();
 };
+*/

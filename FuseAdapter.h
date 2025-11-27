@@ -7,6 +7,8 @@
 // See https://mozilla.org/MPL/2.0 for license information
 // -----------------------------------------------------------------------------
 
+#pragma once
+
 #include "FuseAPI.h"
 #include "FuseDelegate.h"
 #include "FuseAdapterDelegate.h"

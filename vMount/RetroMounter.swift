@@ -39,10 +39,11 @@ class RetroMounter {
 
         do {
 
-            print("Mounting \(url)...")
+            print("Creating file system for \(url)...")
+            let proxy = try RetroMounterProxy.make(with: url)
 
-            let proxy = RetroMounterProxy()
-            try proxy.mount(url, myself) { (ptr, msg: Int32) in
+            print("Mounting file system...")
+            try proxy.mount(at: URL.init(string: "/Volumes/adf")!, myself) { (ptr, msg: Int32) in
 
                 // Convert void pointer back to 'self'
                 let myself = Unmanaged<RetroMounter>.fromOpaque(ptr!).takeUnretainedValue()

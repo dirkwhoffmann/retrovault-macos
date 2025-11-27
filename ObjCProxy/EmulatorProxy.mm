@@ -9,8 +9,7 @@
 
 #import "config.h"
 #import "EmulatorProxy.h"
-#import "RetroMounter.h"
-
+#import "AmigaFileSystem.h"
 #import "VAmiga.h"
 #import "Emulator.h"
 #import "MutableFileSystem.h"
@@ -2222,6 +2221,7 @@ NSString *EventSlotName(EventSlot slot)
 
 @implementation RetroMounterProxy
 
+/*
 - (instancetype) init
 {
     if (!(self = [super init]))
@@ -2230,15 +2230,38 @@ NSString *EventSlotName(EventSlot slot)
     obj = new RetroMounter();
     return self;
 }
+*/
 
-- (RetroMounter *)adapter
+- (AmigaFileSystem *)adapter
 {
-    return (RetroMounter *)obj;
+    return (AmigaFileSystem *)obj;
 }
 
-- (void)mount:(NSURL *)url exception:(ExceptionWrapper *)ex
++ (instancetype)make:(AmigaFileSystem *)volume
 {
-    try { [self adapter]->mount([url fileSystemRepresentation]); }
+    if (volume == nullptr) { return nil; }
+
+    RetroMounterProxy *proxy = [[self alloc] initWith: volume];
+    return proxy;
+}
+
++ (instancetype)make:(NSURL *)url exception:(ExceptionWrapper *)ex
+{
+    try {
+
+        auto volume = new AmigaFileSystem([url fileSystemRepresentation]);
+        return [self make:volume];
+
+    }  catch (AppError &error) {
+
+        [ex save:error];
+        return nil;
+    }
+}
+
+- (void)mount:(NSURL *)mountpoint exception:(ExceptionWrapper *)ex
+{
+    try { [self adapter]->mount([mountpoint fileSystemRepresentation]); }
     catch (AppError &error) { [ex save:error]; }
 }
 
