@@ -9,6 +9,7 @@
 
 #include "FuseAPI.h"
 #include "FuseDelegate.h"
+#include "FuseAdapterDelegate.h"
 #include "FuseDebug.h"
 #include <thread>
 
@@ -18,6 +19,19 @@ class FuseAdapter {
     struct fuse *gateway = nullptr;
     fuse_chan *channel = nullptr;
     fs::path mountpoint;
+
+public:
+
+    bool debug = true;
+    FuseAdapterDelegate *adapterDelegate = nullptr;
+    const void *listener = nullptr; // Experimental
+    AdapterCallback *callback = nullptr; // Experimental
+    FuseDelegate *delegate = nullptr;
+
+    // Registers a listener together with it's callback function
+    void setListener(const void *listener, AdapterCallback *func);
+    
+private:
 
     static FUSE_GETATTR;
     static FUSE_MKDIR;
@@ -43,11 +57,6 @@ class FuseAdapter {
     static FuseAdapter &self() {
         return *(static_cast<FuseAdapter *>(fuse_get_context()->private_data));
     }
-
-public:
-
-    bool debug = true;
-    FuseDelegate *delegate = nullptr;
 
 public:
 

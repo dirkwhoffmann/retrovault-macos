@@ -11,13 +11,46 @@ class RetroMounter {
 
     private var mounts: [RetroMounterProxy] = []
 
+    /*
+    func prepare(proxy: RetroMounterProxy) {
+
+        // Convert 'self' to a void pointer
+        let myself = UnsafeRawPointer(Unmanaged.passUnretained(self).toOpaque())
+
+        proxy.setListener(myself) { (ptr, msg: Int32) in
+
+            // Convert void pointer back to 'self'
+            let myself = Unmanaged<RetroMounter>.fromOpaque(ptr!).takeUnretainedValue()
+
+            // Process message in the main thread
+            Task { @MainActor in myself.process(message: Int(msg)) }
+        }
+    }
+    */
+    
+    func process(message msg: Int) {
+
+        print("Holla, die Waldfee")
+    }
+
     func mount(url: URL) {
+
+        let myself = UnsafeRawPointer(Unmanaged.passUnretained(self).toOpaque())
 
         do {
 
-            let proxy = RetroMounterProxy()
             print("Mounting \(url)...")
-            try proxy.mount(url: url)
+
+            let proxy = RetroMounterProxy()
+            try proxy.mount(url, myself) { (ptr, msg: Int32) in
+
+                // Convert void pointer back to 'self'
+                let myself = Unmanaged<RetroMounter>.fromOpaque(ptr!).takeUnretainedValue()
+
+                // Process message in the main thread
+                Task { @MainActor in myself.process(message: Int(msg)) }
+            }
+
             print("Success.")
             mounts.append(proxy)
 

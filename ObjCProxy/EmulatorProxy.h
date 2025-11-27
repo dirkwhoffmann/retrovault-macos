@@ -11,6 +11,7 @@
 
 #import "config.h"
 #import "VAmigaTypes.h"
+#import "FuseAdapterDelegate.h"
 #import <Cocoa/Cocoa.h>
 #import <MetalKit/MetalKit.h>
 
@@ -172,6 +173,7 @@ NSString *EventSlotName(EventSlot slot);
 
 - (void)mount:(NSURL *)url exception:(ExceptionWrapper *)ex;
 - (void)unmount;
+- (void)setListener:(const void *)listener function:(AdapterCallback *)func;
 
 @end
 

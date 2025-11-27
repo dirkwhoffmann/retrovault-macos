@@ -2247,6 +2247,11 @@ NSString *EventSlotName(EventSlot slot)
     [self adapter]->unmount();
 }
 
+- (void)setListener:(const void *)listener function:(AdapterCallback *)func
+{
+    [self adapter]->adapter.setListener(listener, func);
+}
+
 @end
 
 

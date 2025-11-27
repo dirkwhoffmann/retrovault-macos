@@ -42,6 +42,7 @@
 		504EAD232ECF00CE008CF9FC /* TypeExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypeExtensions.swift; sourceTree = "<group>"; };
 		504EAD2A2ECF024E008CF9FC /* FuseAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FuseAdapter.h; sourceTree = "<group>"; };
 		504EAD2C2ECF0263008CF9FC /* FuseAdapter.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FuseAdapter.cpp; sourceTree = "<group>"; };
+		50559ADE2ED870190001AEEF /* FuseAdapterDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FuseAdapterDelegate.h; sourceTree = "<group>"; };
 		507724942ECF26BF00DB04C5 /* libfuse.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libfuse.2.dylib; path = /usr/local/lib/libfuse.2.dylib; sourceTree = "<absolute>"; };
 		5077249C2ECF8BC000DB04C5 /* FuseAPI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FuseAPI.h; sourceTree = "<group>"; };
 		5077249D2ECFA78500DB04C5 /* FuseDebug.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FuseDebug.h; sourceTree = "<group>"; };
@@ -143,6 +144,7 @@
 		504EA7B42ECE39E8008CF9FC = {
 			isa = PBXGroup;
 			children = (
+				50559ADE2ED870190001AEEF /* FuseAdapterDelegate.h */,
 				507724A72ED0888E00DB04C5 /* RetroMounter.h */,
 				507724A82ED0889500DB04C5 /* RetroMounter.cpp */,
 				5077249C2ECF8BC000DB04C5 /* FuseAPI.h */,

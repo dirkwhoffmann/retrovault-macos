@@ -14,6 +14,8 @@
 
 class RetroMounter {
 
+public:
+    
     // Fuse adapter
     FuseAdapter adapter;
 

@@ -39,6 +39,13 @@ FuseAdapter::callbacks = {
 };
 
 void
+FuseAdapter::setListener(const void *listener, AdapterCallback *callback)
+{
+    this->listener = listener;
+    this->callback = callback;
+}
+
+void
 FuseAdapter::mount(const fs::path &mp)
 {
     mountpoint = mp;
@@ -50,7 +57,9 @@ FuseAdapter::mount(const fs::path &mp)
     fuseThread = std::thread([&]() {
 
         struct fuse_args args = FUSE_ARGS_INIT(0, nullptr);
-        fuse_opt_add_arg(&args, "-f");   // force foreground
+        fuse_opt_add_arg(&args, "-f"); // Force foreground
+        fuse_opt_add_arg(&args, "-olocal"); // Make the volume appear in Finder
+        fuse_opt_add_arg(&args, "-ovolname=ADF");
 
         try {
 
@@ -80,8 +89,11 @@ FuseAdapter::mount(const fs::path &mp)
             fuse_unmount(mountpoint.c_str(), channel);
 
             // Cleanup
-            printf("Destroy..\n");
+            printf("Destroy...\n");
             fuse_destroy(gateway);
+            gateway = nullptr;
+            printf("Destroyed.\n");
+            if (listener) { callback(listener, 42); }
 
         } catch (std::exception &e) {
             printf("Exception: %s\n", e.what());

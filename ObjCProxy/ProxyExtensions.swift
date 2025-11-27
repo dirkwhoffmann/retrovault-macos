@@ -9,11 +9,19 @@
 
 extension RetroMounterProxy {
 
-    func mount(url: URL) throws {
+    func mount(_ url: URL) throws {
 
         let exception = ExceptionWrapper()
         mount(url, exception: exception)
         if exception.fault != .OK { throw AppError(exception) }
+    }
+
+    func mount(_ url: URL,
+               _ listener: UnsafeRawPointer,
+               _ callback: @escaping @convention(c) (UnsafeRawPointer?, Int32) -> Void) throws
+    {
+        try mount(url)
+        setListener(listener, function: callback)
     }
 }
 
