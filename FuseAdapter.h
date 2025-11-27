@@ -51,5 +51,5 @@ public:
 
 public:
 
-    void mount(const fs::path &mountpoint, void *userdata = nullptr);
+    void mount(const fs::path &mountpoint);
 };

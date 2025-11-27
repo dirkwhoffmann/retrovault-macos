@@ -39,7 +39,7 @@ FuseAdapter::callbacks = {
 };
 
 void
-FuseAdapter::mount(const fs::path &mp, void *userdata)
+FuseAdapter::mount(const fs::path &mp)
 {
     mountpoint = mp;
 
@@ -55,6 +55,7 @@ FuseAdapter::mount(const fs::path &mp, void *userdata)
     fuseThread = std::thread([&]() {
 
         struct fuse_args args = FUSE_ARGS_INIT(0, nullptr);
+        fuse_opt_add_arg(&args, "-f");   // force foreground
 
         try {
 
@@ -66,7 +67,7 @@ FuseAdapter::mount(const fs::path &mp, void *userdata)
                 printf("Channel is null\n");
                 return;
             }
-            gateway = fuse_new(channel, &args, &callbacks, sizeof(callbacks), userdata);
+            gateway = fuse_new(channel, &args, &callbacks, sizeof(callbacks), this);
 
             if (gateway) {
 
