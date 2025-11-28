@@ -22,7 +22,7 @@ public:
     const FSTraits &traits;
     FSStorage &storage;
     
-    FSComponent(FileSystem& fs);
+    explicit FSComponent(FileSystem& fs);
 
     const char *objectName() const override { return "FSComponent"; }
     void _dump(Category category, std::ostream &os) const override { }
@@ -45,13 +45,13 @@ public:
 public:
     
     // Returns the number of required blocks to store a file of certain size
-    isize requiredBlocks(isize fileSize) const;
+    [[nodiscard]] isize requiredBlocks(isize fileSize) const noexcept;
 
 private:
 
     // Returns the number of required file list or data blocks
-    isize requiredFileListBlocks(isize fileSize) const;
-    isize requiredDataBlocks(isize fileSize) const;
+    [[nodiscard]] isize requiredFileListBlocks(isize fileSize) const noexcept;
+    [[nodiscard]] isize requiredDataBlocks(isize fileSize) const noexcept;
 
 
     //
@@ -61,7 +61,7 @@ private:
 public:
 
     // Returns true if at least 'count' free blocks are available
-    bool allocatable(isize count) const;
+    [[nodiscard]] bool allocatable(isize count) const noexcept;
 
     // Seeks a free block and marks it as allocated
     Block allocate();
@@ -86,12 +86,12 @@ public:
 public:
 
     // Checks if a block is allocated or unallocated
-    bool isUnallocated(Block nr) const noexcept;
-    bool isAllocated(Block nr) const noexcept { return !isUnallocated(nr); }
+    [[nodiscard]] bool isUnallocated(Block nr) const noexcept;
+    [[nodiscard]] bool isAllocated(Block nr) const noexcept { return !isUnallocated(nr); }
 
     // Returns the number of allocated or unallocated blocks
-    isize numUnallocated() const noexcept;
-    isize numAllocated() const noexcept;
+    [[nodiscard]] isize numUnallocated() const noexcept;
+    [[nodiscard]] isize numAllocated() const noexcept;
 
     // Marks a block as allocated or free
     void markAsAllocated(Block nr) { setAllocationBit(nr, 0); }

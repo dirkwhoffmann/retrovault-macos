@@ -21,7 +21,7 @@ storage(fs.storage)
 { }
 
 isize
-FSAllocator::requiredDataBlocks(isize fileSize) const
+FSAllocator::requiredDataBlocks(isize fileSize) const noexcept
 {
     // Compute the capacity of a single data block
     isize numBytes = traits.bsize - (traits.ofs() ? 24 : 0);
@@ -31,7 +31,7 @@ FSAllocator::requiredDataBlocks(isize fileSize) const
 }
 
 isize
-FSAllocator::requiredFileListBlocks(isize fileSize) const
+FSAllocator::requiredFileListBlocks(isize fileSize) const noexcept
 {
     // Compute the required number of data blocks
     isize numBlocks = requiredDataBlocks(fileSize);
@@ -47,7 +47,7 @@ FSAllocator::requiredFileListBlocks(isize fileSize) const
 }
 
 isize
-FSAllocator::requiredBlocks(isize fileSize) const
+FSAllocator::requiredBlocks(isize fileSize) const noexcept
 {
     isize numDataBlocks = requiredDataBlocks(fileSize);
     isize numFileListBlocks = requiredFileListBlocks(fileSize);
@@ -60,7 +60,7 @@ FSAllocator::requiredBlocks(isize fileSize) const
 }
 
 bool
-FSAllocator::allocatable(isize count) const
+FSAllocator::allocatable(isize count) const noexcept
 {
     Block i = ap;
     isize capacity = fs.numBlocks();
@@ -93,7 +93,7 @@ FSAllocator::allocate()
         }
     }
 
-    fs.read(i)->type = FSBlockType::UNKNOWN;
+    fs.read(i)->init(FSBlockType::UNKNOWN); // ->type = FSBlockType::UNKNOWN;
     markAsAllocated(i);
     ap = (i + 1) % numBlocks;
     return i;
@@ -290,7 +290,7 @@ FSAllocator::locateAllocationBit(Block nr, isize *byte, isize *bit) noexcept
     // Get the bitmap block
     FSBlock *bm = (bmNr < (isize)fs.bmBlocks.size()) ? fs.read(fs.bmBlocks[bmNr], FSBlockType::BITMAP) : nullptr;
     if (!bm) {
-        warn("Failed to lookup allocation bit for block %d (%ld)\n", nr, bmNr);
+        debug(FS_DEBUG, "Failed to lookup allocation bit for block %d (%ld)\n", nr, bmNr);
         return nullptr;
     }
 
