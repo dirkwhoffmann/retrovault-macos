@@ -264,7 +264,7 @@ FileSystem::cacheInfo(FSInfo &result) const noexcept
     result.modificationDate = getModificationDate();
 
     result.numBlocks = storage.numBlocks();
-    result.freeBlocks = numUnallocated();
+    result.freeBlocks = storage.freeBlocks(); //  allocator.numUnallocated();
     result.usedBlocks = result.numBlocks - result.freeBlocks;
     result.freeBytes = result.freeBlocks * traits.bsize;
     result.usedBytes = result.usedBlocks * traits.bsize;
@@ -493,6 +493,7 @@ FileSystem::ascii(Block nr, isize offset, isize len) const noexcept
     return  util::createAscii(storage[nr].data() + offset, len);
 }
 
+/*
 bool
 FileSystem::isUnallocated(Block nr) const noexcept
 {
@@ -606,6 +607,7 @@ FileSystem::serializeBitmap() const
 
     return result;
 }
+*/
 
 FSBlock &
 FileSystem::parent(const FSBlock &node)

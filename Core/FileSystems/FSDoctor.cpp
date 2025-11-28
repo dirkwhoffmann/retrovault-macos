@@ -307,7 +307,7 @@ FSDoctor::xrayBitmap(bool strict)
     // Check all blocks (ignoring the first two boot blocks)
     for (isize i = 2, capacity = fs.numBlocks(); i < capacity; i++) {
 
-        bool allocated = fs.isAllocated(Block(i));
+        bool allocated = fs.allocator.isAllocated(Block(i));
         bool contained = used.contains(Block(i));
 
         if (allocated && !contained) {
@@ -326,7 +326,7 @@ FSDoctor::xrayBitmap(bool strict)
 }
 
 isize
-FSDoctor::xrayBitmap(bool strict, std::ostream &os)
+FSDoctor::xrayBitmap(std::ostream &os, bool strict)
 {
     auto result = xrayBitmap(strict);
 
@@ -716,16 +716,15 @@ FSDoctor::rectify(FSBlock &node, bool strict)
 void
 FSDoctor::rectifyBitmap(bool strict)
 {
-    auto *mfs = dynamic_cast<FileSystem *>(&fs);
-    if (!mfs) throw AppError(Fault::FS_READ_ONLY);
+    auto &allocator = fs.allocator;
 
     xrayBitmap(strict);
 
     for (auto &it : diagnosis.unusedButAllocated) {
-        mfs->markAsFree(Block(it));
+        allocator.markAsFree(Block(it));
     }
     for (auto &it : diagnosis.usedButUnallocated) {
-        mfs->markAsAllocated(Block(it));
+        allocator.markAsAllocated(Block(it));
     }
 }
 

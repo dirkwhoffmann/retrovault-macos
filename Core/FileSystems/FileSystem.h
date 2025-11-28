@@ -55,6 +55,7 @@
 #include "FSTree.h"
 #include "FSStorage.h"
 #include "FSDoctor.h"
+#include "FSAllocator.h"
 #include "ADFFile.h"
 #include "HDFFile.h"
 #include <stack>
@@ -70,7 +71,9 @@ class HardDrive;
 class FileSystem : public CoreObject, public Inspectable<FSInfo, FSStats> {
 
     friend struct FSBlock;
+    friend class  FSComponent;
     friend class  FSDoctor;
+    friend class  FSAllocator;
     friend struct FSHashTable;
     friend struct FSPartition;
     friend class  FileSystem;
@@ -87,6 +90,9 @@ private:
 
     // Block storage
     FSStorage storage = FSStorage(this);
+
+    // Allocator
+    FSAllocator allocator = FSAllocator(*this);
 
     // Location of the root block
     Block rootBlock = 0;
@@ -259,6 +265,7 @@ public:
     // Managing the block allocation bitmap
     //
 
+    /*
 public:
     
     // Checks if a block is allocated or unallocated
@@ -275,8 +282,9 @@ protected:
     FSBlock *locateAllocationBit(Block nr, isize *byte, isize *bit) noexcept;
     const FSBlock *locateAllocationBit(Block nr, isize *byte, isize *bit) const noexcept;
 
-    // Translate the bitmap into to a vector with the n-bit set iff the n-th block is free
+    // Translate the bitmap into to a vector with the n-th bit set iff the n-th block is free
     std::vector<u32> serializeBitmap() const;
+     */
 
 
     //
@@ -487,12 +495,14 @@ public:
 public:
 
     // Marks a block as allocated or free
+    /*
     void markAsAllocated(Block nr) { setAllocationBit(nr, 0); }
     void markAsFree(Block nr) { setAllocationBit(nr, 1); }
     void setAllocationBit(Block nr, bool value);
 
     // Rectifies the block allocation map
     void rectifyAllocationMap();
+    */
 
 
     //

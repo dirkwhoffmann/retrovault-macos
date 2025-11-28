@@ -127,7 +127,7 @@ FileSystem::format(FSFormat dos, string name){
     // Mark free blocks as free in the bitmap block
     // TODO: SPEED THIS UP
     for (isize i = 0; i < numBlocks(); i++) {
-        if (storage.isEmpty(Block(i))) markAsFree(Block(i));
+        if (storage.isEmpty(Block(i))) allocator.markAsFree(Block(i));
     }
     
     // Set the volume name
@@ -229,7 +229,7 @@ FileSystem::allocate()
     }
     
     read(i)->type = FSBlockType::UNKNOWN;
-    markAsAllocated(i);
+    allocator.markAsAllocated(i);
     ap = (i + 1) % numBlocks();
     return i;
 }
@@ -285,7 +285,7 @@ FileSystem::allocate(isize count, std::vector<Block> &result, std::vector<Block>
     }
 
     // Step 3: Mark all blocks as allocated
-    for (const auto &b : result) markAsAllocated(b);
+    for (const auto &b : result) allocator.markAsAllocated(b);
 
     // Step 4: Advance allocation pointer
     ap = i;
@@ -295,7 +295,7 @@ void
 FileSystem::deallocateBlock(Block nr)
 {
     storage[nr].init(FSBlockType::EMPTY);
-    markAsFree(nr);
+    allocator.markAsFree(nr);
 }
 
 void
@@ -385,6 +385,7 @@ FileSystem::killVirus()
     }
 }
 
+/*
 void
 FileSystem::setAllocationBit(Block nr, bool value)
 {
@@ -411,6 +412,7 @@ FileSystem::rectifyAllocationMap()
         }
     }
 }
+*/
 
 FSBlock &
 FileSystem::createDir(FSBlock &at, const FSName &name)
@@ -473,7 +475,7 @@ FileSystem::reclaim(const FSBlock &node)
     if (node.isDirectory()) {
 
         // Remove user directory block
-        storage.erase(node.nr); markAsFree(node.nr);
+        storage.erase(node.nr); allocator.markAsFree(node.nr);
         return;
     }
 
@@ -484,9 +486,9 @@ FileSystem::reclaim(const FSBlock &node)
         auto listBlocks = collectListBlocks(node.nr);
 
         // Remove all blocks
-        storage.erase(node.nr); markAsFree(node.nr);
-        for (auto &it : dataBlocks) { storage.erase(it); markAsFree(it); }
-        for (auto &it : listBlocks) { storage.erase(it); markAsFree(it); }
+        storage.erase(node.nr); allocator.markAsFree(node.nr);
+        for (auto &it : dataBlocks) { storage.erase(it); allocator.markAsFree(it); }
+        for (auto &it : listBlocks) { storage.erase(it); allocator.markAsFree(it); }
         return;
     }
 

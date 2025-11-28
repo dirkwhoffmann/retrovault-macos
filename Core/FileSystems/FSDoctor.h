@@ -16,7 +16,6 @@ namespace vamiga {
 
 class FSDoctor final : public CoreObject {
 
-    // Reference to the patient
     class FileSystem &fs;
 
 public:
@@ -71,8 +70,8 @@ public:
     FSBlockError xray32(FSBlock &node, isize pos, bool strict, optional<u32> &expected) const;
 
     // Checks the allocation table. Returns the number of errors. Stores details in 'diagnosis'
-    isize xrayBitmap(bool strict);
-    isize xrayBitmap(bool strict, std::ostream &os);
+    isize xrayBitmap(bool strict = false);
+    isize xrayBitmap(std::ostream &os, bool strict = false);
 
     // Rectifies all blocks
     void rectify(bool strict);
@@ -82,7 +81,7 @@ public:
     void rectify(FSBlock &node, bool strict);
 
     // Rectifies the allocation table
-    void rectifyBitmap(bool strict);
+    void rectifyBitmap(bool strict = false);
 };
 
 }

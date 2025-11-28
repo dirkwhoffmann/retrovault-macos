@@ -1561,7 +1561,7 @@ NSString *EventSlotName(EventSlot slot)
 
 - (void)rectifyAllocationMap
 {
-    [self fs]->rectifyAllocationMap();
+    [self fs]->doctor.rectifyBitmap();
 }
 
 @end
