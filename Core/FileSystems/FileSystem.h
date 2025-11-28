@@ -9,6 +9,45 @@
 
 #pragma once
 
+/* The FileSystem class represents an Amiga file system (OFS or FFS).
+ * It models a logical volume that can be created from either an ADF or an HDF.
+ * In the case of an HDF, each partition can be converted into an independent
+ * file system instance.
+ *
+ * The FileSystem class is organized as a layered architecture to clearly
+ * separate responsibilities and to enforce downward-only dependencies.
+ *
+ * Layer 0: Block Storage Layer
+ *
+ *          Provides raw access to storage blocks and is unaware
+ *          of files, directories, or paths.
+ *
+ * Layer 1: Read Layer
+ *
+ *          Interprets storage blocks as files and directories according to
+ *          OFS or FFS semantics, enabling read operations and metadata access.
+ *
+ * Layer 2: Write Layer
+ *
+ *          Adds write capabilities, allowing modifications to files,
+ *          directories, and metadata.
+ *
+ * Layer 3: Path Resolution Layer
+ *
+ *          Resolves symbolic and relative paths into concrete file system
+ *          objects and canonicalizes paths. It depends only on the read and
+ *          write layers.
+ *
+ * Layer 4: POSIX Layer
+ *
+ *          This layer wraps a Layer-3 file system and hides all lower-level
+ *          access functions. It exposes a POSIX-like high-level API that
+ *          provides operations such as open, close, read, write, and file
+ *          handle management.
+ */
+
+#define FS_ENABLE_LAYER 4
+
 #include "FSTypes.h"
 #include "FSBlock.h"
 #include "FSDescriptor.h"
@@ -28,17 +67,6 @@ class HDFFile;
 class FloppyDrive;
 class HardDrive;
 
-/* An object of type FileSystem represents an Amiga file system (OFS or FFS).
- * It is a logical volume that can be created from an ADF or HDF. In the latter
- * case, each partition can be converted into a file system individually. The
- * class provides functions for analyzing the volume's integrity, as well as
- * for reading files and directories.
- *
- * The MutableFileSystem class extends FileSystem by adding functions for
- * modifying the contents of the file system. It allows the creation of empty
- * file systems of a specified type and provides functions for manipulating
- * files and directories, such as creating, deleting, or moving items.
- */
 class FileSystem : public CoreObject, public Inspectable<FSInfo, FSStats> {
 
     friend struct FSBlock;
