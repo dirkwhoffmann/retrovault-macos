@@ -20,7 +20,8 @@ public:
 
     class FileSystem &fs;
     const FSTraits &traits;
-
+    FSStorage &storage;
+    
     FSComponent(FileSystem& fs);
 
     const char *objectName() const override { return "FSComponent"; }
@@ -31,7 +32,52 @@ class FSAllocator final : public FSComponent {
 
 public:
 
+    // Allocation pointer (selects the block to allocate next)
+    Block ap = 0;
+
     using FSComponent::FSComponent;
+
+
+    //
+    // Computing block counts
+    //
+
+public:
+    
+    // Returns the number of required blocks to store a file of certain size
+    isize requiredBlocks(isize fileSize) const;
+
+private:
+
+    // Returns the number of required file list or data blocks
+    isize requiredFileListBlocks(isize fileSize) const;
+    isize requiredDataBlocks(isize fileSize) const;
+
+
+    //
+    // Creating and deleting blocks
+    //
+
+public:
+
+    // Returns true if at least 'count' free blocks are available
+    bool allocatable(isize count) const;
+
+    // Seeks a free block and marks it as allocated
+    Block allocate();
+
+    // Allocates multiple blocks
+    void allocate(isize count, std::vector<Block> &result, std::vector<Block> prealloc = {});
+
+    // Deallocates a block
+    void deallocateBlock(Block nr);
+
+    // Allocates multiple blocks
+    void deallocateBlocks(const std::vector<Block> &nrs);
+
+    // Allocates all blocks needed for a file
+    void allocateFileBlocks(isize bytes,
+                            std::vector<Block> &listBlocks, std::vector<Block> &dataBlocks);
 
     //
     // Managing the block allocation bitmap
@@ -52,7 +98,7 @@ public:
     void markAsFree(Block nr) { setAllocationBit(nr, 1); }
     void setAllocationBit(Block nr, bool value);
 
-protected:
+private:
 
     // Locates the allocation bit for a certain block
     FSBlock *locateAllocationBit(Block nr, isize *byte, isize *bit) noexcept;
@@ -60,9 +106,6 @@ protected:
 
     // Translate the bitmap into to a vector with the n-th bit set iff the n-th block is free
     std::vector<u32> serializeBitmap() const;
-
-public:
-
 };
 
 }

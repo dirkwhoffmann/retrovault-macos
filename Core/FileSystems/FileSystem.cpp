@@ -321,7 +321,7 @@ FSAttr
 FileSystem::getStat(const FSBlock &fhd) const
 {
     isize size = fhd.getFileSize();
-    isize blocks = requiredBlocks(size);
+    isize blocks = allocator.requiredBlocks(size);
 
     FSAttr result = {
 
@@ -334,45 +334,6 @@ FileSystem::getStat(const FSBlock &fhd) const
     };
 
     return result;
-}
-
-isize
-FileSystem::requiredDataBlocks(isize fileSize) const
-{
-    // Compute the capacity of a single data block
-    isize numBytes = traits.bsize - (traits.ofs() ? 24 : 0);
-
-    // Compute the required number of data blocks
-    return (fileSize + numBytes - 1) / numBytes;
-}
-
-isize
-FileSystem::requiredFileListBlocks(isize fileSize) const
-{
-    // Compute the required number of data blocks
-    isize numBlocks = requiredDataBlocks(fileSize);
-
-    // Compute the number of data block references in a single block
-    isize numRefs = (traits.bsize / 4) - 56;
-
-    // Small files do not require any file list block
-    if (numBlocks <= numRefs) return 0;
-
-    // Compute the required number of additional file list blocks
-    return (numBlocks - 1) / numRefs;
-}
-
-isize
-FileSystem::requiredBlocks(isize fileSize) const
-{
-    isize numDataBlocks = requiredDataBlocks(fileSize);
-    isize numFileListBlocks = requiredFileListBlocks(fileSize);
-
-    debug(FS_DEBUG, "Required file header blocks : %d\n",  1);
-    debug(FS_DEBUG, "       Required data blocks : %ld\n", numDataBlocks);
-    debug(FS_DEBUG, "  Required file list blocks : %ld\n", numFileListBlocks);
-
-    return 1 + numDataBlocks + numFileListBlocks;
 }
 
 FSBlock *
@@ -492,122 +453,6 @@ FileSystem::ascii(Block nr, isize offset, isize len) const noexcept
 
     return  util::createAscii(storage[nr].data() + offset, len);
 }
-
-/*
-bool
-FileSystem::isUnallocated(Block nr) const noexcept
-{
-    assert(isize(nr) < traits.blocks);
-
-    // The first two blocks are always allocated and not part of the bitmap
-    if (nr < 2) return false;
-
-    // Locate the allocation bit in the bitmap block
-    isize byte, bit;
-    auto *bm = locateAllocationBit(nr, &byte, &bit);
-
-    // Read the bit
-    return bm ? GET_BIT(bm->data()[byte], bit) : false;
-}
-
-FSBlock *
-FileSystem::locateAllocationBit(Block nr, isize *byte, isize *bit) noexcept
-{
-    assert(isize(nr) < traits.blocks);
-
-    // The first two blocks are always allocated and not part of the map
-    if (nr < 2) return nullptr;
-    nr -= 2;
-
-    // Locate the bitmap block which stores the allocation bit
-    isize bitsPerBlock = (traits.bsize - 4) * 8;
-    isize bmNr = nr / bitsPerBlock;
-
-    // Get the bitmap block
-    FSBlock *bm = (bmNr < (isize)bmBlocks.size()) ? read(bmBlocks[bmNr], FSBlockType::BITMAP) : nullptr;
-    if (!bm) {
-        warn("Failed to lookup allocation bit for block %d (%ld)\n", nr, bmNr);
-        return nullptr;
-    }
-
-    // Locate the byte position (note: the long word ordering will be reversed)
-    nr = nr % bitsPerBlock;
-    isize rByte = nr / 8;
-
-    // Rectifiy the ordering
-    switch (rByte % 4) {
-        case 0: rByte += 3; break;
-        case 1: rByte += 1; break;
-        case 2: rByte -= 1; break;
-        case 3: rByte -= 3; break;
-    }
-
-    // Skip the checksum which is located in the first four bytes
-    rByte += 4;
-    assert(rByte >= 4 && rByte < traits.bsize);
-
-    *byte = rByte;
-    *bit = nr % 8;
-
-    return bm;
-}
-
-const FSBlock *
-FileSystem::locateAllocationBit(Block nr, isize *byte, isize *bit) const noexcept
-{
-    return const_cast<const FSBlock *>(const_cast<FileSystem *>(this)->locateAllocationBit(nr, byte, bit));
-}
-
-isize
-FileSystem::numUnallocated() const noexcept
-{
-    isize result = 0;
-    for (auto &it : serializeBitmap()) result += util::popcount(it);
-
-    if (FS_DEBUG) {
-
-        isize count = 0;
-        for (isize i = 0; i < numBlocks(); i++) { if (isUnallocated(Block(i))) count++; }
-        debug(true, "Unallocated blocks: Fast code: %ld Slow code: %ld\n", result, count);
-        assert(count == result);
-    }
-
-    return result;
-}
-
-std::vector<u32>
-FileSystem::serializeBitmap() const
-{
-    if (!isFormatted()) return {};
-
-    auto longwords = ((numBlocks() - 2) + 31) / 32;
-    std::vector<u32> result;
-    result.reserve(longwords);
-
-    // Iterate through all bitmap blocks
-    isize j = 0;
-    for (auto &it : bmBlocks) {
-
-        if (auto *bm = read(it, FSBlockType::BITMAP); bm) {
-
-            auto *data = bm->data();
-            for (isize i = 4; i < traits.bsize; i += 4) {
-
-                if (j == longwords) break;
-                result.push_back(HI_HI_LO_LO(data[i], data[i+1], data[i+2], data[i+3]));
-                j++;
-            }
-        }
-    }
-
-    // Zero out the superfluous bits in the last word
-    if (auto bits = (numBlocks() - 2) % 32; bits && !result.empty()) {
-        result.back() &= (1 << bits) - 1;
-    }
-
-    return result;
-}
-*/
 
 FSBlock &
 FileSystem::parent(const FSBlock &node)
@@ -1185,112 +1030,18 @@ void
 FileSystem::createUsageMap(u8 *buffer, isize len) const
 {
     storage.createUsageMap(buffer, len);
-/*
-    // Setup priorities
-    i8 pri[12];
-    pri[isize(FSBlockType::UNKNOWN_BLOCK)]      = 0;
-    pri[isize(FSBlockType::EMPTY_BLOCK)]        = 1;
-    pri[isize(FSBlockType::BOOT_BLOCK)]         = 8;
-    pri[isize(FSBlockType::ROOT_BLOCK)]         = 9;
-    pri[isize(FSBlockType::BITMAP_BLOCK)]       = 7;
-    pri[isize(FSBlockType::BITMAP_EXT_BLOCK)]   = 6;
-    pri[isize(FSBlockType::USERDIR_BLOCK)]      = 5;
-    pri[isize(FSBlockType::FILEHEADER_BLOCK)]   = 3;
-    pri[isize(FSBlockType::FILELIST_BLOCK)]     = 2;
-    pri[isize(FSBlockType::DATA_BLOCK_OFS)]     = 2;
-    pri[isize(FSBlockType::DATA_BLOCK_FFS)]     = 2;
-    
-    // Start from scratch
-    for (isize i = 0; i < len; i++) buffer[i] = 0;
- 
-    // Analyze all blocks
-    for (isize i = 1, max = numBlocks(); i < max; i++) {
-
-        auto val = u8(storage.getType(Block(i)));
-        // auto val = u8(blocks[i]->type);
-        auto pos = i * (len - 1) / (max - 1);
-        if (pri[buffer[pos]] < pri[val]) buffer[pos] = val;
-        if (pri[buffer[pos]] == pri[val] && pos > 0 && buffer[pos-1] != val) buffer[pos] = val;
-    }
-    
-    // Fill gaps
-    for (isize pos = 1; pos < len; pos++) {
-        
-        if (buffer[pos] == u8(FSBlockType::UNKNOWN_BLOCK)) {
-            buffer[pos] = buffer[pos - 1];
-        }
-    }
- */
 }
 
 void
 FileSystem::createAllocationMap(u8 *buffer, isize len) const
 {
     storage.createAllocationMap(buffer, len);
-    /*
-    // Setup priorities
-    u8 pri[4] = { 0, 1, 2, 3 };
-
-    auto &map = doctor.diagnosis.bitmapErrors;
-
-    // Start from scratch
-    for (isize i = 0; i < len; i++) buffer[i] = 255;
- 
-    // Analyze all blocks
-    for (isize i = 0, max = numBlocks(); i < max; i++) {
-
-        u8 val = isFree(Block(i)) ? 0 : map.contains(Block(i)) ? u8(map.at(Block(i)) + 1) : 1;
-        auto pos = i * (len - 1) / (max - 1);
-        if (buffer[pos] == 255 || pri[buffer[pos]] < pri[val]) buffer[pos] = val;
-    }
-    
-    // Fill gaps
-    for (isize pos = 1; pos < len; pos++) {
-        
-        if (buffer[pos] == 255) {
-            buffer[pos] = buffer[pos - 1];
-        }
-    }
-    */
 }
 
 void
 FileSystem::createHealthMap(u8 *buffer, isize len) const
 {
     storage.createHealthMap(buffer, len);
-/*
-    bool strict = true; // TODO: Allow non-strict checking
-
-    // Setup priorities
-    i8 pri[3] = { 0, 1, 2 };
- 
-    // Start from scratch
-    for (isize i = 0; i < len; i++) buffer[i] = 255;
-
-    // Mark all used blocks
-    // auto &map = storage.blocks;
-    // for (isize i = 0, max = numBlocks(); i < max; i++) {
-
-    // Analyze all blocks
-    for (isize i = 0, max = numBlocks(); i < max; i++) {
-
-        auto corrupted = doctor.xray(Block(i), strict); //  storage[i].corrupted;
-        auto empty = isEmpty(Block(i));
-        
-        u8 val = empty ? 0 : corrupted ? 2 : 1;
-        auto pos = i * (len - 1) / (max - 1);
-        
-        if (buffer[pos] == 255 || pri[buffer[pos]] < pri[val]) buffer[pos] = val;
-    }
-    
-    // Fill gaps
-    for (isize pos = 1; pos < len; pos++) {
-        
-        if (buffer[pos] == 255) {
-            buffer[pos] = buffer[pos - 1];
-        }
-    }
- */
 }
 
 isize

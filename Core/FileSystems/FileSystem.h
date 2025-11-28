@@ -104,9 +104,6 @@ private:
     std::vector<Block> bmBlocks;
     std::vector<Block> bmExtBlocks;
 
-    // Allocation pointer (used by the allocator to select the next block)
-    Block ap = 0;
-
 
     //
     // Initializing
@@ -202,17 +199,6 @@ public:
     FSAttr getStat(Block nr) const;
     FSAttr getStat(const FSBlock &fhd) const;
 
-private:
-    
-    // Returns the number of required blocks to store a file of certain size
-    isize requiredBlocks(isize fileSize) const;
-
-private:
-
-    // Returns the number of required file list or data blocks
-    isize requiredFileListBlocks(isize fileSize) const;
-    isize requiredDataBlocks(isize fileSize) const;
-
 
     //
     // Querying block properties
@@ -259,32 +245,6 @@ public:
     // Operator overload
     FSBlock &operator[](size_t nr);
     const FSBlock &operator[](size_t nr) const;
-
-
-    //
-    // Managing the block allocation bitmap
-    //
-
-    /*
-public:
-    
-    // Checks if a block is allocated or unallocated
-    bool isUnallocated(Block nr) const noexcept;
-    bool isAllocated(Block nr) const noexcept { return !isUnallocated(nr); }
-
-    // Returns the number of allocated or unallocated blocks
-    isize numUnallocated() const noexcept;
-    isize numAllocated() const noexcept { return numBlocks() - numUnallocated(); }
-
-protected:
-    
-    // Locates the allocation bit for a certain block
-    FSBlock *locateAllocationBit(Block nr, isize *byte, isize *bit) noexcept;
-    const FSBlock *locateAllocationBit(Block nr, isize *byte, isize *bit) const noexcept;
-
-    // Translate the bitmap into to a vector with the n-th bit set iff the n-th block is free
-    std::vector<u32> serializeBitmap() const;
-     */
 
 
     //
@@ -446,21 +406,6 @@ public:
 
 public:
 
-    // Returns true if at least 'count' free blocks are available
-    bool allocatable(isize count) const;
-
-    // Seeks a free block and marks it as allocated
-    Block allocate();
-
-    // Allocates multiple blocks
-    void allocate(isize count, std::vector<Block> &result, std::vector<Block> prealloc = {});
-
-    // Deallocates a block
-    void deallocateBlock(Block nr);
-
-    // Allocates multiple blocks
-    void deallocateBlocks(const std::vector<Block> &nrs);
-
     // Updates the checksums in all blocks
     void updateChecksums() noexcept;
 
@@ -486,23 +431,6 @@ public:
 
     // Removes a boot block virus from the current partition (if any)
     void killVirus();
-
-
-    //
-    // Editing the block allocation bitmap
-    //
-
-public:
-
-    // Marks a block as allocated or free
-    /*
-    void markAsAllocated(Block nr) { setAllocationBit(nr, 0); }
-    void markAsFree(Block nr) { setAllocationBit(nr, 1); }
-    void setAllocationBit(Block nr, bool value);
-
-    // Rectifies the block allocation map
-    void rectifyAllocationMap();
-    */
 
 
     //
@@ -574,9 +502,6 @@ private:
     // Adds bytes to a data block
     isize addData(Block nr, const u8 *buf, isize size);
     isize addData(FSBlock &block, const u8 *buf, isize size);
-
-    // Allocates all blocks needed for a file
-    void allocateFileBlocks(isize bytes, std::vector<Block> &listBlocks, std::vector<Block> &dataBlocks);
 
 
     //

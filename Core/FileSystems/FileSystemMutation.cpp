@@ -50,7 +50,7 @@ FileSystem::init(const FSDescriptor &layout, const fs::path &path)
     format();
 
     // Start allocating blocks at the middle of the disk
-    ap = rootBlock;
+    allocator.ap = rootBlock;
 
     // Print some debug information
     if (FS_DEBUG) { dump(Category::State); }
@@ -195,6 +195,7 @@ FileSystem::requiredBlocks(isize fileSize) const
 }
 */
 
+#if 0
 bool
 FileSystem::allocatable(isize count) const
 {
@@ -303,6 +304,7 @@ FileSystem::deallocateBlocks(const std::vector<Block> &nrs)
 {
     for (Block nr : nrs) { deallocateBlock(nr); }
 }
+#endif
 
 void
 FileSystem::addFileListBlock(Block at, Block head, Block prev)
@@ -331,7 +333,7 @@ FileSystem::addDataBlock(Block at, isize id, Block head, Block prev)
 FSBlock &
 FileSystem::newUserDirBlock(const FSName &name)
 {
-    Block nr = allocate();
+    Block nr = allocator.allocate();
 
     storage[nr].init(FSBlockType::USERDIR);
     storage[nr].setName(name);
@@ -341,7 +343,7 @@ FileSystem::newUserDirBlock(const FSName &name)
 FSBlock &
 FileSystem::newFileHeaderBlock(const FSName &name)
 {
-    Block nr = allocate();
+    Block nr = allocator.allocate();
 
     storage[nr].init(FSBlockType::FILEHEADER);
     storage[nr].setName(name);
@@ -437,7 +439,7 @@ FileSystem::link(FSBlock &at, const FSName &name)
     try {
         link(at, name, fhb);
     } catch(...) {
-        deallocateBlock(fhb.nr);
+        allocator.deallocateBlock(fhb.nr);
         throw;
     }
 
@@ -595,7 +597,7 @@ FileSystem::createFile(FSBlock &fhb,
     for (isize i = 0; i < numRefs; i++) fhb.setDataBlockRef(i, 0);
 
     // Allocate blocks
-    allocateFileBlocks(size, listBlocks, dataBlocks);
+    allocator.allocateFileBlocks(size, listBlocks, dataBlocks);
 
     for (usize i = 0; i < listBlocks.size(); i++) {
 
@@ -852,95 +854,6 @@ FileSystem::addData(FSBlock &block, const u8 *buf, isize size)
     }
     
     return count;
-}
-
-void
-FileSystem::allocateFileBlocks(isize bytes,
-                                      std::vector<Block> &listBlocks,
-                                      std::vector<Block> &dataBlocks)
-{
-    /* This function takes a file size and two lists:
-
-            listBlocks  – pre-allocated list blocks (extension blocks)
-            dataBlocks  – pre-allocated data blocks
-
-        It first determines how many blocks of each type are required to store
-        a file of the given size. If the caller provided more blocks than needed,
-        the surplus blocks are freed. If fewer blocks are provided, new blocks
-        are allocated and appended to the respective lists.
-    */
-
-    auto freeSurplus = [&](std::vector<Block> &blocks, usize count) {
-
-        if (blocks.size() > count) {
-
-            for (auto i = count; i < blocks.size(); i++) {
-                deallocateBlock(blocks[i]);
-            }
-            blocks.resize(count);
-
-        } else {
-
-            blocks.reserve(count);
-        }
-    };
-
-    isize dataBlocksNeeded = 0;
-    auto ensureDataBlocks = [&](isize n) {
-
-        dataBlocksNeeded += n;
-        while (dataBlocks.size() < dataBlocksNeeded) allocate(1, dataBlocks);
-    };
-
-    isize listBlocksNeeded = 0;
-    auto ensureListBlocks = [&](isize n) {
-
-        listBlocksNeeded += n;
-        while (listBlocks.size() < listBlocksNeeded) allocate(1, listBlocks);
-    };
-
-    isize numDataBlocks         = requiredDataBlocks(bytes);
-    isize numListBlocks         = requiredFileListBlocks(bytes);
-    isize refsPerBlock          = (traits.bsize / 4) - 56;
-    isize refsInHeaderBlock     = std::min(numDataBlocks, refsPerBlock);
-    isize refsInListBlocks      = numDataBlocks - refsInHeaderBlock;
-    isize refsInLastListBlock   = refsInListBlocks % refsPerBlock;
-    
-    debug(FS_DEBUG, "                   Data bytes : %ld\n", bytes);
-    debug(FS_DEBUG, "         Required data blocks : %ld\n", numDataBlocks);
-    debug(FS_DEBUG, "         Required list blocks : %ld\n", numListBlocks);
-    debug(FS_DEBUG, "         References per block : %ld\n", refsPerBlock);
-    debug(FS_DEBUG, "   References in header block : %ld\n", refsInHeaderBlock);
-    debug(FS_DEBUG, "    References in list blocks : %ld\n", refsInListBlocks);
-    debug(FS_DEBUG, "References in last list block : %ld\n", refsInLastListBlock);
-
-    // Free the surplus list blocks
-    freeSurplus(listBlocks, numListBlocks);
-    freeSurplus(dataBlocks, numDataBlocks);
-
-    if (traits.ofs()) {
-
-        // Header block -> Data blocks -> List block -> Data blocks ... List block -> Data blocks
-        ensureDataBlocks(refsInHeaderBlock);
-
-        for (isize i = 0; i < numListBlocks; i++) {
-
-            ensureListBlocks(1);
-            ensureDataBlocks(i < numListBlocks - 1 ? refsPerBlock : refsInLastListBlock);
-        }
-    }
-    
-    if (traits.ffs()) {
-        
-        // Header block -> Data blocks -> All list block -> All remaining data blocks
-        ensureDataBlocks(refsInHeaderBlock);
-        ensureListBlocks(numListBlocks);
-        ensureDataBlocks(refsInListBlocks);
-    }
-
-    // Rectify checksums
-    for (auto &it : bmBlocks) at(it).updateChecksum();
-    for (auto &it : bmExtBlocks) at(it).updateChecksum();
 }
 
 void
