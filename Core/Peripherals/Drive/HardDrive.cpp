@@ -125,14 +125,17 @@ HardDrive::init(isize size)
 void
 HardDrive::init(const FileSystem &fs)
 {
-    auto geometry = GeometryDescriptor(fs.numBytes());
-    
+    auto &traits = fs.getTraits();
+    auto stat = fs.getStat();
+
+    auto geometry = GeometryDescriptor(stat.numBytes); // fs.numBytes());
+
     // Create the drive
     init(geometry);
         
     // Update the partition table
-    ptable[0].name = fs.getName().cpp_str();
-    ptable[0].dosType = 0x444F5300 | (u32)fs.getTraits().dos;
+    ptable[0].name = stat.name.cpp_str();
+    ptable[0].dosType = 0x444F5300 | (u32)traits.dos;
 
     // Copy over all blocks
     fs.exporter.exportVolume(data.ptr, geometry.numBytes());

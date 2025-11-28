@@ -1381,19 +1381,19 @@ NSString *EventSlotName(EventSlot slot)
 
 - (NSString *)name
 {
-    auto str = [self fs]->getName();
+    auto str = [self fs]->getStat().name;
     return @(str.c_str());
 }
 
 - (NSString *)creationDate
 {
-    auto str = [self fs]->getCreationDate();
+    auto str = [self fs]->getStat().bDate; // getCreationDate();
     return @(str.str().c_str());
 }
 
 - (NSString *)modificationDate
 {
-    auto str = [self fs]->getModificationDate();
+    auto str = [self fs]->getStat().mDate; // getModificationDate();
     return @(str.str().c_str());
 }
 

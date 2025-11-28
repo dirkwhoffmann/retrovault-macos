@@ -34,9 +34,11 @@ NavigatorConsole::prompt()
         auto &pwd = fs.pwd();
         
         ss << "[" << std::to_string(pwd.nr) << "]";
-        
-        auto fsName = fs.getName();
-        if (!fsName.empty()) ss << " " << fsName << ":";
+
+        auto stat = fs.getStat();
+        if (!stat.name.empty()) ss << " " << stat.name << ":";
+        // auto fsName = fs.getName();
+        // if (!fsName.empty()) ss << " " << fsName << ":";
         if (pwd.isDirectory()) ss << " " << pwd.absName();
     }
     
@@ -723,14 +725,14 @@ NavigatorConsole::initCommands(RSCommand &root)
                         
                         auto &item = parsePath(args, "file");
                         auto name = item.cppName();
-                        if (name.empty()) name = fs.getName().cpp_str();
+                        if (name.empty()) name = fs.getStat().name.cpp_str();
                         fs.exporter.exportFiles(item, "/export", recursive, true);
                         msgQueue.setPayload( { "/export", name } );
                         
                     } else {
                         
                         fs.exporter.exportBlocks("/export");
-                        auto name = fs.getName().cpp_str();
+                        auto name = fs.getStat().name.cpp_str();
                         name += fs.getTraits().adf() ? ".adf" : ".hdf";
                         msgQueue.setPayload( { "/export", name } );
                     }

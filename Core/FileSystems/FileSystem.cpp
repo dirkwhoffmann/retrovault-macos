@@ -180,6 +180,7 @@ FileSystem::_dump(Category category, std::ostream &os) const noexcept
 
         case Category::State:
         {
+            auto stat = getStat();
             auto info = getInfo();
             auto size = std::to_string(info.numBlocks) + " (x " + std::to_string(traits.bsize) + ")";
 
@@ -195,7 +196,7 @@ FileSystem::_dump(Category category, std::ostream &os) const noexcept
                 os << "  ";
                 os << std::setw(3) << std::right << std::setfill(' ') << isize(info.fillLevel);
                 os << "%  ";
-                os << getName().c_str() << std::endl;
+                os << stat.name.c_str() << std::endl;
 
             } else {
 
@@ -215,14 +216,15 @@ FileSystem::_dump(Category category, std::ostream &os) const noexcept
         }
         case Category::Properties:
         {
+            auto stat = getStat();
             auto info = getInfo();
 
             os << tab("Name");
-            os << getName().cpp_str() << std::endl;
+            os << stat.name.cpp_str() << std::endl;
             os << tab("Created");
-            os << getCreationDate().str() << std::endl;
+            os << stat.bDate.str() << std::endl;
             os << tab("Modified");
-            os << getModificationDate().str() << std::endl;
+            os << stat.mDate.str() << std::endl;
             os << tab("Boot block");
             os << getBootBlockName() << std::endl;
             os << tab("Capacity");
@@ -259,9 +261,11 @@ FileSystem::_dump(Category category, std::ostream &os) const noexcept
 void
 FileSystem::cacheInfo(FSInfo &result) const noexcept
 {
-    result.name = getName().cpp_str();
-    result.creationDate = getCreationDate().str();
-    result.modificationDate = getModificationDate().str();
+    auto stat = getStat();
+
+    result.name = stat.name.cpp_str();
+    result.creationDate = stat.bDate.str();
+    result.modificationDate = stat.mDate.str();
 
     result.numBlocks = storage.numBlocks();
     result.freeBlocks = storage.freeBlocks(); //  allocator.numUnallocated();
@@ -274,6 +278,8 @@ FileSystem::cacheInfo(FSInfo &result) const noexcept
 FSStat
 FileSystem::getStat() const noexcept
 {
+    auto *rb = storage.read(rootBlock, FSBlockType::ROOT);
+
     FSStat result = {
 
         .numBlocks  = storage.numBlocks(),
@@ -285,9 +291,9 @@ FileSystem::getStat() const noexcept
         .usedBlocks = storage.usedBlocks(),
         .usedBytes  = storage.usedBytes(),
 
-        .name       = getName(),
-        .bDate      = getCreationDate(),
-        .mDate      = getModificationDate(),
+        .name       = rb ? rb->getName() : FSName(""),
+        .bDate      = rb ? rb->getCreationDate() : FSTime(),
+        .mDate      = rb ? rb->getModificationDate() : FSTime(),
 
         .reads      = 0, // Not yet supported
         .writes     = 0, // Not yet supported

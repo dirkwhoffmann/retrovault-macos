@@ -177,15 +177,15 @@ public:
     isize blockSize() const noexcept { return storage.blockSize(); }
 
     // Reports usage information
-    isize freeBlocks() const noexcept { return storage.freeBlocks(); }
-    isize usedBlocks() const noexcept { return storage.usedBlocks(); }
-    isize freeBytes() const noexcept { return storage.freeBytes(); }
-    isize usedBytes() const noexcept { return storage.usedBytes(); }
+    [[deprecated]] isize freeBlocks() const noexcept { return storage.freeBlocks(); }
+    [[deprecated]] isize usedBlocks() const noexcept { return storage.usedBlocks(); }
+    [[deprecated]] isize freeBytes() const noexcept { return storage.freeBytes(); }
+    [[deprecated]] isize usedBytes() const noexcept { return storage.usedBytes(); }
 
     // Analyzes the root block
-    FSName getName() const noexcept;
-    FSTime getCreationDate() const noexcept;
-    FSTime getModificationDate() const noexcept;
+    [[deprecated]] FSName getName() const noexcept;
+    [[deprecated]] FSTime getCreationDate() const noexcept;
+    [[deprecated]] FSTime getModificationDate() const noexcept;
 
     // Analyzes the boot block
     string getBootBlockName() const noexcept;
