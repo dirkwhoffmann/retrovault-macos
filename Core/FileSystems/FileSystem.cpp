@@ -302,6 +302,7 @@ FileSystem::getStat() const noexcept
     return result;
 }
 
+/*
 FSName
 FileSystem::getName() const noexcept
 {
@@ -323,6 +324,7 @@ FileSystem::getModificationDate() const noexcept
     // FSBlock *rb = rootBlockPtr(rootBlock);
     return rb ? rb->getModificationDate() : FSTime();
 }
+*/
 
 string
 FileSystem::getBootBlockName() const noexcept
@@ -337,13 +339,13 @@ FileSystem::bootBlockType() const noexcept
 }
 
 FSAttr
-FileSystem::getStat(Block nr) const
+FileSystem::attr(Block nr) const
 {
-    return getStat(at(nr));
+    return attr(at(nr));
 }
 
 FSAttr
-FileSystem::getStat(const FSBlock &fhd) const
+FileSystem::attr(const FSBlock &fhd) const
 {
     isize size = fhd.getFileSize();
     isize blocks = allocator.requiredBlocks(size);

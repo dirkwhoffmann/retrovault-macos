@@ -168,33 +168,38 @@ public:
     // Returns static file system properties
     const FSTraits &getTraits() const noexcept { return traits; }
 
-    // Returns usage information and root metadata
-    FSStat getStat() const noexcept;
-
     // Returns capacity information
     isize numBlocks() const noexcept { return storage.numBlocks(); }
     isize numBytes() const noexcept { return storage.numBytes(); }
     isize blockSize() const noexcept { return storage.blockSize(); }
 
+    // Returns usage information and root metadata
+    FSStat getStat() const noexcept;
+
+    // Get information about the file system
+    FSAttr attr(Block nr) const;
+    FSAttr attr(const FSBlock &fhd) const;
+
+
     // Reports usage information
+    /*
     [[deprecated]] isize freeBlocks() const noexcept { return storage.freeBlocks(); }
     [[deprecated]] isize usedBlocks() const noexcept { return storage.usedBlocks(); }
     [[deprecated]] isize freeBytes() const noexcept { return storage.freeBytes(); }
     [[deprecated]] isize usedBytes() const noexcept { return storage.usedBytes(); }
+    */
 
     // Analyzes the root block
+    /*
     [[deprecated]] FSName getName() const noexcept;
     [[deprecated]] FSTime getCreationDate() const noexcept;
     [[deprecated]] FSTime getModificationDate() const noexcept;
+    */
 
     // Analyzes the boot block
     string getBootBlockName() const noexcept;
     BootBlockType bootBlockType() const noexcept;
     bool hasVirus() const noexcept { return bootBlockType() == BootBlockType::VIRUS; }
-
-    // Get information about the file system
-    FSAttr getStat(Block nr) const;
-    FSAttr getStat(const FSBlock &fhd) const;
 
 
     //

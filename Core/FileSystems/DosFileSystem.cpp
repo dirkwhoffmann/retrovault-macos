@@ -45,7 +45,7 @@ DosFileSystem::stat() const noexcept
 FSAttr
 DosFileSystem::attr(const fs::path &path) const
 {
-    return fs.getStat(fs.seek(fs.root(), path));
+    return fs.attr(fs.seek(fs.root(), path));
 }
 
 void
