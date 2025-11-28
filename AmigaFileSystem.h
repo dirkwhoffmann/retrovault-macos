@@ -19,7 +19,7 @@ using namespace vamiga;
 
 namespace vamiga {
 
-class MutableFileSystem;
+class FileSystem;
 class DosFileSystem;
 
 }
@@ -30,7 +30,7 @@ class AmigaFileSystem : public FuseFileSystem {
     ADFFile *adf = nullptr;
 
     // Raw file system extracted from the ADF
-    MutableFileSystem *fs = nullptr;
+    FileSystem *fs = nullptr;
 
     // DOS layer on top of 'fs'
     DosFileSystem *dos = nullptr;

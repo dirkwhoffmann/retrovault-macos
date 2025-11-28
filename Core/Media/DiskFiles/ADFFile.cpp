@@ -17,7 +17,7 @@
 #include "FloppyDrive.h"
 #include "IOUtils.h"
 #include "MemUtils.h"
-#include "MutableFileSystem.h"
+#include "FileSystem.h"
 
 namespace vamiga {
 
@@ -125,7 +125,7 @@ ADFFile::init(const FloppyDrive &drive)
 }
 
 void
-ADFFile::init(const MutableFileSystem &volume)
+ADFFile::init(const FileSystem &volume)
 {
     switch (volume.numBlocks()) {
             
@@ -297,7 +297,7 @@ ADFFile::formatDisk(FSFormat fs, BootBlockId id, string name)
     descriptor.dos = fs;
     
     // Create an empty file system
-    MutableFileSystem volume(descriptor);
+    FileSystem volume(descriptor);
     volume.setName(FSName(name));
     
     // Write boot code

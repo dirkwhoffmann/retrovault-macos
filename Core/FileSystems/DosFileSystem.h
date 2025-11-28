@@ -9,7 +9,7 @@
 
 #pragma once
 
-#include "MutableFileSystem.h"
+#include "FileSystem.h"
 #include <fcntl.h>
 
 namespace vamiga {
@@ -48,7 +48,7 @@ struct NodeMeta {
 
 class DosFileSystem {
     
-    MutableFileSystem &fs;
+    FileSystem &fs;
 
     // Runtime metadata
     std::unordered_map<Block, NodeMeta> meta;
@@ -61,7 +61,7 @@ class DosFileSystem {
 
 public:
 
-    explicit DosFileSystem(MutableFileSystem &fs);
+    explicit DosFileSystem(FileSystem &fs);
 
     //
     // Querying file system properties

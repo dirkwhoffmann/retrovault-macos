@@ -9,7 +9,7 @@
 
 #include "config.h"
 #include "IOUtils.h"
-#include "MutableFileSystem.h"
+#include "FileSystem.h"
 #include "MemUtils.h"
 
 #include <climits>

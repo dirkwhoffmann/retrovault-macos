@@ -8,7 +8,7 @@
 // -----------------------------------------------------------------------------
 
 #include "FuseFileSystem.h"
-#include "MutableFileSystem.h"
+#include "FileSystem.h"
 #include <fuse.h>
 #include <iostream>
 #include <sys/mount.h>

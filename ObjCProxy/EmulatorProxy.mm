@@ -12,7 +12,7 @@
 #import "AmigaFileSystem.h"
 #import "VAmiga.h"
 #import "Emulator.h"
-#import "MutableFileSystem.h"
+#import "FileSystem.h"
 
 using namespace vamiga;
 using namespace vamiga::moira;
@@ -1336,12 +1336,12 @@ NSString *EventSlotName(EventSlot slot)
 
 @implementation FileSystemProxy
 
-- (MutableFileSystem *)fs
+- (FileSystem *)fs
 {
-    return (MutableFileSystem *)obj;
+    return (FileSystem *)obj;
 }
 
-+ (instancetype)make:(MutableFileSystem *)volume
++ (instancetype)make:(FileSystem *)volume
 {
     if (volume == nullptr) { return nil; }
     
@@ -1354,7 +1354,7 @@ NSString *EventSlotName(EventSlot slot)
     try {
 
         auto file = (MediaFile *)(proxy->obj);
-        auto dev = new MutableFileSystem(*file);
+        auto dev = new FileSystem(*file);
         return [self make:dev];
 
     }  catch (AppError &error) {
@@ -1369,7 +1369,7 @@ NSString *EventSlotName(EventSlot slot)
     try {
 
         auto file = (MediaFile *)(proxy->obj);
-        auto dev = new MutableFileSystem(*file, nr);
+        auto dev = new FileSystem(*file, nr);
         return [self make:dev];
 
     }  catch (AppError &error) {
@@ -1724,7 +1724,7 @@ NSString *EventSlotName(EventSlot slot)
                               type:(FileType)type
                          exception:(ExceptionWrapper *)ex
 {
-    auto fs = (MutableFileSystem *)proxy->obj;
+    auto fs = (FileSystem *)proxy->obj;
     try { return [self make: MediaFile::make(*fs, type)]; }
     catch (AppError &error) { [ex save:error]; return nil; }
 }

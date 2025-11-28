@@ -8,7 +8,7 @@
 // -----------------------------------------------------------------------------
 
 #include "FSDoctor.h"
-#include "MutableFileSystem.h"
+#include "FileSystem.h"
 #include <unordered_map>
 #include <unordered_set>
 
@@ -678,7 +678,7 @@ FSDoctor::xray(FSBlock &node, bool strict, std::ostream &os) const
 void
 FSDoctor::rectify(bool strict)
 {
-    auto *mfs = dynamic_cast<MutableFileSystem *>(&fs);
+    auto *mfs = dynamic_cast<FileSystem *>(&fs);
     if (!mfs) throw AppError(Fault::FS_READ_ONLY);
 
     xray(strict);
@@ -696,7 +696,7 @@ FSDoctor::rectify(Block ref, bool strict)
 void
 FSDoctor::rectify(FSBlock &node, bool strict)
 {
-    auto *mfs = dynamic_cast<MutableFileSystem *>(&fs);
+    auto *mfs = dynamic_cast<FileSystem *>(&fs);
     if (!mfs) throw AppError(Fault::FS_READ_ONLY);
 
     for (isize i = 0; i < fs.traits.bsize / 4; i += 4) {
@@ -716,7 +716,7 @@ FSDoctor::rectify(FSBlock &node, bool strict)
 void
 FSDoctor::rectifyBitmap(bool strict)
 {
-    auto *mfs = dynamic_cast<MutableFileSystem *>(&fs);
+    auto *mfs = dynamic_cast<FileSystem *>(&fs);
     if (!mfs) throw AppError(Fault::FS_READ_ONLY);
 
     xrayBitmap(strict);

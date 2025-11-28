@@ -100,7 +100,7 @@ AmigaFileSystem::AmigaFileSystem(const fs::path &filename)
     assert(adf != nullptr);
 
     mylog("Extracting raw file system...\n");
-    fs = new MutableFileSystem(*adf);
+    fs = new FileSystem(*adf);
     assert(fs != nullptr);
 
     std::stringstream ss;

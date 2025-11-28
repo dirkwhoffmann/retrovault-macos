@@ -11,7 +11,7 @@
 
 namespace vamiga {
 
-DosFileSystem::DosFileSystem(MutableFileSystem &fs) : fs(fs)
+DosFileSystem::DosFileSystem(FileSystem &fs) : fs(fs)
 {
 
 }

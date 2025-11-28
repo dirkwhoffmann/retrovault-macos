@@ -9,7 +9,7 @@
 
 #include "config.h"
 #include "FSBlock.h"
-#include "MutableFileSystem.h"
+#include "FileSystem.h"
 #include "MemUtils.h"
 #include "Host.h"
 #include <algorithm>
