@@ -7,46 +7,44 @@
 // See https://mozilla.org/MPL/2.0 for license information
 // -----------------------------------------------------------------------------
 
-#include "FuseAdapter.h"
+#include "FuseFileSystem.h"
 #include "MutableFileSystem.h"
 #include <fuse.h>
 #include <iostream>
 #include <sys/mount.h>
 
 fuse_operations
-FuseAdapter::callbacks = {
+FuseFileSystem::callbacks = {
 
-    .getattr    = getattr,
-    .mkdir      = mkdir,
-    .unlink     = unlink,
-    .rmdir      = rmdir,
-    .rename     = rename,
-    .chmod      = chmod,
-    .truncate   = truncate,
-    .open       = open,
-    .read       = read,
-    .write      = write,
-    .statfs     = statfs,
-    .release    = release,
-    .readdir    = readdir,
-    .init       = init,
-    .destroy    = destroy,
-    /*
-    .access     = access,
-     */
-    .create     = create,
-    .utimens    = utimens
+    .getattr    = hooks::getattr,
+    .mkdir      = hooks::mkdir,
+    .unlink     = hooks::unlink,
+    .rmdir      = hooks::rmdir,
+    .rename     = hooks::rename,
+    .chmod      = hooks::chmod,
+    .truncate   = hooks::truncate,
+    .open       = hooks::open,
+    .read       = hooks::read,
+    .write      = hooks::write,
+    .statfs     = hooks::statfs,
+    .release    = hooks::release,
+    .readdir    = hooks::readdir,
+    .init       = hooks::init,
+    .destroy    = hooks::destroy,
+    .access     = hooks::access,
+    .create     = hooks::create,
+    .utimens    = hooks::utimens
 };
 
 void
-FuseAdapter::setListener(const void *listener, AdapterCallback *callback)
+FuseFileSystem::setListener(const void *listener, AdapterCallback *callback)
 {
     this->listener = listener;
     this->callback = callback;
 }
 
 void
-FuseAdapter::mount(const fs::path &mp)
+FuseFileSystem::mount(const fs::path &mp)
 {
     mountpoint = mp;
 
@@ -123,7 +121,7 @@ FuseAdapter::mount(const fs::path &mp)
 }
 
 void
-FuseAdapter::unmount()
+FuseFileSystem::unmount()
 {
     printf("FuseAdapter::unmount()\n");
 
@@ -145,133 +143,133 @@ FuseAdapter::unmount()
 }
 
 int
-FuseAdapter::getattr(const char *path, struct stat* st)
+FuseFileSystem::hooks::getattr(const char *path, struct stat* st)
 {
     mylog("[getattr]  %s\n", path);
-    return self().delegate->getattr(path, st);
+    return self().getattr(path, st);
 }
 
 int
-FuseAdapter::mkdir(const char *path, mode_t mode)
+FuseFileSystem::hooks::mkdir(const char *path, mode_t mode)
 {
     mylog("[mkdir]    %s, %x\n", path, mode);
-    return self().delegate->mkdir(path, mode);
+    return self().mkdir(path, mode);
 }
 
 int
-FuseAdapter::unlink(const char *path)
+FuseFileSystem::hooks::unlink(const char *path)
 {
     mylog("[unlink]   %s\n", path);
-    return self().delegate->unlink(path);
+    return self().unlink(path);
 }
 
 int
-FuseAdapter::rmdir(const char *path)
+FuseFileSystem::hooks::rmdir(const char *path)
 {
     mylog("[rmdir]    %s\n", path);
-    return self().delegate->rmdir(path);
+    return self().rmdir(path);
 }
 
 int
-FuseAdapter::rename(const char *oldpath, const char *newpath)
+FuseFileSystem::hooks::rename(const char *oldpath, const char *newpath)
 {
     mylog("[rename]   %s, %s\n", oldpath, newpath);
-    return self().delegate->rename(oldpath, newpath);
+    return self().rename(oldpath, newpath);
 }
 
 int
-FuseAdapter::chmod(const char *path, mode_t mode)
+FuseFileSystem::hooks::chmod(const char *path, mode_t mode)
 {
     mylog("[chmod]    %s, %x\n", path, mode);
-    return self().delegate->chmod(path, mode);
+    return self().chmod(path, mode);
 }
 
 int
-FuseAdapter::truncate(const char* path, off_t size)
+FuseFileSystem::hooks::truncate(const char* path, off_t size)
 {
     mylog("[truncate] %s, %lld\n", path, size);
-    return self().delegate->truncate(path, size);
+    return self().truncate(path, size);
 }
 
 int
-FuseAdapter::open(const char* path, struct fuse_file_info* fi)
+FuseFileSystem::hooks::open(const char* path, struct fuse_file_info* fi)
 {
     mylog("[open]     %s\n", path);
-    return self().delegate->open(path, fi);
+    return self().open(path, fi);
 }
 
 int
-FuseAdapter::read(const char* path, char* buf, size_t size, off_t offset, struct fuse_file_info* fi)
+FuseFileSystem::hooks::read(const char* path, char* buf, size_t size, off_t offset, struct fuse_file_info* fi)
 {
     mylog("[read]     %s, %ld, %lld\n", path, size, offset);
-    return self().delegate->read(path, buf, size, offset, fi);
+    return self().read(path, buf, size, offset, fi);
 }
 
 int
-FuseAdapter::write(const char* path, const char* buf, size_t size, off_t offset, struct fuse_file_info* fi)
+FuseFileSystem::hooks::write(const char* path, const char* buf, size_t size, off_t offset, struct fuse_file_info* fi)
 {
     mylog("[write]    %s, %ld, %lld\n", path, size, offset);
-    return self().delegate->write(path, buf, size, offset, fi);
+    return self().write(path, buf, size, offset, fi);
 }
 
 int
-FuseAdapter::statfs(const char *path, struct statvfs *st)
+FuseFileSystem::hooks::statfs(const char *path, struct statvfs *st)
 {
     mylog("[statfs]   %s\n", path);
-    return self().delegate->statfs(path, st);
+    return self().statfs(path, st);
 }
 
 int
-FuseAdapter::release(const char *path, struct fuse_file_info *fi)
+FuseFileSystem::hooks::release(const char *path, struct fuse_file_info *fi)
 {
     mylog("[release]  %s\n", path);
-    return self().delegate->release(path, fi);
+    return self().release(path, fi);
 }
 
 int
-FuseAdapter::readdir(const char* path, void* buf, fuse_fill_dir_t filler,
+FuseFileSystem::hooks::readdir(const char* path, void* buf, fuse_fill_dir_t filler,
                off_t offset, struct fuse_file_info* fi)
 {
     mylog("[readdir]  %s, %lld\n", path, offset);
-    return self().delegate->readdir(path, buf, filler, offset, fi);
+    return self().readdir(path, buf, filler, offset, fi);
 }
 
 void *
-FuseAdapter::init(struct fuse_conn_info* conn)
+FuseFileSystem::hooks::init(struct fuse_conn_info* conn)
 {
     mylog("[init]");
 
     // We ignore the result of the delegate method
-    (void)self().delegate->init(conn);
+    (void)self().init(conn);
 
     // Instead, we return a pointer to the FUSE adapter
     return &self();
 }
 
 void
-FuseAdapter::destroy(void *ptr)
+FuseFileSystem::hooks::destroy(void *ptr)
 {
     mylog("[destroy]  %p\n", ptr);
-    self().delegate->destroy(ptr);
+    self().destroy(ptr);
 }
 
 int
-FuseAdapter::access(const char *path, const int mask)
+FuseFileSystem::hooks::access(const char *path, const int mask)
 {
     mylog("[access]   %s, %x\n", path, mask);
-    return self().delegate->access(path, mask);
+    return self().access(path, mask);
 }
 
 int
-FuseAdapter::create(const char *path, mode_t mode, struct fuse_file_info *fi)
+FuseFileSystem::hooks::create(const char *path, mode_t mode, struct fuse_file_info *fi)
 {
     mylog("[create]   %s, %x\n", path, mode);
-    return self().delegate->create(path, mode, fi);
+    return self().create(path, mode, fi);
 }
 
 int
-FuseAdapter::utimens(const char *path, const struct timespec tv[2])
+FuseFileSystem::hooks::utimens(const char *path, const struct timespec tv[2])
 {
     mylog("[utimens]  %s\n", path);
-    return self().delegate->utimens(path, tv);
+    return self().utimens(path, tv);
 }

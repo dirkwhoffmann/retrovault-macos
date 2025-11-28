@@ -7,4 +7,4 @@
 // See https://mozilla.org/MPL/2.0 for license information
 // -----------------------------------------------------------------------------
 
-#include "FuseDelegate.h"
+typedef void AdapterCallback(const void *, int);

@@ -9,8 +9,8 @@
 
 #pragma once
 
-#include "FuseAdapter.h"
-#include "FuseDelegate.h"
+#include "FuseFileSystem.h"
+// #include "FuseDelegate.h"
 #include "FuseDebug.h"
 #include "VAmiga.h"
 #include "Media.h"
@@ -24,14 +24,7 @@ class DosFileSystem;
 
 }
 
-class AmigaFileSystem : public FuseDelegate {
-
-public:
-
-    // Fuse adapter
-    FuseAdapter adapter;
-
-private:
+class AmigaFileSystem : public FuseFileSystem {
     
     // Amiga Disk File
     ADFFile *adf = nullptr;
@@ -51,11 +44,6 @@ public:
 
     AmigaFileSystem(const fs::path &filename);
     ~AmigaFileSystem();
-
-    void mount(const fs::path &mountpoint);
-    void unmount();
-
-    // int mount(string &mountpoint);
 
     FUSE_GETATTR  override;
     FUSE_MKDIR    override;

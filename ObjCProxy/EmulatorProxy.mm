@@ -2272,7 +2272,7 @@ NSString *EventSlotName(EventSlot slot)
 
 - (void)setListener:(const void *)listener function:(AdapterCallback *)func
 {
-    [self adapter]->adapter.setListener(listener, func);
+    [self adapter]->setListener(listener, func);
 }
 
 @end

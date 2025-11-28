@@ -11,7 +11,7 @@
 
 #import "config.h"
 #import "VAmigaTypes.h"
-#import "FuseAdapterDelegate.h"
+#import "FuseFileSystemTypes.h"
 #import <Cocoa/Cocoa.h>
 #import <MetalKit/MetalKit.h>
 

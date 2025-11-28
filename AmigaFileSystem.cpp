@@ -117,31 +117,6 @@ AmigaFileSystem::~AmigaFileSystem()
     printf("Destroying AmigaFileSystem\n");
 }
 
-void
-AmigaFileSystem::mount(const fs::path &mountpoint)
-{
-    try {
-
-        printf("RetroMounter: Connecting the file system to the adpater...\n");
-        adapter.delegate = this;
-
-        printf("RetroMounter: Mounting volume at %s...\n", mountpoint.c_str());
-        adapter.mount(mountpoint);
-
-        printf("RetroMounter: Mounted.\n");
-
-    } catch (std::exception &e) {
-
-        printf("Error: %s\n", e.what());
-    }
-}
-
-void
-AmigaFileSystem::unmount()
-{
-    adapter.unmount();
-}
-
 int
 AmigaFileSystem::getattr(const char *path, struct stat *st)
 {
@@ -323,7 +298,7 @@ AmigaFileSystem::destroy(void *)
 int
 AmigaFileSystem::access(const char *path, const int mask)
 {
-    return -ENOENT;
+    return -ENOSYS;
 }
 
 int

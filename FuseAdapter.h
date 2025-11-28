@@ -15,7 +15,7 @@
 #include "FuseDebug.h"
 #include <thread>
 
-class FuseAdapter {
+class FuseFileSystem {
 
     std::thread fuseThread;
     struct fuse *gateway = nullptr;
@@ -56,8 +56,8 @@ private:
 
     static fuse_operations callbacks;
 
-    static FuseAdapter &self() {
-        return *(static_cast<FuseAdapter *>(fuse_get_context()->private_data));
+    static FuseFileSystem &self() {
+        return *(static_cast<FuseFileSystem *>(fuse_get_context()->private_data));
     }
 
 public:

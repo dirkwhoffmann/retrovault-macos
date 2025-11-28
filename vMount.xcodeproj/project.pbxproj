@@ -10,11 +10,10 @@
 		504EAD252ECF00CE008CF9FC /* EmulatorProxy.mm in Sources */ = {isa = PBXBuildFile; fileRef = 504EAD212ECF00CE008CF9FC /* EmulatorProxy.mm */; };
 		504EAD262ECF00CE008CF9FC /* TypeExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504EAD232ECF00CE008CF9FC /* TypeExtensions.swift */; };
 		504EAD272ECF00CE008CF9FC /* ProxyExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504EAD222ECF00CE008CF9FC /* ProxyExtensions.swift */; };
-		504EAD2D2ECF0266008CF9FC /* FuseAdapter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 504EAD2C2ECF0263008CF9FC /* FuseAdapter.cpp */; };
+		504EAD2D2ECF0266008CF9FC /* FuseFileSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 504EAD2C2ECF0263008CF9FC /* FuseFileSystem.cpp */; };
 		507724952ECF26F800DB04C5 /* libfuse.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 507724942ECF26BF00DB04C5 /* libfuse.2.dylib */; };
 		507724962ECF2FA300DB04C5 /* libfuse.2.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 507724942ECF26BF00DB04C5 /* libfuse.2.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		5077249F2ECFA78E00DB04C5 /* FuseDebug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5077249E2ECFA78D00DB04C5 /* FuseDebug.cpp */; };
-		507724A22ED0619000DB04C5 /* FuseDelegate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 507724A12ED0618E00DB04C5 /* FuseDelegate.cpp */; };
 		507724A62ED0843800DB04C5 /* AmigaFileSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 507724A52ED0843700DB04C5 /* AmigaFileSystem.cpp */; };
 /* End PBXBuildFile section */
 
@@ -39,15 +38,13 @@
 		504EAD212ECF00CE008CF9FC /* EmulatorProxy.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = EmulatorProxy.mm; sourceTree = "<group>"; };
 		504EAD222ECF00CE008CF9FC /* ProxyExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProxyExtensions.swift; sourceTree = "<group>"; };
 		504EAD232ECF00CE008CF9FC /* TypeExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypeExtensions.swift; sourceTree = "<group>"; };
-		504EAD2A2ECF024E008CF9FC /* FuseAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FuseAdapter.h; sourceTree = "<group>"; };
-		504EAD2C2ECF0263008CF9FC /* FuseAdapter.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FuseAdapter.cpp; sourceTree = "<group>"; };
-		50559ADE2ED870190001AEEF /* FuseAdapterDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FuseAdapterDelegate.h; sourceTree = "<group>"; };
+		504EAD2A2ECF024E008CF9FC /* FuseFileSystem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FuseFileSystem.h; sourceTree = "<group>"; };
+		504EAD2C2ECF0263008CF9FC /* FuseFileSystem.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FuseFileSystem.cpp; sourceTree = "<group>"; };
+		50559ADE2ED870190001AEEF /* FuseFileSystemTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FuseFileSystemTypes.h; sourceTree = "<group>"; };
 		507724942ECF26BF00DB04C5 /* libfuse.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libfuse.2.dylib; path = /usr/local/lib/libfuse.2.dylib; sourceTree = "<absolute>"; };
 		5077249C2ECF8BC000DB04C5 /* FuseAPI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FuseAPI.h; sourceTree = "<group>"; };
 		5077249D2ECFA78500DB04C5 /* FuseDebug.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FuseDebug.h; sourceTree = "<group>"; };
 		5077249E2ECFA78D00DB04C5 /* FuseDebug.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FuseDebug.cpp; sourceTree = "<group>"; };
-		507724A02ED0618500DB04C5 /* FuseDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FuseDelegate.h; sourceTree = "<group>"; };
-		507724A12ED0618E00DB04C5 /* FuseDelegate.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FuseDelegate.cpp; sourceTree = "<group>"; };
 		507724A42ED0841B00DB04C5 /* AmigaFileSystem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AmigaFileSystem.h; sourceTree = "<group>"; };
 		507724A52ED0843700DB04C5 /* AmigaFileSystem.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AmigaFileSystem.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -141,12 +138,10 @@
 		504EA7B42ECE39E8008CF9FC = {
 			isa = PBXGroup;
 			children = (
-				50559ADE2ED870190001AEEF /* FuseAdapterDelegate.h */,
 				5077249C2ECF8BC000DB04C5 /* FuseAPI.h */,
-				504EAD2A2ECF024E008CF9FC /* FuseAdapter.h */,
-				504EAD2C2ECF0263008CF9FC /* FuseAdapter.cpp */,
-				507724A02ED0618500DB04C5 /* FuseDelegate.h */,
-				507724A12ED0618E00DB04C5 /* FuseDelegate.cpp */,
+				50559ADE2ED870190001AEEF /* FuseFileSystemTypes.h */,
+				504EAD2A2ECF024E008CF9FC /* FuseFileSystem.h */,
+				504EAD2C2ECF0263008CF9FC /* FuseFileSystem.cpp */,
 				507724A42ED0841B00DB04C5 /* AmigaFileSystem.h */,
 				507724A52ED0843700DB04C5 /* AmigaFileSystem.cpp */,
 				5077249D2ECFA78500DB04C5 /* FuseDebug.h */,
@@ -263,11 +258,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				504EAD2D2ECF0266008CF9FC /* FuseAdapter.cpp in Sources */,
+				504EAD2D2ECF0266008CF9FC /* FuseFileSystem.cpp in Sources */,
 				5077249F2ECFA78E00DB04C5 /* FuseDebug.cpp in Sources */,
 				507724A62ED0843800DB04C5 /* AmigaFileSystem.cpp in Sources */,
 				504EAD252ECF00CE008CF9FC /* EmulatorProxy.mm in Sources */,
-				507724A22ED0619000DB04C5 /* FuseDelegate.cpp in Sources */,
 				504EAD262ECF00CE008CF9FC /* TypeExtensions.swift in Sources */,
 				504EAD272ECF00CE008CF9FC /* ProxyExtensions.swift in Sources */,
 			);
