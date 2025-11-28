@@ -199,7 +199,7 @@ AmigaFileSystem::truncate(const char *path, off_t size)
 {
     return fsexec([&]{
 
-        dos->truncate(path, size);
+        dos->resize(path, size);
         return 0;
     });}
 

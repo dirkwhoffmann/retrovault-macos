@@ -25,7 +25,7 @@ struct Handle {
     // I/O offset
     isize offset = 0;
 
-    // Open mode
+    // Open mode (POSIX-style flags)
     u32 flags = 0;
 };
 
@@ -34,29 +34,29 @@ using HandleRef = isize;
 struct NodeMeta {
 
     // Number of directory entries
-    isize linkCount = 0;
+    isize linkCount = 1;
 
-    // Open file handles
+    // All open handles referencing this node
     std::unordered_set<HandleRef> openHandles;
-
-    // Number of open handles
-    isize openCount() { return openHandles.size(); };
 
     // File cache
     Buffer<u8> cache;
+
+    // Returns the number of open handles
+    isize openCount() { return openHandles.size(); };
 };
 
 class DosFileSystem {
     
     FileSystem &fs;
 
-    // Runtime metadata
+    // Metadata for nodes indexed by block number
     std::unordered_map<Block, NodeMeta> meta;
 
-    // Handle storage
+    // Active file handles
     std::unordered_map<HandleRef, Handle> handles;
 
-    // Handle counter
+    // Handle ID generator
     isize nextHandle = 3;
 
 public:
@@ -64,59 +64,83 @@ public:
     explicit DosFileSystem(FileSystem &fs);
 
     //
-    // Querying file system properties
+    // Querying statistics and properties
     //
 
 public:
 
+    // Queries information about the file system
     FSStat stat() const noexcept;
 
-
-    //
-    // Querying file properties
-    //
-
-public:
-
+    // Queries information about a specific file
     FSAttr attr(const fs::path &path) const;
+
+
+    //
+    // Managing metadata
+    //
 
 private:
 
+    // Returns a pointer to the meta struct (may be nullptr)
     NodeMeta *getMeta(Block nr);
     NodeMeta *getMeta(const FSBlock &block) { return getMeta(block.nr); }
+
+    // Returns a reference to the meta struct (on-the-fly creation)
     NodeMeta &ensureMeta(Block nr);
     NodeMeta &ensureMeta(const FSBlock &block) { return ensureMeta(block.nr); }
     NodeMeta &ensureMeta(HandleRef ref);
 
 
     //
-    // Handling directories
+    // Working with directories
     //
 
 public:
-    
+
+    // Creates a directory
     void mkdir(const fs::path &path);
+
+    // Removes a directory
     void rmdir(const fs::path &path);
 
+    // Returns the contents of a directory
     std::vector<FSName> readDir(const fs::path &path);
 
+
     //
-    // Handling files
+    // Working with files
     //
 
 public:
 
+    // Opens or closes a file
     HandleRef open(const fs::path &path, u32 flags);
     void close(HandleRef handle);
-    void unlink(const fs::path &path);
+
+    // Creates a new file
     void create(const fs::path &path);
-    isize lseek(HandleRef ref, isize offset, u16 whence = 0);
+
+    // Removes a file from its directory
+    void unlink(const fs::path &path);
+
+    // Moves the file to a different location
     void move(const fs::path &oldPath, const fs::path &newPath);
-    void chmod(const fs::path &path, mode_t mode);
-    void truncate(const fs::path &path, isize size);
+
+    // Changes the size of a file
+    void resize(const fs::path &path, isize size);
+
+    // Moves the read/write pointer
+    isize lseek(HandleRef ref, isize offset, u16 whence = 0);
+
+    // Reads data from a file
     isize read(HandleRef ref, std::span<u8> buffer);
+
+    // Writes data to a file
     isize write(HandleRef ref, std::span<const u8> buffer);
 
+    // Changes file permissions
+    void chmod(const fs::path &path, mode_t mode);
 
 
 private:

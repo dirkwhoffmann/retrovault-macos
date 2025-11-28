@@ -178,6 +178,7 @@ DosFileSystem::tryReclaim(const FSBlock &node)
 {
     if (auto *info = getMeta(node); info) {
 
+        printf("tryReclaim: %ld %ld\n", info->linkCount, info->openCount());
         if (info->linkCount == 0 && info->openCount() == 0) {
 
             // Delete file
@@ -294,7 +295,7 @@ DosFileSystem::chmod(const fs::path &path, mode_t mode)
 }
 
 void
-DosFileSystem::truncate(const fs::path &path, isize size)
+DosFileSystem::resize(const fs::path &path, isize size)
 {
     fs.resize(ensureFile(path), size);
 }

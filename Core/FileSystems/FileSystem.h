@@ -170,8 +170,8 @@ public:
 
     // Returns capacity information
     isize numBlocks() const noexcept { return storage.numBlocks(); }
-    isize numBytes() const noexcept { return storage.numBytes(); }
-    isize blockSize() const noexcept { return storage.blockSize(); }
+    [[deprecated]] isize numBytes() const noexcept { return storage.numBytes(); }
+    [[deprecated]] isize blockSize() const noexcept { return storage.blockSize(); }
 
     // Returns usage information and root metadata
     FSStat getStat() const noexcept;
