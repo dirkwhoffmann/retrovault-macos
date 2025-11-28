@@ -56,6 +56,8 @@
 #include "FSStorage.h"
 #include "FSDoctor.h"
 #include "FSAllocator.h"
+#include "FSImporter.h"
+#include "FSExporter.h"
 #include "ADFFile.h"
 #include "HDFFile.h"
 #include <stack>
@@ -77,21 +79,21 @@ class FileSystem : public CoreObject, public Inspectable<FSInfo, FSStats> {
     friend struct FSHashTable;
     friend struct FSPartition;
     friend class  FileSystem;
-    
-public:
-
-    // Disk doctor
-    FSDoctor doctor = FSDoctor(*this);
-
-private:
 
     // Static file system properties
     FSTraits traits;
 
-    // Block storage
-    FSStorage storage = FSStorage(this);
+public:
 
-    // Allocator
+    // Public Components
+    FSDoctor doctor = FSDoctor(*this);
+    FSImporter importer = FSImporter(*this);
+    FSExporter exporter = FSExporter(*this);
+
+private:
+
+    // Private Components
+    FSStorage storage = FSStorage(this);
     FSAllocator allocator = FSAllocator(*this);
 
     // Location of the root block
@@ -213,8 +215,6 @@ public:
 
     // Convenience wrappers
     bool isEmpty(Block nr) const noexcept { return typeOf(nr) == FSBlockType::EMPTY; }
-
-protected:
 
     // Predicts the type of a block
     FSBlockType predictType(Block nr, const u8 *buf) const noexcept;
@@ -486,6 +486,7 @@ private:
     // Importing and exporting the volume
     //
 
+    /*
 public:
 
     // Imports the volume from a buffer compatible with the ADF or HDF format
@@ -521,6 +522,7 @@ public:
 private:
 
     void import(FSBlock &top, const fs::directory_entry &dir, bool recursive) throws;
+     */
 };
 
 }

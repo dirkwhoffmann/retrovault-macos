@@ -59,7 +59,7 @@ FileSystem::init(const FSDescriptor &layout, const fs::path &path)
     if (!path.empty()) {
         
         // Add all files
-        import(root(), path, true, true);
+        importer.import(root(), path, true, true);
 
         // Assign device name
         setName(FSName(path.filename().string()));
@@ -856,6 +856,7 @@ FileSystem::addData(FSBlock &block, const u8 *buf, isize size)
     return count;
 }
 
+/*
 void
 FileSystem::importVolume(const u8 *src, isize size)
 {
@@ -1121,5 +1122,6 @@ FileSystem::importBlock(Block nr, const fs::path &path)
         throw AppError(Fault::FILE_CANT_READ, path);
     }
 }
+*/
 
 }

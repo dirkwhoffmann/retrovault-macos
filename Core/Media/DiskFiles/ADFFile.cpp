@@ -141,7 +141,7 @@ ADFFile::init(const FileSystem &volume)
             throw AppError(Fault::FS_WRONG_CAPACITY);
     }
 
-    volume.exportVolume(data.ptr, data.size);
+    volume.exporter.exportVolume(data.ptr, data.size);
 }
 
 void
@@ -304,7 +304,7 @@ ADFFile::formatDisk(FSFormat fs, BootBlockId id, string name)
     volume.makeBootable(id);
     
     // Export the file system to the ADF
-    if (!volume.exportVolume(data.ptr, data.size)) throw AppError(Fault::FS_UNKNOWN);
+    if (!volume.exporter.exportVolume(data.ptr, data.size)) throw AppError(Fault::FS_UNKNOWN);
 }
 
 void

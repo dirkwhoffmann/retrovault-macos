@@ -1535,7 +1535,7 @@ NSString *EventSlotName(EventSlot slot)
 
 - (void)export:(NSString *)path recursive:(BOOL)rec contents:(BOOL)con exception:(ExceptionWrapper *)ex
 {
-    try { return [self fs]->exportFiles([path fileSystemRepresentation], rec, con); }
+    try { return [self fs]->exporter.exportFiles([path fileSystemRepresentation], rec, con); }
     catch (AppError &error) { [ex save:error]; }
 }
 

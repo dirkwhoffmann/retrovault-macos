@@ -135,7 +135,7 @@ HardDrive::init(const FileSystem &fs)
     ptable[0].dosType = 0x444F5300 | (u32)fs.getTraits().dos;
 
     // Copy over all blocks
-    fs.exportVolume(data.ptr, geometry.numBytes());
+    fs.exporter.exportVolume(data.ptr, geometry.numBytes());
 }
 
 void 
@@ -763,7 +763,7 @@ HardDrive::importFolder(const fs::path &path) throws
         auto fs = FileSystem(layout);
         
         // Import all files
-        fs.import(fs.root(), path, true, true);
+        fs.importer.import(fs.root(), path, true, true);
 
         // Name the file system
         fs.setName(traits.name);
