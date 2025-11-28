@@ -446,14 +446,6 @@ FileSystem::typeOf(Block nr, isize pos) const noexcept
     return storage.read(nr) ? storage[nr].itemType(pos) : FSItemType::UNUSED;
 }
 
-string
-FileSystem::ascii(Block nr, isize offset, isize len) const noexcept
-{
-    assert(offset + len <= traits.bsize);
-
-    return  util::createAscii(storage[nr].data() + offset, len);
-}
-
 FSBlock &
 FileSystem::parent(const FSBlock &node)
 {
@@ -1024,40 +1016,6 @@ FileSystem::ensureEmptyDirectory(const FSBlock &node)
     if (FSTree(node, { .recursive = false }).size() != 0) {
         throw AppError(Fault::FS_DIR_NOT_EMPTY);
     }
-}
-
-void
-FileSystem::createUsageMap(u8 *buffer, isize len) const
-{
-    storage.createUsageMap(buffer, len);
-}
-
-void
-FileSystem::createAllocationMap(u8 *buffer, isize len) const
-{
-    storage.createAllocationMap(buffer, len);
-}
-
-void
-FileSystem::createHealthMap(u8 *buffer, isize len) const
-{
-    storage.createHealthMap(buffer, len);
-}
-
-isize
-FileSystem::nextBlockOfType(FSBlockType type, Block after) const
-{
-    assert(isize(after) < traits.blocks);
-
-    isize result = after;
-    
-    do {
-        result = (result + 1) % numBlocks();
-        if (storage.getType(Block(result)) == type) return result;
-
-    } while (result != isize(after));
-    
-    return -1;
 }
 
 }

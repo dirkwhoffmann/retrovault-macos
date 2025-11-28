@@ -257,7 +257,7 @@ public:
     FSBlock &root() { return at(rootBlock); }
     const FSBlock &root() const { return at(rootBlock); }
 
-    // Returns the working directory
+    // Returns the working directory (TODO: MOVE TO POSIX LAYER)
     FSBlock &pwd() { return at(current); }
     const FSBlock &pwd() const { return at(current); }
 
@@ -267,7 +267,7 @@ public:
     const FSBlock &parent(const FSBlock &block) const;
     const FSBlock *parent(const FSBlock *block) const noexcept;
 
-    // Changes the working directory
+    // Changes the working directory (TODO: MOVE TO POSIX LAYER)
     void cd(const FSName &name);
     void cd(const FSBlock &path);
     void cd(const string &path);
@@ -357,28 +357,6 @@ public:
     void ensureDirectory(const FSBlock &node);
     void ensureNotRoot(const FSBlock &node);
     void ensureEmptyDirectory(const FSBlock &node);
-
-
-    //
-    // GUI helper functions
-    //
-
-public:
-
-    // Returns a portion of the block as an ASCII dump
-    string ascii(Block nr, isize offset, isize len) const noexcept;
-
-    // Returns a block summary for creating the block usage image
-    void createUsageMap(u8 *buffer, isize len) const;
-
-    // Returns a usage summary for creating the block allocation image
-    void createAllocationMap(u8 *buffer, isize len) const;
-
-    // Returns a block summary for creating the diagnose image
-    void createHealthMap(u8 *buffer, isize len) const;
-    
-    // Searches the block list for a block of a specific type
-    isize nextBlockOfType(FSBlockType type, Block after) const;
 
 
     //

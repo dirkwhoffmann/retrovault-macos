@@ -9,23 +9,18 @@
 
 #pragma once
 
-#include "FSTypes.h"
-#include "CoreObject.h"
+#include "FSComponent.h"
 
 namespace vamiga {
 
-class FSDoctor final : public CoreObject {
-
-    class FileSystem &fs;
+class FSDoctor final : public FSComponent {
 
 public:
 
     // Result of the latest examination
     FSDiagnosis diagnosis;
 
-public:
-
-    FSDoctor(FileSystem& fs) : fs(fs) { }
+    using FSComponent::FSComponent;
 
 
     //
@@ -82,6 +77,28 @@ public:
 
     // Rectifies the allocation table
     void rectifyBitmap(bool strict = false);
+
+
+    //
+    // GUI helper functions
+    //
+
+public:
+
+    // Returns a portion of the block as an ASCII dump
+    string ascii(Block nr, isize offset, isize len) const noexcept;
+
+    // Returns a block summary for creating the block usage image
+    void createUsageMap(u8 *buffer, isize len) const;
+
+    // Returns a usage summary for creating the block allocation image
+    void createAllocationMap(u8 *buffer, isize len) const;
+
+    // Returns a block summary for creating the diagnose image
+    void createHealthMap(u8 *buffer, isize len) const;
+
+    // Searches the block list for a block of a specific type
+    isize nextBlockOfType(FSBlockType type, Block after) const;
 };
 
 }

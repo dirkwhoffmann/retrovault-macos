@@ -9,24 +9,9 @@
 
 #pragma once
 
-#include "FSTypes.h"
-#include "CoreObject.h"
+#include "FSComponent.h"
 
 namespace vamiga {
-
-class FSComponent : public CoreObject {
-
-public:
-
-    class FileSystem &fs;
-    const FSTraits &traits;
-    FSStorage &storage;
-    
-    explicit FSComponent(FileSystem& fs);
-
-    const char *objectName() const override { return "FSComponent"; }
-    void _dump(Category category, std::ostream &os) const override { }
-};
 
 class FSAllocator final : public FSComponent {
 

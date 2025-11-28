@@ -728,4 +728,46 @@ FSDoctor::rectifyBitmap(bool strict)
     }
 }
 
+string
+FSDoctor::ascii(Block nr, isize offset, isize len) const noexcept
+{
+    assert(offset + len <= traits.bsize);
+
+    return  util::createAscii(storage[nr].data() + offset, len);
+}
+
+void
+FSDoctor::createUsageMap(u8 *buffer, isize len) const
+{
+    storage.createUsageMap(buffer, len);
+}
+
+void
+FSDoctor::createAllocationMap(u8 *buffer, isize len) const
+{
+    storage.createAllocationMap(buffer, len);
+}
+
+void
+FSDoctor::createHealthMap(u8 *buffer, isize len) const
+{
+    storage.createHealthMap(buffer, len);
+}
+
+isize
+FSDoctor::nextBlockOfType(FSBlockType type, Block after) const
+{
+    assert(isize(after) < traits.blocks);
+
+    isize result = after;
+
+    do {
+        result = (result + 1) % fs.numBlocks();
+        if (storage.getType(Block(result)) == type) return result;
+
+    } while (result != isize(after));
+
+    return -1;
+}
+
 }

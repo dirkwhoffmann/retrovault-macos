@@ -1530,7 +1530,7 @@ NSString *EventSlotName(EventSlot slot)
 
 - (NSString *)ascii:(NSInteger)block offset:(NSInteger)offset length:(NSInteger)len
 {
-    return @([self fs]->ascii(Block(block), offset, len).c_str());
+    return @([self fs]->doctor.ascii(Block(block), offset, len).c_str());
 }
 
 - (void)export:(NSString *)path recursive:(BOOL)rec contents:(BOOL)con exception:(ExceptionWrapper *)ex
@@ -1541,22 +1541,22 @@ NSString *EventSlotName(EventSlot slot)
 
 - (void)createUsageMap:(u8 *)buf length:(NSInteger)len
 {
-    [self fs]->createUsageMap((u8 *)buf, len);
+    [self fs]->doctor.createUsageMap((u8 *)buf, len);
 }
 
 - (void)createAllocationMap:(u8 *)buf length:(NSInteger)len
 {
-    [self fs]->createAllocationMap((u8 *)buf, len);
+    [self fs]->doctor.createAllocationMap((u8 *)buf, len);
 }
 
 - (void)createHealthMap:(u8 *)buf length:(NSInteger)len
 {
-    [self fs]->createHealthMap((u8 *)buf, len);
+    [self fs]->doctor.createHealthMap((u8 *)buf, len);
 }
 
 - (NSInteger)nextBlockOfType:(FSBlockType)type after:(NSInteger)after
 {
-    return [self fs]->nextBlockOfType(type, Block(after));
+    return [self fs]->doctor.nextBlockOfType(type, Block(after));
 }
 
 - (void)rectifyAllocationMap
