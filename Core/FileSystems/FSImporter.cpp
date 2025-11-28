@@ -73,7 +73,7 @@ FSImporter::import(FSBlock &top, const fs::path &path, bool recursive, bool cont
     }
 
     // Rectify the checksums of all blocks
-    fs.updateChecksums();
+    fs.importer.updateChecksums();
 
     // Verify the result
     if (FS_DEBUG) doctor.xray(true, std::cout, false);
@@ -136,6 +136,12 @@ FSImporter::importBlock(Block nr, const fs::path &path)
     if (!stream) {
         throw AppError(Fault::FILE_CANT_READ, path);
     }
+}
+
+void
+FSImporter::updateChecksums() noexcept
+{
+    storage.updateChecksums();
 }
 
 }

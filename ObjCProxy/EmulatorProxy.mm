@@ -1388,13 +1388,13 @@ NSString *EventSlotName(EventSlot slot)
 - (NSString *)creationDate
 {
     auto str = [self fs]->getCreationDate();
-    return @(str.c_str());
+    return @(str.str().c_str());
 }
 
 - (NSString *)modificationDate
 {
     auto str = [self fs]->getModificationDate();
-    return @(str.c_str());
+    return @(str.str().c_str());
 }
 
 - (NSString *)bootBlockName

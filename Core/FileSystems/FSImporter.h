@@ -29,6 +29,9 @@ public:
     // Imports a single block
     void importBlock(Block nr, const fs::path &path);
 
+    // Updates the checksums of all blocks
+    void updateChecksums() noexcept;
+
 private:
 
     void import(FSBlock &top, const fs::directory_entry &dir, bool recursive) throws;

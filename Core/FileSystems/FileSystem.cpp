@@ -220,9 +220,9 @@ FileSystem::_dump(Category category, std::ostream &os) const noexcept
             os << tab("Name");
             os << getName().cpp_str() << std::endl;
             os << tab("Created");
-            os << getCreationDate() << std::endl;
+            os << getCreationDate().str() << std::endl;
             os << tab("Modified");
-            os << getModificationDate() << std::endl;
+            os << getModificationDate().str() << std::endl;
             os << tab("Boot block");
             os << getBootBlockName() << std::endl;
             os << tab("Capacity");
@@ -260,8 +260,8 @@ void
 FileSystem::cacheInfo(FSInfo &result) const noexcept
 {
     result.name = getName().cpp_str();
-    result.creationDate = getCreationDate();
-    result.modificationDate = getModificationDate();
+    result.creationDate = getCreationDate().str();
+    result.modificationDate = getModificationDate().str();
 
     result.numBlocks = storage.numBlocks();
     result.freeBlocks = storage.freeBlocks(); //  allocator.numUnallocated();
@@ -271,10 +271,29 @@ FileSystem::cacheInfo(FSInfo &result) const noexcept
     result.fillLevel = double(100) * result.usedBlocks / result.numBlocks;
 }
 
-void
-FileSystem::cacheStats(FSStats &result) const noexcept
+FSStat
+FileSystem::getStat() const noexcept
 {
+    FSStat result = {
 
+        .numBlocks  = storage.numBlocks(),
+        .numBytes   = storage.numBytes(),
+        .blockSize  = storage.blockSize(),
+
+        .freeBlocks = storage.freeBlocks(),
+        .freeBytes  = storage.freeBytes(),
+        .usedBlocks = storage.usedBlocks(),
+        .usedBytes  = storage.usedBytes(),
+
+        .name       = getName(),
+        .bDate      = getCreationDate(),
+        .mDate      = getModificationDate(),
+
+        .reads      = 0, // Not yet supported
+        .writes     = 0, // Not yet supported
+    };
+
+    return result;
 }
 
 FSName
@@ -284,19 +303,19 @@ FileSystem::getName() const noexcept
     return rb ? rb->getName() : FSName("");
 }
 
-string
+FSTime
 FileSystem::getCreationDate() const noexcept
 {
     auto *rb = storage.read(rootBlock, FSBlockType::ROOT);
-    return rb ? rb->getCreationDate().str() : "";
+    return rb ? rb->getCreationDate() : FSTime();
 }
 
-string
+FSTime
 FileSystem::getModificationDate() const noexcept
 {
     auto *rb = storage.read(rootBlock, FSBlockType::ROOT);
     // FSBlock *rb = rootBlockPtr(rootBlock);
-    return rb ? rb->getModificationDate().str() : "";
+    return rb ? rb->getModificationDate() : FSTime();
 }
 
 string
@@ -339,98 +358,84 @@ FileSystem::getStat(const FSBlock &fhd) const
 FSBlock *
 FileSystem::read(Block nr) noexcept
 {
-    stats.blockReads++;
     return storage.read(nr);
 }
 
 FSBlock *
 FileSystem::read(Block nr, FSBlockType type) noexcept
 {
-    stats.blockReads++;
     return storage.read(nr, type);
 }
 
 FSBlock *
 FileSystem::read(Block nr, std::vector<FSBlockType> types) noexcept
 {
-    stats.blockReads++;
     return storage.read(nr, types);
 }
 
 const FSBlock *
 FileSystem::read(Block nr) const noexcept
 {
-    stats.blockReads++;
     return storage.read(nr);
 }
 
 const FSBlock *
 FileSystem::read(Block nr, FSBlockType type) const noexcept
 {
-    stats.blockReads++;
     return storage.read(nr, type);
 }
 
 const FSBlock *
 FileSystem::read(Block nr, std::vector<FSBlockType> types) const noexcept
 {
-    stats.blockReads++;
     return storage.read(nr, types);
 }
 
 FSBlock &
 FileSystem::at(Block nr)
 {
-    stats.blockReads++;
     return storage.at(nr);
 }
 
 FSBlock &
 FileSystem::at(Block nr, FSBlockType type)
 {
-    stats.blockReads++;
     return storage.at(nr, type);
 }
 
 FSBlock &
 FileSystem::at(Block nr, std::vector<FSBlockType> types)
 {
-    stats.blockReads++;
     return storage.at(nr, types);
 }
 
 const FSBlock &
 FileSystem::at(Block nr) const
 {
-    stats.blockReads++;
     return storage.at(nr);
 }
 
 const FSBlock &
 FileSystem::at(Block nr, FSBlockType type) const
 {
-    stats.blockReads++;
     return storage.at(nr, type);
 }
 
 const FSBlock &
 FileSystem::at(Block nr, std::vector<FSBlockType> types) const
 {
-    stats.blockReads++;
     return storage.at(nr, types);
 }
 
 FSBlock &
 FileSystem::operator[](size_t nr)
 {
-    stats.blockReads++;
     return storage[nr];
 }
 
 const FSBlock &
 FileSystem::operator[](size_t nr) const
 {
-    stats.blockReads++;
     return storage[nr];
 }
 

@@ -419,10 +419,12 @@ typedef struct
 }
 FSInfo;
 
+/*
 typedef struct
 {
     isize blockReads;
 }
-FSStats; // TODO: Rename to FSMetrics(?) as it sounds similar to FSStat
+FSStats;
+*/
 
 }

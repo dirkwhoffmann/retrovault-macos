@@ -39,12 +39,7 @@ DosFileSystem::ensureMeta(HandleRef ref)
 FSStat
 DosFileSystem::stat() const noexcept
 {
-    return {
-
-        .bsize = fs.blockSize(),
-        .total = fs.numBlocks(),
-        .free  = fs.freeBlocks()
-    };
+    return fs.getStat();
 }
 
 FSAttr
@@ -352,7 +347,7 @@ DosFileSystem::write(HandleRef ref, std::span<const u8> buffer)
     std::memcpy(meta.cache.ptr + handle.offset, buffer.data(), count);
 
     // Write back
-    fs.resize(node, meta.cache);
+    fs.replace(node, meta.cache);
 
     return count;
 }

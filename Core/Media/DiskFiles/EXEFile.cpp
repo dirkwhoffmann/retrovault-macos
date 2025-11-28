@@ -66,7 +66,7 @@ EXEFile::finalizeRead()
     }
 
     // Finalize
-    volume.updateChecksums();
+    volume.importer.updateChecksums();
 
     // Print some debug information about the volume
     if (FS_DEBUG) volume.dump(Category::State);

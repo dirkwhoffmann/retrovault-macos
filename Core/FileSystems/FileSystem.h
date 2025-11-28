@@ -14,39 +14,39 @@
  * In the case of an HDF, each partition can be converted into an independent
  * file system instance.
  *
- * The FileSystem class is organized as a layered architecture to clearly
- * separate responsibilities and to enforce downward-only dependencies.
+ * The FileSystem class is organized as a layered architecture to separate
+ * responsibilities and to enforce downward-only dependencies.
  *
- * Layer 0: Block Storage Layer
+ *  ---------------------
+ * |     POSIX Layer     |    Layer 3:
+ *  ---------------------
+ *            |               Wraps a Layer-3 file system with all lower-level
+ *            |               access functions hidden. It exposes a POSIX-like
+ *            |               high-level API that provides operations such as
+ *            |               open, close, read, write, and file handles.
+ *            V
+ *  -----------------------
+ * | Path Resolution Layer |  Layer 2:
+ *  -----------------------
+ *            |               Resolves symbolic and relative paths into file
+ *            |               system objects and canonicalizes paths. It depends
+ *            |               only on the read/write layer.
+ *            |
+ *            V
+ *  -----------------------
+ * |       Node Layer      |  Layer 1:
+ *  -----------------------
+ *            |               Interprets storage blocks as files and directories
+ *            |               according to OFS or FFS semantics. It allows the
+ *            |               upper layers to create files, directories, and to
+ *            |               modify metadata.
+ *            V
+ *  -----------------------
+ * |  Block Storage Layer  |  Layer 0:
+ *  -----------------------
+ *                            Storage the actual block data.
  *
- *          Provides raw access to storage blocks and is unaware
- *          of files, directories, or paths.
- *
- * Layer 1: Read Layer
- *
- *          Interprets storage blocks as files and directories according to
- *          OFS or FFS semantics, enabling read operations and metadata access.
- *
- * Layer 2: Write Layer
- *
- *          Adds write capabilities, allowing modifications to files,
- *          directories, and metadata.
- *
- * Layer 3: Path Resolution Layer
- *
- *          Resolves symbolic and relative paths into concrete file system
- *          objects and canonicalizes paths. It depends only on the read and
- *          write layers.
- *
- * Layer 4: POSIX Layer
- *
- *          This layer wraps a Layer-3 file system and hides all lower-level
- *          access functions. It exposes a POSIX-like high-level API that
- *          provides operations such as open, close, read, write, and file
- *          handle management.
  */
-
-#define FS_ENABLE_LAYER 4
 
 #include "FSTypes.h"
 #include "FSBlock.h"
@@ -60,8 +60,6 @@
 #include "FSExporter.h"
 #include "ADFFile.h"
 #include "HDFFile.h"
-#include <stack>
-#include <unordered_set>
 
 namespace vamiga {
 
@@ -70,7 +68,7 @@ class HDFFile;
 class FloppyDrive;
 class HardDrive;
 
-class FileSystem : public CoreObject, public Inspectable<FSInfo, FSStats> {
+class FileSystem : public CoreObject, public Inspectable<FSInfo, Void> {
 
     friend struct FSBlock;
     friend class  FSComponent;
@@ -99,7 +97,7 @@ private:
     // Location of the root block
     Block rootBlock = 0;
 
-    // Location of the current directory
+    // Location of the current directory (TODO: MOVE TO POSIX LAYER)
     Block current = 0;
 
     // Location of bitmap blocks and extended bitmap blocks
@@ -158,17 +156,20 @@ protected:
 public:
 
     void cacheInfo(FSInfo &result) const noexcept override;
-    void cacheStats(FSStats &result) const noexcept override;
+    // void cacheStats(FSStats &result) const noexcept override;
 
 
     //
-    // Querying file system properties
+    // Querying properties
     //
 
 public:
 
     // Returns static file system properties
     const FSTraits &getTraits() const noexcept { return traits; }
+
+    // Returns usage information and root metadata
+    FSStat getStat() const noexcept;
 
     // Returns capacity information
     isize numBlocks() const noexcept { return storage.numBlocks(); }
@@ -183,21 +184,15 @@ public:
 
     // Analyzes the root block
     FSName getName() const noexcept;
-    string getCreationDate() const noexcept;
-    string getModificationDate() const noexcept;
+    FSTime getCreationDate() const noexcept;
+    FSTime getModificationDate() const noexcept;
 
     // Analyzes the boot block
     string getBootBlockName() const noexcept;
     BootBlockType bootBlockType() const noexcept;
     bool hasVirus() const noexcept { return bootBlockType() == BootBlockType::VIRUS; }
 
-
-    //
-    // Querying file properties
-    //
-
-public:
-    
+    // Get information about the file system
     FSAttr getStat(Block nr) const;
     FSAttr getStat(const FSBlock &fhd) const;
 
@@ -382,11 +377,6 @@ public:
     // Creating and deleting blocks
     //
 
-public:
-
-    // Updates the checksums in all blocks
-    void updateChecksums() noexcept;
-
 private:
 
     // Adds a new block of a certain kind
@@ -399,7 +389,7 @@ private:
 
 
     //
-    // Modifying boot blocks
+    // Managing the boot blocks
     //
 
 public:
@@ -412,7 +402,7 @@ public:
 
 
     //
-    // Managing directories and files
+    // Creating files and directories
     //
 
 public:
@@ -450,7 +440,7 @@ public:
     void resize(FSBlock &at, isize size);
 
     // Changes the size and cotents of an existing file
-    void resize(FSBlock &at, const Buffer<u8> &data);
+    void replace(FSBlock &at, const Buffer<u8> &data);
 
     // Update file contents with new data
 
@@ -480,49 +470,6 @@ private:
     // Adds bytes to a data block
     isize addData(Block nr, const u8 *buf, isize size);
     isize addData(FSBlock &block, const u8 *buf, isize size);
-
-
-    //
-    // Importing and exporting the volume
-    //
-
-    /*
-public:
-
-    // Imports the volume from a buffer compatible with the ADF or HDF format
-    void importVolume(const u8 *src, isize size) throws;
-
-    // Imports files and folders from the host file system
-    void import(const fs::path &path, bool recursive = true, bool contents = false) throws;
-    void import(FSBlock &top, const fs::path &path, bool recursive = true, bool contents = false) throws;
-
-    // Imports a single block
-    void importBlock(Block nr, const fs::path &path);
-
-    // Exports the volume to a buffer
-    bool exportVolume(u8 *dst, isize size) const;
-    bool exportVolume(u8 *dst, isize size, Fault *error) const;
-
-    // Exports a single block or a range of blocks to a buffer
-    bool exportBlock(Block nr, u8 *dst, isize size) const;
-    bool exportBlock(Block nr, u8 *dst, isize size, Fault *error) const;
-    bool exportBlocks(Block first, Block last, u8 *dst, isize size) const;
-    bool exportBlocks(Block first, Block last, u8 *dst, isize size, Fault *error) const;
-
-    // Exports a single block or a range of blocks to a file
-    void exportBlock(Block nr, const fs::path &path) const;
-    void exportBlocks(Block first, Block last, const fs::path &path) const;
-    void exportBlocks(const fs::path &path) const;
-
-    // Exports the volume to a buffer
-    void exportFiles(Block nr, const fs::path &path, bool recursive = true, bool contents = false) const;
-    void exportFiles(const FSBlock &top, const fs::path &path, bool recursive = true, bool contents = false) const;
-    void exportFiles(const fs::path &path, bool recursive = true, bool contents = false) const;
-
-private:
-
-    void import(FSBlock &top, const fs::directory_entry &dir, bool recursive) throws;
-     */
 };
 
 }

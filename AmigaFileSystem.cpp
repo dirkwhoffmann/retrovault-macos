@@ -239,9 +239,9 @@ AmigaFileSystem::statfs(const char *path, struct statvfs *st)
     memset(st, 0, sizeof(*st));
 
     const auto &stat     = dos->stat();
-    const auto blockSize = (unsigned long)stat.bsize;
-    const auto total     = (fsblkcnt_t)stat.total;
-    const auto free      = (fsblkcnt_t)stat.free;
+    const auto blockSize = (unsigned long)stat.blockSize;
+    const auto total     = (fsblkcnt_t)stat.numBlocks;
+    const auto free      = (fsblkcnt_t)stat.freeBlocks;
 
     st->f_bsize   = blockSize;         // Preferred block size
     st->f_frsize  = blockSize;         // Fundamental block size

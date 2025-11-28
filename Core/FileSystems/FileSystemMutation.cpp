@@ -351,12 +351,6 @@ FileSystem::newFileHeaderBlock(const FSName &name)
 }
 
 void
-FileSystem::updateChecksums() noexcept
-{
-    storage.updateChecksums();
-}
-
-void
 FileSystem::makeBootable(BootBlockId id)
 {
     assert(storage.getType(0) == FSBlockType::BOOT);
@@ -645,11 +639,11 @@ FileSystem::resize(FSBlock &at, isize size)
     buffer.resize(size, 0);
 
     // Resize the file with the contents of the created buffer
-    resize(at, buffer);
+    replace(at, buffer);
 }
 
 void
-FileSystem::resize(FSBlock &at, const Buffer<u8> &data)
+FileSystem::replace(FSBlock &at, const Buffer<u8> &data)
 {
     // Collect all blocks occupied by this file
     auto listBlocks = collectListBlocks(at.nr);
