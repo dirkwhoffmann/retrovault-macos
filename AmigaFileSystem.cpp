@@ -7,11 +7,14 @@
 // See https://mozilla.org/MPL/2.0 for license information
 // -----------------------------------------------------------------------------
 
+#include "config.h"
 #include "AmigaFileSystem.h"
-#include "VAmiga.h"
+#include "FileSystemFactory.h"
 #include "Media.h"
-#include "DosFileSystem.h"
+#include "PosixFileSystem.h"
 #include "FuseDebug.h"
+// #include "utl/types.h"
+//#include "utl/io.h"
 
 using namespace vamiga;
 
@@ -32,60 +35,62 @@ int fsexec(Fn &&fn)
 */
 
 int
-AmigaFileSystem::posixErrno(const AppError &err)
+AmigaFileSystem::posixErrno(const Error &err)
 {
-    switch (Fault(err.data)) {
+    switch (err.payload) {
+
+            using namespace fault;
 
             // Generic / unknown
-        case Fault::FS_UNKNOWN:
-        case Fault::FS_UNINITIALIZED:
-        case Fault::FS_UNFORMATTED:
-        case Fault::FS_CORRUPTED:
-        case Fault::FS_OUT_OF_RANGE:
+        case FS_UNKNOWN:
+        case FS_UNINITIALIZED:
+        case FS_UNFORMATTED:
+        case FS_CORRUPTED:
+        case FS_OUT_OF_RANGE:
             return EIO;   // Input/output error
 
             // Path / lookup related
-        case Fault::FS_INVALID_PATH:
-        case Fault::FS_INVALID_REGEX:
+        case FS_INVALID_PATH:
+        case FS_INVALID_REGEX:
             return EINVAL; // Invalid argument
-        case Fault::FS_NOT_FOUND:
+        case FS_NOT_FOUND:
             return ENOENT; // No such file or directory
-        case Fault::FS_NOT_A_DIRECTORY:
+        case FS_NOT_A_DIRECTORY:
             return ENOTDIR; // Not a directory
-        case Fault::FS_NOT_A_FILE:
+        case FS_NOT_A_FILE:
             return EISDIR; // Is a directory (attempt to open a directory as file)
-        case Fault::FS_NOT_A_FILE_OR_DIRECTORY:
+        case FS_NOT_A_FILE_OR_DIRECTORY:
             return EIO;   // Input/output error
 
             // Existence
-        case Fault::FS_EXISTS:
+        case FS_EXISTS:
             return EEXIST; // File exists
 
             // Read/Write permissions or media constraints
-        case Fault::FS_READ_ONLY:
+        case FS_READ_ONLY:
             return EROFS; // Read-only filesystem
 
-        case Fault::FS_OUT_OF_SPACE:
+        case FS_OUT_OF_SPACE:
             return ENOSPC; // No space left on device
 
             // Open / create errors
-        case Fault::FS_CANNOT_OPEN:
+        case FS_CANNOT_OPEN:
             return EACCES; // Permission denied (best match)
-        case Fault::FS_CANNOT_CREATE_DIR:
-        case Fault::FS_CANNOT_CREATE_FILE:
+        case FS_CANNOT_CREATE_DIR:
+        case FS_CANNOT_CREATE_FILE:
             return EIO; // General I/O error (no better POSIX category)
 
             // Directory constraints
-        case Fault::FS_DIR_NOT_EMPTY:
+        case FS_DIR_NOT_EMPTY:
             return ENOTEMPTY; // Directory not empty
 
             // Unsupported volume / geometry issues (Amiga specific)
-        case Fault::FS_UNSUPPORTED:
-        case Fault::FS_WRONG_BSIZE:
-        case Fault::FS_WRONG_CAPACITY:
-        case Fault::FS_WRONG_DOS_TYPE:
-        case Fault::FS_WRONG_BLOCK_TYPE:
-        case Fault::FS_HAS_CYCLES:
+        case FS_UNSUPPORTED:
+        case FS_WRONG_BSIZE:
+        case FS_WRONG_CAPACITY:
+        case FS_WRONG_DOS_TYPE:
+        case FS_WRONG_BLOCK_TYPE:
+        case FS_HAS_CYCLES:
             return EINVAL; // Invalid argument (filesystem mismatch)
 
         default:
@@ -100,15 +105,15 @@ AmigaFileSystem::AmigaFileSystem(const fs::path &filename)
     assert(adf != nullptr);
 
     mylog("Extracting raw file system...\n");
-    fs = new FileSystem(*adf);
+    fs = FileSystemFactory::fromADF(*adf);
     assert(fs != nullptr);
 
     std::stringstream ss;
-    fs->dump(Category::Info, ss);
+    fs->dumpInfo(ss);
     std::cout << ss.str();
 
     mylog("Wrapping into DOS layer...\n");
-    dos = new DosFileSystem(*fs);
+    dos = std::make_unique<PosixFileSystem>(*fs);
     assert(dos != nullptr);
 }
 
@@ -238,13 +243,13 @@ AmigaFileSystem::statfs(const char *path, struct statvfs *st)
 {
     memset(st, 0, sizeof(*st));
 
-    const auto &stat     = dos->stat();
-    const auto blockSize = (unsigned long)stat.blockSize;
-    const auto total     = (fsblkcnt_t)stat.numBlocks;
-    const auto free      = (fsblkcnt_t)stat.freeBlocks;
+    const auto &stat = dos->stat();
+    const auto bsize = (unsigned long)stat.traits.bsize;
+    const auto total = (fsblkcnt_t)stat.traits.blocks;
+    const auto free  = (fsblkcnt_t)stat.freeBlocks;
 
-    st->f_bsize   = blockSize;         // Preferred block size
-    st->f_frsize  = blockSize;         // Fundamental block size
+    st->f_bsize   = bsize;         // Preferred block size
+    st->f_frsize  = bsize;         // Fundamental block size
 
     st->f_blocks  = total;             // Total data blocks in FS
     st->f_bfree   = free;              // Free blocks

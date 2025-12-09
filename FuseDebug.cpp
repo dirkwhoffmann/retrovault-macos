@@ -8,12 +8,12 @@
 // -----------------------------------------------------------------------------
 
 #include "FuseDebug.h"
-#include "IOUtils.h"
+#include "utl/io.h"
 #include <sstream>
 #include <iostream>
 
-using namespace vamiga::util;
-using namespace vamiga;
+using namespace utl;
+// using namespace vamiga;
 
 bool logging = true;
 

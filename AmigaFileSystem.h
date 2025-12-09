@@ -12,15 +12,15 @@
 #include "FuseFileSystem.h"
 // #include "FuseDelegate.h"
 #include "FuseDebug.h"
-#include "VAmiga.h"
-#include "Media.h"
+#include "FileSystem.h"
+#include "ADFFile.h"
 
 using namespace vamiga;
 
 namespace vamiga {
 
 class FileSystem;
-class DosFileSystem;
+class PosixFileSystem;
 
 }
 
@@ -30,17 +30,17 @@ class AmigaFileSystem : public FuseFileSystem {
     ADFFile *adf = nullptr;
 
     // Raw file system extracted from the ADF
-    FileSystem *fs = nullptr;
+    std::unique_ptr<FileSystem> fs;
 
     // DOS layer on top of 'fs'
-    DosFileSystem *dos = nullptr;
+    std::unique_ptr<PosixFileSystem> dos;
 
     // Synchronization lock
     std::mutex mtx;
 
 public:
 
-    static int posixErrno(const AppError &err);
+    static int posixErrno(const Error &err);
 
     AmigaFileSystem(const fs::path &filename);
     ~AmigaFileSystem();
@@ -72,7 +72,7 @@ private:
 
         try {
             return fn();
-        } catch (const AppError &err) {
+        } catch (const Error &err) {
             mylog("           Error: %d (%s)\n", AmigaFileSystem::posixErrno(err), err.what());
             return -AmigaFileSystem::posixErrno(err);
         } catch (...) {

@@ -44,7 +44,7 @@ public func warn(_ msg: String = "",
 
 final class AppError: Error {
     
-    let errorCode: ErrorCode
+    let errorCode: Int
     let what: String
 
     init(_ exception: ExceptionWrapper) {
@@ -53,8 +53,8 @@ final class AppError: Error {
         self.what = exception.what
     }
     
-    init(_ errorCode: ErrorCode, _ what: String = "") {
-        
+    init(_ errorCode: Int, _ what: String = "") {
+
         self.errorCode = errorCode
         self.what = what
     }
@@ -65,7 +65,7 @@ extension NSError {
     convenience init(error: AppError) {
         
         self.init(domain: "vAmiga",
-                  code: error.errorCode.rawValue,
+                  code: error.errorCode,
                   userInfo: [NSLocalizedRecoverySuggestionErrorKey: error.what])
     }
 }
@@ -74,6 +74,7 @@ extension NSError {
 // Failures
 //
 
+/*
 enum Failure {
 
     case cantAttach
@@ -196,11 +197,13 @@ enum Failure {
         }
     }
 }
+*/
 
 //
 // Alerts
 //
 
+/*
 extension NSAlert {
     
     @discardableResult
@@ -218,6 +221,7 @@ extension NSAlert {
         }
     }
 }
+*/
 
 /*
 extension MyDocument {
