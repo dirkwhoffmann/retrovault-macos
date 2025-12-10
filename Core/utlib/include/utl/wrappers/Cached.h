@@ -10,7 +10,6 @@
 #pragma once
 
 #include "utl/abilities/Synchronizable.h"
-// #include <functional>
 
 namespace utl::wrappers {
 

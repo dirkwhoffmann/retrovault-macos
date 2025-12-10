@@ -10,7 +10,6 @@
 #include "config.h"
 #include "FSDescriptor.h"
 #include "FSError.h"
-#include "utl/hints.h"
 #include "utl/io.h"
 
 namespace vamiga {

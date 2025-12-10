@@ -12,8 +12,6 @@
 #include "utl/abilities/Reflectable.h"
 #include "utl/io/ParseError.h"
 
-// #include <functional>
-
 namespace utl {
 
 struct ParseError : public std::exception {

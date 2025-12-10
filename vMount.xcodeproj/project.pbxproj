@@ -16,7 +16,7 @@
 		5077249F2ECFA78E00DB04C5 /* FuseDebug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5077249E2ECFA78D00DB04C5 /* FuseDebug.cpp */; };
 		507724A62ED0843800DB04C5 /* AmigaFileSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 507724A52ED0843700DB04C5 /* AmigaFileSystem.cpp */; };
 		50BCBCDF2EE865BA000C53CF /* Parser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50BCBCCF2EE865BA000C53CF /* Parser.cpp */; };
-		50BCBCE02EE865BA000C53CF /* Bytes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50BCBCD32EE865BA000C53CF /* Bytes.cpp */; };
+		50BCBCE02EE865BA000C53CF /* Bits.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50BCBCD32EE865BA000C53CF /* Bits.cpp */; };
 		50BCBCE12EE865BA000C53CF /* Time.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50BCBCCD2EE865BA000C53CF /* Time.cpp */; };
 		50BCBCE22EE865BA000C53CF /* Buffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50BCBCD12EE865BA000C53CF /* Buffer.cpp */; };
 		50BCBCE32EE865BA000C53CF /* Hashable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50BCBCC62EE865BA000C53CF /* Hashable.cpp */; };
@@ -116,7 +116,7 @@
 		50BCBCAA2EE865BA000C53CF /* Buffer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Buffer.h; sourceTree = "<group>"; };
 		50BCBCAB2EE865BA000C53CF /* Mailbox.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Mailbox.h; sourceTree = "<group>"; };
 		50BCBCAC2EE865BA000C53CF /* RingBuffer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RingBuffer.h; sourceTree = "<group>"; };
-		50BCBCAE2EE865BA000C53CF /* Memory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Memory.h; sourceTree = "<group>"; };
+		50BCBCAE2EE865BA000C53CF /* Bits.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Bits.h; sourceTree = "<group>"; };
 		50BCBCAF2EE865BA000C53CF /* Strings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Strings.h; sourceTree = "<group>"; };
 		50BCBCB12EE865BA000C53CF /* Exception.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Exception.h; sourceTree = "<group>"; };
 		50BCBCB22EE865BA000C53CF /* Integers.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Integers.h; sourceTree = "<group>"; };
@@ -144,7 +144,7 @@
 		50BCBCCD2EE865BA000C53CF /* Time.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Time.cpp; sourceTree = "<group>"; };
 		50BCBCCF2EE865BA000C53CF /* Parser.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Parser.cpp; sourceTree = "<group>"; };
 		50BCBCD12EE865BA000C53CF /* Buffer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Buffer.cpp; sourceTree = "<group>"; };
-		50BCBCD32EE865BA000C53CF /* Bytes.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Bytes.cpp; sourceTree = "<group>"; };
+		50BCBCD32EE865BA000C53CF /* Bits.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Bits.cpp; sourceTree = "<group>"; };
 		50BCBCD42EE865BA000C53CF /* Files.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Files.cpp; sourceTree = "<group>"; };
 		50BCBCD52EE865BA000C53CF /* Streams.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Streams.cpp; sourceTree = "<group>"; };
 		50BCBCD62EE865BA000C53CF /* Strings.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Strings.cpp; sourceTree = "<group>"; };
@@ -219,13 +219,12 @@
 		50BCBD7B2EE865C3000C53CF /* DeviceError.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DeviceError.cpp; sourceTree = "<group>"; };
 		50BCBD7C2EE865C3000C53CF /* DeviceTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DeviceTypes.h; sourceTree = "<group>"; };
 		50BCBDC22EE866B0000C53CF /* config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
-		50BCBDC32EE86A23000C53CF /* MediaFileTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MediaFileTypes.h; sourceTree = "<group>"; };
-		50BCBDC62EE86D6B000C53CF /* Macros.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Macros.h; sourceTree = "<group>"; };
 		50BCBDC72EE8715D000C53CF /* FileSystemFactory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FileSystemFactory.h; sourceTree = "<group>"; };
 		50BCBDC82EE8715D000C53CF /* FileSystemFactory.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FileSystemFactory.cpp; sourceTree = "<group>"; };
 		50BCBDCA2EE87447000C53CF /* config.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = config.cpp; sourceTree = "<group>"; };
 		50BCBDCC2EE93571000C53CF /* common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = common.h; sourceTree = "<group>"; };
 		50BCBDCE2EE952AB000C53CF /* Literals.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Literals.h; sourceTree = "<group>"; };
+		50BCBDD22EE993AA000C53CF /* HDFFileTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HDFFileTypes.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -315,7 +314,6 @@
 				50BCBDCA2EE87447000C53CF /* config.cpp */,
 				50BCBCDE2EE865BA000C53CF /* utlib */,
 				50BCBD7D2EE865C3000C53CF /* Storage */,
-				50BCBDC62EE86D6B000C53CF /* Macros.h */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -379,7 +377,7 @@
 		50BCBCB02EE865BA000C53CF /* support */ = {
 			isa = PBXGroup;
 			children = (
-				50BCBCAE2EE865BA000C53CF /* Memory.h */,
+				50BCBCAE2EE865BA000C53CF /* Bits.h */,
 				50BCBCAF2EE865BA000C53CF /* Strings.h */,
 			);
 			path = support;
@@ -481,7 +479,7 @@
 		50BCBCD72EE865BA000C53CF /* support */ = {
 			isa = PBXGroup;
 			children = (
-				50BCBCD32EE865BA000C53CF /* Bytes.cpp */,
+				50BCBCD32EE865BA000C53CF /* Bits.cpp */,
 				50BCBCD42EE865BA000C53CF /* Files.cpp */,
 				50BCBCD52EE865BA000C53CF /* Streams.cpp */,
 				50BCBCD62EE865BA000C53CF /* Strings.cpp */,
@@ -595,6 +593,7 @@
 			isa = PBXGroup;
 			children = (
 				50BCBD3D2EE865C3000C53CF /* CMakeLists.txt */,
+				50BCBDD22EE993AA000C53CF /* HDFFileTypes.h */,
 				50BCBD402EE865C3000C53CF /* HDFFile.h */,
 				50BCBD412EE865C3000C53CF /* HDFFile.cpp */,
 			);
@@ -651,7 +650,6 @@
 				50BCBD6A2EE865C3000C53CF /* Media.h */,
 				50BCBD6B2EE865C3000C53CF /* MediaError.h */,
 				50BCBD6C2EE865C3000C53CF /* MediaError.cpp */,
-				50BCBDC32EE86A23000C53CF /* MediaFileTypes.h */,
 			);
 			path = Media;
 			sourceTree = "<group>";
@@ -757,7 +755,7 @@
 				504EAD2D2ECF0266008CF9FC /* FuseFileSystem.cpp in Sources */,
 				5077249F2ECFA78E00DB04C5 /* FuseDebug.cpp in Sources */,
 				50BCBCDF2EE865BA000C53CF /* Parser.cpp in Sources */,
-				50BCBCE02EE865BA000C53CF /* Bytes.cpp in Sources */,
+				50BCBCE02EE865BA000C53CF /* Bits.cpp in Sources */,
 				50BCBCE12EE865BA000C53CF /* Time.cpp in Sources */,
 				50BCBCE22EE865BA000C53CF /* Buffer.cpp in Sources */,
 				50BCBCE32EE865BA000C53CF /* Hashable.cpp in Sources */,

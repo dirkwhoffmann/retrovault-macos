@@ -10,7 +10,6 @@
 #pragma once
 
 #include "utl/common.h"
-// #include <functional>
 
 namespace utl::wrappers {
 

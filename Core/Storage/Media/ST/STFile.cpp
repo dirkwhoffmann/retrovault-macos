@@ -10,6 +10,7 @@
 #include "config.h"
 #include "STFile.h"
 #include "utl/support.h"
+#include "utl/support/Strings.h"
 
 namespace vamiga {
 
