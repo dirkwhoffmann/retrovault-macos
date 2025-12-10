@@ -10,8 +10,6 @@
 #include "config.h"
 #include "FSBlock.h"
 #include "FileSystem.h"
-#include "Macros.h"
-#include "utl/hints.h"
 #include "utl/io.h"
 #include "utl/support.h"
 #include <algorithm>

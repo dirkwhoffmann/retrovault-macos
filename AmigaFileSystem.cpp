@@ -13,8 +13,6 @@
 #include "Media.h"
 #include "PosixFileSystem.h"
 #include "FuseDebug.h"
-// #include "utl/types.h"
-//#include "utl/io.h"
 
 using namespace vamiga;
 

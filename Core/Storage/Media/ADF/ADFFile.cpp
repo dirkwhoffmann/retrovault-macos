@@ -12,7 +12,6 @@
 #include "BootBlockImage.h"
 #include "FileSystem.h"
 #include "utl/support/Strings.h"
-#include "utl/hints.h"
 
 namespace vamiga {
 

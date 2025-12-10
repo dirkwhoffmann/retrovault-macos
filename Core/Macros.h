@@ -7,9 +7,11 @@
 // See https://mozilla.org/MPL/2.0 for license information
 // -----------------------------------------------------------------------------
 
+#if 0
+
 #pragma once
 
-#include "utl/types.h"
+#include "utl/common.h"
 
 //
 // Optimizing code
@@ -197,3 +199,5 @@
 
 // Converts CPU cycles to DMA cycles
 #define CPU_AS_DMA_CYCLES(cycles) (cycles >> 1)
+
+#endif

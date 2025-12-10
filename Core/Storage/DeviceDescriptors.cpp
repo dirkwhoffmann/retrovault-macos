@@ -12,6 +12,7 @@
 #include "DeviceError.h"
 #include "FSTypes.h"
 #include "utl/io.h"
+#include "utl/types.h"
 #include <algorithm>
 
 namespace vamiga {
@@ -127,7 +128,7 @@ GeometryDescriptor::checkCompatibility() const
     if (cylinders == 0 || FORCE_HDR_UNKNOWN_GEOMETRY) {
         throw DeviceError(DeviceError::HDR_UNKNOWN_GEOMETRY);
     }
-    if (numBytes() > (504 * (1 << 20)) || FORCE_HDR_TOO_LARGE) {
+    if (numBytes() > 504_MB || FORCE_HDR_TOO_LARGE) {
         throw DeviceError(DeviceError::HDR_TOO_LARGE);
     }
     if ((cylinders < cMin && heads > 1) || cylinders > cMax || FORCE_HDR_UNSUPPORTED_C) {

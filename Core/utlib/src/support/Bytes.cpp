@@ -7,7 +7,7 @@
 // See https://mozilla.org/MPL/2.0 for license information
 // -----------------------------------------------------------------------------
 
-#include "utl/support/Bytes.h"
+#include "utl/support/Memory.h"
 #include <cassert>
 #include <cstring>
 

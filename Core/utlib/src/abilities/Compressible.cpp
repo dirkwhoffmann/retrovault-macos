@@ -8,7 +8,7 @@
 // -----------------------------------------------------------------------------
 
 #include "utl/abilities/Compressible.h"
-#include "utl/support/Bytes.h"
+#include "utl/support/Memory.h"
 #include "utl/io/IOError.h"
 #include "lz4.h"
 
