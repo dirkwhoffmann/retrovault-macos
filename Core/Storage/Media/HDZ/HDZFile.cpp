@@ -59,7 +59,7 @@ HDZFile::finalizeRead()
 {
     debug(HDF_DEBUG, "Compressed size: %ld bytes.\n", data.size);
         
-    {   utl::StopWatch(SNP_DEBUG, "Uncompressing...");
+    {   utl::StopWatch(HDF_DEBUG, "Uncompressing...");
         
         try {
             data.gunzip();

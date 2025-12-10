@@ -13,7 +13,6 @@
 #import "DeviceTypes.h"
 #import "FuseFileSystemTypes.h"
 #import <Cocoa/Cocoa.h>
-#import <MetalKit/MetalKit.h>
 
 using namespace vamiga;
 
@@ -47,13 +46,6 @@ using namespace vamiga;
 
 @end
 
-/*
-@interface CoreComponentProxy : Proxy { }
-
-@property (readonly) NSInteger objid;
-
-@end
-*/
 
 //
 // RetroMounter
