@@ -26,10 +26,16 @@ struct Binding {
 }
 
 @MainActor
-class ShaderSetting {
+class Volume {
 
-    // Description of this setting
+    // Volume name
     var title: String
+
+    // Write protection status
+    var protected: Bool = false
+
+    // Mount point
+    var mounter: RetroMounter?
 
     // Parameters for numeric settings
     let range: ClosedRange<Double>?
@@ -95,13 +101,13 @@ class ShaderSetting {
 }
 
 @MainActor
-class Group : ShaderSetting {
+class Device : Volume {
 
     // The cell view associated with this group
     var view: ShaderTableCellView?
     
     // The settings in this group
-    var children: [ShaderSetting]
+    var children: [Volume]
 
     init(title: String = "",
          range: ClosedRange<Double>? = nil,
@@ -111,7 +117,7 @@ class Group : ShaderSetting {
          value: Binding? = nil,
          help: String? = nil,
          hidden: @escaping () -> Bool = { false },
-         _ children: [ShaderSetting]) {
+         _ children: [Volume]) {
 
         self.children = children
         super.init(title: title,
@@ -123,7 +129,7 @@ class Group : ShaderSetting {
                    help: help)
     }
 
-    func findSetting(key: String) -> ShaderSetting? {
+    func findSetting(key: String) -> Volume? {
 
         // Check this setting's bindings
         if enableKey == key || valueKey == key { return self }

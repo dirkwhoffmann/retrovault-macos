@@ -13,7 +13,7 @@ class ShaderTableCellView: NSTableCellView {
 
     @IBOutlet weak var controller: ShaderPreferencesViewController!
 
-    var shader: Shader { controller.shader }
+    var shader: DeviceLibrary { controller.devices }
     var outlineView: MyOutlineView { controller.outlineView }
 
     func updateIcon(expanded: Bool) {
@@ -29,9 +29,9 @@ class ShaderGroupView: ShaderTableCellView {
     @IBOutlet weak var label: NSTextField!
     @IBOutlet weak var subLabel: NSTextField!
 
-    var group: Group!
+    var group: Device!
 
-    func setup(with group: Group) {
+    func setup(with group: Device) {
 
         print("setup...")
         func reposition(_ label: NSTextField, over button: NSButton) {
@@ -107,7 +107,7 @@ class ShaderSettingView: ShaderTableCellView {
     @IBOutlet weak var optCeckbox: NSButton!
     @IBOutlet weak var helpButtom: NSButton!
 
-    var shaderSetting: ShaderSetting! {
+    var shaderSetting: Volume! {
 
         didSet {
 

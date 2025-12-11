@@ -13,60 +13,57 @@ import MetalPerformanceShaders
 @MainActor
 protocol ShaderDelegate {
 
-    func title(setting: ShaderSetting) -> String
-    func isHidden(setting: ShaderSetting) -> Bool
-    func settingDidChange(setting: ShaderSetting)
+    func title(setting: Volume) -> String
+    func isHidden(setting: Volume) -> Bool
+    func settingDidChange(setting: Volume)
 }
 
 extension ShaderDelegate {
 
-    func title(setting: ShaderSetting) -> String { setting.title }
-    func isHidden(setting: ShaderSetting) -> Bool { false }
-    func settingDidChange(setting: ShaderSetting) { }
+    func title(setting: Volume) -> String { setting.title }
+    func isHidden(setting: Volume) -> Bool { false }
+    func settingDidChange(setting: Volume) { }
 }
 
 @MainActor
-class Shader : Loggable {
-
-    static var device: MTLDevice { MTLCreateSystemDefaultDevice()! }
+class DeviceLibrary : Loggable {
 
     // Enables debug output to the console
     nonisolated static let logging: Bool = true
 
     // Name of this shader
-    var name: String = ""
+    // var name: String = ""
 
     // Shader settings
-    var settings: [Group] = []
+    var settings: [Device] = []
 
     // Delegate
     var delegate: ShaderDelegate?
 
     var tmp = 0
 
-    init(name: String) {
+    init() {
 
-        self.name = name
-
+        // Remove after testing...
         settings = [
 
-            Group(title: "Textures", [
+            Device(title: "Defender of the Crown", [
 
-                ShaderSetting(
-                    title: "Resampler",
+                Volume(
+                    title: "OFS",
                     items: [("BILINEAR", 0), ("LANCZOS", 1)],
                     value: nil),
             ]),
 
-            Group(title: "Filter",
+            Device(title: "My hard drive",
 
-                  enable: Binding(
+                   enable: Binding(
                     key: "FILTER_ENABLE",
                     get: { [unowned self] in Float(tmp) },
                     set: { [unowned self] in self.tmp = Int($0) }),
 
-                  [ ShaderSetting(
-                    title: "Palette",
+                   [ Volume(
+                    title: "Partition 1",
                     items: [("COLOR", 0), ("BLACK_WHITE", 1), ("PAPER_WHITE", 2),
                             ("GREEN", 3), ("AMBER", 4), ("SEPIA", 5)],
                     value: Binding(
@@ -74,16 +71,16 @@ class Shader : Loggable {
                         get: { [unowned self] in Float(tmp) },
                         set: { [unowned self] in self.tmp = Int($0) })),
 
-                    ShaderSetting(
-                    title: "Blur Filter",
-                    items: [("BOX", 0), ("TENT", 1), ("GAUSS", 2)],
-                    value: Binding(
-                        key: "BLUR_FILTER",
-                        get: { [unowned self] in Float(tmp) },
-                        set: { [unowned self] in self.tmp = Int($0) })),
+                     Volume(
+                        title: "Partition 2",
+                        items: [("BOX", 0), ("TENT", 1), ("GAUSS", 2)],
+                        value: Binding(
+                            key: "BLUR_FILTER",
+                            get: { [unowned self] in Float(tmp) },
+                            set: { [unowned self] in self.tmp = Int($0) })),
 
-                    ShaderSetting(
-                        title: "Blur width",
+                     Volume(
+                        title: "Partition 3",
                         range: 0.1...20.0,
                         step: 0.1,
                         value: Binding(
@@ -91,8 +88,8 @@ class Shader : Loggable {
                             get: { [unowned self] in Float(tmp) },
                             set: { [unowned self] in self.tmp = Int($0) })),
 
-                    ShaderSetting(
-                        title: "Blur height",
+                     Volume(
+                        title: "Partition 4",
                         range: 0.1...20.0,
                         step: 0.1,
                         value: Binding(
@@ -100,8 +97,8 @@ class Shader : Loggable {
                             get: { [unowned self] in Float(tmp) },
                             set: { [unowned self] in self.tmp = Int($0) })),
 
-                    ShaderSetting(
-                        title: "Scale X",
+                     Volume(
+                        title: "Partition 5",
                         range: 0.1...1.0,
                         step: 0.01,
                         value: Binding(
@@ -109,15 +106,15 @@ class Shader : Loggable {
                             get: { [unowned self] in Float(tmp) },
                             set: { [unowned self] in self.tmp = Int($0) })),
 
-                    ShaderSetting(
-                        title: "Scale Y",
+                     Volume(
+                        title: "Partition 6",
                         range: 0.1...1.0,
                         step: 0.01,
                         value: Binding(
                             key: "RESAMPLE_SCALE_Y",
                             get: { [unowned self] in Float(tmp) },
                             set: { [unowned self] in self.tmp = Int($0) }))
-                  ])
+                   ])
         ]
 
     }
@@ -129,55 +126,55 @@ class Shader : Loggable {
     func revertToPreset(nr: Int) { }
 
     // Called once when the user selects this shader
-    func activate() { log("Activating \(name)") }
+    // func activate() { log("Activating \(name)") }
 
     // Called once when the user selects another shader
-    func retire() { log("Retiring \(name)") }
+    // func retire() { log("Retiring \(name)") }
 
     // Runs the shader
     /*
-    func apply(commandBuffer: MTLCommandBuffer,
-               in input: MTLTexture, out output: MTLTexture, rect: CGRect = .unity) {
+     func apply(commandBuffer: MTLCommandBuffer,
+     in input: MTLTexture, out output: MTLTexture, rect: CGRect = .unity) {
 
-        fatalError("To be implemented by a subclass")
-    }
-    */
+     fatalError("To be implemented by a subclass")
+     }
+     */
 }
 
 //
 // Utilities
 //
 
-extension Shader {
+extension DeviceLibrary {
 
     /*
-    static func makeTexture(_ name: String = "unnamed", width: Int, height: Int,
-                            mipmaps: Int = 0, pixelFormat: MTLPixelFormat = .bgra8Unorm) -> MTLTexture? {
+     static func makeTexture(_ name: String = "unnamed", width: Int, height: Int,
+     mipmaps: Int = 0, pixelFormat: MTLPixelFormat = .bgra8Unorm) -> MTLTexture? {
 
-        log("Creating \(name) texture (\(width)x\(height), format: \(pixelFormat.rawValue) mipmaps: \(mipmaps))")
+     log("Creating \(name) texture (\(width)x\(height), format: \(pixelFormat.rawValue) mipmaps: \(mipmaps))")
 
-        let desc = MTLTextureDescriptor.texture2DDescriptor(
-            pixelFormat: pixelFormat,
-            width: width,
-            height: height,
-            mipmapped: mipmaps > 0
-        )
-        desc.usage = [.shaderRead, .shaderWrite, .renderTarget]
-        if mipmaps > 0 { desc.mipmapLevelCount = mipmaps }
+     let desc = MTLTextureDescriptor.texture2DDescriptor(
+     pixelFormat: pixelFormat,
+     width: width,
+     height: height,
+     mipmapped: mipmaps > 0
+     )
+     desc.usage = [.shaderRead, .shaderWrite, .renderTarget]
+     if mipmaps > 0 { desc.mipmapLevelCount = mipmaps }
 
-        return ShaderLibrary.device.makeTexture(descriptor: desc)
-    }
-    */
+     return ShaderLibrary.device.makeTexture(descriptor: desc)
+     }
+     */
 }
 
 //
 // Loading and saving options
 //
 
-extension Shader {
+extension DeviceLibrary {
 
     // Searches a setting by name
-    func findSetting(key: String) -> ShaderSetting? {
+    func findSetting(key: String) -> Volume? {
 
         for group in settings { if let match = group.findSetting(key: key) { return match } }
         return nil
