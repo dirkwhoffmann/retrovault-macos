@@ -9,20 +9,40 @@
 
 import Cocoa
 
-@main
+@MainActor
+var app: AppDelegate { NSApp.delegate as! AppDelegate }
+
+@main @MainActor
 class AppDelegate: NSObject, NSApplicationDelegate {
 
+    // Gateway to macFUSE
     var mounter = RetroMounter()
+
+    /*
+    var windowController: WindowController? {
+        return NSApplication.shared.windows.first?.windowController as? WindowController
+    }
+    */
+
+    func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
+
+        return true
+    }
+
+    func applicationDidBecomeActive(_ notification: Notification) {
+
+    }
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
 
-        /*
-        mounter = RetroMounterProxy()
-
-        do { try mounter?.launch() }
-        catch { print("Error launching RetroMounter: \(error)") }
-        */
+        showVolumeWindow()
     }
+
+    /*
+    func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
+        return false
+    }
+    */
 
     func applicationWillTerminate(_ aNotification: Notification) {
 
@@ -37,8 +57,18 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
         print("application open: urls = \(urls)")
         urls.forEach { mounter.mount(url: $0) }
+    }
 
+    func showVolumeWindow() {
 
+        print("showVolumeWindow")
+        let sb = NSStoryboard(name: "Main", bundle: nil)
+        if let wc = sb.instantiateController(withIdentifier: "Volumes") as? NSWindowController {
+
+            wc.window?.setContentSize(NSSize(width: 800, height: 600))
+            wc.window?.center()
+            wc.showWindow(self)
+        }
     }
 
 }
