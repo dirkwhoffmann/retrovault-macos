@@ -67,6 +67,7 @@ class ShaderPreferencesViewController: NSViewController {
         }
     }
 
+    /*
     func expandEnabled() {
 
         for group in outlineView.groups {
@@ -77,7 +78,8 @@ class ShaderPreferencesViewController: NSViewController {
             }
         }
     }
-
+     */
+    
     func updateShaderPopup() {
 
         /*
@@ -167,7 +169,7 @@ extension ShaderPreferencesViewController: NSOutlineViewDataSource {
 
     func outlineView(_ outlineView: NSOutlineView, heightOfRowByItem item: Any) -> CGFloat {
 
-        return item is Device ? 56 : 56
+        return 74
     }
     func outlineView(_ outlineView: NSOutlineView, isItemExpandable item: Any) -> Bool {
 

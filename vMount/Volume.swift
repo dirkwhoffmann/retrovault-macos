@@ -38,65 +38,19 @@ class Volume {
     var mounter: RetroMounter?
 
     // Parameters for numeric settings
-    let range: ClosedRange<Double>?
-    let step: Float
+    // let range: ClosedRange<Double>?
+    // let step: Float
 
     // Parameters for enum settings
-    let items: [(String,Int)]?
+    // let items: [(String,Int)]?
 
     // Optional help string
     let help: String?
 
-    // Binding for the enable key
-    private var enable: Binding?
-
-    // Binding for the value key
-    private var value: Binding?
-
-    init(title: String = "",
-         range: ClosedRange<Double>? = nil,
-         step: Float = 0.01,
-         items: [(String,Int)]? = nil,
-         enable: Binding? = nil,
-         value: Binding? = nil,
-         help: String? = nil
-        ) {
+    init(title: String = "", help: String? = nil) {
 
         self.title = title
-        self.enable = enable
-        self.value = value
-        self.range = range
-        self.step = step
-        self.items = items
         self.help = help
-    }
-
-    var enableKey: String { enable?.key ?? "" }
-    var valueKey: String { value?.key ?? "" }
-
-    var enabled: Bool? {
-        get { enable.map { $0.get() != 0 } }
-        set { newValue.map { enable?.set($0.floatValue) } }
-    }
-
-    var boolValue: Bool? {
-        get { value.map { $0.get() != 0 } }
-        set { newValue.map { value?.set($0.floatValue) } }
-    }
-
-    var int32Value: Int32? {
-        get { value.map { Int32($0.get()) } }
-        set { newValue.map { value?.set(Float($0)) } }
-    }
-
-    var intValue: Int? {
-        get { value.map { Int($0.get()) } }
-        set { newValue.map { value?.set(Float($0)) } }
-    }
-
-    var floatValue: Float? {
-        get { value.map { $0.get() } }
-        set { newValue.map { value?.set($0) } }
     }
 }
 
@@ -109,26 +63,13 @@ class Device : Volume {
     // The settings in this group
     var children: [Volume]
 
-    init(title: String = "",
-         range: ClosedRange<Double>? = nil,
-         step: Float = 0.01,
-         items: [(String,Int)]? = nil,
-         enable: Binding? = nil,
-         value: Binding? = nil,
-         help: String? = nil,
-         hidden: @escaping () -> Bool = { false },
-         _ children: [Volume]) {
+    init(title: String = "", help: String? = nil, _ children: [Volume]) {
 
         self.children = children
-        super.init(title: title,
-                   range: range,
-                   step: step,
-                   items: items,
-                   enable: enable,
-                   value: value,
-                   help: help)
+        super.init(title: title, help: help)
     }
 
+    /*
     func findSetting(key: String) -> Volume? {
 
         // Check this setting's bindings
@@ -141,7 +82,8 @@ class Device : Volume {
 
         return nil
     }
-
+     */
+    /*
     var dictionary: [String: String] {
 
         var result: [String: String] = [:]
@@ -155,4 +97,5 @@ class Device : Volume {
         }
         return result
     }
+     */
 }

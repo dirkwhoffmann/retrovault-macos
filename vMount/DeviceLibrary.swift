@@ -49,74 +49,36 @@ class DeviceLibrary : Loggable {
 
             Device(title: "Defender of the Crown", [
 
-                Volume(
-                    title: "OFS",
-                    items: [("BILINEAR", 0), ("LANCZOS", 1)],
-                    value: nil),
+                Volume(title: "OFS"),
             ]),
 
             Device(title: "My hard drive",
 
-                   enable: Binding(
-                    key: "FILTER_ENABLE",
-                    get: { [unowned self] in Float(tmp) },
-                    set: { [unowned self] in self.tmp = Int($0) }),
-
                    [ Volume(
                     title: "Partition 1",
-                    items: [("COLOR", 0), ("BLACK_WHITE", 1), ("PAPER_WHITE", 2),
-                            ("GREEN", 3), ("AMBER", 4), ("SEPIA", 5)],
-                    value: Binding(
-                        key: "PALETTE",
-                        get: { [unowned self] in Float(tmp) },
-                        set: { [unowned self] in self.tmp = Int($0) })),
+                   ),
 
                      Volume(
                         title: "Partition 2",
-                        items: [("BOX", 0), ("TENT", 1), ("GAUSS", 2)],
-                        value: Binding(
-                            key: "BLUR_FILTER",
-                            get: { [unowned self] in Float(tmp) },
-                            set: { [unowned self] in self.tmp = Int($0) })),
+                     ),
 
                      Volume(
                         title: "Partition 3",
-                        range: 0.1...20.0,
-                        step: 0.1,
-                        value: Binding(
-                            key: "BLUR_RADIUS_X",
-                            get: { [unowned self] in Float(tmp) },
-                            set: { [unowned self] in self.tmp = Int($0) })),
+                     ),
 
                      Volume(
                         title: "Partition 4",
-                        range: 0.1...20.0,
-                        step: 0.1,
-                        value: Binding(
-                            key: "BLUR_RADIUS_Y",
-                            get: { [unowned self] in Float(tmp) },
-                            set: { [unowned self] in self.tmp = Int($0) })),
+                     ),
 
                      Volume(
                         title: "Partition 5",
-                        range: 0.1...1.0,
-                        step: 0.01,
-                        value: Binding(
-                            key: "RESAMPLE_SCALE_X",
-                            get: { [unowned self] in Float(tmp) },
-                            set: { [unowned self] in self.tmp = Int($0) })),
+                     ),
 
                      Volume(
                         title: "Partition 6",
-                        range: 0.1...1.0,
-                        step: 0.01,
-                        value: Binding(
-                            key: "RESAMPLE_SCALE_Y",
-                            get: { [unowned self] in Float(tmp) },
-                            set: { [unowned self] in self.tmp = Int($0) }))
+                     )
                    ])
         ]
-
     }
 
     // Returns the names of all available presets
@@ -174,6 +136,7 @@ extension DeviceLibrary {
 extension DeviceLibrary {
 
     // Searches a setting by name
+    /*
     func findSetting(key: String) -> Volume? {
 
         for group in settings { if let match = group.findSetting(key: key) { return match } }
@@ -217,4 +180,5 @@ extension DeviceLibrary {
 
         // try Parser.save(url: url, dict: dictionary)
     }
+    */
 }
