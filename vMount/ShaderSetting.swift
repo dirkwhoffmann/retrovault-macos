@@ -99,7 +99,7 @@ class Group : ShaderSetting {
 
     // The cell view associated with this group
     var view: ShaderTableCellView?
-
+    
     // The settings in this group
     var children: [ShaderSetting]
 

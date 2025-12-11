@@ -158,9 +158,15 @@ extension ShaderPreferencesViewController: NSOutlineViewDataSource {
     func outlineView(_ outlineView: NSOutlineView, numberOfChildrenOfItem item: Any?) -> Int {
 
         if let group = item as? Group {
+
+            print("Number of children of group \(group.children.count)")
+
             return group.children.count
             // return group.children.filter { $0.hidden == false }.count
         } else {
+
+            print("Number of ... shader.settings.count = \(shader.settings.count)")
+
             return shader.settings.count
         }
     }
@@ -193,6 +199,7 @@ extension ShaderPreferencesViewController: NSOutlineViewDelegate {
 
             let id = NSUserInterfaceItemIdentifier("GroupCell")
             let cell = outlineView.makeView(withIdentifier: id, owner: self) as! ShaderGroupView
+            print("cell = \(cell) group = \(group)")
             cell.setup(with: group)
             cell.updateIcon(expanded: outlineView.isItemExpanded(item))
             group.view = cell

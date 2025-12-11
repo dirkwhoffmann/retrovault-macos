@@ -42,9 +42,84 @@ class Shader : Loggable {
     // Delegate
     var delegate: ShaderDelegate?
 
+    var tmp = 0
+
     init(name: String) {
 
         self.name = name
+
+        settings = [
+
+            Group(title: "Textures", [
+
+                ShaderSetting(
+                    title: "Resampler",
+                    items: [("BILINEAR", 0), ("LANCZOS", 1)],
+                    value: nil),
+            ]),
+
+            Group(title: "Filter",
+
+                  enable: Binding(
+                    key: "FILTER_ENABLE",
+                    get: { [unowned self] in Float(tmp) },
+                    set: { [unowned self] in self.tmp = Int($0) }),
+
+                  [ ShaderSetting(
+                    title: "Palette",
+                    items: [("COLOR", 0), ("BLACK_WHITE", 1), ("PAPER_WHITE", 2),
+                            ("GREEN", 3), ("AMBER", 4), ("SEPIA", 5)],
+                    value: Binding(
+                        key: "PALETTE",
+                        get: { [unowned self] in Float(tmp) },
+                        set: { [unowned self] in self.tmp = Int($0) })),
+
+                    ShaderSetting(
+                    title: "Blur Filter",
+                    items: [("BOX", 0), ("TENT", 1), ("GAUSS", 2)],
+                    value: Binding(
+                        key: "BLUR_FILTER",
+                        get: { [unowned self] in Float(tmp) },
+                        set: { [unowned self] in self.tmp = Int($0) })),
+
+                    ShaderSetting(
+                        title: "Blur width",
+                        range: 0.1...20.0,
+                        step: 0.1,
+                        value: Binding(
+                            key: "BLUR_RADIUS_X",
+                            get: { [unowned self] in Float(tmp) },
+                            set: { [unowned self] in self.tmp = Int($0) })),
+
+                    ShaderSetting(
+                        title: "Blur height",
+                        range: 0.1...20.0,
+                        step: 0.1,
+                        value: Binding(
+                            key: "BLUR_RADIUS_Y",
+                            get: { [unowned self] in Float(tmp) },
+                            set: { [unowned self] in self.tmp = Int($0) })),
+
+                    ShaderSetting(
+                        title: "Scale X",
+                        range: 0.1...1.0,
+                        step: 0.01,
+                        value: Binding(
+                            key: "RESAMPLE_SCALE_X",
+                            get: { [unowned self] in Float(tmp) },
+                            set: { [unowned self] in self.tmp = Int($0) })),
+
+                    ShaderSetting(
+                        title: "Scale Y",
+                        range: 0.1...1.0,
+                        step: 0.01,
+                        value: Binding(
+                            key: "RESAMPLE_SCALE_Y",
+                            get: { [unowned self] in Float(tmp) },
+                            set: { [unowned self] in self.tmp = Int($0) }))
+                  ])
+        ]
+
     }
 
     // Returns the names of all available presets
@@ -60,11 +135,13 @@ class Shader : Loggable {
     func retire() { log("Retiring \(name)") }
 
     // Runs the shader
+    /*
     func apply(commandBuffer: MTLCommandBuffer,
                in input: MTLTexture, out output: MTLTexture, rect: CGRect = .unity) {
 
         fatalError("To be implemented by a subclass")
     }
+    */
 }
 
 //

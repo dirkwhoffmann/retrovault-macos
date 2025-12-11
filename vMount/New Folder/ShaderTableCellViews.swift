@@ -33,6 +33,7 @@ class ShaderGroupView: ShaderTableCellView {
 
     func setup(with group: Group) {
 
+        print("setup...")
         func reposition(_ label: NSTextField, over button: NSButton) {
 
             var frame = label.frame
@@ -104,10 +105,6 @@ class ShaderSettingView: ShaderTableCellView {
     @IBOutlet weak var optionLabel: NSTextField!
     @IBOutlet weak var subLabel: NSTextField!
     @IBOutlet weak var optCeckbox: NSButton!
-    @IBOutlet weak var valueSlider: NSSlider!
-    @IBOutlet weak var valueStepper: NSStepper!
-    @IBOutlet weak var valuePopup: NSPopUpButton!
-    @IBOutlet weak var valueLabel: NSTextField!
     @IBOutlet weak var helpButtom: NSButton!
 
     var shaderSetting: ShaderSetting! {
@@ -115,7 +112,7 @@ class ShaderSettingView: ShaderTableCellView {
         didSet {
 
             // let enableKey = shaderSetting.enableKey
-            let enabled = shaderSetting.enabled ?? true
+            // let enabled = true
             let hidden = shader.delegate?.isHidden(setting: shaderSetting) ?? false
             let customTitle = shader.delegate?.title(setting: shaderSetting)
 
@@ -129,44 +126,6 @@ class ShaderSettingView: ShaderTableCellView {
             helpButtom.isEnabled = !hidden
             optCeckbox.isEnabled = !hidden
 
-            valuePopup.isHidden = true
-            valueSlider.isHidden = true
-            valueStepper.isHidden = true
-            valueLabel.isHidden = true
-
-            valuePopup.isEnabled = enabled && !hidden
-            valueSlider.isEnabled = enabled && !hidden
-            valueStepper.isEnabled = enabled && !hidden
-            valueLabel.textColor = enabled && !hidden ? .textColor : .disabledControlTextColor
-
-            if let range = shaderSetting.range {
-
-                valueStepper.isHidden = false
-                valueSlider.isHidden = false
-                valueLabel.isHidden = false
-                valueSlider.isHidden = false
-                valueSlider.minValue = range.lowerBound
-                valueSlider.maxValue = range.upperBound
-                valueStepper.increment = Double(shaderSetting.step)
-                valueStepper.minValue = Double(range.lowerBound)
-                valueStepper.maxValue = Double(range.upperBound)
-            }
-
-            if let values = shaderSetting.items {
-
-                valuePopup.isHidden = false
-                valuePopup.removeAllItems()
-                for value in values {
-
-                    let item = value.0.isEmpty ?
-                    NSMenuItem.separator() :
-                    NSMenuItem(title: value.0, action: nil, keyEquivalent: "")
-
-                    item.tag = value.1
-                    valuePopup.menu?.addItem(item)
-                }
-            }
-
             update()
         }
     }
@@ -175,24 +134,12 @@ class ShaderSettingView: ShaderTableCellView {
 
     func update() {
 
-        let value = shaderSetting.floatValue ?? 0 //  shader.get(key: shaderSetting.key)
+        // let value = shaderSetting.floatValue ?? 0 //  shader.get(key: shaderSetting.key)
         let enable = shaderSetting.enabled
 
         if !optCeckbox.isHidden {
 
             optCeckbox.state = enable == true ? .on : .off;
-        }
-
-        if !valueSlider.isHidden {
-
-            valueSlider.floatValue = value
-            valueStepper.floatValue = value
-            valueLabel.stringValue = value.formatted(min: 1, max: 3)
-        }
-
-        if !valuePopup.isHidden {
-
-            valuePopup.selectItem(withTag: Int(value))
         }
     }
 
