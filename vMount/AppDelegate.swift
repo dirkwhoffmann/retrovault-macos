@@ -15,6 +15,12 @@ var app: AppDelegate { NSApp.delegate as! AppDelegate }
 @main @MainActor
 class AppDelegate: NSObject, NSApplicationDelegate {
 
+    // Device library
+    var devices = DeviceLibrary()
+
+    // View controller of the device list
+    var vc: DevicesViewController?
+
     // Gateway to macFUSE
     var mounter = RetroMounter()
 
@@ -64,6 +70,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         print("showVolumeWindow")
         let sb = NSStoryboard(name: "Main", bundle: nil)
         if let wc = sb.instantiateController(withIdentifier: "Volumes") as? NSWindowController {
+
+            vc = wc.contentViewController as? DevicesViewController
 
             wc.window?.setContentSize(NSSize(width: 800, height: 600))
             wc.window?.center()

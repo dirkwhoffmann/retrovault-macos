@@ -11,7 +11,7 @@ import Cocoa
 
 class MyOutlineView : NSOutlineView {
 
-    var groups: [Device] {
+    var devices: [Device] {
 
         var result: [Device] = []
         if let ds = self.dataSource {
@@ -33,17 +33,11 @@ class MyOutlineView : NSOutlineView {
     }
 }
 
-class ShaderPreferencesViewController: NSViewController {
+class DevicesViewController: NSViewController {
 
     @IBOutlet weak var outlineView: MyOutlineView!
-    @IBOutlet weak var shaderSelector: NSPopUpButton!
-    @IBOutlet weak var presetSelector: NSPopUpButton!
-
-    var devices = DeviceLibrary()
 
     override func viewDidLoad() {
-
-        // oldSettings = ShaderLibrary.shared.currentShader.dictionary
 
         outlineView.delegate = self
         outlineView.dataSource = self
@@ -51,10 +45,6 @@ class ShaderPreferencesViewController: NSViewController {
         outlineView.intercellSpacing = NSSize(width: 0, height: 2)
         outlineView.gridColor = .separatorColor // .controlBackgroundColor // windowBackgroundColor
         outlineView.gridStyleMask = [.solidHorizontalGridLineMask]
-
-        updateShaderPopup()
-        updatePresetPopup()
-
         outlineView.reloadData()
 
         expandAll()
@@ -62,78 +52,24 @@ class ShaderPreferencesViewController: NSViewController {
 
     func expandAll() {
 
-        for group in outlineView.groups {
+        for group in outlineView.devices {
             outlineView.expandItem(group)
         }
     }
 
-    /*
-    func expandEnabled() {
-
-        for group in outlineView.groups {
-            if group.enabled ?? true {
-                outlineView.expandItem(group)
-            } else {
-                outlineView.collapseItem(group)
-            }
-        }
-    }
-     */
-    
-    func updateShaderPopup() {
-
-        /*
-        // Add all available shaders to the shader selector popup
-        shaderSelector.removeAllItems()
-        for shader in ShaderLibrary.shared.shaders {
-
-            let item = NSMenuItem(title: shader.name,
-                                  action: nil,
-                                  keyEquivalent: "")
-            item.tag = shader.id ?? 0
-            shaderSelector.menu?.addItem(item)
-        }
-        shaderSelector.selectItem(withTag: shader.id ?? 0)
-        */
-    }
-
-    func updatePresetPopup() {
-
-        /*
-        presetSelector.removeAllItems()
-
-        // let item = NSMenuItem(title: "Revert to...", action: nil, keyEquivalent: "")
-        presetSelector.menu?.addItem(withTitle: "Revert to...", action: nil, keyEquivalent: "")
-        presetSelector.menu?.addItem(NSMenuItem.separator())
-
-        for (index, title) in shader.presets.enumerated() {
-
-            let item = NSMenuItem(title: title,
-                                  action: nil,
-                                  keyEquivalent: "")
-            item.tag = index
-            presetSelector.menu?.addItem(item)
-        }
-        */
-    }
-
     func refresh() {
 
-        // shaderSelector.selectItem(withTag: shader.id ?? 0)
         outlineView.reloadData()
     }
 
     @IBAction func shaderSelectAction(_ sender: NSPopUpButton) {
 
-        // ShaderLibrary.shared.selectShader(at: sender.selectedTag())
-        updatePresetPopup()
         refresh()
         expandAll()
     }
 
     @IBAction func presetAction(_ sender: NSPopUpButton) {
 
-        // ShaderLibrary.shared.currentShader.revertToPreset(nr: sender.selectedTag())
         refresh()
     }
 
@@ -143,7 +79,6 @@ class ShaderPreferencesViewController: NSViewController {
 
     @IBAction func cancelAction(_ sender: NSButton) {
 
-        // ShaderLibrary.shared.currentShader.dictionary = oldSettings
         view.window?.close()
     }
 
@@ -153,7 +88,7 @@ class ShaderPreferencesViewController: NSViewController {
     }
 }
 
-extension ShaderPreferencesViewController: NSOutlineViewDataSource {
+extension DevicesViewController: NSOutlineViewDataSource {
 
     func outlineView(_ outlineView: NSOutlineView, numberOfChildrenOfItem item: Any?) -> Int {
 
@@ -163,7 +98,7 @@ extension ShaderPreferencesViewController: NSOutlineViewDataSource {
             // return group.children.filter { $0.hidden == false }.count
         } else {
 
-            return devices.settings.count
+            return app.devices.settings.count
         }
     }
 
@@ -182,19 +117,19 @@ extension ShaderPreferencesViewController: NSOutlineViewDataSource {
             return group.children[index]
             // return group.children.filter { $0.hidden == false }[index]
         } else {
-            return devices.settings[index]
+            return app.devices.settings[index]
         }
     }
 }
 
-extension ShaderPreferencesViewController: NSOutlineViewDelegate {
+extension DevicesViewController: NSOutlineViewDelegate {
 
     func outlineView(_ outlineView: NSOutlineView, viewFor tableColumn: NSTableColumn?, item: Any) -> NSView? {
 
         if let group = item as? Device {
 
             let id = NSUserInterfaceItemIdentifier("GroupCell")
-            let cell = outlineView.makeView(withIdentifier: id, owner: self) as! ShaderGroupView
+            let cell = outlineView.makeView(withIdentifier: id, owner: self) as! TableDeviceView
             cell.setup(with: group)
             cell.updateIcon(expanded: outlineView.isItemExpanded(item))
             group.view = cell
@@ -203,7 +138,7 @@ extension ShaderPreferencesViewController: NSOutlineViewDelegate {
         } else if let row = item as? Volume {
 
             let id = NSUserInterfaceItemIdentifier(rawValue: "RowCell")
-            let cell = outlineView.makeView(withIdentifier: id, owner: self) as! ShaderSettingView
+            let cell = outlineView.makeView(withIdentifier: id, owner: self) as! TableVolumeView
             cell.shaderSetting = row
             return cell
 

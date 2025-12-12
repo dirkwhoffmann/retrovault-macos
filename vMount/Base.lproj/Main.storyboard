@@ -740,10 +740,10 @@
             </objects>
             <point key="canvasLocation" x="605" y="251"/>
         </scene>
-        <!--Shader Preferences View Controller-->
+        <!--Devices View Controller-->
         <scene sceneID="ZFT-oF-si6">
             <objects>
-                <viewController id="HGJ-lA-yfu" customClass="ShaderPreferencesViewController" customModule="vMount" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="HGJ-lA-yfu" customClass="DevicesViewController" customModule="vMount" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="USQ-m6-QYu">
                         <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -782,7 +782,7 @@
                                                     </textFieldCell>
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
-                                                        <tableCellView identifier="GroupCell" id="Iub-ec-kq0" customClass="ShaderGroupView" customModule="vMount" customModuleProvider="target">
+                                                        <tableCellView identifier="GroupCell" id="Iub-ec-kq0" customClass="TableDeviceView" customModule="vMount" customModuleProvider="target">
                                                             <rect key="frame" x="8" y="0.0" width="420" height="74"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
@@ -849,7 +849,7 @@
                                                                 <outlet property="textField" destination="fwJ-te-Ndg" id="Wm4-gG-eOk"/>
                                                             </connections>
                                                         </tableCellView>
-                                                        <tableCellView identifier="RowCell" id="aRj-ea-Mgr" customClass="ShaderSettingView" customModule="vMount" customModuleProvider="target">
+                                                        <tableCellView identifier="RowCell" id="aRj-ea-Mgr" customClass="TableVolumeView" customModule="vMount" customModuleProvider="target">
                                                             <rect key="frame" x="8" y="74" width="420" height="74"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>

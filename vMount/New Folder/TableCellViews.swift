@@ -9,11 +9,10 @@
 
 import Cocoa
 
-class ShaderTableCellView: NSTableCellView {
+class TableCellView: NSTableCellView {
 
-    @IBOutlet weak var controller: ShaderPreferencesViewController!
+    @IBOutlet weak var controller: DevicesViewController!
 
-    var shader: DeviceLibrary { controller.devices }
     var outlineView: MyOutlineView { controller.outlineView }
 
     func updateIcon(expanded: Bool) {
@@ -21,7 +20,7 @@ class ShaderTableCellView: NSTableCellView {
     }
 }
 
-class ShaderGroupView: ShaderTableCellView {
+class TableDeviceView: TableCellView {
 
     @IBOutlet weak var disclosureButton: NSButton!
     @IBOutlet weak var protected: NSButton!
@@ -31,15 +30,6 @@ class ShaderGroupView: ShaderTableCellView {
     var group: Device!
 
     func setup(with group: Device) {
-
-        /*
-        func reposition(_ label: NSTextField, over button: NSButton) {
-
-            var frame = label.frame
-            frame.origin.x = button.frame.origin.x
-            label.frame = frame
-        }
-        */
 
         self.group = group
         textField?.stringValue = group.title
@@ -74,15 +64,11 @@ class ShaderGroupView: ShaderTableCellView {
 
     @IBAction func enableAction(_ sender: NSButton) {
 
-        /*
-        group.enabled = sender.state == .on
-        shader.delegate?.settingDidChange(setting: group)
-         */
         outlineView.reloadData()
     }
 }
 
-class ShaderSettingView: ShaderTableCellView {
+class TableVolumeView: TableCellView {
 
     @IBOutlet weak var label: NSTextField!
     @IBOutlet weak var sublabel: NSTextField!
