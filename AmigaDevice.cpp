@@ -76,3 +76,10 @@ AmigaDevice::unmount()
         unmount(i);
     }
 }
+
+FSTraits
+AmigaDevice::traits(isize partition)
+{
+    assert(partition >= 0 && partition < volumes.size());
+    return volumes[partition]->fs->getTraits();
+}

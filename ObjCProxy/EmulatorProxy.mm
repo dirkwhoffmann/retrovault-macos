@@ -59,21 +59,21 @@ using namespace utl;
 
 
 //
-// RetroMounter
+// AmigaDeviceProxy
 //
 
-@implementation RetroMounterProxy
+@implementation AmigaDeviceProxy
 
 - (AmigaDevice *)adapter
 {
     return (AmigaDevice *)obj;
 }
 
-+ (instancetype)make:(AmigaDevice *)volume
++ (instancetype)make:(AmigaDevice *)device
 {
-    if (volume == nullptr) { return nil; }
+    if (device == nullptr) { return nil; }
 
-    RetroMounterProxy *proxy = [[self alloc] initWith: volume];
+    AmigaDeviceProxy *proxy = [[self alloc] initWith: device];
     return proxy;
 }
 
@@ -105,6 +105,11 @@ using namespace utl;
 - (void)setListener:(const void *)listener function:(AdapterCallback *)func
 {
     [self adapter]->setListener(listener, func);
+}
+
+- (FSTraits)traits:(NSInteger)volume
+{
+    return [self adapter]->traits(volume);
 }
 
 @end

@@ -7,12 +7,12 @@
 // See https://www.gnu.org for license information
 // -----------------------------------------------------------------------------
 
-extension RetroMounterProxy {
+extension AmigaDeviceProxy {
 
-    static func make(with url: URL) throws -> RetroMounterProxy {
+    static func make(with url: URL) throws -> AmigaDeviceProxy {
 
         let exception = ExceptionWrapper()
-        let result = RetroMounterProxy.make(url, exception: exception)
+        let result = AmigaDeviceProxy.make(url, exception: exception)
         if exception.fault != 0 { throw AppError(exception) }
 
         return result!

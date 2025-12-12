@@ -11,6 +11,7 @@
 
 #import "config.h"
 #import "DeviceTypes.h"
+#import "FSTypes.h"
 #import "FuseFileSystemTypes.h"
 #import <Cocoa/Cocoa.h>
 
@@ -48,10 +49,10 @@ using namespace vamiga;
 
 
 //
-// RetroMounter
+// AmigaDeviceProxy
 //
 
-@interface RetroMounterProxy : Proxy {
+@interface AmigaDeviceProxy : Proxy {
 
 }
 
@@ -60,5 +61,7 @@ using namespace vamiga;
 - (void)mount:(NSURL *)url exception:(ExceptionWrapper *)ex;
 - (void)unmount;
 - (void)setListener:(const void *)listener function:(AdapterCallback *)func;
+
+- (FSTraits)traits:(NSInteger)volume;
 
 @end

@@ -25,8 +25,7 @@ class PosixFileSystem;
 
 class AmigaVolume : public FuseFileSystem {
     
-    // Amiga Disk File
-    // ADFFile *adf = nullptr;
+    friend class AmigaDevice;
 
     // Raw file system
     std::unique_ptr<FileSystem> fs;

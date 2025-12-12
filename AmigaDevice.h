@@ -28,4 +28,6 @@ public:
     void mount(const fs::path &mountpoint);
     void unmount(isize partition);
     void unmount();
+
+    FSTraits traits(isize partition);
 };
