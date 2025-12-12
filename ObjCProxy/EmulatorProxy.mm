@@ -9,7 +9,7 @@
 
 #import "config.h"
 #import "EmulatorProxy.h"
-#import "AmigaFileSystem.h"
+#import "AmigaDevice.h"
 #import "FileSystem.h"
 
 using namespace vamiga;
@@ -64,12 +64,12 @@ using namespace utl;
 
 @implementation RetroMounterProxy
 
-- (AmigaFileSystem *)adapter
+- (AmigaDevice *)adapter
 {
-    return (AmigaFileSystem *)obj;
+    return (AmigaDevice *)obj;
 }
 
-+ (instancetype)make:(AmigaFileSystem *)volume
++ (instancetype)make:(AmigaDevice *)volume
 {
     if (volume == nullptr) { return nil; }
 
@@ -81,8 +81,8 @@ using namespace utl;
 {
     try {
 
-        auto volume = new AmigaFileSystem([url fileSystemRepresentation]);
-        return [self make:volume];
+        auto device = new AmigaDevice([url fileSystemRepresentation]);
+        return [self make:device];
 
     }  catch (Error &error) {
 

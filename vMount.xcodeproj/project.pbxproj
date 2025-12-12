@@ -14,7 +14,7 @@
 		507724952ECF26F800DB04C5 /* libfuse.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 507724942ECF26BF00DB04C5 /* libfuse.2.dylib */; };
 		507724962ECF2FA300DB04C5 /* libfuse.2.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 507724942ECF26BF00DB04C5 /* libfuse.2.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		5077249F2ECFA78E00DB04C5 /* FuseDebug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5077249E2ECFA78D00DB04C5 /* FuseDebug.cpp */; };
-		507724A62ED0843800DB04C5 /* AmigaFileSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 507724A52ED0843700DB04C5 /* AmigaFileSystem.cpp */; };
+		507724A62ED0843800DB04C5 /* AmigaVolume.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 507724A52ED0843700DB04C5 /* AmigaVolume.cpp */; };
 		50BCBCDF2EE865BA000C53CF /* Parser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50BCBCCF2EE865BA000C53CF /* Parser.cpp */; };
 		50BCBCE02EE865BA000C53CF /* Bits.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50BCBCD32EE865BA000C53CF /* Bits.cpp */; };
 		50BCBCE12EE865BA000C53CF /* Time.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50BCBCCD2EE865BA000C53CF /* Time.cpp */; };
@@ -63,6 +63,7 @@
 		50BCBDBF2EE865C3000C53CF /* DeviceDescriptors.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50BCBD792EE865C3000C53CF /* DeviceDescriptors.cpp */; };
 		50BCBDC92EE8715D000C53CF /* FileSystemFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50BCBDC82EE8715D000C53CF /* FileSystemFactory.cpp */; };
 		50BCBDCB2EE87447000C53CF /* config.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50BCBDCA2EE87447000C53CF /* config.cpp */; };
+		50BCBDFA2EEBF79B000C53CF /* AmigaDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50BCBDF92EEBF798000C53CF /* AmigaDevice.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -93,8 +94,8 @@
 		5077249C2ECF8BC000DB04C5 /* FuseAPI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FuseAPI.h; sourceTree = "<group>"; };
 		5077249D2ECFA78500DB04C5 /* FuseDebug.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FuseDebug.h; sourceTree = "<group>"; };
 		5077249E2ECFA78D00DB04C5 /* FuseDebug.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FuseDebug.cpp; sourceTree = "<group>"; };
-		507724A42ED0841B00DB04C5 /* AmigaFileSystem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AmigaFileSystem.h; sourceTree = "<group>"; };
-		507724A52ED0843700DB04C5 /* AmigaFileSystem.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AmigaFileSystem.cpp; sourceTree = "<group>"; };
+		507724A42ED0841B00DB04C5 /* AmigaVolume.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AmigaVolume.h; sourceTree = "<group>"; };
+		507724A52ED0843700DB04C5 /* AmigaVolume.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AmigaVolume.cpp; sourceTree = "<group>"; };
 		50BCBC942EE865BA000C53CF /* CMakeLists.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
 		50BCBC952EE865BA000C53CF /* Compressible.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Compressible.h; sourceTree = "<group>"; };
 		50BCBC962EE865BA000C53CF /* Dumpable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Dumpable.h; sourceTree = "<group>"; };
@@ -225,6 +226,8 @@
 		50BCBDCC2EE93571000C53CF /* common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = common.h; sourceTree = "<group>"; };
 		50BCBDCE2EE952AB000C53CF /* Literals.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Literals.h; sourceTree = "<group>"; };
 		50BCBDD22EE993AA000C53CF /* HDFFileTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HDFFileTypes.h; sourceTree = "<group>"; };
+		50BCBDF82EEBF791000C53CF /* AmigaDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AmigaDevice.h; sourceTree = "<group>"; };
+		50BCBDF92EEBF798000C53CF /* AmigaDevice.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AmigaDevice.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -267,10 +270,12 @@
 				50559ADE2ED870190001AEEF /* FuseFileSystemTypes.h */,
 				504EAD2A2ECF024E008CF9FC /* FuseFileSystem.h */,
 				504EAD2C2ECF0263008CF9FC /* FuseFileSystem.cpp */,
-				507724A42ED0841B00DB04C5 /* AmigaFileSystem.h */,
-				507724A52ED0843700DB04C5 /* AmigaFileSystem.cpp */,
 				5077249D2ECFA78500DB04C5 /* FuseDebug.h */,
 				5077249E2ECFA78D00DB04C5 /* FuseDebug.cpp */,
+				507724A42ED0841B00DB04C5 /* AmigaVolume.h */,
+				507724A52ED0843700DB04C5 /* AmigaVolume.cpp */,
+				50BCBDF82EEBF791000C53CF /* AmigaDevice.h */,
+				50BCBDF92EEBF798000C53CF /* AmigaDevice.cpp */,
 				50BCBC932EE86574000C53CF /* Core */,
 				504EAD242ECF00CE008CF9FC /* ObjCProxy */,
 				504EA7BF2ECE39E8008CF9FC /* vMount */,
@@ -793,6 +798,7 @@
 				50BCBDBA2EE865C3000C53CF /* FSAllocator.cpp in Sources */,
 				50BCBDBB2EE865C3000C53CF /* FSDoctor.cpp in Sources */,
 				50BCBDBC2EE865C3000C53CF /* FSError.cpp in Sources */,
+				50BCBDFA2EEBF79B000C53CF /* AmigaDevice.cpp in Sources */,
 				50BCBDBD2EE865C3000C53CF /* FSExporter.cpp in Sources */,
 				50BCBDBF2EE865C3000C53CF /* DeviceDescriptors.cpp in Sources */,
 				50BCBCE92EE865BA000C53CF /* Compressible.cpp in Sources */,
@@ -801,7 +807,7 @@
 				50BCBCEC2EE865BA000C53CF /* Reflectable.cpp in Sources */,
 				50BCBCED2EE865BA000C53CF /* Reportable.cpp in Sources */,
 				50BCBCEE2EE865BA000C53CF /* Files.cpp in Sources */,
-				507724A62ED0843800DB04C5 /* AmigaFileSystem.cpp in Sources */,
+				507724A62ED0843800DB04C5 /* AmigaVolume.cpp in Sources */,
 				504EAD252ECF00CE008CF9FC /* EmulatorProxy.mm in Sources */,
 				504EAD262ECF00CE008CF9FC /* TypeExtensions.swift in Sources */,
 				504EAD272ECF00CE008CF9FC /* ProxyExtensions.swift in Sources */,

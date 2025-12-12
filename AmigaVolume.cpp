@@ -8,7 +8,7 @@
 // -----------------------------------------------------------------------------
 
 #include "config.h"
-#include "AmigaFileSystem.h"
+#include "AmigaVolume.h"
 #include "FileSystemFactory.h"
 #include "Media.h"
 #include "PosixFileSystem.h"
@@ -33,7 +33,7 @@ int fsexec(Fn &&fn)
 */
 
 int
-AmigaFileSystem::posixErrno(const Error &err)
+AmigaVolume::posixErrno(const Error &err)
 {
     switch (err.payload) {
 
@@ -96,7 +96,8 @@ AmigaFileSystem::posixErrno(const Error &err)
     }
 }
 
-AmigaFileSystem::AmigaFileSystem(const fs::path &filename)
+/*
+AmigaVolume::AmigaVolume(const fs::path &filename)
 {
     mylog("Trying to load %s...\n", filename.string().c_str());
     adf = new ADFFile(filename);
@@ -114,14 +115,28 @@ AmigaFileSystem::AmigaFileSystem(const fs::path &filename)
     dos = std::make_unique<PosixFileSystem>(*fs);
     assert(dos != nullptr);
 }
+*/
 
-AmigaFileSystem::~AmigaFileSystem()
+AmigaVolume::AmigaVolume(std::unique_ptr<FileSystem> fs) : fs(std::move(fs))
+{
+    mylog("Mouting file system...\n");
+
+    std::stringstream ss;
+    this->fs->dumpInfo(ss);
+    std::cout << ss.str();
+
+    mylog("Wrapping into DOS layer...\n");
+    dos = std::make_unique<PosixFileSystem>(*this->fs);
+    assert(dos != nullptr);
+}
+
+AmigaVolume::~AmigaVolume()
 {
     printf("Destroying AmigaFileSystem\n");
 }
 
 int
-AmigaFileSystem::getattr(const char *path, struct stat *st)
+AmigaVolume::getattr(const char *path, struct stat *st)
 {
     memset(st, 0, sizeof(*st));
 
@@ -148,7 +163,7 @@ AmigaFileSystem::getattr(const char *path, struct stat *st)
 }
 
 int
-AmigaFileSystem::mkdir(const char *path, mode_t mode)
+AmigaVolume::mkdir(const char *path, mode_t mode)
 {
     return fsexec([&]{
 
@@ -158,7 +173,7 @@ AmigaFileSystem::mkdir(const char *path, mode_t mode)
 }
 
 int
-AmigaFileSystem::unlink(const char *path)
+AmigaVolume::unlink(const char *path)
 {
     return fsexec([&]{
 
@@ -168,7 +183,7 @@ AmigaFileSystem::unlink(const char *path)
 }
 
 int
-AmigaFileSystem::rmdir(const char *path)
+AmigaVolume::rmdir(const char *path)
 {
     return fsexec([&]{
 
@@ -178,7 +193,7 @@ AmigaFileSystem::rmdir(const char *path)
 }
 
 int
-AmigaFileSystem::rename(const char *oldpath, const char *newpath)
+AmigaVolume::rename(const char *oldpath, const char *newpath)
 {
     return fsexec([&]{
 
@@ -188,7 +203,7 @@ AmigaFileSystem::rename(const char *oldpath, const char *newpath)
 }
 
 int
-AmigaFileSystem::chmod(const char *path, mode_t mode)
+AmigaVolume::chmod(const char *path, mode_t mode)
 {
     return fsexec([&]{
 
@@ -198,7 +213,7 @@ AmigaFileSystem::chmod(const char *path, mode_t mode)
 }
 
 int
-AmigaFileSystem::truncate(const char *path, off_t size)
+AmigaVolume::truncate(const char *path, off_t size)
 {
     return fsexec([&]{
 
@@ -207,7 +222,7 @@ AmigaFileSystem::truncate(const char *path, off_t size)
     });}
 
 int
-AmigaFileSystem::open(const char *path, struct fuse_file_info *fi)
+AmigaVolume::open(const char *path, struct fuse_file_info *fi)
 {
     return fsexec([&]{
 
@@ -217,7 +232,7 @@ AmigaFileSystem::open(const char *path, struct fuse_file_info *fi)
 }
 
 int
-AmigaFileSystem::read(const char *path, char *buf, size_t size, off_t offset, struct fuse_file_info* fi)
+AmigaVolume::read(const char *path, char *buf, size_t size, off_t offset, struct fuse_file_info* fi)
 {
     return fsexec([&]{
 
@@ -227,7 +242,7 @@ AmigaFileSystem::read(const char *path, char *buf, size_t size, off_t offset, st
 }
 
 int
-AmigaFileSystem::write(const char *path, const char *buf, size_t size, off_t offset, struct fuse_file_info *fi)
+AmigaVolume::write(const char *path, const char *buf, size_t size, off_t offset, struct fuse_file_info *fi)
 {
     return fsexec([&]{
 
@@ -237,7 +252,7 @@ AmigaFileSystem::write(const char *path, const char *buf, size_t size, off_t off
 }
 
 int
-AmigaFileSystem::statfs(const char *path, struct statvfs *st)
+AmigaVolume::statfs(const char *path, struct statvfs *st)
 {
     memset(st, 0, sizeof(*st));
 
@@ -261,7 +276,7 @@ AmigaFileSystem::statfs(const char *path, struct statvfs *st)
 }
 
 int
-AmigaFileSystem::release(const char *path, struct fuse_file_info *fi)
+AmigaVolume::release(const char *path, struct fuse_file_info *fi)
 {
     return fsexec([&]{
 
@@ -271,7 +286,7 @@ AmigaFileSystem::release(const char *path, struct fuse_file_info *fi)
 }
 
 int
-AmigaFileSystem::readdir(const char *path, void *buf, fuse_fill_dir_t filler,
+AmigaVolume::readdir(const char *path, void *buf, fuse_fill_dir_t filler,
                           off_t offset, struct fuse_file_info *fi)
 {
     return fsexec([&]{
@@ -287,25 +302,25 @@ AmigaFileSystem::readdir(const char *path, void *buf, fuse_fill_dir_t filler,
 }
 
 void *
-AmigaFileSystem::init(struct fuse_conn_info *conn)
+AmigaVolume::init(struct fuse_conn_info *conn)
 {
     return nullptr;
 }
 
 void
-AmigaFileSystem::destroy(void *)
+AmigaVolume::destroy(void *)
 {
 
 }
 
 int
-AmigaFileSystem::access(const char *path, const int mask)
+AmigaVolume::access(const char *path, const int mask)
 {
     return -ENOSYS;
 }
 
 int
-AmigaFileSystem::create(const char *path, mode_t mode, struct fuse_file_info *fi)
+AmigaVolume::create(const char *path, mode_t mode, struct fuse_file_info *fi)
 {
     return fsexec([&]{
 
@@ -316,7 +331,7 @@ AmigaFileSystem::create(const char *path, mode_t mode, struct fuse_file_info *fi
 }
 
 int
-AmigaFileSystem::utimens(const char *path, const struct timespec tv[2])
+AmigaVolume::utimens(const char *path, const struct timespec tv[2])
 {
     // NOT IMPLEMENTED YET
     return 0;

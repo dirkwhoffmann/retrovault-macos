@@ -10,7 +10,6 @@
 #pragma once
 
 #include "FuseFileSystem.h"
-// #include "FuseDelegate.h"
 #include "FuseDebug.h"
 #include "FileSystem.h"
 #include "ADFFile.h"
@@ -24,15 +23,15 @@ class PosixFileSystem;
 
 }
 
-class AmigaFileSystem : public FuseFileSystem {
+class AmigaVolume : public FuseFileSystem {
     
     // Amiga Disk File
-    ADFFile *adf = nullptr;
+    // ADFFile *adf = nullptr;
 
-    // Raw file system extracted from the ADF
+    // Raw file system
     std::unique_ptr<FileSystem> fs;
 
-    // DOS layer on top of 'fs'
+    // DOS layer on top of the raw file system
     std::unique_ptr<PosixFileSystem> dos;
 
     // Synchronization lock
@@ -42,8 +41,8 @@ public:
 
     static int posixErrno(const Error &err);
 
-    AmigaFileSystem(const fs::path &filename);
-    ~AmigaFileSystem();
+    AmigaVolume(std::unique_ptr<FileSystem> fs);
+    ~AmigaVolume();
 
     FUSE_GETATTR  override;
     FUSE_MKDIR    override;
@@ -73,8 +72,8 @@ private:
         try {
             return fn();
         } catch (const Error &err) {
-            mylog("           Error: %d (%s)\n", AmigaFileSystem::posixErrno(err), err.what());
-            return -AmigaFileSystem::posixErrno(err);
+            mylog("           Error: %d (%s)\n", posixErrno(err), err.what());
+            return -posixErrno(err);
         } catch (...) {
             mylog("           Exception: %d\n", EIO);
             return -EIO;
