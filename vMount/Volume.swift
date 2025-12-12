@@ -35,7 +35,7 @@ class Volume {
     var protected: Bool = false
 
     // Mount point
-    var mounter: RetroMounter?
+    var mounter: DeviceManager?
 
     // Parameters for numeric settings
     // let range: ClosedRange<Double>?

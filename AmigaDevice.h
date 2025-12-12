@@ -30,4 +30,5 @@ public:
     void unmount();
 
     FSTraits traits(isize partition);
+    isize count() { return volumes.size(); }
 };

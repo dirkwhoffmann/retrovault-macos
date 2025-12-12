@@ -91,6 +91,16 @@ using namespace utl;
     }
 }
 
+- (NSInteger)numVolumes
+{
+    return [self adapter]->count();
+}
+
+- (NSString *)name
+{
+    return @"NAME (TODO)";
+}
+
 - (void)mount:(NSURL *)mountpoint exception:(ExceptionWrapper *)ex
 {
     try { [self adapter]->mount([mountpoint fileSystemRepresentation]); }

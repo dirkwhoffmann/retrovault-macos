@@ -11,14 +11,15 @@ import Cocoa
 
 class MyOutlineView : NSOutlineView {
 
-    var devices: [Device] {
+    /*
+    var devices: [DeviceInfo] {
 
-        var result: [Device] = []
+        var result: [DeviceInfo] = []
         if let ds = self.dataSource {
             let count = ds.outlineView?(self, numberOfChildrenOfItem: parent) ?? 0
             for i in 0..<count {
                 if let child = ds.outlineView?(self, child: i, ofItem: parent) {
-                    if let group = child as? Device {
+                    if let group = child as? DeviceInfo {
                         result.append(group)
                     }
                 }
@@ -26,6 +27,7 @@ class MyOutlineView : NSOutlineView {
         }
         return result
     }
+    */
 
     override func frameOfOutlineCell(atRow row: Int) -> NSRect {
 
@@ -37,6 +39,8 @@ class DevicesViewController: NSViewController {
 
     @IBOutlet weak var outlineView: MyOutlineView!
 
+    var manager: DeviceManager { app.manager }
+    
     override func viewDidLoad() {
 
         outlineView.delegate = self
@@ -52,8 +56,13 @@ class DevicesViewController: NSViewController {
 
     func expandAll() {
 
+        /*
         for group in outlineView.devices {
             outlineView.expandItem(group)
+        }
+        */
+        for device in 0..<manager.count {
+            outlineView.expandItem(device)
         }
     }
 
@@ -92,13 +101,12 @@ extension DevicesViewController: NSOutlineViewDataSource {
 
     func outlineView(_ outlineView: NSOutlineView, numberOfChildrenOfItem item: Any?) -> Int {
 
-        if let group = item as? Device {
-
-            return group.children.count
-            // return group.children.filter { $0.hidden == false }.count
+        if let item = item as? Int {
+            return manager.info(device: item).numPartitions
+        } else if let _ = item as? (Int, Int) {
+            return 0
         } else {
-
-            return app.devices.settings.count
+            return manager.count
         }
     }
 
@@ -108,16 +116,15 @@ extension DevicesViewController: NSOutlineViewDataSource {
     }
     func outlineView(_ outlineView: NSOutlineView, isItemExpandable item: Any) -> Bool {
 
-        return item is Device
+        return item is DeviceInfo
     }
 
     func outlineView(_ outlineView: NSOutlineView, child index: Int, ofItem item: Any?) -> Any {
 
-        if let group = item as? Device {
-            return group.children[index]
-            // return group.children.filter { $0.hidden == false }[index]
+        if let dev = item as? Int {
+            return (dev, index)
         } else {
-            return app.devices.settings[index]
+            return index
         }
     }
 }
@@ -126,20 +133,24 @@ extension DevicesViewController: NSOutlineViewDelegate {
 
     func outlineView(_ outlineView: NSOutlineView, viewFor tableColumn: NSTableColumn?, item: Any) -> NSView? {
 
-        if let group = item as? Device {
+        if let device = item as? Int {
+
+            print("outlineView: \(device)")
 
             let id = NSUserInterfaceItemIdentifier("GroupCell")
             let cell = outlineView.makeView(withIdentifier: id, owner: self) as! TableDeviceView
-            cell.setup(with: group)
-            cell.updateIcon(expanded: outlineView.isItemExpanded(item))
-            group.view = cell
+            // cell.setup(with: group)
+            // cell.updateIcon(expanded: outlineView.isItemExpanded(item))
+            // group.view = cell
             return cell
 
-        } else if let row = item as? Volume {
+        } else if let (device, volume) = item as? (Int, Int) {
+
+            print("outlineView: \(device), \(volume)")
 
             let id = NSUserInterfaceItemIdentifier(rawValue: "RowCell")
             let cell = outlineView.makeView(withIdentifier: id, owner: self) as! TableVolumeView
-            cell.shaderSetting = row
+            // cell.shaderSetting = row
             return cell
 
         } else {

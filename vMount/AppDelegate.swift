@@ -15,14 +15,14 @@ var app: AppDelegate { NSApp.delegate as! AppDelegate }
 @main @MainActor
 class AppDelegate: NSObject, NSApplicationDelegate {
 
-    // Device library
-    var devices = DeviceLibrary()
+    // Device manager
+    var manager = DeviceManager()
 
-    // View controller of the device list
+    // View controller of the devices window
     var vc: DevicesViewController?
 
     // Gateway to macFUSE
-    var mounter = RetroMounter()
+    // var mounter = DeviceManager()
 
     /*
     var windowController: WindowController? {
@@ -52,7 +52,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationWillTerminate(_ aNotification: Notification) {
 
-        mounter.unmountAll()
+        manager.unmountAll()
     }
 
     func applicationSupportsSecureRestorableState(_ app: NSApplication) -> Bool {
@@ -62,7 +62,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func application(_ application: NSApplication, open urls: [URL]) {
 
         print("application open: urls = \(urls)")
-        urls.forEach { mounter.mount(url: $0) }
+        urls.forEach { manager.mount(url: $0) }
+
+        vc?.outlineView.reloadData()
     }
 
     func showVolumeWindow() {

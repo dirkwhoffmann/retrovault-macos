@@ -58,6 +58,9 @@ using namespace vamiga;
 
 + (instancetype)make:(NSURL *)url exception:(ExceptionWrapper *)ex;
 
+@property (readonly) NSInteger numVolumes;
+@property (readonly) NSString *name;
+
 - (void)mount:(NSURL *)url exception:(ExceptionWrapper *)ex;
 - (void)unmount;
 - (void)setListener:(const void *)listener function:(AdapterCallback *)func;

@@ -7,6 +7,7 @@
 // See https://www.gnu.org for license information
 // -----------------------------------------------------------------------------
 
+/*
 import MetalKit
 import MetalPerformanceShaders
 
@@ -84,3 +85,4 @@ class DeviceLibrary : Loggable {
     // Reverts the settings to the selected preset
     func revertToPreset(nr: Int) { }
 }
+*/

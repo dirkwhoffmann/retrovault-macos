@@ -7,10 +7,32 @@
 // See https://www.gnu.org for license information
 // -----------------------------------------------------------------------------
 
-class RetroMounter {
+class DeviceInfo {
 
-    private var mounts: [AmigaDeviceProxy] = []
+    var name = ""
+    var numPartitions = 0
+}
 
+class DeviceManager {
+
+    private var devices: [AmigaDeviceProxy] = []
+
+    var count: Int { devices.count }
+
+    func info(device: Int) -> DeviceInfo {
+
+        let result = DeviceInfo.init()
+
+        result.name = devices[device].name
+        result.numPartitions = devices[device].numVolumes
+
+        return result
+    }
+
+    func traits(device: Int, partition: Int = 0) -> vamiga.FSTraits {
+        return devices[device].traits(partition)
+    }
+    
     func process(message msg: Int) {
 
         print("Holla, die Waldfee")
@@ -37,28 +59,28 @@ class RetroMounter {
             try proxy.mount(at: URL.init(string: "/Volumes/adf")!, myself) { (ptr, msg: Int32) in
 
                 // Convert void pointer back to 'self'
-                let myself = Unmanaged<RetroMounter>.fromOpaque(ptr!).takeUnretainedValue()
+                let myself = Unmanaged<DeviceManager>.fromOpaque(ptr!).takeUnretainedValue()
 
                 // Process message in the main thread
                 Task { @MainActor in myself.process(message: Int(msg)) }
             }
 
             print("Success.")
-            mounts.append(proxy)
+            devices.append(proxy)
 
-        } catch { print("Error launching RetroMounter: \(error)") }
+        } catch { print("Error launching DeviceManager: \(error)") }
     }
 
     func unmount(proxy: AmigaDeviceProxy) {
 
         proxy.unmount()
-        mounts.removeAll { $0 === proxy }
+        devices.removeAll { $0 === proxy }
     }
 
     func unmountAll() {
 
         print("Unmounting all...")
-        mounts.forEach { unmount(proxy: $0) }
-        mounts.removeAll()
+        devices.forEach { unmount(proxy: $0) }
+        devices.removeAll()
     }
 }
