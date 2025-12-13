@@ -15,6 +15,22 @@
 
 namespace vamiga {
 
+MediaFile::MediaFile(const fs::path &path)
+{
+    switch (type(path)) {
+
+        case FileType::ADF: file = make_unique<ADFFile>(path); break;
+        case FileType::ADZ: file = make_unique<ADZFile>(path); break;
+        case FileType::HDF: file = make_unique<HDFFile>(path); break;
+        case FileType::HDZ: file = make_unique<HDZFile>(path); break;
+        case FileType::IMG: file = make_unique<IMGFile>(path); break;
+        case FileType::ST:  file = make_unique<STFile>(path);  break;
+
+        default:
+            throw IOError(IOError::FILE_TYPE_MISMATCH, path);
+    }
+}
+
 FileType
 MediaFile::type(const fs::path &path)
 {

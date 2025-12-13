@@ -12,7 +12,6 @@
 #include "FuseFileSystem.h"
 #include "FuseDebug.h"
 #include "FileSystem.h"
-#include "ADFFile.h"
 
 using namespace vamiga;
 

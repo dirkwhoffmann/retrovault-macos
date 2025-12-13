@@ -10,11 +10,12 @@
 #pragma once
 
 #include "AmigaVolume.h"
+#include "MediaFile.h"
 
 class AmigaDevice : public FuseFileSystem {
 
     // Amiga Disk File
-    std::unique_ptr<ADFFile> adf;
+    std::unique_ptr<MediaFile> mediaFile;
 
     // Logical volumes
     std::vector<std::unique_ptr<AmigaVolume>> volumes;

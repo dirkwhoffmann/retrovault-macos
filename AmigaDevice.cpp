@@ -24,7 +24,15 @@ class PosixFileSystem;
 AmigaDevice::AmigaDevice(const fs::path &filename)
 {
     mylog("Trying to load %s...\n", filename.string().c_str());
-    adf = std::make_unique<ADFFile>(filename);
+    mediaFile = std::make_unique<MediaFile>(filename);
+
+    if (mediaFile->type() != FileType::ADF) {
+
+        warn("%s is not an ADF. Aborting.\n", filename.string().c_str());
+        return;
+    }
+
+    ADFFile *adf = (ADFFile *)mediaFile->file.get();
 
     mylog("Extracting raw file system...\n");
     auto fs = FileSystemFactory::fromADF(*adf);

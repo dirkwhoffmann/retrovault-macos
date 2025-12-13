@@ -10,9 +10,6 @@
 #pragma once
 
 #include "MediaFileTypes.h"
-// #include "FloppyDiskTypes.h"
-// #include "MediaFile.h"
-// #include "AmigaTypes.h"
 #include "AnyFile.h"
 #include "utl/io.h"
 #include <sstream>
@@ -27,6 +24,7 @@ public:
     // The wrapped file
     unique_ptr<class AnyFile> file;
 
+    MediaFile(const fs::path &path);
     MediaFile(unique_ptr<AnyFile> file) : file(std::move(file)) {}
     virtual ~MediaFile() = default;
 
