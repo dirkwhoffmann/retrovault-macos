@@ -129,6 +129,8 @@ struct FSStat {
     // Access statistics
     isize reads;
     isize writes;
+
+    string removeMe = "Holla, die Waldfee";
 };
 
 struct FSBootStat {

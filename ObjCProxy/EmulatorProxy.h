@@ -20,6 +20,11 @@
 
 using namespace vamiga;
 
+inline const char *c_str(const std::string &s)
+{
+    return s.c_str();
+}
+
 //
 // Exception wrapper
 //
@@ -99,18 +104,20 @@ using namespace vamiga;
 
 @interface AmigaDeviceProxy : Proxy {
 
+    NSURL *url;
 }
 
 + (instancetype)make:(NSURL *)url exception:(ExceptionWrapper *)ex;
 
+@property (readonly, strong) NSURL *url;
 @property (readonly) NSInteger numVolumes;
-@property (readonly) NSString *name;
+// @property (readonly) NSString *name;
 
 - (void)mount:(NSURL *)url exception:(ExceptionWrapper *)ex;
 - (void)unmount;
 - (void)setListener:(const void *)listener function:(AdapterCallback *)func;
 
-- (NSString *)name:(NSInteger)volume;
+- (NSString *)mountPoint:(NSInteger)volume;
 - (FSTraits)traits:(NSInteger)volume;
 - (FSStat)stat:(NSInteger)volume;
 - (FSBootStat)bootStat:(NSInteger)volume;

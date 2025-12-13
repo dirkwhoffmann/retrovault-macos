@@ -26,17 +26,26 @@ class TableDeviceView: TableCellView {
     @IBOutlet weak var protected: NSButton!
     @IBOutlet weak var label: NSTextField!
     @IBOutlet weak var sublabel: NSTextField!
+    @IBOutlet weak var subsublabel: NSTextField!
 
     var device = 0
 
     func setup(device: Int) {
 
-        let info = app.manager.info(device: device)
-
         self.device = device
-        textField?.stringValue = info.name
-        label.stringValue = "\(info.numPartitions) logical volumes"
-        sublabel.stringValue = "The sublabel"
+
+        update()
+    }
+
+    func update() {
+
+        // let traits = app.manager.traits(device: device, volume: volume)
+        let info = app.manager.info(device: device)
+        let volumes = info.numPartitions
+
+        label.stringValue = info.name
+        sublabel.stringValue = "Amiga Floppy Disk"
+        subsublabel.stringValue = "\(volumes) " + (volumes == 1 ? "volume" : "volumes")
     }
 
     override func updateIcon(expanded: Bool) {
@@ -93,10 +102,6 @@ class TableVolumeView: TableCellView {
 
         didSet {
 
-            textField?.stringValue = shaderSetting.title
-            label.stringValue = "Label"
-            sublabel.stringValue = "Sub label"
-
             update()
         }
     }
@@ -108,10 +113,9 @@ class TableVolumeView: TableCellView {
         let traits = app.manager.traits(device: device, volume: volume)
         let info = app.manager.info(device: device, volume: volume)
 
-        textField?.stringValue = info.name
-        label.stringValue = "DOS\(traits.dos)"
-        sublabel.stringValue = "\(traits.blocks) blocks, \(info.freeBlocks) free)"
-
+        textField?.stringValue = info.mountPoint
+        label.stringValue = "\(traits.blocks) block"
+        sublabel.stringValue = "\(info.fill)% full"
     }
 
     @IBAction func helpAction(_ sender: NSButton) {

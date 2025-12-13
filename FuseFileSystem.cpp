@@ -46,11 +46,11 @@ FuseFileSystem::setListener(const void *listener, AdapterCallback *callback)
 void
 FuseFileSystem::mount(const fs::path &mp)
 {
-    mountpoint = mp;
+    mountPoint = mp;
 
     // Unmount existing volume (if any)
-    mylog("Unmounting existing volume %s...\n", mountpoint.string().c_str());
-    (void)::unmount(mountpoint.c_str(), 0);
+    mylog("Unmounting existing volume %s...\n", mountPoint.string().c_str());
+    (void)::unmount(mountPoint.c_str(), 0);
 
     fuseThread = std::thread([&]() {
 
@@ -61,9 +61,9 @@ FuseFileSystem::mount(const fs::path &mp)
 
         try {
 
-            printf("mp.c_str() = %s\n", mountpoint.c_str());
+            printf("mp.c_str() = %s\n", mountPoint.c_str());
 
-            channel = fuse_mount(mountpoint.c_str(), &args);
+            channel = fuse_mount(mountPoint.c_str(), &args);
             if (!channel) {
 
                 printf("Channel is null\n");
@@ -73,7 +73,7 @@ FuseFileSystem::mount(const fs::path &mp)
             if (!gateway) {
 
                 printf("Gateway is null\n");
-                fuse_unmount(mountpoint.c_str(), channel);
+                fuse_unmount(mountPoint.c_str(), channel);
                 return;
             }
 
@@ -82,9 +82,9 @@ FuseFileSystem::mount(const fs::path &mp)
             fuse_loop(gateway);
 
 
-            // Remove the mountpoint
-            printf("Unmouting %s\n", mountpoint.c_str());
-            fuse_unmount(mountpoint.c_str(), channel);
+            // Remove the mount point
+            printf("Unmouting %s\n", mountPoint.c_str());
+            fuse_unmount(mountPoint.c_str(), channel);
 
             // Cleanup
             printf("Destroy...\n");
@@ -106,7 +106,7 @@ FuseFileSystem::mount(const fs::path &mp)
      "-ovolname=adf,norm_insensitive",
      // "-f",
      // "-d",
-     mountpoint
+     mountPoint
      };
 
      std::vector<char *> argv;

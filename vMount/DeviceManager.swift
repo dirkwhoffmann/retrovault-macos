@@ -15,6 +15,9 @@ class DeviceInfo {
 
 class VolumeInfo {
 
+    // Mount point
+    var mountPoint = ""
+
     // Usage information
     var freeBlocks = 0
     var freeBytes = 0
@@ -42,7 +45,7 @@ class DeviceManager {
 
         let result = DeviceInfo.init()
 
-        result.name = devices[device].name
+        result.name = devices[device].url?.lastPathComponent ?? ""
         result.numPartitions = devices[device].numVolumes
 
         return result
@@ -53,6 +56,14 @@ class DeviceManager {
         let result = VolumeInfo.init()
 
         let stat = devices[device].stat(volume)
+        let mp = devices[device].mountPoint(volume)
+
+        // let stat = devices[device].info(volume)
+
+        // Mount point
+        result.mountPoint = mp ?? ""
+
+        // Usage date
         result.freeBlocks = stat.freeBlocks
         result.freeBytes = stat.freeBytes
         result.usedBlocks = stat.usedBlocks
@@ -60,13 +71,13 @@ class DeviceManager {
         result.fill = stat.fill
 
         // Root block metadata
-        var name = devices[device].name
-        var bDate = "BDATE (TODO)"
-        var mDate = "MDATE (TODO)"
+        result.name  = String(cString: c_str(stat.name.cpp_str()))
+        result.bDate = String(cString: c_str(stat.bDate.str()))
+        result.mDate = String(cString: c_str(stat.mDate.str()))
 
         // Access statistics
-        var reads = stat.reads
-        var writes = stat.writes
+        result.reads = stat.reads
+        result.writes = stat.writes
 
         return result
     }
@@ -90,6 +101,7 @@ class DeviceManager {
             print("Creating device proxy for \(url)...")
             let proxy = try AmigaDeviceProxy.make(with: url)
 
+
             let traits = proxy.traits(0)
 
             print("DOS: \(traits.dos)")
@@ -98,8 +110,11 @@ class DeviceManager {
             print("Bsize: \(traits.bsize)")
             print("Reserved: \(traits.reserved)")
 
-            print("Mounting file system...")
-            try proxy.mount(at: URL.init(string: "/Volumes/adf")!, myself) { (ptr, msg: Int32) in
+            let mountPoint = URL(fileURLWithPath: "/Volumes")
+                .appendingPathComponent(url.deletingPathExtension().lastPathComponent)
+
+            print("Mounting file system at \(mountPoint)...")
+            try proxy.mount(at: mountPoint, myself) { (ptr, msg: Int32) in
 
                 // Convert void pointer back to 'self'
                 let myself = Unmanaged<DeviceManager>.fromOpaque(ptr!).takeUnretainedValue()

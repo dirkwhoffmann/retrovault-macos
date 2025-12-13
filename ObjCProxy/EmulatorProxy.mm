@@ -237,8 +237,20 @@ using namespace utl;
 {
     try {
 
+        auto device = std::make_unique<AmigaDevice>([url fileSystemRepresentation]);
+
+        AmigaDeviceProxy *proxy = [self make:device.get()];
+        device.release();
+        proxy->url = url;
+        return proxy;
+
+/*
         auto device = new AmigaDevice([url fileSystemRepresentation]);
-        return [self make:device];
+
+        AmigaDeviceProxy *proxy = [self make:device];
+        proxy->url = url;
+        return proxy;
+*/
 
     }  catch (Error &error) {
 
@@ -247,15 +259,22 @@ using namespace utl;
     }
 }
 
+- (NSURL *)url
+{
+    return url;
+}
+
 - (NSInteger)numVolumes
 {
     return [self adapter]->count();
 }
 
+/*
 - (NSString *)name
 {
     return @"NAME (TODO)";
 }
+*/
 
 - (void)mount:(NSURL *)mountpoint exception:(ExceptionWrapper *)ex
 {
@@ -273,9 +292,9 @@ using namespace utl;
     [self adapter]->setListener(listener, func);
 }
 
-- (NSString *)name:(NSInteger)volume
+- (NSString *)mountPoint:(NSInteger)volume
 {
-    return @([self adapter]->stat(volume).name.c_str());
+    return @([self adapter]->volumes[volume]->mountPoint.string().c_str());
 }
 
 - (FSTraits)traits:(NSInteger)volume

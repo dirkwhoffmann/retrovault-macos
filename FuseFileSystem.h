@@ -19,15 +19,14 @@ class FuseFileSystem {
     std::thread fuseThread;
     struct fuse *gateway = nullptr;
     fuse_chan *channel = nullptr;
-    fs::path mountpoint;
 
 public:
 
+    fs::path mountPoint;
+
     bool debug = true;
-    // FuseAdapterDelegate *adapterDelegate = nullptr;
-    const void *listener = nullptr; // Experimental
-    AdapterCallback *callback = nullptr; // Experimental
-    // FuseDelegate *delegate = nullptr;
+    const void *listener = nullptr;
+    AdapterCallback *callback = nullptr;
 
     // Registers a listener together with it's callback function
     void setListener(const void *listener, AdapterCallback *func);

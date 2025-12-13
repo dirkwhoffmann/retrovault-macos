@@ -50,23 +50,31 @@ AmigaDevice::~AmigaDevice()
 }
 
 void
-AmigaDevice::mount(isize partition, const fs::path &mountpoint)
+AmigaDevice::setListener(const void *listener, AdapterCallback *callback)
 {
-    assert(partition >= 0 && partition < volumes.size());
-    volumes[partition]->mount(mountpoint);
+    for (auto &volume : volumes) volume->setListener(listener, callback);
 }
 
 void
-AmigaDevice::mount(const fs::path &mountpoint)
+AmigaDevice::mount(isize partition, const fs::path &mountPoint)
 {
+    assert(partition >= 0 && partition < volumes.size());
+    volumes[partition]->mount(mountPoint);
+}
+
+void
+AmigaDevice::mount(const fs::path &mountPoint)
+{
+    // this->mountPoint = mountPoint;
+
     if (volumes.size() == 1) {
 
-        mount(0, mountpoint);
+        mount(0, mountPoint);
         return;
     }
 
     for (isize i = 0; i < volumes.size(); i++) {
-        mount(i, mountpoint / std::to_string(i));
+        mount(i, mountPoint / std::to_string(i));
     }
 }
 

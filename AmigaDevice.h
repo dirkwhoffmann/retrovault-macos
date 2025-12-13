@@ -12,10 +12,12 @@
 #include "AmigaVolume.h"
 #include "MediaFile.h"
 
-class AmigaDevice : public FuseFileSystem {
+class AmigaDevice {
 
     // Amiga Disk File
     std::unique_ptr<MediaFile> mediaFile;
+
+public:
 
     // Logical volumes
     std::vector<std::unique_ptr<AmigaVolume>> volumes;
@@ -25,8 +27,11 @@ public:
     AmigaDevice(const fs::path &filename);
     ~AmigaDevice();
 
-    void mount(isize volume, const fs::path &mountpoint);
-    void mount(const fs::path &mountpoint);
+    // Registers a listener together with it's callback function
+    void setListener(const void *listener, AdapterCallback *func);
+    
+    void mount(isize volume, const fs::path &mountPoint);
+    void mount(const fs::path &mountPoint);
     void unmount(isize volume);
     void unmount();
 
