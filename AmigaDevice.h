@@ -24,11 +24,14 @@ public:
     AmigaDevice(const fs::path &filename);
     ~AmigaDevice();
 
-    void mount(isize partition, const fs::path &mountpoint);
+    void mount(isize volume, const fs::path &mountpoint);
     void mount(const fs::path &mountpoint);
-    void unmount(isize partition);
+    void unmount(isize volume);
     void unmount();
 
-    FSTraits traits(isize partition);
+    FSTraits traits(isize volume);
+    FSStat stat(isize volume);
+    FSBootStat bootStat(isize volume);
+
     isize count() { return volumes.size(); }
 };

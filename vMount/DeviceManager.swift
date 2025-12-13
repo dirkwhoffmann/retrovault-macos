@@ -13,6 +13,25 @@ class DeviceInfo {
     var numPartitions = 0
 }
 
+class VolumeInfo {
+
+    // Usage information
+    var freeBlocks = 0
+    var freeBytes = 0
+    var usedBlocks = 0
+    var usedBytes = 0
+    var fill = 0.0
+
+    // Root block metadata
+    var name = ""
+    var bDate = ""
+    var mDate = ""
+
+    // Access statistics
+    var reads = 0
+    var writes = 0
+}
+
 class DeviceManager {
 
     private var devices: [AmigaDeviceProxy] = []
@@ -29,8 +48,32 @@ class DeviceManager {
         return result
     }
 
-    func traits(device: Int, partition: Int = 0) -> vamiga.FSTraits {
-        return devices[device].traits(partition)
+    func info(device: Int, volume: Int) -> VolumeInfo {
+
+        let result = VolumeInfo.init()
+
+        let stat = devices[device].stat(volume)
+        result.freeBlocks = stat.freeBlocks
+        result.freeBytes = stat.freeBytes
+        result.usedBlocks = stat.usedBlocks
+        result.usedBytes = stat.usedBytes
+        result.fill = stat.fill
+
+        // Root block metadata
+        var name = devices[device].name
+        var bDate = "BDATE (TODO)"
+        var mDate = "MDATE (TODO)"
+
+        // Access statistics
+        var reads = stat.reads
+        var writes = stat.writes
+
+        return result
+    }
+
+    func traits(device: Int, volume: Int = 0) -> FSTraits {
+
+        return devices[device].traits(volume)
     }
     
     func process(message msg: Int) {

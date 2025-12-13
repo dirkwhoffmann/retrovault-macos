@@ -12,6 +12,7 @@
 #import "config.h"
 #import "DeviceTypes.h"
 #import "FSTypes.h"
+#import "FSObjects.h"
 #import "FuseFileSystemTypes.h"
 #import <Cocoa/Cocoa.h>
 
@@ -65,6 +66,9 @@ using namespace vamiga;
 - (void)unmount;
 - (void)setListener:(const void *)listener function:(AdapterCallback *)func;
 
+- (NSString *)name:(NSInteger)volume;
 - (FSTraits)traits:(NSInteger)volume;
+- (FSStat)stat:(NSInteger)volume;
+- (FSBootStat)bootStat:(NSInteger)volume;
 
 @end

@@ -83,3 +83,17 @@ AmigaDevice::traits(isize partition)
     assert(partition >= 0 && partition < volumes.size());
     return volumes[partition]->fs->getTraits();
 }
+
+FSStat
+AmigaDevice::stat(isize partition)
+{
+    assert(partition >= 0 && partition < volumes.size());
+    return volumes[partition]->fs->stat();
+}
+
+FSBootStat
+AmigaDevice::bootStat(isize partition)
+{
+    assert(partition >= 0 && partition < volumes.size());
+    return volumes[partition]->fs->bootStat();
+}

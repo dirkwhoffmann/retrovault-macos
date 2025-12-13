@@ -27,13 +27,15 @@ class TableDeviceView: TableCellView {
     @IBOutlet weak var label: NSTextField!
     @IBOutlet weak var sublabel: NSTextField!
 
-    var group: Device!
+    var device = 0
 
-    func setup(with group: Device) {
+    func setup(device: Int) {
 
-        self.group = group
-        textField?.stringValue = group.title
-        label.stringValue = "The label"
+        let info = app.manager.info(device: device)
+
+        self.device = device
+        textField?.stringValue = info.name
+        label.stringValue = "\(info.numPartitions) logical volumes"
         sublabel.stringValue = "The sublabel"
     }
 
@@ -53,10 +55,12 @@ class TableDeviceView: TableCellView {
 
     @IBAction func disclosureAction(_ sender: NSButton) {
 
+        print("disclosureAction")
+
         if sender.state == .on {
-            outlineView.expandItem(group)
+            outlineView.expandItem(device)
         } else {
-            outlineView.collapseItem(group)
+            outlineView.collapseItem(device)
         }
 
         outlineView.reloadData()
@@ -74,6 +78,17 @@ class TableVolumeView: TableCellView {
     @IBOutlet weak var sublabel: NSTextField!
     @IBOutlet weak var infoButton: NSButton!
 
+    var device = 0
+    var volume = 0
+
+    func setup(device: Int, partition: Int) {
+
+        self.device = device
+        self.volume = partition
+
+        update()
+    }
+
     var shaderSetting: Volume! {
 
         didSet {
@@ -89,6 +104,13 @@ class TableVolumeView: TableCellView {
     var value: Float! { didSet { update() } }
 
     func update() {
+
+        let traits = app.manager.traits(device: device, volume: volume)
+        let info = app.manager.info(device: device, volume: volume)
+
+        textField?.stringValue = info.name
+        label.stringValue = "DOS\(traits.dos)"
+        sublabel.stringValue = "\(traits.blocks) blocks, \(info.freeBlocks) free)"
 
     }
 

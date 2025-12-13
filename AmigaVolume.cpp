@@ -37,7 +37,7 @@ AmigaVolume::posixErrno(const Error &err)
 {
     switch (err.payload) {
 
-            using namespace fault;
+            using namespace vamiga::fault;
 
             // Generic / unknown
         case FS_UNKNOWN:

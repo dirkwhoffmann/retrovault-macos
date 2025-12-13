@@ -7,3 +7,10 @@
 // See https://www.gnu.org for license information
 // -----------------------------------------------------------------------------
 
+typealias FSStat = vamiga.FSStat
+typealias FSTraits = vamiga.FSTraits
+typealias FSBootStat = vamiga.FSBootStat
+typealias FSBlockError = vamiga.FSBlockError
+typealias FSBlockType = vamiga.FSBlockType
+typealias FSItemType = vamiga.FSItemType
+typealias FSVolumeType = vamiga.FSFormat

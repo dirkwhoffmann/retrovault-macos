@@ -105,10 +105,16 @@ extension DevicesViewController: NSOutlineViewDataSource {
             return manager.info(device: item).numPartitions
         } else if let _ = item as? (Int, Int) {
             return 0
-        } else {
-            return manager.count
         }
+
+        return manager.count
     }
+
+    /*
+    func outlineView(_ outlineView: NSOutlineView, objectValueFor tableColumn: NSTableColumn?, byItem item: Any?) -> Any? {
+
+    }
+    */
 
     func outlineView(_ outlineView: NSOutlineView, heightOfRowByItem item: Any) -> CGFloat {
 
@@ -116,7 +122,7 @@ extension DevicesViewController: NSOutlineViewDataSource {
     }
     func outlineView(_ outlineView: NSOutlineView, isItemExpandable item: Any) -> Bool {
 
-        return item is DeviceInfo
+        return item is Int
     }
 
     func outlineView(_ outlineView: NSOutlineView, child index: Int, ofItem item: Any?) -> Any {
@@ -139,8 +145,8 @@ extension DevicesViewController: NSOutlineViewDelegate {
 
             let id = NSUserInterfaceItemIdentifier("GroupCell")
             let cell = outlineView.makeView(withIdentifier: id, owner: self) as! TableDeviceView
-            // cell.setup(with: group)
-            // cell.updateIcon(expanded: outlineView.isItemExpanded(item))
+            cell.setup(device: device)
+            cell.updateIcon(expanded: outlineView.isItemExpanded(item))
             // group.view = cell
             return cell
 
@@ -150,7 +156,7 @@ extension DevicesViewController: NSOutlineViewDelegate {
 
             let id = NSUserInterfaceItemIdentifier(rawValue: "RowCell")
             let cell = outlineView.makeView(withIdentifier: id, owner: self) as! TableVolumeView
-            // cell.shaderSetting = row
+            cell.setup(device: device, partition: volume)
             return cell
 
         } else {

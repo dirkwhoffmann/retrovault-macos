@@ -1,0 +1,86 @@
+// -----------------------------------------------------------------------------
+// This file is part of vAmiga
+//
+// Copyright (C) Dirk W. Hoffmann. www.dirkwhoffmann.de
+// Licensed under the Mozilla Public License v2
+//
+// See https://mozilla.org/MPL/2.0 for license information
+// -----------------------------------------------------------------------------
+
+#pragma once
+
+#include "HDFFileTypes.h"
+#include "utl/abilities/Reflectable.h"
+
+namespace vamiga {
+
+using namespace utl;
+
+//
+// Enumerations
+//
+
+enum class FileType : long
+{
+    UNKNOWN,
+    ADF,
+    ADZ,
+    HDF,
+    HDZ,
+    IMG,
+    ST
+};
+
+struct FileTypeEnum : utl::Reflectable<FileTypeEnum, FileType>
+{
+    static constexpr long minVal = 0;
+    static constexpr long maxVal = long(FileType::ST);
+    
+    static const char *_key(FileType value)
+    {
+        switch (value) {
+                
+            case FileType::UNKNOWN:      return "UNKNOWN";
+            case FileType::ADF:          return "ADF";
+            case FileType::ADZ:          return "ADZ";
+            case FileType::HDF:          return "HDF";
+            case FileType::HDZ:          return "HDZ";
+            case FileType::IMG:          return "IMG";
+            case FileType::ST:           return "ST";
+        }
+        return "???";
+    }
+    static const char *help(FileType value)
+    {
+        switch (value) {
+                
+            case FileType::UNKNOWN:      return "Unknown";
+            case FileType::ADF:          return "Amiga Disk File";
+            case FileType::ADZ:          return "Compressed Amiga Disk File";
+            case FileType::HDF:          return "Hard Disk File";
+            case FileType::HDZ:          return "Compressed Hard Disk File";
+            case FileType::IMG:          return "PC Disk Image";
+            case FileType::ST:           return "AtariST Disk Image";
+        }
+        return "???";
+    }
+};
+
+
+//
+// Structures
+//
+
+typedef struct
+{
+    isize cyls;
+    isize heads;
+    isize sectors;
+    isize bsize;
+    isize tracks;
+    isize blocks;
+    isize bytes;
+}
+DiskInfo;
+
+}

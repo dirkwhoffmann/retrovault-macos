@@ -117,9 +117,24 @@ using namespace utl;
     [self adapter]->setListener(listener, func);
 }
 
+- (NSString *)name:(NSInteger)volume
+{
+    return @([self adapter]->stat(volume).name.c_str());
+}
+
 - (FSTraits)traits:(NSInteger)volume
 {
     return [self adapter]->traits(volume);
+}
+
+- (FSStat)stat:(NSInteger)volume
+{
+    return [self adapter]->stat(volume);
+}
+
+- (FSBootStat)bootStat:(NSInteger)volume
+{
+    return [self adapter]->bootStat(volume);
 }
 
 @end

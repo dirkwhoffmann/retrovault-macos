@@ -9,9 +9,15 @@
 
 #pragma once
 
+#include "MediaFileTypes.h"
+#include "MediaFile.h"
 #include "DiskFile.h"
 #include "HDFFile.h"
 #include "HDZFile.h"
+#include "ADFFile.h"
+#include "ADZFile.h"
+#include "IMGFile.h"
+#include "STFile.h"
 
 /* All media files are organized in the class hierarchy displayed below.
  * MediaFile is a wrapper class which is referenced in the public API. Below
@@ -57,3 +63,4 @@
  *  | ADFFile | | EADFFile | | IMGFile | | DMSFile | | EXEFile | | Folder |
  *   ---------   ----------   ---------   ---------   ---------   --------
  */
+
