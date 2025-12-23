@@ -11,7 +11,6 @@
 
 #include "MediaFileTypes.h"
 #include "AnyFile.h"
-#include "utl/io.h"
 #include <sstream>
 #include <fstream>
 
@@ -24,7 +23,6 @@ public:
     // The wrapped file
     unique_ptr<class AnyFile> file;
 
-    MediaFile(const fs::path &path);
     MediaFile(unique_ptr<AnyFile> file) : file(std::move(file)) {}
     virtual ~MediaFile() = default;
 
@@ -43,10 +41,11 @@ public:
     static MediaFile *make(const fs::path &path);
     static MediaFile *make(const fs::path &path, FileType type);
     static MediaFile *make(const u8 *buf, isize len, FileType type);
+    /*
     static MediaFile *make(class FileSystem &fs, FileType type);
     static MediaFile *make(class FloppyDriveAPI &drive, FileType type);
     static MediaFile *make(class HardDriveAPI &drive, FileType type);
-
+    */
 
     //
     // Public API
@@ -91,6 +90,7 @@ public:
 
     // Returns media information
     DiskInfo getDiskInfo() const;
+    // FloppyDiskInfo getFloppyDiskInfo() const;
     HDFInfo getHDFInfo() const;
 
     // Flashes the contents of the file into a buffer

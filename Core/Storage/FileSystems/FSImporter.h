@@ -9,32 +9,29 @@
 
 #pragma once
 
-#include "FSExtension.h"
+#include "FSService.h"
 
 namespace vamiga {
 
-class FSImporter final : public FSExtension {
+class FSImporter final : public FSService {
 
 public:
 
-    using FSExtension::FSExtension;
+    using FSService::FSService;
 
     // Imports the volume from a buffer compatible with the ADF or HDF format
     void importVolume(const u8 *src, isize size);
 
     // Imports files and folders from the host file system
     void import(const fs::path &path, bool recursive = true, bool contents = false);
-    void import(FSBlock &top, const fs::path &path, bool recursive = true, bool contents = false);
+    void import(BlockNr top, const fs::path &path, bool recursive = true, bool contents = false);
 
     // Imports a single block
-    void importBlock(Block nr, const fs::path &path);
-
-    // Updates the checksums of all blocks
-    void updateChecksums() noexcept;
+    void importBlock(BlockNr nr, const fs::path &path);
 
 private:
 
-    void import(FSBlock &top, const fs::directory_entry &dir, bool recursive);
+    void import(BlockNr top, const fs::directory_entry &dir, bool recursive);
 };
 
 }

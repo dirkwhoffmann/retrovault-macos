@@ -134,15 +134,39 @@ commonPrefix(const std::vector<string> &vec, bool caseSensitive)
     return result;
 }
 
+string
+padString(const string &s, isize width, char align)
+{
+    isize pad = width - isize(s.length());
+    if (pad <= 0) return s;
+
+    switch (align) {
+
+        case 'l': return s + string(pad, ' ');
+        case 'r': return string(pad, ' ') + s;
+        case 'c': return string(pad/2, ' ') + s + string(pad - pad/2, ' ');
+
+        default:
+            fatalError;
+    }
+}
+
 std::vector<string>
 split(const string &s, char delimiter)
 {
-    std::stringstream ss(s);
-    std::vector<std::string> result;
-    string substr;
+    std::vector<string> result;
+    string::size_type start = 0;
 
-    while(std::getline(ss, substr, delimiter)) {
-        result.push_back(substr);
+    for (;;) {
+
+        auto pos = s.find(delimiter, start);
+        if (pos == string::npos) {
+
+            result.emplace_back(s.substr(start));
+            break;
+        }
+        result.emplace_back(s.substr(start, pos - start));
+        start = pos + 1;
     }
 
     return result;
@@ -172,6 +196,14 @@ splitLast(const vector<string> &vec)
     if (vec.empty()) return { vec, "" };
     std::vector<string> prefix(vec.begin(), vec.end() - 1);
     return { prefix, vec.back() };
+}
+
+string
+concat(const string &s1, const string &s2, char delim)
+{
+    if (s1.empty()) return s2;
+    if (s2.empty()) return s1;
+    return s1.back() == delim ? s1 + s2 : s1 + delim + s2;
 }
 
 string

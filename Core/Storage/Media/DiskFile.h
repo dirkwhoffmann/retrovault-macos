@@ -10,6 +10,7 @@
 #pragma once
 
 #include "AnyFile.h"
+#include "BlockDevice.h"
 
 namespace vamiga {
 
@@ -36,15 +37,23 @@ public:
     
 public:
 
-    // Reads a single data byte
+    // Reads a single byte
     virtual u8 readByte(isize b, isize offset) const;
     virtual u8 readByte(isize t, isize s, isize offset) const;
 
-    // Fills a buffer with the data of a single sector
+    // Reads a single sector
     virtual void readSector(u8 *dst, isize b) const;
     virtual void readSector(u8 *dst, isize t, isize s) const;
-    
-    
+
+    // Write a single byte
+    virtual void writeByte(isize b, isize offset, u8 value);
+    virtual void writeByte(isize t, isize s, isize offset, u8 value);
+
+    // Writes a single sector
+    virtual void writeSector(isize b, const Buffer<u8> &buffer);
+    virtual void writeSector(isize t, isize s, const Buffer<u8> &buffer);
+
+
     //
     // Pretty-printing
     //

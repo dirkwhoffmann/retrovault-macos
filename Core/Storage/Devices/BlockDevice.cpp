@@ -7,23 +7,9 @@
 // See https://mozilla.org/MPL/2.0 for license information
 // -----------------------------------------------------------------------------
 
-#pragma once
-
-#include "FSTypes.h"
-#include "utl/abilities/Loggable.h"
+#include "BlockDevice.h"
+#include "Media.h"
 
 namespace vamiga {
-
-class FSExtension : public Loggable {
-
-public:
-
-    class FileSystem &fs;
-    const FSTraits &traits;
-    class FSStorage &storage;
-    class FSDoctor &doctor;
-
-    explicit FSExtension(FileSystem& fs);
-};
 
 }

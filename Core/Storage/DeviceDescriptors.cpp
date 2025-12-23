@@ -11,11 +11,13 @@
 #include "DeviceDescriptors.h"
 #include "DeviceError.h"
 #include "FSTypes.h"
-#include "utl/types/Literals.h"
 #include "utl/io.h"
+#include "utl/types/Literals.h"
 #include <algorithm>
 
 namespace vamiga {
+
+// using namespace utl;
 
 //
 // GeometryDescriptor
@@ -156,6 +158,19 @@ PartitionDescriptor::PartitionDescriptor(const GeometryDescriptor &geo)
     sectors     = u32(geo.sectors);
     lowCyl      = 0;
     highCyl     = u32(geo.upperCyl());
+}
+
+GeometryDescriptor
+PartitionDescriptor::geometry() const noexcept {
+
+    return GeometryDescriptor(numCylinders(), heads, sectors, sizeBlock * 4);
+}
+
+isize
+PartitionDescriptor::translate(isize block) const noexcept
+{
+    assert(block >= 0 && block < numBlocks());
+    return lowCyl * heads * sectors + block;
 }
 
 void

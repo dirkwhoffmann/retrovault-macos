@@ -9,7 +9,6 @@
 
 #pragma once
 
-#include "MediaFileTypes.h"
 #include "MediaFile.h"
 #include "DiskFile.h"
 #include "HDFFile.h"
@@ -63,4 +62,3 @@
  *  | ADFFile | | EADFFile | | IMGFile | | DMSFile | | EXEFile | | Folder |
  *   ---------   ----------   ---------   ---------   ---------   --------
  */
-

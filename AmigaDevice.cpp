@@ -8,7 +8,9 @@
 // -----------------------------------------------------------------------------
 
 #include "AmigaDevice.h"
-#include "FileSystemFactory.h"
+#include "Media.h"
+
+// #include "FileSystemFactory.h"
 
 using namespace vamiga;
 
@@ -24,22 +26,29 @@ class PosixFileSystem;
 AmigaDevice::AmigaDevice(const fs::path &filename)
 {
     mylog("Trying to load %s...\n", filename.string().c_str());
-    mediaFile = std::make_unique<MediaFile>(filename);
+    // mediaFile = std::make_unique<MediaFile>(filename);
 
+    /*
     if (mediaFile->type() != FileType::ADF) {
 
         warn("%s is not an ADF. Aborting.\n", filename.string().c_str());
         return;
     }
+    */
 
-    ADFFile *adf = (ADFFile *)mediaFile->file.get();
+    // Get the ADF
+    unique_ptr<ADFFile> adf = make_unique<ADFFile>(filename);
 
-    mylog("Extracting raw file system...\n");
-    auto fs = FileSystemFactory::fromADF(*adf);
-    assert(fs.get() != nullptr);
+    // Create the block device
+    mylog("Creating block device...\n");
+    dev = std::move(adf);
 
+    // Create a logical volume
     mylog("Creating volume...\n");
-    volumes.push_back(std::make_unique<AmigaVolume>(std::move(fs)));
+    unique_ptr<Volume> vol = make_unique<Volume>(*dev);
+
+    mylog("Creating AmigaVolume...\n");
+    volumes.push_back(make_unique<AmigaVolume>(std::move(vol)));
 
     mylog("Installed volumes: %zu\n", volumes.size());
 }

@@ -21,7 +21,7 @@ ADFFile::isCompatible(const fs::path &path)
     // Check the suffix
     auto suffix = utl::uppercased(path.extension().string());
     if (suffix != ".ADF") return false;
-    
+
     // Make sure it's not an extended ADF
     // return !EADFFile::isCompatible(path);
     return true;
@@ -142,13 +142,13 @@ ADFFile::getFileSystemDescriptor() const
     FSDescriptor result;
     
     // Determine the root block location
-    Block root = data.size < ADFSIZE_35_HD ? 880 : 1760;
+    BlockNr root = data.size < ADFSIZE_35_HD ? 880 : 1760;
 
     // Determine the bitmap block location
-    Block bitmap = FSBlock::read32(data.ptr + root * 512 + 316);
-    
+    BlockNr bitmap = FSBlock::read32(data.ptr + root * 512 + 316);
+
     // Assign a default location if the bitmap block reference is invalid
-    if (bitmap == 0 || bitmap >= (Block)numBlocks()) bitmap = root + 1;
+    if (bitmap == 0 || bitmap >= (BlockNr)numBlocks()) bitmap = root + 1;
 
     // Setup the descriptor
     result.numBlocks = numBlocks();
@@ -198,29 +198,46 @@ ADFFile::killVirus()
 }
 
 void
-ADFFile::formatDisk(FSFormat fs, BootBlockId id, string name)
+ADFFile::formatDisk(FSFormat dos, BootBlockId id, string name)
 {
-    FSFormatEnum::validate(fs);
+    FSFormatEnum::validate(dos);
 
     debug(ADF_DEBUG,
-          "Formatting disk (%ld, %s)\n", numBlocks(), FSFormatEnum::key(fs));
+          "Formatting disk (%ld, %s)\n", numBlocks(), FSFormatEnum::key(dos));
 
     // Only proceed if a file system is given
-    if (fs == FSFormat::NODOS) return;
-    
-    // Get a device descriptor for this ADF
+    if (dos == FSFormat::NODOS) return;
+
+    // Create a file system
+    auto vol = Volume(*this);
+    auto fs = FileSystem(vol);
+
+    // Format the file system
+    fs.format(dos);
+    fs.setName(FSName(name));
+    fs.makeBootable(id);
+
+    // Update the underlying ADF
+    fs.flush();
+
+    /*
+    // Create an empty floppy disk
+    Device device(getGeometry());
+
+    // Get a file system descriptor for this ADF
     auto descriptor = getFileSystemDescriptor();
     descriptor.dos = fs;
-    
-    // Create an empty file system
-    FileSystem volume(descriptor);
+
+    // Create a file system
+    FileSystem volume(device, descriptor);
     volume.setName(FSName(name));
     
     // Write boot code
     volume.makeBootable(id);
     
     // Export the file system to the ADF
-    if (!volume.exporter.exportVolume(data.ptr, data.size)) throw FSError(fault::FS_UNKNOWN);
+    if (!volume.exporter.exportVolume(data.ptr, data.size)) throw FSError(FSError::FS_UNKNOWN);
+    */
 }
 
 void

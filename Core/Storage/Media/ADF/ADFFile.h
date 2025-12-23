@@ -49,15 +49,6 @@ public:
 
     
     //
-    // Methods from CoreObject
-    //
-
-public:
-    
-    // const char *objectName() const override { return "ADF"; }
-
-    
-    //
     // Methods from AnyFile
     //
     

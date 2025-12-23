@@ -7,119 +7,155 @@
 // See https://mozilla.org/MPL/2.0 for license information
 // -----------------------------------------------------------------------------
 
-#pragma once
-
 /* The FileSystem class represents an Amiga file system (OFS or FFS).
- * It models a logical volume that can be created from either an ADF or an HDF.
- * In the case of an HDF, each partition can be converted into an independent
- * file system instance.
+ * It models a logical volume that can be created on top of, e.g., an ADF file,
+ * an HDF file, or an MFM-encoded FloppyDisk. In the case of an HDF, the file
+ * system may span either the entire HDF or a single partition, only.
  *
  * The FileSystem class is organized as a layered architecture to separate
  * responsibilities and to enforce downward-only dependencies.
  *
- *  ---------------------
- * |     POSIX Layer     |    Layer 3:
- *  ---------------------
- *            |               Wraps a Layer-3 file system with all lower-level
- *            |               access functions hidden. It exposes a POSIX-like
- *            |               high-level API that provides operations such as
- *            |               open, close, read, write, and file handles.
- *            V
- *  -----------------------
- * | Path Resolution Layer |  Layer 2:
- *  -----------------------
- *            |               Resolves symbolic and relative paths into file
- *            |               system objects and canonicalizes paths. It depends
- *            |               only on the read/write layer.
- *            |
- *            V
- *  -----------------------
- * |       Node Layer      |  Layer 1:
- *  -----------------------
- *            |               Interprets storage blocks as files and directories
- *            |               according to OFS or FFS semantics. It allows the
- *            |               upper layers to create files, directories, and to
- *            |               modify metadata.
- *            V
- *  -----------------------
- * |  Block Storage Layer  |  Layer 0:
- *  -----------------------
- *                            Storage the actual block data.
+ *          <-- Layer view --->     <-------------  Class view  -------------->
  *
+ *           -----------------       -----------------
+ * Layer 5: |    POSIX API    |<--->| PosixFileSystem |
+ *           -----------------       -----------------
+ *           |  |  |                        / \
+ *           |  |  |                        \ /
+ *           |  |  V                         |
+ *           |  |  -----------               |               -----------------
+ * Layer 4:  |  | | Services  |..............|..............|                 |
+ *           |  |  -----------               |              |    FSImporter   |
+ *           |  |  |         |               |              |                 |
+ *           |  |  |         |       ----------------- /\   |    FSExporter   |
+ *           |  V  V         |      |                 |  ---|                 |
+ *           |  -----------  |      |                 |\/   |    FSCrawler    |
+ * Layer 3:  | |   Paths   |.|......|                 |     |                 |
+ *           |  -----------  |      |                 |     |    FSDoctor     |
+ *           |  |            |      |   FileSystem    |     |                 |
+ *           |  |            |      |                 |      -----------------
+ *           V  V            V      |                 |
+ *           -----------------      |                 |
+ * Layer 2: |     Nodes       |.....|                 |
+ *           -----------------       -----------------
+ *                   |                      / \
+ *                   |                      \ /
+ *                   V                       |
+ *           -----------------       -----------------
+ * Layer 1: |   Block cache   |.....| FSCache/FSBlock |
+ *           -----------------       -----------------
+ *                   |                      / \
+ *                   |                      \ /
+ *                   V                       |
+ *           -----------------       -----------------
+ * Layer 0: |  Block device   |.....|     Volume      |
+ *           -----------------       -----------------
+ *
+ *
+ * Notes:
+ *
+ *   POSIX layer:
+ *
+ *   The uppermost layer implements a POSIX-like file system interface. It
+ *   wraps a FileSystem instance and hides all lower-level access mechanisms.
+ *   This layer exposes a high-level API with POSIX-style semantics, including
+ *   operations such as open, close, read, write, and file-handle management.
+ *
+ *   Path Layer:
+ *
+ *   This layer is part of the FileSystem class. It resolves symbolic and
+ *   relative paths into canonical file system objects. This layer is
+ *   responsible for path normalization and name resolution.
+ *
+ *   Node Layer:
+ *
+ *   Interprets storage blocks as files and directories according to OFS or FFS
+ *   semantics. It provides primitives for creating and deleting files and
+ *   directories, as well as for accessing and modifying file metadata.
+ *
+ *   Block Cache Layer:
+ *
+ *   Bridges the node layer and the underlying block device. It manages cached
+ *   access to blocks and maintains block-level metadata to improve performance
+ *   and consistency.
+ *
+ *   Block Device Layer:
+ *
+ *   Provides access to the physical or virtual storage medium and stores the
+ *   actual data. Any object implementing the BlockDevice protocol can serve as
+ *   a backing store, including ADFFile, HDFFile, or FloppyDisk.
  */
+
+#pragma once
 
 #include "FSTypes.h"
 #include "FSError.h"
 #include "FSBlock.h"
+#include "FSContract.h"
 #include "FSDescriptor.h"
 #include "FSObjects.h"
-#include "FSTree.h"
-#include "FSStorage.h"
+#include "FSCache.h"
 #include "FSDoctor.h"
 #include "FSAllocator.h"
 #include "FSImporter.h"
 #include "FSExporter.h"
+#include "FSTree.h"
 #include "DeviceError.h"
+#include "BlockVolume.h"
 #include "utl/abilities/Loggable.h"
 
 namespace vamiga {
 
-class ADFFile;
-class HDFFile;
-class FloppyDrive;
-class HardDrive;
-
 class FileSystem : public Loggable {
 
     friend struct FSBlock;
-    friend class  FSExtension;
-    friend class  FSDoctor;
-    friend class  FSAllocator;
-    friend struct FSHashTable;
-    friend struct FSPartition;
-    friend struct FSTree;
+    friend struct OldFSTree;
 
-    // Static file system properties
+    // Immutable file system properties
     FSTraits traits;
 
 
-    //
-    // Layer 0
-    //
+    // Block layer
 
-    // Block storage
-    FSStorage storage = FSStorage(*this);
+    // Gateway to the underlying block device
+    FSCache cache;
 
     // Allocation and allocation map managenent
     FSAllocator allocator = FSAllocator(*this);
 
 
-    //
-    // Layer 1
-    //
+    // Node layer
 
     // Location of the root block
-    Block rootBlock = 0;
+    BlockNr rootBlock = 0;
 
     // Location of bitmap blocks and extended bitmap blocks
-    std::vector<Block> bmBlocks;
-    std::vector<Block> bmExtBlocks;
+    vector<BlockNr> bmBlocks;
+    vector<BlockNr> bmExtBlocks;
 
 
-    //
-    // Layer 2
-    //
+    // Path layer
 
     // Location of the current directory
-    Block current = 0;
+    BlockNr current = 0;
 
+
+    // Service layer
 
 public:
 
-    //Subcomponents
-    FSDoctor doctor = FSDoctor(*this);
+    // Block import
     FSImporter importer = FSImporter(*this);
+
+    // Block export
     FSExporter exporter = FSExporter(*this);
+
+    // Error checking, rectification
+    FSDoctor doctor = FSDoctor(*this, allocator);
+
+    // Contracts
+    FSRequire require = FSRequire(*this);
+    FSEnsure ensure = FSEnsure(*this);
 
 
     //
@@ -128,21 +164,13 @@ public:
 
 public:
 
-    FileSystem() { };
-    FileSystem(isize capacity, isize bsize = 512) { init(capacity, bsize); }
-    FileSystem(const FSDescriptor &layout, u8 *buf, isize len) : FileSystem() { init(layout, buf, len); }
-    FileSystem(const FSDescriptor &layout, const fs::path &path = {}) { init(layout, path); }
-    FileSystem(const FileSystem&) = delete;
+    FileSystem(Volume &vol);
     virtual ~FileSystem() = default;
 
-    void init(isize capacity, isize bsize = 512);
-    void init(const FSDescriptor &layout, u8 *buf, isize len);
-    void init(const FSDescriptor &layout, const fs::path &path = {});
-
-    bool isInitialized() const noexcept;
-    bool isFormatted() const noexcept;
-
-    FileSystem& operator=(const FileSystem&) = delete;
+    FileSystem(const FileSystem &) = delete;
+    FileSystem(FileSystem &&) = delete;
+    FileSystem& operator=(const FileSystem &) = delete;
+    FileSystem& operator=(FileSystem &&) = delete;
 
 
     //
@@ -163,11 +191,14 @@ public:
 
 public:
 
-    // Returns static file system properties
+    // Queries immutable file system properties
     const FSTraits &getTraits() const noexcept { return traits; }
     isize blocks() const noexcept { return traits.blocks; }
     isize bytes() const noexcept { return traits.bytes; }
     isize bsize() const noexcept { return traits.bsize; }
+
+    // Checks whether the file system is formatted
+    bool isFormatted() const noexcept;
 
     // Returns usage information and root metadata
     FSStat stat() const noexcept;
@@ -176,13 +207,12 @@ public:
     FSBootStat bootStat() const noexcept;
 
     // Returns information about file permissions
-    FSAttr attr(Block nr) const;
-    FSAttr attr(const FSBlock &fhd) const;
+    FSAttr attr(BlockNr nr) const;
 
 
-    // -------------------------------------------------------------------------
-    //                             Layer 0: Blocks
-    // -------------------------------------------------------------------------
+    //
+    // B L O C K   L A Y E R
+    //
 
     //
     // Querying block properties
@@ -191,15 +221,20 @@ public:
 public:
 
     // Returns the type of a certain block or a block item
-    FSBlockType typeOf(Block nr) const noexcept;
-    FSItemType typeOf(Block nr, isize pos) const noexcept;
+    FSBlockType typeOf(BlockNr nr) const { return fetch(nr).type; }
+    FSItemType typeOf(BlockNr nr, isize pos) const { return fetch(nr).itemType(pos); }
 
     // Convenience wrappers
-    bool is(Block nr, FSBlockType t) const noexcept { return typeOf(nr) == t; }
-    bool isEmpty(Block nr) const noexcept { return is(nr, FSBlockType::EMPTY); }
+    bool is(BlockNr nr, FSBlockType type) const { return fetch(nr).is(type); }
+    bool isEmpty(BlockNr nr) const { return fetch(nr).isEmpty(); }
+    bool isRoot(BlockNr nr) const { return fetch(nr).isRoot(); }
+    bool isFile(BlockNr nr) const { return fetch(nr).isFile(); }
+    bool isDirectory(BlockNr nr) const { return fetch(nr).isDirectory(); }
+    bool isRegular(BlockNr nr) const { return fetch(nr).isRegular(); }
+    bool isData(BlockNr nr) const { return fetch(nr).isData(); }
 
     // Predicts the type of a block based on the stored data
-    FSBlockType predictType(Block nr, const u8 *buf) const noexcept;
+    FSBlockType predictType(BlockNr nr, const u8 *buf) const noexcept;
 
 
     //
@@ -208,30 +243,26 @@ public:
 
 public:
 
-    // Returns a block pointer or null if the block does not exist
-    FSBlock *read(Block nr) noexcept;
-    FSBlock *read(Block nr, FSBlockType type) noexcept;
-    FSBlock *read(Block nr, std::vector<FSBlockType> types) noexcept;
-    const FSBlock *read(Block nr) const noexcept;
-    const FSBlock *read(Block nr, FSBlockType type) const noexcept;
-    const FSBlock *read(Block nr, std::vector<FSBlockType> types) const noexcept;
+    // Returns a pointer to a block with read permissions (maybe null)
+    const FSBlock *tryFetch(BlockNr nr) const noexcept { return cache.tryFetch(nr); }
+    const FSBlock *tryFetch(BlockNr nr, FSBlockType t) const noexcept { return cache.tryFetch(nr, t); }
+    const FSBlock *tryFetch(BlockNr nr, vector<FSBlockType> ts) const noexcept { return cache.tryFetch(nr, ts); }
 
-    // Returns a reference to a stored block (throws on error)
-    FSBlock &at(Block nr);
-    FSBlock &at(Block nr, FSBlockType type);
-    FSBlock &at(Block nr, std::vector<FSBlockType> types);
-    const FSBlock &at(Block nr) const;
-    const FSBlock &at(Block nr, FSBlockType type) const;
-    const FSBlock &at(Block nr, std::vector<FSBlockType> types) const;
+    // Returns a reference to a block with read permissions (may throw)
+    const FSBlock &fetch(BlockNr nr) const { return cache.fetch(nr); }
+    const FSBlock &fetch(BlockNr nr, FSBlockType t) const { return cache.fetch(nr, t); }
+    const FSBlock &fetch(BlockNr nr, vector<FSBlockType> ts) const { return cache.fetch(nr, ts); }
 
-    // Operator overload
-    FSBlock &operator[](size_t nr);
-    const FSBlock &operator[](size_t nr) const;
+    // Writes back dirty cache blocks to the block device
+    void flush();
+
+    // Operator overload for fetch
+    const FSBlock &operator[](size_t nr) { return cache.fetch(BlockNr(nr)); }
 
 
-    // -------------------------------------------------------------------------
-    //                             Layer 1: Nodes
-    // -------------------------------------------------------------------------
+    //
+    // N O D E   L A Y E R
+    //
 
     //
     // Formatting
@@ -239,18 +270,19 @@ public:
 
 public:
 
-    // Formats the volume
-    void format(string name = "");
-    void format(FSFormat dos, string name = "");
+    // Formats the volume with a specific DOS type
+    void format(FSFormat dos);
+
+    // Reformats the volume with the existing DOS type
+    void format() { format(traits.dos); }
 
     // Assigns the volume name
-    void setName(FSName name);
-    void setName(string name) { setName(FSName(name)); }
+    void setName(const FSName &name);
 
     // Installs a boot block
     void makeBootable(BootBlockId id);
 
-    // Removes a boot block virus from the current partition (if any)
+    // Removes a boot block virus (if any)
     void killVirus();
 
 
@@ -258,30 +290,33 @@ public:
     // Managing directories
     //
 
+    // Returns the number of items in a directory or the items themselves
+    isize numItems(BlockNr at) const;
+    vector<BlockNr> getItems(BlockNr at) const;
+
+    // Looks up a specific directory item
+    optional<BlockNr> searchdir(BlockNr at, const FSName &name) const;
+    vector<BlockNr> searchdir(BlockNr at, const FSPattern &pattern) const;
+
     // Creates a new directory
-    FSBlock &mkdir(FSBlock &at, const FSName &name);
+    BlockNr mkdir(BlockNr at, const FSName &name);
 
     // Removes an empty directory
-    void rmdir(FSBlock &at);
+    void rmdir(BlockNr at);
 
-    // Looks up a directory item
-    FSBlock *searchdir(const FSBlock &at, const FSName &name);
+    // Creates a new directory entry
+    void link(BlockNr at, BlockNr fhb);
 
-    // Creates a directory entry
-    void link(FSBlock &at, FSBlock &fhb);
-
-    // Removes a directory entry
-    void unlink(const FSBlock &fhb);
+    // Removes an existing directory entry
+    void unlink(BlockNr fhb);
 
 private:
 
     // Adds a hash-table entry for a given item
-    void addToHashTable(const FSBlock &item);
-    void addToHashTable(Block parent, Block ref);
+    void addToHashTable(BlockNr parent, BlockNr ref);
 
     // Removes the hash-table entry for a given item
-    void deleteFromHashTable(const FSBlock &item);
-    void deleteFromHashTable(Block parent, Block ref);
+    void deleteFromHashTable(BlockNr item);
 
 
     //
@@ -291,38 +326,40 @@ private:
 public:
 
     // Creates a new file
-    FSBlock &createFile(FSBlock &at, const FSName &name);
-    FSBlock &createFile(FSBlock &at, const FSName &name, const u8 *buf, isize size);
-    FSBlock &createFile(FSBlock &at, const FSName &name, const Buffer<u8> &buf);
-    FSBlock &createFile(FSBlock &at, const FSName &name, const string &str);
+    BlockNr createFile(BlockNr at, const FSName &name);
+    BlockNr createFile(BlockNr at, const FSName &name, const u8 *buf, isize size);
+    BlockNr createFile(BlockNr at, const FSName &name, const Buffer<u8> &buf);
+    BlockNr createFile(BlockNr at, const FSName &name, const string &str);
 
     // Delete a file
-    void rm(const FSBlock &at);
+    void rm(BlockNr at);
 
     // Renames a file or directory
-    void rename(FSBlock &item, const FSName &name);
+    void rename(BlockNr item, const FSName &name);
 
     // Moves a file or directory to another location
-    void move(FSBlock &item, FSBlock &dest);
-    void move(FSBlock &item, FSBlock &dest, const FSName &name);
+    void move(BlockNr item, BlockNr dest);
+    void move(BlockNr item, BlockNr dest, const FSName &name);
 
     // Copies a file
-    void copy(const FSBlock &item, FSBlock &dest);
-    void copy(const FSBlock &item, FSBlock &dest, const FSName &name);
+    void copy(BlockNr item, BlockNr dest);
+    void copy(BlockNr item, BlockNr dest, const FSName &name);
 
     // Shrinks or expands an existing file (pad with 0)
-    void resize(FSBlock &at, isize size);
+    void resize(BlockNr at, isize size);
 
     // Replaces the cotents of an existing file
-    void replace(FSBlock &at, const Buffer<u8> &data);
+    void replace(BlockNr at, const u8 *buf, isize size);
+    void replace(BlockNr at, const Buffer<u8> &data);
+    void replace(BlockNr at, const string &str);
 
 private:
 
     // Main replace function
-    FSBlock &replace(FSBlock &fhb,
-                     const u8 *buf, isize size,
-                     std::vector<Block> listBlocks = {},
-                     std::vector<Block> dataBlocks = {});
+    BlockNr replace(BlockNr fhb,
+                    const u8 *buf, isize size,
+                    vector<BlockNr> listBlocks,
+                    vector<BlockNr> dataBlocks);
 
 
     //
@@ -332,63 +369,64 @@ private:
 public:
 
     // Frees the blocks of a deleted directory or file
-    void reclaim(const FSBlock &fhb);
+    void reclaim(BlockNr fhb);
 
 private:
 
     // Creates a new block of a certain kind
-    FSBlock &newUserDirBlock(const FSName &name);
-    FSBlock &newFileHeaderBlock(const FSName &name);
+    BlockNr newUserDirBlock(const FSName &name);
+    BlockNr newFileHeaderBlock(const FSName &name);
 
     // Adds a new block of a certain kind
-    void addFileListBlock(Block at, Block head, Block prev);
-    void addDataBlock(Block at, isize id, Block head, Block prev);
+    void addFileListBlock(BlockNr at, BlockNr head, BlockNr prev);
+    void addDataBlock(BlockNr at, isize id, BlockNr head, BlockNr prev);
 
     // Adds bytes to a data block
-    isize addData(Block nr, const u8 *buf, isize size);
-    isize addData(FSBlock &block, const u8 *buf, isize size);
+    isize addData(BlockNr nr, const u8 *buf, isize size);
 
 
     //
     // Traversing linked lists
     //
 
+public:
+
+    vector<BlockNr> collectDataBlocks(BlockNr nr) const;
+    vector<BlockNr> collectListBlocks(BlockNr nr) const;
+    vector<BlockNr> collectHashedBlocks(BlockNr nr, isize bucket) const;
+    vector<BlockNr> collectHashedBlocks(BlockNr nr) const;
+
 private:
 
     // Follows a linked list and collects all blocks
     using BlockIterator = std::function<const FSBlock *(const FSBlock *)>;
-    std::vector<const FSBlock *> collect(const FSBlock &block, BlockIterator succ) const;
-    std::vector<Block> collect(const Block nr, BlockIterator succ) const;
+    vector<const FSBlock *> collect(const FSBlock &block, BlockIterator succ) const;
+    vector<BlockNr> collect(const BlockNr nr, BlockIterator succ) const;
 
     // Collects blocks of a certain type
-    std::vector<const FSBlock *> collectDataBlocks(const FSBlock &block) const;
-    std::vector<const FSBlock *> collectListBlocks(const FSBlock &block) const;
-    std::vector<const FSBlock *> collectHashedBlocks(const FSBlock &block, isize bucket) const;
-    std::vector<const FSBlock *> collectHashedBlocks(const FSBlock &block) const;
-    std::vector<Block> collectDataBlocks(Block nr) const;
-    std::vector<Block> collectListBlocks(Block nr) const;
-    std::vector<Block> collectHashedBlocks(Block nr, isize bucket) const;
-    std::vector<Block> collectHashedBlocks(Block nr) const;
+    vector<const FSBlock *> collectDataBlocks(const FSBlock &block) const;
+    vector<const FSBlock *> collectListBlocks(const FSBlock &block) const;
+    vector<const FSBlock *> collectHashedBlocks(const FSBlock &block, isize bucket) const;
+    vector<const FSBlock *> collectHashedBlocks(const FSBlock &block) const;
 
 
-    // -------------------------------------------------------------------------
-    //                           Layer 2: Paths
-    // -------------------------------------------------------------------------
+    //
+    // P A T H   L A Y E R
+    //
 
     //
     // Managing the working directory
     //
 
 public:
-    
+
     // Returns the working directory
-    FSBlock &pwd() { return at(current); }
-    const FSBlock &pwd() const { return at(current); }
+    BlockNr pwd() const { return current; }
 
     // Changes the working directory
-    void cd(const FSName &name);
-    void cd(const FSBlock &path);
-    void cd(const string &path);
+    void cd(BlockNr nr);
+    void cd(const string &path) { cd(seek(path)); }
+    void cd(const fs::path &path) { cd(seek(path)); }
 
 
     //
@@ -398,77 +436,43 @@ public:
 public:
 
     // Returns the root of the directory tree
-    FSBlock &root() { return at(rootBlock); }
-    const FSBlock &root() const { return at(rootBlock); }
+    BlockNr root() const { return rootBlock; }
 
-    // Returns the parent directory of an item
-    FSBlock &parent(const FSBlock &block);
-    FSBlock *parent(const FSBlock *block) noexcept;
-    const FSBlock &parent(const FSBlock &block) const;
-    const FSBlock *parent(const FSBlock *block) const noexcept;
+    // Returns the locations of the bitmap and bitmap extension blocks
+    const vector<BlockNr> &getBmBlocks() const { return bmBlocks; }
+    const vector<BlockNr> &getBmExtBlocks() const { return bmExtBlocks; }
 
     // Checks if a an item exists in the directory tree
-    bool exists(const FSBlock &top, const fs::path &path) const;
-    bool exists(const fs::path &path) const { return exists(pwd(), path); }
+    bool exists(const FSPath &path) const { return trySeek(path).has_value(); }
+    bool exists(const char *path) const { return trySeek(path).has_value(); }
+    bool exists(const string &path) const { return trySeek(path).has_value(); }
+    bool exists(const fs::path &path) const { return trySeek(path).has_value(); }
 
-    // Seeks an item in the directory tree (returns nullptr if not found)
-    FSBlock *seekPtr(const FSBlock *top, const FSName &name) noexcept;
-    FSBlock *seekPtr(const FSBlock *top, const fs::path &name) noexcept;
-    FSBlock *seekPtr(const FSBlock *top, const string &name) noexcept;
-    const FSBlock *seekPtr(const FSBlock *top, const FSName &name) const noexcept;
-    const FSBlock *seekPtr(const FSBlock *top, const fs::path &name) const noexcept;
-    const FSBlock *seekPtr(const FSBlock *top, const string &name) const noexcept;
+    // Resolves a path by name
+    optional<BlockNr> trySeek(const FSPath &path) const;
+    optional<BlockNr> trySeek(const char *path) const { return trySeek(FSPath(path)); }
+    optional<BlockNr> trySeek(const string &path) const { return trySeek(FSPath(path)); }
+    optional<BlockNr> trySeek(const fs::path &path) const { return trySeek(FSPath(path)); }
 
-    // Seeks an item in the directory tree (returns nullptr if not found)
-    FSBlock &seek(const FSBlock &top, const FSName &name);
-    FSBlock &seek(const FSBlock &top, const fs::path &name);
-    FSBlock &seek(const FSBlock &top, const string &name);
-    const FSBlock &seek(const FSBlock &top, const FSName &name) const;
-    const FSBlock &seek(const FSBlock &top, const fs::path &name) const;
-    const FSBlock &seek(const FSBlock &top, const string &name) const;
+    // Resolves a path by name (may throw)
+    BlockNr seek(const FSPath &path) const;
+    BlockNr seek(const char *path) const { return seek(FSPath(path)); }
+    BlockNr seek(const string &path) const { return seek(FSPath(path)); }
+    BlockNr seek(const fs::path &path) const { return seek(FSPath(path)); }
 
-    // Seeks all items satisfying a predicate
-    std::vector<const FSBlock *> find(const FSOpt &opt) const;
-    std::vector<const FSBlock *> find(const FSBlock *root, const FSOpt &opt) const;
-    std::vector<const FSBlock *> find(const FSBlock &root, const FSOpt &opt) const;
-    std::vector<Block> find(Block root, const FSOpt &opt) const;
+    // Resolves a path by a regular expression
+    vector<BlockNr> match(BlockNr top, const vector<FSPattern> &patterns);
+    vector<BlockNr> match(const string &path);
 
-    // Seeks all items with a pattern-matching name
-    std::vector<const FSBlock *> find(const FSPattern &pattern) const;
-    std::vector<const FSBlock *> find(const FSBlock *top, const FSPattern &pattern) const;
-    std::vector<const FSBlock *> find(const FSBlock &top, const FSPattern &pattern) const;
-    std::vector<Block> find(Block root, const FSPattern &pattern) const;
 
-    // Collects all items with a pattern-matching path
-    std::vector<const FSBlock *> match(const FSPattern &pattern) const;
-    std::vector<const FSBlock *> match(const FSBlock *top, const FSPattern &pattern) const;
-    std::vector<const FSBlock *> match(const FSBlock &top, const FSPattern &pattern) const;
-    std::vector<Block> match(Block root, const FSPattern &pattern) const;
+    //
+    // S E R V I C E   L A Y E R
+    //
 
-private:
+public:
 
-    std::vector<const FSBlock *> find(const FSBlock *top, const FSOpt &opt,
-                                      std::unordered_set<Block> &visited) const;
-
-    std::vector<const FSBlock *> match(const FSBlock *top,
-                                       std::vector<FSPattern> pattern) const;
+    // Builds a directory tree with traversal capabilities
+    FSTree build(BlockNr root, const FSTreeBuildOptions &opt = {}) const;
 };
-
-
-//
-// Argument checkers
-//
-
-namespace require {
-
-    void initialized(const FileSystem &fs);
-    void formatted(const FileSystem &fs);
-    void file(const FSBlock &node);
-    void directory(const FSBlock &block);
-    void fileOrDirectory(const FSBlock &block);
-    void notRoot(const FSBlock &block);
-    void emptyDirectory(const FSBlock &block);
-    void notExist(const FSBlock &dir, const FSName &name);
-}
 
 }

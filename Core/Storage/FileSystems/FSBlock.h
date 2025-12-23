@@ -9,7 +9,7 @@
 
 #pragma once
 
-#include "FSExtension.h"
+#include "FSService.h"
 #include "FSTypes.h"
 #include "FSError.h"
 #include "FSObjects.h"
@@ -24,23 +24,22 @@ using utl::DumpOpt;
 
 struct FSBlock : Loggable {
 
-    friend class FSDoctor;
-    
-    // The file system this block belongs to
+    // The file system this block belongs to (DEPRECATED)
     class FileSystem *fs = nullptr;
+
+    // The storage this block belongs to
+    class FSCache &cache;
 
     // The type of this block
     FSBlockType type = FSBlockType::UNKNOWN;
 
     // The sector number of this block
-    Block nr = 0;
-    
-private:
+    BlockNr nr = 0;
 
-    // Block data
-    u8 *bdata = nullptr;
+    // Cached block data
+    Buffer<u8> dataCache;
 
-    
+
     //
     // Constructing
     //
@@ -52,13 +51,14 @@ public:
     FSBlock(FSBlock&&) = delete;                  // Move constructor
     FSBlock& operator=(FSBlock&&) = delete;       // Move assignment
 
-    FSBlock(FileSystem *ref, Block nr, FSBlockType t);
+    FSBlock(FileSystem *ref, BlockNr nr);
+    FSBlock(FileSystem *ref, BlockNr nr, FSBlockType t);
     ~FSBlock();
 
     void init(FSBlockType t);
 
-    static FSBlock *make(FileSystem *ref, Block nr, FSBlockType type);
-    static std::vector<Block> refs(const std::vector<const FSBlock *> blocks);
+    static FSBlock *make(FileSystem *ref, BlockNr nr, FSBlockType type);
+    static std::vector<BlockNr> refs(const std::vector<const FSBlock *> blocks);
 
 
     //
@@ -81,6 +81,7 @@ public:
 
     // Informs about the block type
     bool is(FSBlockType type) const;
+    bool isEmpty() const;
     bool isRoot() const;
     bool isFile() const;
     bool isDirectory() const;
@@ -91,7 +92,7 @@ public:
     string cppName() const;
     string absName() const;
     string relName() const;
-    string relName(const FSBlock &top) const;
+    string relName(BlockNr top) const;
 
     // Experimental
     string acabsName() const;
@@ -124,6 +125,15 @@ public:
     // Provides the data of a block
     u8 *data();
     const u8 *data() const;
+
+    // Grants write access for this block
+    FSBlock &mutate() const;
+
+    // Marks this block as dirty in the block cache
+    void invalidate();
+
+    // Writes the block back to the block device
+    void flush();
 
     // Reads or writes a long word in Big Endian format
     static u32 read32(const u8 *p);
@@ -162,10 +172,10 @@ private:
 
 public:
 
-    void hexDump(std::ostream &os, const DumpOpt &opt);
+    void hexDump(std::ostream &os, const DumpOpt &opt) const;
 
     // Experimental
-    static string rangeString(const std::vector<Block> &vec);
+    static string rangeString(const std::vector<BlockNr> &vec);
 
 
     //
@@ -255,43 +265,43 @@ public:
     //
 
     // Link to the parent directory block
-    Block getParentDirRef() const;
-    void setParentDirRef(Block ref);
-    struct FSBlock *getParentDirBlock() const;
-    
+    BlockNr getParentDirRef() const;
+    void setParentDirRef(BlockNr ref);
+    const FSBlock *getParentDirBlock() const;
+
     // Link to the file header block
-    Block getFileHeaderRef() const;
-    void setFileHeaderRef(Block ref);
-    FSBlock *getFileHeaderBlock() const;
+    BlockNr getFileHeaderRef() const;
+    void setFileHeaderRef(BlockNr ref);
+    const FSBlock *getFileHeaderBlock() const;
 
     // Link to the next block with the same hash
-    Block getNextHashRef() const;
-    void setNextHashRef(Block ref);
-    struct FSBlock *getNextHashBlock() const;
+    BlockNr getNextHashRef() const;
+    void setNextHashRef(BlockNr ref);
+    const FSBlock *getNextHashBlock() const;
 
     // Link to the next extension block
-    Block getNextListBlockRef() const;
-    void setNextListBlockRef(Block ref);
-    FSBlock *getNextListBlock() const;
+    BlockNr getNextListBlockRef() const;
+    void setNextListBlockRef(BlockNr ref);
+    const FSBlock *getNextListBlock() const;
     
     // Link to the next bitmap extension block
-    Block getNextBmExtBlockRef() const;
-    void setNextBmExtBlockRef(Block ref);
-    FSBlock *getNextBmExtBlock() const;
+    BlockNr getNextBmExtBlockRef() const;
+    void setNextBmExtBlockRef(BlockNr ref);
+    const FSBlock *getNextBmExtBlock() const;
     
     // Link to the first data block
-    Block getFirstDataBlockRef() const;
-    void setFirstDataBlockRef(Block ref);
-    FSBlock *getFirstDataBlock() const;
+    BlockNr getFirstDataBlockRef() const;
+    void setFirstDataBlockRef(BlockNr ref);
+    const FSBlock *getFirstDataBlock() const;
 
-    Block getDataBlockRef(isize nr) const;
-    void setDataBlockRef(isize nr, Block ref);
-    FSBlock *getDataBlock(isize nr) const;
+    BlockNr getDataBlockRef(isize nr) const;
+    void setDataBlockRef(isize nr, BlockNr ref);
+    const FSBlock *getDataBlock(isize nr) const;
 
     // Link to the next data block
-    Block getNextDataBlockRef() const;
-    void setNextDataBlockRef(Block ref);
-    FSBlock *getNextDataBlock() const;
+    BlockNr getNextDataBlockRef() const;
+    void setNextDataBlockRef(BlockNr ref);
+    const FSBlock *getNextDataBlock() const;
 
 
     //
@@ -325,15 +335,15 @@ public:
     //
 
     // Adds bitmap block references to the root block or an extension block
-    bool addBitmapBlockRefs(std::vector<Block> &refs);
-    void addBitmapBlockRefs(std::vector<Block> &refs,
-                            std::vector<Block>::iterator &it);
-    
+    bool addBitmapBlockRefs(std::vector<BlockNr> &refs);
+    void addBitmapBlockRefs(std::vector<BlockNr> &refs,
+                            std::vector<BlockNr>::iterator &it);
+
     // Gets or sets a link to a bitmap block
     isize numBmBlockRefs() const;
-    Block getBmBlockRef(isize nr) const;
-    void setBmBlockRef(isize nr, Block ref);
-    std::vector<Block> getBmBlockRefs() const;
+    BlockNr getBmBlockRef(isize nr) const;
+    void setBmBlockRef(isize nr, BlockNr ref);
+    std::vector<BlockNr> getBmBlockRefs() const;
 
 
     //
@@ -351,10 +361,10 @@ public:
     isize getNumDataBlockRefs() const;
     void setNumDataBlockRefs(u32 val);
     void incNumDataBlockRefs();
-    std::vector<Block> getDataBlockRefs() const;
+    std::vector<BlockNr> getDataBlockRefs() const;
 
     // Adds a data block reference to this block
-    bool addDataBlockRef(Block ref);
+    bool addDataBlockRef(BlockNr ref);
     void addDataBlockRef(u32 first, u32 ref);
     
     // Gets or sets the number of data bytes stored in this block
@@ -389,19 +399,56 @@ typedef FSBlock* BlockPtr;
 
 namespace sort {
 
-inline std::function<bool(const FSBlock &, const FSBlock &)> dafa = [](const FSBlock &b1, const FSBlock &b2) {
-
+inline std::function<bool(const FSBlock &, const FSBlock &)> dafa = [](const FSBlock &b1, const FSBlock &b2)
+{
     if ( b1.isDirectory() && !b2.isDirectory()) return true;
     if (!b1.isDirectory() &&  b2.isDirectory()) return false;
     return b1.getName() < b2.getName();
 };
 
-inline std::function<bool(const FSBlock &, const FSBlock &)> alpha = [](const FSBlock &b1, const FSBlock &b2) {
+inline std::function<bool(const FSBlock *, const FSBlock *)> dafaPtr = [](const FSBlock *b1, const FSBlock *b2)
+{
+    if ( b1->isDirectory() && !b2->isDirectory()) return true;
+    if (!b1->isDirectory() &&  b2->isDirectory()) return false;
+    return b1->getName() < b2->getName();
+};
 
+inline std::function<bool(const FSBlock &, const FSBlock &)> alpha = [](const FSBlock &b1, const FSBlock &b2)
+{
     return b1.getName() < b2.getName();
 };
 
+inline std::function<bool(const FSBlock *, const FSBlock *)> alphaPtr = [](const FSBlock *b1, const FSBlock *b2)
+{
+    return b1->getName() < b2->getName();
+};
+
 inline std::function<bool(const FSBlock &, const FSBlock &)> none = nullptr;
+inline std::function<bool(const FSBlock *, const FSBlock *)> nonePtr = nullptr;
+
+}
+
+namespace accept {
+
+inline std::function<bool(const FSBlock &)> all = [](const FSBlock &b1)
+{
+    return true;
+};
+
+inline std::function<bool(const FSBlock &)> files = [](const FSBlock &b)
+{
+    return b.isFile();
+};
+
+inline std::function<bool(const FSBlock &)> directories = [](const FSBlock &b)
+{
+    return b.isDirectory();
+};
+
+inline std::function<bool(const FSBlock &)> pattern(const FSPattern &p)
+{
+    return [p](const FSBlock &b) { return p.match(b.name()); };
+};
 
 }
 

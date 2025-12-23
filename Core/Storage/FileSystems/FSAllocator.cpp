@@ -17,6 +17,8 @@ namespace vamiga {
 isize
 FSAllocator::requiredDataBlocks(isize fileSize) const noexcept
 {
+    auto &traits = fs.getTraits();
+
     // Compute the capacity of a single data block
     isize numBytes = traits.bsize - (traits.ofs() ? 24 : 0);
 
@@ -27,6 +29,8 @@ FSAllocator::requiredDataBlocks(isize fileSize) const noexcept
 isize
 FSAllocator::requiredFileListBlocks(isize fileSize) const noexcept
 {
+    auto &traits = fs.getTraits();
+
     // Compute the required number of data blocks
     isize numBlocks = requiredDataBlocks(fileSize);
 
@@ -56,12 +60,12 @@ FSAllocator::requiredBlocks(isize fileSize) const noexcept
 bool
 FSAllocator::allocatable(isize count) const noexcept
 {
-    Block i = ap;
+    BlockNr i = ap;
     isize capacity = fs.blocks();
 
     while (count > 0) {
 
-        if (storage.getType(Block(i)) == FSBlockType::EMPTY) {
+        if (fs.isEmpty(i)) {
             if (--count == 0) break;
         }
 
@@ -72,29 +76,29 @@ FSAllocator::allocatable(isize count) const noexcept
     return true;
 }
 
-Block
+BlockNr
 FSAllocator::allocate()
 {
     auto numBlocks = fs.blocks();
-    Block i = ap;
+    BlockNr i = ap;
 
     while (!fs.isEmpty(i)) {
 
         if ((i = (i + 1) % numBlocks) == ap) {
 
             debug(FS_DEBUG, "No more free blocks\n");
-            throw FSError(fault::FS_OUT_OF_SPACE);
+            throw FSError(FSError::FS_OUT_OF_SPACE);
         }
     }
 
-    fs.read(i)->init(FSBlockType::UNKNOWN); // ->type = FSBlockType::UNKNOWN;
+    fs.fetch(i).mutate().init(FSBlockType::UNKNOWN);
     markAsAllocated(i);
     ap = (i + 1) % numBlocks;
     return i;
 }
 
 void
-FSAllocator::allocate(isize count, std::vector<Block> &result, std::vector<Block> prealloc)
+FSAllocator::allocate(isize count, std::vector<BlockNr> &result, std::vector<BlockNr> prealloc)
 {
     /* Allocate multiple blocks and return them in `result`.
      *
@@ -122,12 +126,12 @@ FSAllocator::allocate(isize count, std::vector<Block> &result, std::vector<Block
     }
 
     // Step 2: Allocate remaining blocks from free space
-    Block i = ap;
+    BlockNr i = ap;
     while (count > 0) {
 
         if (fs.isEmpty(i)) {
 
-            fs.read(i)->type = FSBlockType::UNKNOWN;
+            fs.fetch(i).mutate().type = FSBlockType::UNKNOWN;
             result.push_back(i);
             count--;
         }
@@ -139,7 +143,7 @@ FSAllocator::allocate(isize count, std::vector<Block> &result, std::vector<Block
         if (i == ap && count > 0) {
 
             debug(FS_DEBUG, "No more free blocks\n");
-            throw FSError(fault::FS_OUT_OF_SPACE);
+            throw FSError(FSError::FS_OUT_OF_SPACE);
         }
     }
 
@@ -151,22 +155,22 @@ FSAllocator::allocate(isize count, std::vector<Block> &result, std::vector<Block
 }
 
 void
-FSAllocator::deallocateBlock(Block nr)
+FSAllocator::deallocateBlock(BlockNr nr)
 {
-    storage[nr].init(FSBlockType::EMPTY);
+    fs.fetch(nr).mutate().init(FSBlockType::EMPTY);
     markAsFree(nr);
 }
 
 void
-FSAllocator::deallocateBlocks(const std::vector<Block> &nrs)
+FSAllocator::deallocateBlocks(const std::vector<BlockNr> &nrs)
 {
-    for (Block nr : nrs) { deallocateBlock(nr); }
+    for (BlockNr nr : nrs) { deallocateBlock(nr); }
 }
 
 void
 FSAllocator::allocateFileBlocks(isize bytes,
-                                std::vector<Block> &listBlocks,
-                                std::vector<Block> &dataBlocks)
+                                std::vector<BlockNr> &listBlocks,
+                                std::vector<BlockNr> &dataBlocks)
 {
     /* This function takes a file size and two lists:
 
@@ -179,7 +183,9 @@ FSAllocator::allocateFileBlocks(isize bytes,
         are allocated and appended to the respective lists.
     */
 
-    auto freeSurplus = [&](std::vector<Block> &blocks, usize count) {
+    auto &traits = fs.getTraits();
+
+    auto freeSurplus = [&](std::vector<BlockNr> &blocks, usize count) {
 
         if (blocks.size() > count) {
 
@@ -248,13 +254,15 @@ FSAllocator::allocateFileBlocks(isize bytes,
     }
 
     // Rectify checksums
-    for (auto &it : fs.bmBlocks) fs.at(it).updateChecksum();
-    for (auto &it : fs.bmExtBlocks) fs.at(it).updateChecksum();
+    for (auto &it : fs.getBmBlocks()) fs[it].mutate().updateChecksum();
+    for (auto &it : fs.getBmExtBlocks()) fs[it].mutate().updateChecksum();
 }
 
 bool
-FSAllocator::isUnallocated(Block nr) const noexcept
+FSAllocator::isUnallocated(BlockNr nr) const noexcept
 {
+    auto &traits = fs.getTraits();
+
     assert(isize(nr) < traits.blocks);
 
     // The first two blocks are always allocated and not part of the bitmap
@@ -268,10 +276,14 @@ FSAllocator::isUnallocated(Block nr) const noexcept
     return bm ? GET_BIT(bm->data()[byte], bit) : false;
 }
 
-FSBlock *
-FSAllocator::locateAllocationBit(Block nr, isize *byte, isize *bit) noexcept
+const FSBlock *
+FSAllocator::locateAllocationBit(BlockNr nr, isize *byte, isize *bit) const noexcept
 {
+    auto &traits = fs.getTraits();
+
     assert(isize(nr) < traits.blocks);
+
+    auto &bmBlocks = fs.getBmBlocks();
 
     // The first two blocks are always allocated and not part of the map
     if (nr < 2) return nullptr;
@@ -282,8 +294,14 @@ FSAllocator::locateAllocationBit(Block nr, isize *byte, isize *bit) noexcept
     isize bmNr = nr / bitsPerBlock;
 
     // Get the bitmap block
-    FSBlock *bm = (bmNr < (isize)fs.bmBlocks.size()) ? fs.read(fs.bmBlocks[bmNr], FSBlockType::BITMAP) : nullptr;
-    if (!bm) {
+    if (bmNr <= (isize)bmBlocks.size()) {
+        debug(FS_DEBUG, "Bitmap block index %ld for block %d is out of range \n", bmNr, nr);
+        return nullptr;
+    }
+
+    auto &bm = fs.fetch(bmBlocks[bmNr]);
+
+    if (!bm.is(FSBlockType::BITMAP)) {
         debug(FS_DEBUG, "Failed to lookup allocation bit for block %d (%ld)\n", nr, bmNr);
         return nullptr;
     }
@@ -307,14 +325,16 @@ FSAllocator::locateAllocationBit(Block nr, isize *byte, isize *bit) noexcept
     *byte = rByte;
     *bit = nr % 8;
 
-    return bm;
+    return &bm;
 }
 
+/*
 const FSBlock *
-FSAllocator::locateAllocationBit(Block nr, isize *byte, isize *bit) const noexcept
+FSAllocator::locateAllocationBit(BlockNr nr, isize *byte, isize *bit) const noexcept
 {
     return const_cast<const FSBlock *>(const_cast<FSAllocator *>(this)->locateAllocationBit(nr, byte, bit));
 }
+*/
 
 isize
 FSAllocator::numUnallocated() const noexcept
@@ -325,7 +345,7 @@ FSAllocator::numUnallocated() const noexcept
     if (FS_DEBUG) {
 
         isize count = 0;
-        for (isize i = 0; i < fs.blocks(); i++) { if (isUnallocated(Block(i))) count++; }
+        for (isize i = 0; i < fs.blocks(); i++) { if (isUnallocated(BlockNr(i))) count++; }
         debug(true, "Unallocated blocks: Fast code: %ld Slow code: %ld\n", result, count);
         assert(count == result);
     }
@@ -342,6 +362,8 @@ FSAllocator::numAllocated() const noexcept
 std::vector<u32>
 FSAllocator::serializeBitmap() const
 {
+    auto &traits = fs.getTraits();
+
     if (!fs.isFormatted()) return {};
 
     auto longwords = ((fs.blocks() - 2) + 31) / 32;
@@ -350,9 +372,9 @@ FSAllocator::serializeBitmap() const
 
     // Iterate through all bitmap blocks
     isize j = 0;
-    for (auto &it : fs.bmBlocks) {
+    for (auto &it : fs.getBmBlocks()) {
 
-        if (auto *bm = fs.read(it, FSBlockType::BITMAP); bm) {
+        if (auto *bm = fs.tryFetch(it, FSBlockType::BITMAP)) {
 
             auto *data = bm->data();
             for (isize i = 4; i < traits.bsize; i += 4) {
@@ -373,12 +395,14 @@ FSAllocator::serializeBitmap() const
 }
 
 void
-FSAllocator::setAllocationBit(Block nr, bool value)
+FSAllocator::setAllocationBit(BlockNr nr, bool value)
 {
     isize byte, bit;
 
-    if (FSBlock *bm = locateAllocationBit(nr, &byte, &bit)) {
-        REPLACE_BIT(bm->data()[byte], bit, value);
+    if (auto *bm = locateAllocationBit(nr, &byte, &bit)) {
+
+        auto *data = bm->mutate().data();
+        REPLACE_BIT(data[byte], bit, value);
     }
 }
 

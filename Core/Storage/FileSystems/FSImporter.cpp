@@ -21,16 +21,18 @@ FSImporter::importVolume(const u8 *src, isize size)
 {
     assert(src != nullptr);
 
+    auto &traits = fs.getTraits();
+
     debug(FS_DEBUG, "Importing file system...\n");
 
     // Only proceed if the (predicted) block size matches
-    if (size % traits.bsize != 0) throw FSError(fault::FS_WRONG_BSIZE);
+    if (size % traits.bsize != 0) throw FSError(FSError::FS_WRONG_BSIZE);
 
     // Only proceed if the source buffer contains the right amount of data
-    if (traits.bytes != size) throw FSError(fault::FS_WRONG_CAPACITY);
+    if (traits.bytes != size) throw FSError(FSError::FS_WRONG_CAPACITY);
 
     // Only proceed if all partitions contain a valid file system
-    if (traits.dos == FSFormat::NODOS) throw FSError(fault::FS_UNSUPPORTED);
+    if (traits.dos == FSFormat::NODOS) throw FSError(FSError::FS_UNSUPPORTED);
 
     // Import all blocks
     for (isize i = 0; i < fs.blocks(); i++) {
@@ -38,11 +40,12 @@ FSImporter::importVolume(const u8 *src, isize size)
         const u8 *data = src + i * traits.bsize;
 
         // Determine the type of the new block
-        if (FSBlockType type = fs.predictType((Block)i, data); type != FSBlockType::EMPTY) {
+        if (FSBlockType type = fs.predictType((BlockNr)i, data); type != FSBlockType::EMPTY) {
 
             // Create new block
-            storage[i].init(type);
-            storage[i].importBlock(data, traits.bsize);
+            auto &block = fs.fetch(BlockNr(i)).mutate();
+            block.init(type);
+            block.importBlock(data, traits.bsize);
         }
     }
 
@@ -57,7 +60,7 @@ FSImporter::import(const fs::path &path, bool recursive, bool contents)
 }
 
 void
-FSImporter::import(FSBlock &top, const fs::path &path, bool recursive, bool contents)
+FSImporter::import(BlockNr top, const fs::path &path, bool recursive, bool contents)
 {
     fs::directory_entry dir;
 
@@ -79,14 +82,14 @@ FSImporter::import(FSBlock &top, const fs::path &path, bool recursive, bool cont
     }
 
     // Rectify the checksums of all blocks
-    fs.importer.updateChecksums();
+    // fs.importer.updateChecksums();
 
     // Verify the result
-    if (FS_DEBUG) doctor.xray(true, std::cout, false);
+    if (FS_DEBUG) fs.doctor.xray(true, std::cout, false);
 }
 
 void
-FSImporter::import(FSBlock &top, const fs::directory_entry &entry, bool recursive)
+FSImporter::import(BlockNr top, const fs::directory_entry &entry, bool recursive)
 {
     auto isHidden = [&](const fs::path &path) {
 
@@ -117,7 +120,8 @@ FSImporter::import(FSBlock &top, const fs::directory_entry &entry, bool recursiv
         debug(FS_DEBUG > 1, "Importing directory %s\n", fsname.c_str());
 
         // Create new directory
-        auto &subdir = fs.mkdir(top, fsname);
+        auto subdir = fs.mkdir(top, fsname);
+        // auto &subdir = fs.mkdir(top, fsname);
 
         // Import all items
         for (const auto& it : fs::directory_iterator(entry)) {
@@ -128,26 +132,22 @@ FSImporter::import(FSBlock &top, const fs::directory_entry &entry, bool recursiv
 }
 
 void
-FSImporter::importBlock(Block nr, const fs::path &path)
+FSImporter::importBlock(BlockNr nr, const fs::path &path)
 {
+    auto &traits = fs.getTraits();
+
     std::ifstream stream(path, std::ios::binary);
 
     if (!stream.is_open()) {
         throw IOError(IOError::FILE_CANT_READ, path);
     }
 
-    auto *data = fs.at(nr).data();
-    stream.read((char *)data, traits.bsize);
+    auto &block = fs.fetch(nr).mutate();
+    stream.read((char *)block.data(), traits.bsize);
 
     if (!stream) {
         throw IOError(IOError::FILE_CANT_READ, path);
     }
-}
-
-void
-FSImporter::updateChecksums() noexcept
-{
-    storage.updateChecksums();
 }
 
 }

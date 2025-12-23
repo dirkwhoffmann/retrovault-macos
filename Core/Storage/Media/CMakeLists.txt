@@ -8,15 +8,10 @@ AnyFile.cpp
 DiskFile.cpp
 FloppyFile.cpp
 FloppyFactory.cpp
-Snapshot.cpp
-Script.cpp
-Workspace.cpp
 )
 
-add_subdirectory(Rom)
 add_subdirectory(ADF)
 add_subdirectory(ADZ)
-add_subdirectory(EADF)
 add_subdirectory(HDF)
 add_subdirectory(HDZ)
 add_subdirectory(IMG)

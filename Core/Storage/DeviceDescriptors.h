@@ -11,6 +11,7 @@
 
 #include "DeviceTypes.h"
 // #include "Serializable.h"
+#include "utl/primitives.h"
 
 namespace vamiga {
 
@@ -80,7 +81,7 @@ struct GeometryDescriptor {
     void checkCompatibility() const;
 };
 
-struct PartitionDescriptor // : SerializableStruct
+struct PartitionDescriptor
 {
     string name;
     u32 flags = 0;
@@ -128,9 +129,16 @@ struct PartitionDescriptor // : SerializableStruct
     PartitionDescriptor(const GeometryDescriptor &geo);
 
     // Computed values
-    isize numCylinders() const { return highCyl - lowCyl + 1; }
-    isize numBlocks() const { return numCylinders() * heads * sectors; }
-    
+    isize numCylinders() const noexcept { return highCyl - lowCyl + 1; }
+    isize numBlocks() const noexcept { return numCylinders() * heads * sectors; }
+    GeometryDescriptor geometry() const noexcept;
+
+    // Returns the physical block number for a logical partition block
+    isize translate(isize block) const noexcept;
+
+    // Returns the partition's block range in [lower; upper) format
+    Range<isize> range() const noexcept { return { translate(0), translate(0) + numBlocks() }; }
+
     // Prints debug information
     void dump() const;
     void dump(std::ostream &os) const;
@@ -139,7 +147,7 @@ struct PartitionDescriptor // : SerializableStruct
     void checkCompatibility(const GeometryDescriptor &geo) const;
 };
 
-struct DriverDescriptor // : SerializableStruct
+struct DriverDescriptor
 {
     u32 dosType = 0;
     u32 dosVersion = 0;
@@ -160,7 +168,7 @@ struct DriverDescriptor // : SerializableStruct
         << segList;
 
     } STRUCT_SERIALIZERS(serialize);
-     */
+    */
 
     // Initializers
     DriverDescriptor() { };

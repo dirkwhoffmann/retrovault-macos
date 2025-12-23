@@ -20,7 +20,7 @@ struct Handle {
     isize id = 0;
 
     // File header block
-    Block headerBlock = 0;
+    BlockNr headerBlock = 0;
 
     // I/O offset
     isize offset = 0;
@@ -48,10 +48,15 @@ struct NodeMeta {
 
 class PosixFileSystem {
 
+    // The wrapped file system
     FileSystem &fs;
 
+    // Contracts
+    FSRequire require = FSRequire(fs);
+    FSEnsure ensure = FSEnsure(fs);
+
     // Metadata for nodes indexed by block number
-    std::unordered_map<Block, NodeMeta> meta;
+    std::unordered_map<BlockNr, NodeMeta> meta;
 
     // Active file handles
     std::unordered_map<HandleRef, Handle> handles;
@@ -83,11 +88,11 @@ public:
 private:
 
     // Returns a pointer to the meta struct (may be nullptr)
-    NodeMeta *getMeta(Block nr);
+    NodeMeta *getMeta(BlockNr nr);
     NodeMeta *getMeta(const FSBlock &block) { return getMeta(block.nr); }
 
     // Returns a reference to the meta struct (on-the-fly creation)
-    NodeMeta &ensureMeta(Block nr);
+    NodeMeta &ensureMeta(BlockNr nr);
     NodeMeta &ensureMeta(const FSBlock &block) { return ensureMeta(block.nr); }
     NodeMeta &ensureMeta(HandleRef ref);
 
@@ -145,13 +150,13 @@ public:
 
 private:
 
-    void tryReclaim(const FSBlock &block);
+    void tryReclaim(BlockNr block);
 
     Handle &getHandle(HandleRef ref);
 
-    FSBlock &ensureFile(const fs::path &path);
-    FSBlock &ensureFileOrDirectory(const fs::path &path);
-    FSBlock &ensureDirectory(const fs::path &path);
+    BlockNr ensureFile(const fs::path &path);
+    BlockNr ensureFileOrDirectory(const fs::path &path);
+    BlockNr ensureDirectory(const fs::path &path);
 };
 
 }

@@ -17,14 +17,14 @@ PosixFileSystem::PosixFileSystem(FileSystem &fs) : fs(fs)
 }
 
 NodeMeta *
-PosixFileSystem::getMeta(Block nr)
+PosixFileSystem::getMeta(BlockNr nr)
 {
     auto it = meta.find(nr);
     return it == meta.end() ? nullptr : &it->second;
 }
 
 NodeMeta &
-PosixFileSystem::ensureMeta(Block nr)
+PosixFileSystem::ensureMeta(BlockNr nr)
 {
     auto [it, inserted] = meta.try_emplace(nr);
     return it->second;
@@ -45,20 +45,20 @@ PosixFileSystem::stat() const noexcept
 FSAttr
 PosixFileSystem::attr(const fs::path &path) const
 {
-    return fs.attr(fs.seek(fs.root(), path));
+    return fs.attr(fs.seek(path));
 }
 
 void
 PosixFileSystem::mkdir(const fs::path &path)
 {
     auto parent = path.parent_path();
-    auto name   = path.filename();
+    auto name = path.filename();
 
     // Lookup destination directory
-    auto &node  = fs.seek(fs.root(), parent);
+    auto node = fs.seek(parent);
 
     // Create directory
-    auto &udb = fs.mkdir(node, FSName(name));
+    auto udb = fs.mkdir(node, FSName(name));
 
     // Create meta info
     auto &info = ensureMeta(udb);
@@ -69,10 +69,10 @@ void
 PosixFileSystem::rmdir(const fs::path &path)
 {
     // Lookup directory
-    auto &node = fs.seek(fs.root(), path);
+    auto node = fs.seek(path);
 
     // Only empty directories can be removed
-    require::emptyDirectory(node);
+    require.emptyDirectory(node);
 
     if (auto *info = getMeta(node); info) {
 
@@ -92,24 +92,32 @@ PosixFileSystem::readDir(const fs::path &path)
 {
     std::vector<FSName> result;
 
-    auto &node = fs.seek(fs.root(), path);
+    for (auto &it : fs.getItems(fs.seek(path))) {
+        result.push_back(fs.fetch(it).name());
+    }
+
+    return result;
+
+    /*
+    auto node = fs.seek(path);
 
     // Extract the directory tree
-    FSTree tree(node, { .recursive = false });
+    OldFSTree tree(fs.fetch(node), { .recursive = false });
 
     // Walk the tree
-    tree.bfsWalk( [&](const FSTree &it) {
+    tree.bfsWalk( [&](const OldFSTree &it) {
         result.push_back(it.node->getName());
     });
 
     return result;
+    */
 }
 
 HandleRef
 PosixFileSystem::open(const fs::path &path, u32 flags)
 {
     // Resolve path
-    auto &node = fs.seek(fs.root(), path);
+    auto node = fs.seek(path);
 
     // Create a unique identifier
     auto ref = nextHandle++;
@@ -118,12 +126,12 @@ PosixFileSystem::open(const fs::path &path, u32 flags)
     handles[ref] = Handle {
 
         .id = ref,
-        .headerBlock = node.nr,
+        .headerBlock = node,
         .offset = 0,
         .flags = flags
     };
     auto &handle = handles[ref];
-    auto &info = ensureMeta(node.nr);
+    auto &info = ensureMeta(node);
     info.openHandles.insert(ref);
 
     // Evaluate flags
@@ -152,13 +160,13 @@ PosixFileSystem::close(HandleRef ref)
     handles.erase(ref);
 
     // Attempt deletion after all references are gone
-    tryReclaim(fs.at(header));
+    tryReclaim(header);
 }
 
 void
 PosixFileSystem::unlink(const fs::path &path)
 {
-    auto &node = fs.seek(fs.root(), path);
+    auto node = fs.seek(path);
 
     if (auto *info = getMeta(node); info) {
 
@@ -174,18 +182,17 @@ PosixFileSystem::unlink(const fs::path &path)
 }
 
 void
-PosixFileSystem::tryReclaim(const FSBlock &node)
+PosixFileSystem::tryReclaim(BlockNr node)
 {
     if (auto *info = getMeta(node); info) {
 
-        printf("tryReclaim: %ld %ld\n", info->linkCount, info->openCount());
         if (info->linkCount == 0 && info->openCount() == 0) {
 
             // Delete file
             fs.reclaim(node);
 
             // Trash meta data
-            meta.erase(node.nr);
+            meta.erase(node);
         }
     }
 }
@@ -196,33 +203,33 @@ PosixFileSystem::getHandle(HandleRef ref)
     auto it = handles.find(ref);
 
     if (it == handles.end()) {
-        throw FSError(fault::FS_NOT_FOUND, ref); // TODO: Throw FS_INVALID_HANDLE
+        throw FSError(FSError::FS_INVALID_HANDLE, std::to_string(ref));
     }
 
     return it->second;
 }
 
-FSBlock &
+BlockNr
 PosixFileSystem::ensureFile(const fs::path &path)
 {
-    auto &node = fs.seek(fs.root(), path);
-    require::file(node);
+    auto node = fs.seek(path);
+    require.file(node);
     return node;
 }
 
-FSBlock &
+BlockNr
 PosixFileSystem::ensureFileOrDirectory(const fs::path &path)
 {
-    auto &node = fs.seek(fs.root(), path);
-    require::fileOrDirectory(node);
+    auto node = fs.seek(path);
+    require.fileOrDirectory(node);
     return node;
 }
 
-FSBlock &
+BlockNr
 PosixFileSystem::ensureDirectory(const fs::path &path)
 {
-    auto &node = fs.seek(fs.root(), path);
-    require::directory(node);
+    auto node = fs.seek(path);
+    require.directory(node);
     return node;
 }
 
@@ -233,10 +240,10 @@ PosixFileSystem::create(const fs::path &path)
     auto name   = path.filename();
 
     // Lookup destination directory
-    auto &node  = fs.seek(fs.root(), parent);
+    auto node = fs.seek(parent);
 
     // Create file
-    auto &fhb = fs.createFile(node, FSName(name));
+    auto fhb = fs.createFile(node, FSName(name));
 
     // Create meta info
     auto &info = ensureMeta(fhb);
@@ -247,7 +254,7 @@ isize
 PosixFileSystem::lseek(HandleRef ref, isize offset, u16 whence)
 {
     auto &handle  = getHandle(ref);
-    auto &node    = fs.at(handle.headerBlock);
+    auto &node    = fs.fetch(handle.headerBlock);
     auto fileSize = isize(node.getFileSize());
 
     isize newOffset;
@@ -259,7 +266,7 @@ PosixFileSystem::lseek(HandleRef ref, isize offset, u16 whence)
         case SEEK_END:  newOffset = fileSize + offset; break;
 
         default:
-            throw FSError(fault::FS_UNKNOWN); // TODO: Throw, e.g., FS_INVALID_FLAG
+            throw FSError(FSError::FS_UNKNOWN); // TODO: Throw, e.g., FS_INVALID_FLAG
     }
 
     // Ensure that the offset is not negative
@@ -275,17 +282,18 @@ PosixFileSystem::move(const fs::path &oldPath, const fs::path &newPath)
 {
     auto newDir  = newPath.parent_path();
     auto newName = newPath.filename();
-    auto &src    = fs.seek(fs.root(), oldPath);
-    auto &dst    = fs.seek(fs.root(), newDir);
+    auto src     = fs.seek(oldPath);
+    auto dst     = fs.seek(newDir);
 
-    fs.move(src, dst, newName);
+    fs.move(src, dst, FSName(newName));
 }
 
 void
 PosixFileSystem::chmod(const fs::path &path, mode_t mode)
 {
-    auto &node = ensureFile(path);
-    u32 prot   = node.getProtectionBits();
+    auto &node = fs.fetch(ensureFile(path)).mutate();
+
+    u32 prot = node.getProtectionBits();
 
     if (mode & S_IRUSR) prot &= ~0x01; else prot |= 0x01;
     if (mode & S_IWUSR) prot &= ~0x02; else prot |= 0x02;
@@ -304,7 +312,7 @@ isize
 PosixFileSystem::read(HandleRef ref, std::span<u8> buffer)
 {
     auto &handle = getHandle(ref);
-    auto &node   = fs.at(handle.headerBlock);
+    auto &node   = fs.fetch(handle.headerBlock);
     auto &meta   = ensureMeta(node.nr);
 
     // Cache the file if necessary
@@ -329,11 +337,11 @@ isize
 PosixFileSystem::write(HandleRef ref, std::span<const u8> buffer)
 {
     auto &handle = getHandle(ref);
-    auto &node   = fs.at(handle.headerBlock);
-    auto &meta   = ensureMeta(node.nr);
+//    auto &fhb    = fs.fetch(handle.headerBlock);
+    auto &meta   = ensureMeta(handle.headerBlock);
 
     // Cache the file if necessary
-    if (meta.cache.empty()) { node.extractData(meta.cache); }
+    if (meta.cache.empty()) { fs.fetch(handle.headerBlock).extractData(meta.cache); }
 
     // Determine the new file size
     auto newSize = std::max(meta.cache.size, handle.offset + (isize)buffer.size());
@@ -348,7 +356,7 @@ PosixFileSystem::write(HandleRef ref, std::span<const u8> buffer)
     std::memcpy(meta.cache.ptr + handle.offset, buffer.data(), count);
 
     // Write back
-    fs.replace(node, meta.cache);
+    fs.replace(handle.headerBlock, meta.cache);
 
     return count;
 }

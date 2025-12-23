@@ -11,6 +11,7 @@
 
 #include "FuseFileSystem.h"
 #include "FuseDebug.h"
+#include "BlockVolume.h"
 #include "FileSystem.h"
 
 using namespace vamiga;
@@ -26,11 +27,14 @@ class AmigaVolume : public FuseFileSystem {
     
     friend class AmigaDevice;
 
-    // Raw file system
-    std::unique_ptr<FileSystem> fs;
+    // Logical volume
+    unique_ptr<Volume> vol;
 
-    // DOS layer on top of the raw file system
-    std::unique_ptr<PosixFileSystem> dos;
+    // Raw file system on top of the volume
+    unique_ptr<FileSystem> fs;
+
+    // POSIX layer on top of the raw file system
+    unique_ptr<PosixFileSystem> dos;
 
     // Synchronization lock
     std::mutex mtx;
@@ -39,7 +43,7 @@ public:
 
     static int posixErrno(const Error &err);
 
-    AmigaVolume(std::unique_ptr<FileSystem> fs);
+    AmigaVolume(unique_ptr<Volume> vol);
     ~AmigaVolume();
 
     FUSE_GETATTR  override;

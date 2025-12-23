@@ -9,60 +9,140 @@
 
 #pragma once
 
-#include "FSTypes.h"
-#include "FSBlock.h"
-#include <functional>
+#include "FSService.h"
 #include <unordered_set>
+#include <limits>
+#include <deque>
 
 namespace vamiga {
 
+enum class TraversalOrder { DFS, BFS };
+
 struct FSTree {
 
-    const FSBlock *node;
+    BlockNr nr = 0;
     std::vector<FSTree> children;
 
-    FSTree() : node(nullptr) {}
-    FSTree(const FSBlock *node) : node(node) {}
-    FSTree(const FSBlock &path, const FSOpt &opt);
-    FSTree(const std::vector<const FSBlock *> nodes, const FSOpt &opt);
-
-    void init(const FSBlock &path, const FSOpt &opt, std::unordered_set<Block> &visited);
-
-    bool empty() const { return node == nullptr; }
-    isize size() const;
-
-    // Add a child
-    void addChild(const FSBlock *node) { if (node) children.push_back(FSTree(node)); }
-
-    // Analyzes the node
-    bool isFile() const { return node->isFile(); }
-    bool isDirectory() const { return node->isDirectory(); }
-
-    // Converts the node's name to a name compatible with the host file system
-    fs::path hostName() const;
-
-    // Traverses the tree and applies a function at each node
-    void bfsWalk(std::function<void(const FSTree &)>);
-    void bfsWalkRec(std::function<void(const FSTree &)>);
-    void dfsWalk(std::function<void(const FSTree &)>);
-
-    // Sorts the children using a custom comparator
-    void sort(std::function<bool(const FSBlock &,const FSBlock &)>);
-
-    // Pretty-prints the tree ('dir' command, 'list' command)
-    void list(std::ostream &os, const FSOpt &opt = {}) const;
-
-    // Exports the tree to the host file system
-    void save(const fs::path &path, const FSOpt &opt = {}) const;
+    // Range helpers
+    auto dfs() const { return Range<TraversalOrder::DFS>(*this); }
+    auto bfs() const { return Range<TraversalOrder::BFS>(*this); }
 
 private:
 
-    void listRec(std::ostream &os, const FSOpt &opt) const;
-    void listItems(std::ostream &os, const FSOpt &opt) const;
+    template <TraversalOrder O>
+    class Iterator {
 
-    void saveFile(const fs::path &path, const FSOpt &opt = {}) const;
-    void saveDir(const fs::path &path, const FSOpt &opt = {}) const;
+        using NodePtr = const FSTree*;
 
+    public:
+        using iterator_category = std::forward_iterator_tag;
+        using value_type        = FSTree;
+        using difference_type   = std::ptrdiff_t;
+        using pointer           = const FSTree*;
+        using reference         = const FSTree&;
+
+        Iterator() = default;
+        explicit Iterator(const FSTree& root)
+        {
+            if constexpr (O == TraversalOrder::DFS) {
+                stack.push_back(&root);
+            } else {
+                queue.push_back(&root);
+            }
+        }
+
+        reference operator*() const { return *current(); }
+        pointer operator->() const  { return current(); }
+
+        Iterator& operator++()
+        {
+            advance();
+            return *this;
+        }
+
+        bool operator==(const Iterator& other) const
+        {
+            return current() == other.current();
+        }
+
+        bool operator!=(const Iterator& other) const
+        {
+            return !(*this == other);
+        }
+
+    private:
+
+        std::vector<NodePtr> stack; // DFS
+        std::deque<NodePtr>  queue; // BFS
+
+        NodePtr current() const
+        {
+            if constexpr (O == TraversalOrder::DFS) {
+                return stack.empty() ? nullptr : stack.back();
+            } else {
+                return queue.empty() ? nullptr : queue.front();
+            }
+        }
+
+        void advance()
+        {
+            if constexpr (O == TraversalOrder::DFS) {
+
+                NodePtr node = stack.back();
+                stack.pop_back();
+
+                // Push children in reverse so leftmost is visited first
+                for (auto it = node->children.rbegin();
+                     it != node->children.rend(); ++it) {
+                    stack.push_back(&*it);
+                }
+
+            } else {
+
+                NodePtr node = queue.front();
+                queue.pop_front();
+
+                for (const auto& child : node->children) {
+                    queue.push_back(&child);
+                }
+            }
+        }
+    };
+
+    template <TraversalOrder O>
+    struct Range {
+        const FSTree& root;
+        explicit Range(const FSTree& r) : root(r) {}
+
+        auto begin() const { return Iterator<O>(root); }
+        auto end()   const { return Iterator<O>(); }
+    };
+};
+
+struct FSTreeBuildOptions {
+
+    // Accept / reject a node
+    std::function<bool(const FSBlock &)> accept = [](const FSBlock &) { return true; };
+
+    // Sort siblings
+    std::function<bool(const FSBlock&, const FSBlock&)> sort;
+
+    // Recursion depth
+    isize depth = 1;
+};
+
+class FSTreeBuilder {
+
+public:
+    static FSTree build(const FSBlock &root,
+                        const FSTreeBuildOptions &opt = {});
+
+private:
+
+    static FSTree buildRec(const FSBlock &node,
+                           const FSTreeBuildOptions &opt,
+                           isize depth,
+                           std::unordered_set<BlockNr> &visited);
 };
 
 }

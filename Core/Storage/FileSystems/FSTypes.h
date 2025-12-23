@@ -16,22 +16,8 @@ namespace vamiga {
 using namespace utl;
 
 struct FSBlock;
-typedef u32 Block;
-typedef std::function<bool(const FSBlock &)> FSBlockFilter;
-typedef std::function<std::string(const FSBlock &)> FSBlockFormatter;
-typedef std::function<bool(const FSBlock &, const FSBlock &)> FSBlockSorter;
 
-struct FSOpt
-{
-    bool recursive = false;
-    isize indent = 0;
-    FSBlockSorter sort;
-    FSBlockFilter filter;
-    FSBlockFormatter formatter;
-
-    bool accept(const FSBlock &b) const { return filter ? filter(b) : true; }
-    bool accept(const FSBlock *b) const { return b ? (filter ? filter(*b) : true) : false; }
-};
+using BlockNr = u32;
 
 enum class FSFormat : long
 {
@@ -461,13 +447,13 @@ struct FSTraits
 typedef struct
 {
     // Block errors
-    std::vector<Block> blockErrors;
+    std::vector<BlockNr> blockErrors;
 
     // Bitmap errors
-    std::vector<Block> usedButUnallocated;
-    std::vector<Block> unusedButAllocated;
+    std::vector<BlockNr> usedButUnallocated;
+    std::vector<BlockNr> unusedButAllocated;
 
-    std::unordered_map<Block,isize> bitmapErrors; // DEPRECATED
+    std::unordered_map<BlockNr,isize> bitmapErrors; // DEPRECATED
 }
 FSDiagnosis;
 

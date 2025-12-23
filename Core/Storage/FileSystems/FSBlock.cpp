@@ -17,15 +17,19 @@
 
 namespace vamiga {
 
-FSBlock::FSBlock(FileSystem *ref, Block nr, FSBlockType t) : fs(ref)
+FSBlock::FSBlock(FileSystem *ref, BlockNr nr) : fs(ref), cache(ref->cache)
 {
     this->nr = nr;
+}
+
+FSBlock::FSBlock(FileSystem *ref, BlockNr nr, FSBlockType t) : FSBlock(ref, nr)
+{
     init(t);
 }
 
 FSBlock::~FSBlock()
 {
-    if (bdata) delete [] bdata;
+
 }
 
 void
@@ -37,8 +41,7 @@ FSBlock::init(FSBlockType t)
     if (type == FSBlockType::EMPTY) return;
 
     // Allocate memory
-    delete [] (bdata);
-    bdata = new u8[bsize()]();
+    auto *bdata = data();
 
     // Initialize
     switch (type) {
@@ -99,7 +102,7 @@ FSBlock::init(FSBlockType t)
 }
 
 FSBlock *
-FSBlock::make(FileSystem *ref, Block nr, FSBlockType type)
+FSBlock::make(FileSystem *ref, BlockNr nr, FSBlockType type)
 {
     switch (type) {
 
@@ -117,14 +120,14 @@ FSBlock::make(FileSystem *ref, Block nr, FSBlockType type)
             return new FSBlock(ref, nr, type);
 
         default:
-            throw FSError(fault::FS_WRONG_BLOCK_TYPE);
+            throw FSError(FSError::FS_WRONG_BLOCK_TYPE);
     }
 }
 
-std::vector<Block>
+std::vector<BlockNr>
 FSBlock::refs(const std::vector<const FSBlock *> blocks)
 {
-    std::vector<Block> result;
+    std::vector<BlockNr> result;
     for (auto &it : blocks) { if (it) result.push_back(it->nr); }
     return result;
 }
@@ -147,7 +150,7 @@ FSBlock::objectName() const
         case FSBlockType::DATA_FFS:    return "FSBlock (FFF)";
 
         default:
-            throw FSError(fault::FS_WRONG_BLOCK_TYPE);
+            throw FSError(FSError::FS_WRONG_BLOCK_TYPE);
     }
 }
 
@@ -155,6 +158,12 @@ bool
 FSBlock::is(FSBlockType type) const
 {
     return this->type == type;
+}
+
+bool
+FSBlock::isEmpty() const
+{
+    return type == FSBlockType::EMPTY;
 }
 
 bool
@@ -195,13 +204,13 @@ FSBlock::isData() const
 FSName
 FSBlock::name() const
 {
-    return isRoot() ? "" : getName();
+    return isRoot() ? FSName("") : getName();
 }
 
 string
 FSBlock::cppName() const
 {
-    return isRoot() ? "" : getName().cpp_str();
+    return isRoot() ? string("") : getName().cpp_str();
 }
 
 string
@@ -229,7 +238,7 @@ FSBlock::acrelName() const
 }
 
 string
-FSBlock::relName(const FSBlock &top) const
+FSBlock::relName(BlockNr top) const
 {
     string result;
 
@@ -237,7 +246,7 @@ FSBlock::relName(const FSBlock &top) const
 
     for (auto &it : nodes) {
 
-        if (it == &top) break;
+        if (it->nr == top) break;
         auto name = it->cppName();
         result = name + "/" + result;
     }
@@ -495,16 +504,44 @@ FSBlock::addr32(isize nr)
 u8 *
 FSBlock::data()
 {
-    // Allocate memory if needed
-    if (!bdata) bdata = new u8[bsize()]();
+    if (dataCache.empty()) {
 
-    return bdata;
+        dataCache.alloc(bsize());
+        cache.dev.readBlock(dataCache.ptr, nr);
+    }
+
+    assert(dataCache.size == bsize());
+    assert(dataCache.ptr);
+
+    return dataCache.ptr;
 }
 
 const u8 *
 FSBlock::data() const
 {
     return const_cast<const u8 *>(const_cast<FSBlock *>(this)->data());
+}
+
+FSBlock &
+FSBlock::mutate() const
+{
+    cache.markAsDirty(nr);
+    return const_cast<FSBlock &>(*this);
+}
+
+void
+FSBlock::invalidate()
+{
+    cache.markAsDirty(nr);
+}
+
+void
+FSBlock::flush()
+{
+    if (!dataCache.empty()) {
+        
+        cache.dev.writeBlock(dataCache.ptr, nr);
+    }
 }
 
 u32
@@ -601,7 +638,7 @@ FSBlock::checksumBootBlock() const
     }
 
     // Second boot block
-    u8 *p = fs->storage[1].data();
+    auto *p = fs->cache[1].data();
 
     for (isize i = 0; i < bsize() / 4; i++) {
 
@@ -701,7 +738,7 @@ FSBlock::dumpStorage(std::ostream &os) const
 }
 
 void
-FSBlock::hexDump(std::ostream &os, const DumpOpt &opt)
+FSBlock::hexDump(std::ostream &os, const DumpOpt &opt) const
 {
     if (type == FSBlockType::EMPTY) {
 
@@ -709,17 +746,17 @@ FSBlock::hexDump(std::ostream &os, const DumpOpt &opt)
 
     } else {
 
-        Dumpable::dump(os, opt, bdata, bsize());
+        Dumpable::dump(os, opt, data(), bsize());
     }
 }
 
 string
-FSBlock::rangeString(const std::vector<Block> &vec)
+FSBlock::rangeString(const std::vector<BlockNr> &vec)
 {
     if (vec.empty()) return "";
 
     // Create a sorted copy
-    std::vector<Block> v = vec;
+    std::vector<BlockNr> v = vec;
     std::sort(v.begin(), v.end());
 
     // Replicate the last element to get the last interval right
@@ -748,9 +785,10 @@ FSBlock::importBlock(const u8 *src, isize size)
     assert(src);
     assert(size == bsize());
 
-    if (bdata) {
+    auto *bdata = data();
 
-        std::memcpy(bdata, src, size);
+    if (bdata) {
+        std::memcpy(data(), src, size);
     }
 }
 
@@ -760,9 +798,10 @@ FSBlock::exportBlock(u8 *dst, isize size) const
     assert(dst);
     assert(size == bsize());
 
-    // Export the block
+    auto *bdata = data();
+
     if (bdata) {
-        std::memcpy(dst, bdata, size);
+        std::memcpy(dst, data(), size);
     } else {
         std::memset(dst, 0, size);
     }
@@ -777,7 +816,7 @@ FSBlock::exportBlock(const fs::path &path) const
         case FSBlockType::FILEHEADER: return exportFileHeaderBlock(path);
             
         default:
-            return fault::FS_OK;
+            return FSError::FS_OK;
     }
 }
 
@@ -789,9 +828,9 @@ FSBlock::exportUserDirBlock(const fs::path &path) const
     debug(FS_DEBUG >= 2, "Creating directory %s\n", filename.string().c_str());
 
     // Create directory
-    if (!utl::createDirectory(filename)) return fault::FS_CANNOT_CREATE_DIR;
+    if (!utl::createDirectory(filename)) return FSError::FS_CANNOT_CREATE_DIR;
 
-    return fault::FS_OK;
+    return FSError::FS_OK;
 }
 
 FSFault
@@ -803,11 +842,11 @@ FSBlock::exportFileHeaderBlock(const fs::path &path) const
 
     // Open file
     std::ofstream file(filename, std::ofstream::binary);
-    if (!file.is_open()) return fault::FS_CANNOT_CREATE_FILE;
+    if (!file.is_open()) return FSError::FS_CANNOT_CREATE_FILE;
 
     // Write data
     writeData(file);
-    return fault::FS_OK;
+    return FSError::FS_OK;
 }
 
 bool
@@ -1200,7 +1239,7 @@ FSBlock::setChecksum(u32 val)
     }
 }
 
-Block
+BlockNr
 FSBlock::getParentDirRef() const
 {
     switch (type) {
@@ -1216,7 +1255,7 @@ FSBlock::getParentDirRef() const
 }
 
 void
-FSBlock::setParentDirRef(Block ref)
+FSBlock::setParentDirRef(BlockNr ref)
 {
     switch (type) {
 
@@ -1231,14 +1270,14 @@ FSBlock::setParentDirRef(Block ref)
     }
 }
 
-FSBlock *
+const FSBlock *
 FSBlock::getParentDirBlock() const
 {
-    Block nr = getParentDirRef();
-    return nr ? fs->read(nr) : nullptr;
+    BlockNr ref = getParentDirRef();
+    return ref ? &fs->fetch(ref) : nullptr;
 }
 
-Block
+BlockNr
 FSBlock::getFileHeaderRef() const
 {
     switch (type) {
@@ -1252,7 +1291,7 @@ FSBlock::getFileHeaderRef() const
 }
 
 void
-FSBlock::setFileHeaderRef(Block ref)
+FSBlock::setFileHeaderRef(BlockNr ref)
 {
     switch (type) {
 
@@ -1271,13 +1310,17 @@ FSBlock::setFileHeaderRef(Block ref)
     }
 }
 
-FSBlock *
+const FSBlock *
 FSBlock::getFileHeaderBlock() const
 {
-    return fs->read(getFileHeaderRef(), FSBlockType::FILEHEADER);
+    BlockNr ref = getFileHeaderRef();
+    if (auto &result = fs->fetch(ref); result.isFile()) {
+        return &result;
+    }
+    return nullptr;
 }
 
-Block
+BlockNr
 FSBlock::getNextHashRef() const
 {
     switch (type) {
@@ -1293,7 +1336,7 @@ FSBlock::getNextHashRef() const
 }
 
 void
-FSBlock::setNextHashRef(Block ref)
+FSBlock::setNextHashRef(BlockNr ref)
 {
     switch (type) {
 
@@ -1308,14 +1351,14 @@ FSBlock::setNextHashRef(Block ref)
     }
 }
 
-FSBlock *
+const FSBlock *
 FSBlock::getNextHashBlock() const
 {
-    Block nr = getNextHashRef();
-    return nr ? fs->read(nr) : nullptr;
+    BlockNr ref = getNextHashRef();
+    return ref ? &fs->fetch(ref) : nullptr;
 }
 
-Block
+BlockNr
 FSBlock::getNextListBlockRef() const
 {
     switch (type) {
@@ -1331,7 +1374,7 @@ FSBlock::getNextListBlockRef() const
 }
 
 void
-FSBlock::setNextListBlockRef(Block ref)
+FSBlock::setNextListBlockRef(BlockNr ref)
 {
     switch (type) {
 
@@ -1346,13 +1389,18 @@ FSBlock::setNextListBlockRef(Block ref)
     }
 }
 
-FSBlock *
+const FSBlock *
 FSBlock::getNextListBlock() const
 {
-    return fs->read(getNextListBlockRef(), FSBlockType::FILELIST);
+    BlockNr ref = getNextListBlockRef();
+    if (auto &node = fs->fetch(ref); node.is(FSBlockType::FILELIST)) {
+        return &node;
+    }
+    return nullptr;
+    // return fs->tryModify(getNextListBlockRef(), FSBlockType::FILELIST);
 }
 
-Block
+BlockNr
 FSBlock::getNextBmExtBlockRef() const
 {
     switch (type) {
@@ -1366,7 +1414,7 @@ FSBlock::getNextBmExtBlockRef() const
 }
 
 void
-FSBlock::setNextBmExtBlockRef(Block ref)
+FSBlock::setNextBmExtBlockRef(BlockNr ref)
 {
     switch (type) {
             
@@ -1385,14 +1433,18 @@ FSBlock::setNextBmExtBlockRef(Block ref)
     }
 }
 
-FSBlock *
+const FSBlock *
 FSBlock::getNextBmExtBlock() const
 {
-    Block nr = getNextBmExtBlockRef();
-    return nr ? fs->read(nr, FSBlockType::BITMAP_EXT) : nullptr;
+    if (BlockNr ref = getNextBmExtBlockRef()) {
+        if (auto &node = fs->fetch(ref); node.is(FSBlockType::BITMAP_EXT)) {
+            return &node;
+        }
+    }
+    return nullptr;
 }
 
-Block
+BlockNr
 FSBlock::getFirstDataBlockRef() const
 {
     switch (type) {
@@ -1408,7 +1460,7 @@ FSBlock::getFirstDataBlockRef() const
 }
 
 void
-FSBlock::setFirstDataBlockRef(Block ref)
+FSBlock::setFirstDataBlockRef(BlockNr ref)
 {
     switch (type) {
 
@@ -1422,14 +1474,20 @@ FSBlock::setFirstDataBlockRef(Block ref)
     }
 }
 
-FSBlock *
+const FSBlock *
 FSBlock::getFirstDataBlock() const
 {
-    if (auto *node = fs->read(getFirstDataBlockRef()); node->isData()) return node;
+    BlockNr ref = getFirstDataBlockRef();
+    if (auto &node = fs->fetch(ref); node.isData()) {
+        return &node;
+    }
     return nullptr;
+
+//    if (auto *node = fs->tryModify(getFirstDataBlockRef()); node->isData()) return node;
+//    return nullptr;
 }
 
-Block
+BlockNr
 FSBlock::getDataBlockRef(isize nr) const
 {
     switch (type) {
@@ -1445,7 +1503,7 @@ FSBlock::getDataBlockRef(isize nr) const
 }
 
 void
-FSBlock::setDataBlockRef(isize nr, Block ref)
+FSBlock::setDataBlockRef(isize nr, BlockNr ref)
 {
     switch (type) {
             
@@ -1460,21 +1518,27 @@ FSBlock::setDataBlockRef(isize nr, Block ref)
     }
 }
 
-FSBlock *
+const FSBlock *
 FSBlock::getDataBlock(isize nr) const
 {
-    if (auto *node = fs->read(getDataBlockRef(nr)); node->isData()) return node;
+    BlockNr ref = getDataBlockRef(nr);
+    if (auto &node = fs->fetch(ref); node.isData()) {
+        return &node;
+    }
     return nullptr;
+
+    // if (auto *node = fs->tryModify(getDataBlockRef(nr)); node->isData()) return node;
+    // return nullptr;
 }
 
-Block
+BlockNr
 FSBlock::getNextDataBlockRef() const
 {
     return type == FSBlockType::DATA_OFS ? get32(4) : 0;
 }
 
 void
-FSBlock::setNextDataBlockRef(Block ref)
+FSBlock::setNextDataBlockRef(BlockNr ref)
 {
     if (type == FSBlockType::DATA_OFS) {
 
@@ -1482,11 +1546,17 @@ FSBlock::setNextDataBlockRef(Block ref)
     }
 }
 
-FSBlock *
+const FSBlock *
 FSBlock::getNextDataBlock() const
 {
-    if (auto *node = fs->read(getNextDataBlockRef()); node->isData()) return node;
+    BlockNr ref = getNextDataBlockRef();
+    if (auto &node = fs->fetch(ref); node.isData()) {
+        return &node;
+    }
     return nullptr;
+
+    // if (auto *node = fs->tryModify(getNextDataBlockRef()); node->isData()) return node;
+    // return nullptr;
 }
 
 bool
@@ -1527,15 +1597,15 @@ FSBlock::hashValue() const
 }
 
 u32
-FSBlock::getHashRef(Block nr) const
+FSBlock::getHashRef(BlockNr nr) const
 {
-    return (nr < (Block)hashTableSize()) ? get32(6 + nr) : 0;
+    return (nr < (BlockNr)hashTableSize()) ? get32(6 + nr) : 0;
 }
 
 void
-FSBlock::setHashRef(Block nr, u32 ref)
+FSBlock::setHashRef(BlockNr nr, u32 ref)
 {
-    if (nr < (Block)hashTableSize()) {
+    if (nr < (BlockNr)hashTableSize()) {
 
         set32(6 + nr, ref);
     }
@@ -1550,20 +1620,20 @@ FSBlock::writeBootBlock(BootBlockId id, isize page)
     debug(FS_DEBUG, "writeBootBlock(%s, %ld)\n", BootBlockIdEnum::key(id), page);
     
     if (id != BootBlockId::NONE) {
-        
+
         // Read boot block image from the database
         auto image = BootBlockImage(id);
-        
+
         if (page == 0) {
-            image.write(bdata + 4, 4, 511); // Write 508 bytes (skip header)
+            image.write(data() + 4, 4, 511); // Write 508 bytes (skip header)
         } else {
-            image.write(bdata, 512, 1023);  // Write 512 bytes
+            image.write(data(), 512, 1023);  // Write 512 bytes
         }
     }
 }
 
 bool
-FSBlock::addBitmapBlockRefs(std::vector<Block> &refs)
+FSBlock::addBitmapBlockRefs(std::vector<BlockNr> &refs)
 {
     assert(type == FSBlockType::ROOT);
     
@@ -1576,17 +1646,17 @@ FSBlock::addBitmapBlockRefs(std::vector<Block> &refs)
     }
 
     // Record the remaining references in bitmap extension blocks
-    FSBlock *ext = getNextBmExtBlock();
+    auto *ext = getNextBmExtBlock();
     while (ext && it != refs.end()) {
-        ext->addBitmapBlockRefs(refs, it);
+        ext->mutate().addBitmapBlockRefs(refs, it);
         ext = getNextBmExtBlock();
     }
     return it == refs.end();
 }
 
 void
-FSBlock::addBitmapBlockRefs(std::vector<Block> &refs,
-                            std::vector<Block>::iterator &it)
+FSBlock::addBitmapBlockRefs(std::vector<BlockNr> &refs,
+                            std::vector<BlockNr>::iterator &it)
 {
     assert(type == FSBlockType::BITMAP_EXT);
     
@@ -1611,7 +1681,7 @@ FSBlock::numBmBlockRefs() const
     }
 }
 
-Block
+BlockNr
 FSBlock::getBmBlockRef(isize nr) const
 {
     switch (type) {
@@ -1630,7 +1700,7 @@ FSBlock::getBmBlockRef(isize nr) const
 }
 
 void
-FSBlock::setBmBlockRef(isize nr, Block ref)
+FSBlock::setBmBlockRef(isize nr, BlockNr ref)
 {
     switch (type) {
             
@@ -1649,14 +1719,14 @@ FSBlock::setBmBlockRef(isize nr, Block ref)
     }
 }
 
-std::vector<Block>
+std::vector<BlockNr>
 FSBlock::getBmBlockRefs() const
 {
     isize maxRefs =
     type == FSBlockType::ROOT ? 25 :
     type == FSBlockType::BITMAP_EXT ? (bsize() / 4) - 1 : 0;
 
-    std::vector<Block> result;
+    std::vector<BlockNr> result;
     for (isize i = 0; i < maxRefs; i++) {
         if (auto ref = getBmBlockRef(i); ref) result.push_back(ref);
     }
@@ -1742,12 +1812,12 @@ FSBlock::incNumDataBlockRefs()
     }
 }
 
-std::vector<Block>
+std::vector<BlockNr>
 FSBlock::getDataBlockRefs() const
 {
     isize maxRefs = getNumDataBlockRefs();
 
-    std::vector<Block> result;
+    std::vector<BlockNr> result;
     for (isize i = 0; i < maxRefs; i++) {
         if (auto ref = getDataBlockRef(i); ref) result.push_back(ref);
     }
@@ -1824,7 +1894,8 @@ isize
 FSBlock::writeData(std::ostream &os, isize size) const
 {
     isize count = std::min(dsize(), size);
-    
+    auto *bdata = data();
+
     switch (type) {
             
         case FSBlockType::DATA_OFS:
@@ -1846,7 +1917,7 @@ isize
 FSBlock::extractData(Buffer<u8> &buf) const
 {
     // Only call this function for file header blocks
-    if (type != FSBlockType::FILEHEADER) throw FSError(fault::FS_NOT_A_FILE);
+    if (type != FSBlockType::FILEHEADER) throw FSError(FSError::FS_NOT_A_FILE);
 
     isize bytesRemaining = getFileSize();
     isize bytesTotal = 0;
@@ -1908,7 +1979,8 @@ isize
 FSBlock::writeData(Buffer<u8> &buf, isize offset, isize count) const
 {
     count = std::min(dsize(), count);
-    
+    auto *bdata = data();
+
     switch (type) {
             
         case FSBlockType::DATA_OFS:
@@ -1944,8 +2016,8 @@ FSBlock::overwriteData(Buffer<u8> &buf)
     assert(buf.size == bytesRemaining);
     
     // Start here and iterate through all connected file list blocks
-    FSBlock *block = this;
-    
+    const FSBlock *block = this;
+
     while (block && blocksTotal < fs->blocks()) {
 
         blocksTotal++;
@@ -1954,10 +2026,10 @@ FSBlock::overwriteData(Buffer<u8> &buf)
         isize num = std::min(block->getNumDataBlockRefs(), block->getMaxDataBlockRefs());
         for (isize i = 0; i < num; i++) {
 
-            Block ref = block->getDataBlockRef(i);
-            if (FSBlock *dataBlock = fs->read(ref); dataBlock->isData()) { //} dataBlockPtr(ref)) {
-                
-                isize bytesWritten = dataBlock->overwriteData(buf, bytesTotal, bytesRemaining);
+            BlockNr ref = block->getDataBlockRef(i);
+            if (auto &dataBlock = fs->fetch(ref); dataBlock.isData()) { //} dataBlockPtr(ref)) {
+
+                isize bytesWritten = dataBlock.mutate().overwriteData(buf, bytesTotal, bytesRemaining);
                 bytesTotal += bytesWritten;
                 bytesRemaining -= bytesWritten;
                 
@@ -1982,7 +2054,8 @@ isize
 FSBlock::overwriteData(Buffer<u8> &buf, isize offset, isize count)
 {
     count = std::min(dsize(), count);
-    
+    auto *bdata = data();
+
     switch (type) {
             
         case FSBlockType::DATA_OFS:

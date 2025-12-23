@@ -9,14 +9,9 @@
 
 #pragma once
 
-// #include "utl/common.h"
 #include "utl/abilities/Reflectable.h"
 
 namespace utl {
-
-//
-// Enumerations
-//
 
 enum class Compressor : long
 {

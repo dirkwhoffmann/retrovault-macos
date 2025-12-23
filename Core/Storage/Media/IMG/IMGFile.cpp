@@ -9,7 +9,6 @@
 
 #include "config.h"
 #include "IMGFile.h"
-#include "utl/support.h"
 #include "utl/support/Strings.h"
 
 namespace vamiga {

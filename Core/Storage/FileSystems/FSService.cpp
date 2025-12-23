@@ -7,18 +7,14 @@
 // See https://mozilla.org/MPL/2.0 for license information
 // -----------------------------------------------------------------------------
 
-#include "FSExtension.h"
+#include "FSService.h"
 #include "FileSystem.h"
 
 namespace vamiga {
 
-FSExtension::FSExtension(FileSystem& fs) :
+FSService::FSService(FileSystem& fs) : fs(fs)
+{
 
-fs(fs),
-traits(fs.traits),
-storage(fs.storage),
-doctor(fs.doctor)
-
-{ }
+}
 
 }

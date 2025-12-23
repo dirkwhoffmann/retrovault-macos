@@ -11,11 +11,15 @@
 
 #include "AmigaVolume.h"
 #include "MediaFile.h"
+#include "BlockDevice.h"
 
 class AmigaDevice {
 
     // Amiga Disk File
     std::unique_ptr<MediaFile> mediaFile;
+
+    // Block device
+    std::unique_ptr<BlockDevice> dev;
 
 public:
 

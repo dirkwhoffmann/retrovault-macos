@@ -9,27 +9,10 @@
 
 #include "config.h"
 #include "Media.h"
-// #include "FileFactories.h"
 #include "utl/io.h"
 #include <typeindex>
 
 namespace vamiga {
-
-MediaFile::MediaFile(const fs::path &path)
-{
-    switch (type(path)) {
-
-        case FileType::ADF: file = make_unique<ADFFile>(path); break;
-        case FileType::ADZ: file = make_unique<ADZFile>(path); break;
-        case FileType::HDF: file = make_unique<HDFFile>(path); break;
-        case FileType::HDZ: file = make_unique<HDZFile>(path); break;
-        case FileType::IMG: file = make_unique<IMGFile>(path); break;
-        case FileType::ST:  file = make_unique<STFile>(path);  break;
-
-        default:
-            throw IOError(IOError::FILE_TYPE_MISMATCH, path);
-    }
-}
 
 FileType
 MediaFile::type(const fs::path &path)
@@ -40,6 +23,7 @@ MediaFile::type(const fs::path &path)
     if (HDZFile::isCompatible(path))   return FileType::HDZ;
     if (IMGFile::isCompatible(path))   return FileType::IMG;
     if (STFile::isCompatible(path))    return FileType::ST;
+    if (fs::is_directory(path))        return FileType::DIR;
 
     return FileType::UNKNOWN;
 }
@@ -104,6 +88,34 @@ MediaFile::make(FileSystem &fs, FileType type)
     switch (type) {
 
         case FileType::ADF:          return new MediaFile(ADFFactory::make(fs));
+
+        default:
+            return nullptr;
+    }
+}
+
+MediaFile *
+MediaFile::make(FloppyDriveAPI &drive, FileType type)
+{
+    switch (type) {
+
+        case FileType::ADF:          return new MediaFile(ADFFactory::make(drive.getDisk()));
+        case FileType::ADZ:          return new MediaFile(ADZFactory::make(drive.getDisk()));
+        case FileType::EADF:         return new MediaFile(EADFFactory::make(drive.getDisk()));
+        case FileType::IMG:          return new MediaFile(IMGFactory::make(drive.getDisk()));
+
+        default:
+            return nullptr;
+    }
+}
+
+MediaFile *
+MediaFile::make(HardDriveAPI &drive, FileType type)
+{
+    switch (type) {
+
+        case FileType::HDF:      return new MediaFile(HDFFactory::make(drive.getDrive()));
+        case FileType::HDZ:      return new MediaFile(HDZFactory::make(drive.getDrive()));
 
         default:
             return nullptr;
@@ -177,6 +189,32 @@ MediaFile::getDiskInfo() const
         throw IOError(IOError::FILE_TYPE_MISMATCH);
     }
 }
+
+/*
+FloppyDiskInfo
+MediaFile::getFloppyDiskInfo() const
+{
+    FloppyDiskInfo result;
+
+    try {
+
+        auto &disk = dynamic_cast<const FloppyFile &>(*file);
+
+        result.dos = disk.getDos();
+        result.diameter = disk.getDiameter();
+        result.density = disk.getDensity();
+        result.bootBlockType = disk.bootBlockType();
+        result.bootBlockName = disk.bootBlockName();
+        result.hasVirus = disk.hasVirus();
+
+        return result;
+
+    } catch (...) {
+
+        throw IOError(IOError::FILE_TYPE_MISMATCH);
+    }
+}
+*/
 
 HDFInfo
 MediaFile::getHDFInfo() const

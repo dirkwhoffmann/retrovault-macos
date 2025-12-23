@@ -9,7 +9,6 @@
 
 #include "config.h"
 #include "AmigaVolume.h"
-#include "FileSystemFactory.h"
 #include "Media.h"
 #include "PosixFileSystem.h"
 #include "FuseDebug.h"
@@ -37,58 +36,55 @@ AmigaVolume::posixErrno(const Error &err)
 {
     switch (err.payload) {
 
-            using namespace vamiga::fault;
-
             // Generic / unknown
-        case FS_UNKNOWN:
-        case FS_UNINITIALIZED:
-        case FS_UNFORMATTED:
-        case FS_CORRUPTED:
-        case FS_OUT_OF_RANGE:
+        case FSError::FS_UNKNOWN:
+        case FSError::FS_UNFORMATTED:
+        case FSError::FS_CORRUPTED:
+        case FSError::FS_OUT_OF_RANGE:
             return EIO;   // Input/output error
 
             // Path / lookup related
-        case FS_INVALID_PATH:
-        case FS_INVALID_REGEX:
+        case FSError::FS_INVALID_PATH:
+        case FSError::FS_INVALID_REGEX:
             return EINVAL; // Invalid argument
-        case FS_NOT_FOUND:
+        case FSError::FS_NOT_FOUND:
             return ENOENT; // No such file or directory
-        case FS_NOT_A_DIRECTORY:
+        case FSError::FS_NOT_A_DIRECTORY:
             return ENOTDIR; // Not a directory
-        case FS_NOT_A_FILE:
+        case FSError::FS_NOT_A_FILE:
             return EISDIR; // Is a directory (attempt to open a directory as file)
-        case FS_NOT_A_FILE_OR_DIRECTORY:
+        case FSError::FS_NOT_A_FILE_OR_DIRECTORY:
             return EIO;   // Input/output error
 
             // Existence
-        case FS_EXISTS:
+        case FSError::FS_EXISTS:
             return EEXIST; // File exists
 
             // Read/Write permissions or media constraints
-        case FS_READ_ONLY:
+        case FSError::FS_READ_ONLY:
             return EROFS; // Read-only filesystem
 
-        case FS_OUT_OF_SPACE:
+        case FSError::FS_OUT_OF_SPACE:
             return ENOSPC; // No space left on device
 
             // Open / create errors
-        case FS_CANNOT_OPEN:
+        case FSError::FS_CANNOT_OPEN:
             return EACCES; // Permission denied (best match)
-        case FS_CANNOT_CREATE_DIR:
-        case FS_CANNOT_CREATE_FILE:
+        case FSError::FS_CANNOT_CREATE_DIR:
+        case FSError::FS_CANNOT_CREATE_FILE:
             return EIO; // General I/O error (no better POSIX category)
 
             // Directory constraints
-        case FS_DIR_NOT_EMPTY:
+        case FSError::FS_DIR_NOT_EMPTY:
             return ENOTEMPTY; // Directory not empty
 
             // Unsupported volume / geometry issues (Amiga specific)
-        case FS_UNSUPPORTED:
-        case FS_WRONG_BSIZE:
-        case FS_WRONG_CAPACITY:
-        case FS_WRONG_DOS_TYPE:
-        case FS_WRONG_BLOCK_TYPE:
-        case FS_HAS_CYCLES:
+        case FSError::FS_UNSUPPORTED:
+        case FSError::FS_WRONG_BSIZE:
+        case FSError::FS_WRONG_CAPACITY:
+        case FSError::FS_WRONG_DOS_TYPE:
+        case FSError::FS_WRONG_BLOCK_TYPE:
+        case FSError::FS_HAS_CYCLES:
             return EINVAL; // Invalid argument (filesystem mismatch)
 
         default:
@@ -117,17 +113,17 @@ AmigaVolume::AmigaVolume(const fs::path &filename)
 }
 */
 
-AmigaVolume::AmigaVolume(std::unique_ptr<FileSystem> fs) : fs(std::move(fs))
+AmigaVolume::AmigaVolume(unique_ptr<Volume> v) : vol(std::move(v))
 {
-    mylog("Mouting file system...\n");
+    mylog("Creating file system...\n");
+    fs = std::make_unique<FileSystem>(*vol);
 
     std::stringstream ss;
-    this->fs->dumpInfo(ss);
+    fs->dumpInfo(ss);
     std::cout << ss.str();
 
     mylog("Wrapping into DOS layer...\n");
     dos = std::make_unique<PosixFileSystem>(*this->fs);
-    assert(dos != nullptr);
 }
 
 AmigaVolume::~AmigaVolume()

@@ -9,8 +9,10 @@
 
 #include "config.h"
 #include "FSDescriptor.h"
+#include "BlockDevice.h"
 #include "FSError.h"
 #include "utl/io.h"
+#include "utl/types/Literals.h"
 
 namespace vamiga {
 
@@ -23,6 +25,13 @@ FSDescriptor::FSDescriptor(Diameter dia, Density den, FSFormat dos)
 {
     init(dia, den, dos);
 }
+
+/*
+FSDescriptor::FSDescriptor(const Device &device, FSFormat dos)
+{
+    init(device.getGeometry(), dos);
+}
+*/
 
 FSDescriptor::FSDescriptor(const GeometryDescriptor &geometry, FSFormat dos)
 {
@@ -46,7 +55,7 @@ FSDescriptor::init(isize numBlocks, FSFormat dos)
     // Determine the location of the root block
     isize highKey = numBlocks - 1;
     isize rootKey = (numReserved + highKey) / 2; 
-    rootBlock = Block(rootKey);
+    rootBlock = BlockNr(rootKey);
 
     assert(rootKey == numBlocks / 2);
 
@@ -57,12 +66,12 @@ FSDescriptor::init(isize numBlocks, FSFormat dos)
 
     // Add bitmap blocks
     for (isize i = 0; i < neededBlocks; i++) {
-        bmBlocks.push_back(Block(bmKey++));
+        bmBlocks.push_back(BlockNr(bmKey++));
     }
     
     // Add bitmap extension blocks (the first 25 references are stored in the root block)
     for (; neededBlocks - 25 > 0; neededBlocks -= 127) {
-        bmExtBlocks.push_back(Block(bmKey++));
+        bmExtBlocks.push_back(BlockNr(bmKey++));
     }
 }
 
@@ -116,17 +125,17 @@ FSDescriptor::dump(std::ostream &os) const
 void
 FSDescriptor::checkCompatibility() const
 {
-    if (numBytes() > (504 * (1 <<20)) || FORCE_FS_WRONG_CAPACITY) {
-        throw FSError(fault::FS_WRONG_CAPACITY);
+    if (numBytes() > 504_MB || FORCE_FS_WRONG_CAPACITY) {
+        throw FSError(FSError::FS_WRONG_CAPACITY);
     }
     if (bsize != 512 || FORCE_FS_WRONG_BSIZE) {
-        throw FSError(fault::FS_WRONG_BSIZE);
+        throw FSError(FSError::FS_WRONG_BSIZE);
     }
     if (!FSFormatEnum::isValid(dos) || FORCE_FS_WRONG_DOS_TYPE) {
-        throw FSError(fault::FS_WRONG_DOS_TYPE);
+        throw FSError(FSError::FS_WRONG_DOS_TYPE);
     }
     if (isize(rootBlock) >= numBlocks) {
-        throw FSError(fault::FS_OUT_OF_RANGE);
+        throw FSError(FSError::FS_OUT_OF_RANGE);
     }
 }
 
