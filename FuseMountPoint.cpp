@@ -7,14 +7,14 @@
 // See https://mozilla.org/MPL/2.0 for license information
 // -----------------------------------------------------------------------------
 
-#include "FuseFileSystem.h"
+#include "FuseMountPoint.h"
 #include "FileSystem.h"
 #include <fuse.h>
 #include <iostream>
 #include <sys/mount.h>
 
 fuse_operations
-FuseFileSystem::callbacks = {
+FuseMountPoint::callbacks = {
 
     .getattr    = hooks::getattr,
     .mkdir      = hooks::mkdir,
@@ -37,14 +37,14 @@ FuseFileSystem::callbacks = {
 };
 
 void
-FuseFileSystem::setListener(const void *listener, AdapterCallback *callback)
+FuseMountPoint::setListener(const void *listener, AdapterCallback *callback)
 {
     this->listener = listener;
     this->callback = callback;
 }
 
 void
-FuseFileSystem::mount(const fs::path &mp)
+FuseMountPoint::mount(const fs::path &mp)
 {
     mountPoint = mp;
 
@@ -121,7 +121,7 @@ FuseFileSystem::mount(const fs::path &mp)
 }
 
 void
-FuseFileSystem::unmount()
+FuseMountPoint::unmount()
 {
     printf("FuseAdapter::unmount()\n");
 
@@ -143,91 +143,91 @@ FuseFileSystem::unmount()
 }
 
 int
-FuseFileSystem::hooks::getattr(const char *path, struct stat* st)
+FuseMountPoint::hooks::getattr(const char *path, struct stat* st)
 {
     mylog("[getattr]  %s\n", path);
     return self().getattr(path, st);
 }
 
 int
-FuseFileSystem::hooks::mkdir(const char *path, mode_t mode)
+FuseMountPoint::hooks::mkdir(const char *path, mode_t mode)
 {
     mylog("[mkdir]    %s, %x\n", path, mode);
     return self().mkdir(path, mode);
 }
 
 int
-FuseFileSystem::hooks::unlink(const char *path)
+FuseMountPoint::hooks::unlink(const char *path)
 {
     mylog("[unlink]   %s\n", path);
     return self().unlink(path);
 }
 
 int
-FuseFileSystem::hooks::rmdir(const char *path)
+FuseMountPoint::hooks::rmdir(const char *path)
 {
     mylog("[rmdir]    %s\n", path);
     return self().rmdir(path);
 }
 
 int
-FuseFileSystem::hooks::rename(const char *oldpath, const char *newpath)
+FuseMountPoint::hooks::rename(const char *oldpath, const char *newpath)
 {
     mylog("[rename]   %s, %s\n", oldpath, newpath);
     return self().rename(oldpath, newpath);
 }
 
 int
-FuseFileSystem::hooks::chmod(const char *path, mode_t mode)
+FuseMountPoint::hooks::chmod(const char *path, mode_t mode)
 {
     mylog("[chmod]    %s, %x\n", path, mode);
     return self().chmod(path, mode);
 }
 
 int
-FuseFileSystem::hooks::truncate(const char* path, off_t size)
+FuseMountPoint::hooks::truncate(const char* path, off_t size)
 {
     mylog("[truncate] %s, %lld\n", path, size);
     return self().truncate(path, size);
 }
 
 int
-FuseFileSystem::hooks::open(const char* path, struct fuse_file_info* fi)
+FuseMountPoint::hooks::open(const char* path, struct fuse_file_info* fi)
 {
     mylog("[open]     %s\n", path);
     return self().open(path, fi);
 }
 
 int
-FuseFileSystem::hooks::read(const char* path, char* buf, size_t size, off_t offset, struct fuse_file_info* fi)
+FuseMountPoint::hooks::read(const char* path, char* buf, size_t size, off_t offset, struct fuse_file_info* fi)
 {
     mylog("[read]     %s, %ld, %lld\n", path, size, offset);
     return self().read(path, buf, size, offset, fi);
 }
 
 int
-FuseFileSystem::hooks::write(const char* path, const char* buf, size_t size, off_t offset, struct fuse_file_info* fi)
+FuseMountPoint::hooks::write(const char* path, const char* buf, size_t size, off_t offset, struct fuse_file_info* fi)
 {
     mylog("[write]    %s, %ld, %lld\n", path, size, offset);
     return self().write(path, buf, size, offset, fi);
 }
 
 int
-FuseFileSystem::hooks::statfs(const char *path, struct statvfs *st)
+FuseMountPoint::hooks::statfs(const char *path, struct statvfs *st)
 {
     mylog("[statfs]   %s\n", path);
     return self().statfs(path, st);
 }
 
 int
-FuseFileSystem::hooks::release(const char *path, struct fuse_file_info *fi)
+FuseMountPoint::hooks::release(const char *path, struct fuse_file_info *fi)
 {
     mylog("[release]  %s\n", path);
     return self().release(path, fi);
 }
 
 int
-FuseFileSystem::hooks::readdir(const char* path, void* buf, fuse_fill_dir_t filler,
+FuseMountPoint::hooks::readdir(const char* path, void* buf, fuse_fill_dir_t filler,
                off_t offset, struct fuse_file_info* fi)
 {
     mylog("[readdir]  %s, %lld\n", path, offset);
@@ -235,7 +235,7 @@ FuseFileSystem::hooks::readdir(const char* path, void* buf, fuse_fill_dir_t fill
 }
 
 void *
-FuseFileSystem::hooks::init(struct fuse_conn_info* conn)
+FuseMountPoint::hooks::init(struct fuse_conn_info* conn)
 {
     mylog("[init]");
 
@@ -247,28 +247,28 @@ FuseFileSystem::hooks::init(struct fuse_conn_info* conn)
 }
 
 void
-FuseFileSystem::hooks::destroy(void *ptr)
+FuseMountPoint::hooks::destroy(void *ptr)
 {
     mylog("[destroy]  %p\n", ptr);
     self().destroy(ptr);
 }
 
 int
-FuseFileSystem::hooks::access(const char *path, const int mask)
+FuseMountPoint::hooks::access(const char *path, const int mask)
 {
     mylog("[access]   %s, %x\n", path, mask);
     return self().access(path, mask);
 }
 
 int
-FuseFileSystem::hooks::create(const char *path, mode_t mode, struct fuse_file_info *fi)
+FuseMountPoint::hooks::create(const char *path, mode_t mode, struct fuse_file_info *fi)
 {
     mylog("[create]   %s, %x\n", path, mode);
     return self().create(path, mode, fi);
 }
 
 int
-FuseFileSystem::hooks::utimens(const char *path, const struct timespec tv[2])
+FuseMountPoint::hooks::utimens(const char *path, const struct timespec tv[2])
 {
     mylog("[utimens]  %s\n", path);
     return self().utimens(path, tv);

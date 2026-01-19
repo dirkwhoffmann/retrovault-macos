@@ -9,7 +9,7 @@
 
 #import "config.h"
 #import "EmulatorProxy.h"
-#import "AmigaDevice.h"
+#import "FuseDevice.h"
 #import "FileSystem.h"
 
 using namespace vamiga;
@@ -221,12 +221,12 @@ using namespace utl;
 
 @implementation AmigaDeviceProxy
 
-- (AmigaDevice *)adapter
+- (FuseDevice *)adapter
 {
-    return (AmigaDevice *)obj;
+    return (FuseDevice *)obj;
 }
 
-+ (instancetype)make:(AmigaDevice *)device
++ (instancetype)make:(FuseDevice *)device
 {
     if (device == nullptr) { return nil; }
 
@@ -238,7 +238,7 @@ using namespace utl;
 {
     try {
 
-        auto device = std::make_unique<AmigaDevice>([url fileSystemRepresentation]);
+        auto device = std::make_unique<FuseDevice>([url fileSystemRepresentation]);
 
         AmigaDeviceProxy *proxy = [self make:device.get()];
         device.release();

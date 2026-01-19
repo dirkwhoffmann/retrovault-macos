@@ -9,7 +9,7 @@
 
 #pragma once
 
-#include "FuseFileSystem.h"
+#include "FuseMountPoint.h"
 #include "FuseDebug.h"
 #include "BlockDevice.h"
 #include "FileSystem.h"
@@ -24,9 +24,9 @@ class PosixFileSystem;
 
 }
 
-class AmigaVolume : public FuseFileSystem {
+class FuseVolume : public FuseMountPoint {
     
-    friend class AmigaDevice;
+    friend class FuseDevice;
 
     // Logical volume
     unique_ptr<Volume> vol;
@@ -44,8 +44,8 @@ public:
 
     static int posixErrno(const Error &err);
 
-    AmigaVolume(unique_ptr<Volume> vol);
-    ~AmigaVolume();
+    FuseVolume(unique_ptr<Volume> vol);
+    ~FuseVolume();
 
     FUSE_GETATTR  override;
     FUSE_MKDIR    override;
@@ -65,6 +65,8 @@ public:
     FUSE_ACCESS   override;
     FUSE_CREATE   override;
     FUSE_UTIMENS  override;
+
+    FSPosixStat stat();
 
 private:
 

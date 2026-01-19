@@ -7,7 +7,7 @@
 // See https://mozilla.org/MPL/2.0 for license information
 // -----------------------------------------------------------------------------
 
-#include "AmigaDevice.h"
+#include "FuseDevice.h"
 
 // #include "FileSystemFactory.h"
 
@@ -22,7 +22,7 @@ class PosixFileSystem;
 }
 */
 
-AmigaDevice::AmigaDevice(const fs::path &filename)
+FuseDevice::FuseDevice(const fs::path &filename)
 {
     mylog("Trying to load %s...\n", filename.string().c_str());
     // mediaFile = std::make_unique<MediaFile>(filename);
@@ -46,32 +46,32 @@ AmigaDevice::AmigaDevice(const fs::path &filename)
     mylog("Creating volume...\n");
     unique_ptr<Volume> vol = make_unique<Volume>(*dev);
 
-    mylog("Creating AmigaVolume...\n");
-    volumes.push_back(make_unique<AmigaVolume>(std::move(vol)));
+    mylog("Creating FuseVolume...\n");
+    volumes.push_back(make_unique<FuseVolume>(std::move(vol)));
 
     mylog("Installed volumes: %zu\n", volumes.size());
 }
 
-AmigaDevice::~AmigaDevice()
+FuseDevice::~FuseDevice()
 {
     printf("Destroying AmigaFileSystem\n");
 }
 
 void
-AmigaDevice::setListener(const void *listener, AdapterCallback *callback)
+FuseDevice::setListener(const void *listener, AdapterCallback *callback)
 {
     for (auto &volume : volumes) volume->setListener(listener, callback);
 }
 
 void
-AmigaDevice::mount(isize partition, const fs::path &mountPoint)
+FuseDevice::mount(isize partition, const fs::path &mountPoint)
 {
     assert(partition >= 0 && partition < volumes.size());
     volumes[partition]->mount(mountPoint);
 }
 
 void
-AmigaDevice::mount(const fs::path &mountPoint)
+FuseDevice::mount(const fs::path &mountPoint)
 {
     // this->mountPoint = mountPoint;
 
@@ -87,14 +87,14 @@ AmigaDevice::mount(const fs::path &mountPoint)
 }
 
 void
-AmigaDevice::unmount(isize partition)
+FuseDevice::unmount(isize partition)
 {
     assert(partition >= 0 && partition < volumes.size());
     volumes[partition]->unmount();
 }
 
 void
-AmigaDevice::unmount()
+FuseDevice::unmount()
 {
     for (isize i = 0; i < volumes.size(); i++) {
         unmount(i);
@@ -102,21 +102,22 @@ AmigaDevice::unmount()
 }
 
 amiga::FSTraits
-AmigaDevice::traits(isize partition)
+FuseDevice::traits(isize partition)
 {
     assert(partition >= 0 && partition < volumes.size());
     return volumes[partition]->fs->getTraits();
 }
 
 FSPosixStat
-AmigaDevice::stat(isize partition)
+FuseDevice::stat(isize partition)
 {
     assert(partition >= 0 && partition < volumes.size());
-    return volumes[partition]->fs->stat();
+
+    return volumes[partition]->stat();
 }
 
 amiga::FSBootStat
-AmigaDevice::bootStat(isize partition)
+FuseDevice::bootStat(isize partition)
 {
     assert(partition >= 0 && partition < volumes.size());
     return volumes[partition]->fs->bootStat();

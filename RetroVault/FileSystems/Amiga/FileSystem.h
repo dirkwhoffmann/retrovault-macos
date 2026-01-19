@@ -201,13 +201,13 @@ public:
     bool isFormatted() const noexcept;
 
     // Returns usage information and root metadata
-    FSPosixStat stat() const noexcept;
+    FSStat stat() const noexcept;
 
     // Returns information about the boot block
     FSBootStat bootStat() const noexcept;
 
     // Returns information about file permissions
-    FSPosixAttr attr(BlockNr nr) const;
+    FSAttr attr(BlockNr nr) const;
 
 
     //

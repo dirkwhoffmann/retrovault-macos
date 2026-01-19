@@ -10,11 +10,11 @@
 		504EAD252ECF00CE008CF9FC /* EmulatorProxy.mm in Sources */ = {isa = PBXBuildFile; fileRef = 504EAD212ECF00CE008CF9FC /* EmulatorProxy.mm */; };
 		504EAD262ECF00CE008CF9FC /* TypeExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504EAD232ECF00CE008CF9FC /* TypeExtensions.swift */; };
 		504EAD272ECF00CE008CF9FC /* ProxyExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504EAD222ECF00CE008CF9FC /* ProxyExtensions.swift */; };
-		504EAD2D2ECF0266008CF9FC /* FuseFileSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 504EAD2C2ECF0263008CF9FC /* FuseFileSystem.cpp */; };
+		504EAD2D2ECF0266008CF9FC /* FuseMountPoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 504EAD2C2ECF0263008CF9FC /* FuseMountPoint.cpp */; };
 		507724952ECF26F800DB04C5 /* libfuse.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 507724942ECF26BF00DB04C5 /* libfuse.2.dylib */; };
 		507724962ECF2FA300DB04C5 /* libfuse.2.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 507724942ECF26BF00DB04C5 /* libfuse.2.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		5077249F2ECFA78E00DB04C5 /* FuseDebug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5077249E2ECFA78D00DB04C5 /* FuseDebug.cpp */; };
-		507724A62ED0843800DB04C5 /* AmigaVolume.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 507724A52ED0843700DB04C5 /* AmigaVolume.cpp */; };
+		507724A62ED0843800DB04C5 /* FuseVolume.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 507724A52ED0843700DB04C5 /* FuseVolume.cpp */; };
 		50900B112F1E726D00A4A81B /* Dumpable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900AF62F1E726D00A4A81B /* Dumpable.cpp */; };
 		50900B122F1E726D00A4A81B /* Parser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900B012F1E726D00A4A81B /* Parser.cpp */; };
 		50900B132F1E726D00A4A81B /* Reflectable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900AF92F1E726D00A4A81B /* Reflectable.cpp */; };
@@ -108,10 +108,9 @@
 		50900C362F1E729A00A4A81B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50900C2D2F1E729A00A4A81B /* ViewController.swift */; };
 		50900C372F1E729A00A4A81B /* Loggable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50900C2A2F1E729A00A4A81B /* Loggable.swift */; };
 		50900C382F1E729A00A4A81B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50900C242F1E729A00A4A81B /* AppDelegate.swift */; };
-		50900C392F1E729A00A4A81B /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 50900C292F1E729A00A4A81B /* Info.plist */; };
 		50900C3A2F1E729A00A4A81B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50900C2C2F1E729A00A4A81B /* Main.storyboard */; };
 		50900C3B2F1E729A00A4A81B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 50900C252F1E729A00A4A81B /* Assets.xcassets */; };
-		50BCBDFA2EEBF79B000C53CF /* AmigaDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50BCBDF92EEBF798000C53CF /* AmigaDevice.cpp */; };
+		50BCBDFA2EEBF79B000C53CF /* FuseDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50BCBDF92EEBF798000C53CF /* FuseDevice.cpp */; };
 		50D89C512F1E775100ECC73D /* debug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50D89C502F1E775100ECC73D /* debug.cpp */; };
 		50D89C752F1E7C7B00ECC73D /* pfile.c in Sources */ = {isa = PBXBuildFile; fileRef = 50D89C5C2F1E7C7B00ECC73D /* pfile.c */; };
 		50D89C762F1E7C7B00ECC73D /* u_init.c in Sources */ = {isa = PBXBuildFile; fileRef = 50D89C642F1E7C7B00ECC73D /* u_init.c */; };
@@ -149,15 +148,15 @@
 		504EAD212ECF00CE008CF9FC /* EmulatorProxy.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = EmulatorProxy.mm; sourceTree = "<group>"; };
 		504EAD222ECF00CE008CF9FC /* ProxyExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProxyExtensions.swift; sourceTree = "<group>"; };
 		504EAD232ECF00CE008CF9FC /* TypeExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypeExtensions.swift; sourceTree = "<group>"; };
-		504EAD2A2ECF024E008CF9FC /* FuseFileSystem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FuseFileSystem.h; sourceTree = "<group>"; };
-		504EAD2C2ECF0263008CF9FC /* FuseFileSystem.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FuseFileSystem.cpp; sourceTree = "<group>"; };
+		504EAD2A2ECF024E008CF9FC /* FuseMountPoint.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FuseMountPoint.h; sourceTree = "<group>"; };
+		504EAD2C2ECF0263008CF9FC /* FuseMountPoint.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FuseMountPoint.cpp; sourceTree = "<group>"; };
 		50559ADE2ED870190001AEEF /* FuseFileSystemTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FuseFileSystemTypes.h; sourceTree = "<group>"; };
 		507724942ECF26BF00DB04C5 /* libfuse.2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libfuse.2.dylib; path = /usr/local/lib/libfuse.2.dylib; sourceTree = "<absolute>"; };
 		5077249C2ECF8BC000DB04C5 /* FuseAPI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FuseAPI.h; sourceTree = "<group>"; };
 		5077249D2ECFA78500DB04C5 /* FuseDebug.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FuseDebug.h; sourceTree = "<group>"; };
 		5077249E2ECFA78D00DB04C5 /* FuseDebug.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FuseDebug.cpp; sourceTree = "<group>"; };
-		507724A42ED0841B00DB04C5 /* AmigaVolume.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AmigaVolume.h; sourceTree = "<group>"; };
-		507724A52ED0843700DB04C5 /* AmigaVolume.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AmigaVolume.cpp; sourceTree = "<group>"; };
+		507724A42ED0841B00DB04C5 /* FuseVolume.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FuseVolume.h; sourceTree = "<group>"; };
+		507724A52ED0843700DB04C5 /* FuseVolume.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FuseVolume.cpp; sourceTree = "<group>"; };
 		50900ABC2F1E726D00A4A81B /* CMakeLists.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
 		50900ABD2F1E726D00A4A81B /* Compressible.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Compressible.h; sourceTree = "<group>"; };
 		50900ABE2F1E726D00A4A81B /* Dumpable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Dumpable.h; sourceTree = "<group>"; };
@@ -389,8 +388,8 @@
 		50900C2D2F1E729A00A4A81B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		50900C2E2F1E729A00A4A81B /* Volume.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Volume.swift; sourceTree = "<group>"; };
 		50BCBDC22EE866B0000C53CF /* config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
-		50BCBDF82EEBF791000C53CF /* AmigaDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AmigaDevice.h; sourceTree = "<group>"; };
-		50BCBDF92EEBF798000C53CF /* AmigaDevice.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AmigaDevice.cpp; sourceTree = "<group>"; };
+		50BCBDF82EEBF791000C53CF /* FuseDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FuseDevice.h; sourceTree = "<group>"; };
+		50BCBDF92EEBF798000C53CF /* FuseDevice.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FuseDevice.cpp; sourceTree = "<group>"; };
 		50D89C4F2F1E774900ECC73D /* debug.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = debug.h; sourceTree = "<group>"; };
 		50D89C502F1E775100ECC73D /* debug.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = debug.cpp; sourceTree = "<group>"; };
 		50D89C522F1E7C7B00ECC73D /* _old_pfile.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = _old_pfile.c; sourceTree = "<group>"; };
@@ -446,14 +445,14 @@
 				50D89C502F1E775100ECC73D /* debug.cpp */,
 				5077249C2ECF8BC000DB04C5 /* FuseAPI.h */,
 				50559ADE2ED870190001AEEF /* FuseFileSystemTypes.h */,
-				504EAD2A2ECF024E008CF9FC /* FuseFileSystem.h */,
-				504EAD2C2ECF0263008CF9FC /* FuseFileSystem.cpp */,
+				50BCBDF82EEBF791000C53CF /* FuseDevice.h */,
+				50BCBDF92EEBF798000C53CF /* FuseDevice.cpp */,
+				507724A42ED0841B00DB04C5 /* FuseVolume.h */,
+				507724A52ED0843700DB04C5 /* FuseVolume.cpp */,
+				504EAD2A2ECF024E008CF9FC /* FuseMountPoint.h */,
+				504EAD2C2ECF0263008CF9FC /* FuseMountPoint.cpp */,
 				5077249D2ECFA78500DB04C5 /* FuseDebug.h */,
 				5077249E2ECFA78D00DB04C5 /* FuseDebug.cpp */,
-				507724A42ED0841B00DB04C5 /* AmigaVolume.h */,
-				507724A52ED0843700DB04C5 /* AmigaVolume.cpp */,
-				50BCBDF82EEBF791000C53CF /* AmigaDevice.h */,
-				50BCBDF92EEBF798000C53CF /* AmigaDevice.cpp */,
 				50900BCD2F1E727400A4A81B /* RetroVault */,
 				50900B102F1E726D00A4A81B /* utlib */,
 				50900C2F2F1E729A00A4A81B /* RetroMount */,
@@ -1140,7 +1139,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				50900B222F1E726D00A4A81B /* CMakeLists.txt in Resources */,
-				50900C392F1E729A00A4A81B /* Info.plist in Resources */,
 				50900C3A2F1E729A00A4A81B /* Main.storyboard in Resources */,
 				50900C3B2F1E729A00A4A81B /* Assets.xcassets in Resources */,
 			);
@@ -1192,10 +1190,10 @@
 				50900B1F2F1E726D00A4A81B /* Bits.cpp in Sources */,
 				50900B202F1E726D00A4A81B /* Strings.cpp in Sources */,
 				50900B212F1E726D00A4A81B /* Streams.cpp in Sources */,
-				504EAD2D2ECF0266008CF9FC /* FuseFileSystem.cpp in Sources */,
+				504EAD2D2ECF0266008CF9FC /* FuseMountPoint.cpp in Sources */,
 				5077249F2ECFA78E00DB04C5 /* FuseDebug.cpp in Sources */,
-				50BCBDFA2EEBF79B000C53CF /* AmigaDevice.cpp in Sources */,
-				507724A62ED0843800DB04C5 /* AmigaVolume.cpp in Sources */,
+				50BCBDFA2EEBF79B000C53CF /* FuseDevice.cpp in Sources */,
+				507724A62ED0843800DB04C5 /* FuseVolume.cpp in Sources */,
 				504EAD252ECF00CE008CF9FC /* EmulatorProxy.mm in Sources */,
 				504EAD262ECF00CE008CF9FC /* TypeExtensions.swift in Sources */,
 				504EAD272ECF00CE008CF9FC /* ProxyExtensions.swift in Sources */,

@@ -9,14 +9,14 @@
 
 #pragma once
 
-#include "AmigaVolume.h"
+#include "FuseVolume.h"
 #include "ADFFile.h"
 #include "FileSystems/Amiga/FSTypes.h"
 #include "BlockDevice.h"
 
 using namespace retro::vault;
 
-class AmigaDevice {
+class FuseDevice {
 
     // Amiga Disk File
     std::unique_ptr<image::ADFFile> mediaFile;
@@ -27,12 +27,12 @@ class AmigaDevice {
 public:
 
     // Logical volumes
-    std::vector<std::unique_ptr<AmigaVolume>> volumes;
+    std::vector<std::unique_ptr<FuseVolume>> volumes;
 
 public:
 
-    AmigaDevice(const fs::path &filename);
-    ~AmigaDevice();
+    FuseDevice(const fs::path &filename);
+    ~FuseDevice();
 
     // Registers a listener together with it's callback function
     void setListener(const void *listener, AdapterCallback *func);

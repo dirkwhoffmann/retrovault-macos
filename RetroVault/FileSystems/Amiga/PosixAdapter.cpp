@@ -39,13 +39,47 @@ PosixAdapter::ensureMeta(HandleRef ref)
 FSPosixStat
 PosixAdapter::stat() const noexcept
 {
-    return fs.stat();
+    auto stat = fs.stat();
+
+    return FSPosixStat {
+
+        .name           = stat.name.cpp_str(),
+        .bsize          = stat.traits.bsize,
+        .blocks         = stat.traits.blocks,
+
+        .freeBlocks     = stat.freeBlocks,
+        .usedBlocks     = stat.usedBlocks,
+
+        .btime          = stat.bDate.time(),
+        .mtime          = stat.mDate.time(),
+
+        .blockReads     = stat.reads,
+        .blockWrites    = stat.writes
+    };
 }
 
 FSPosixAttr
 PosixAdapter::attr(const fs::path &path) const
 {
-    return fs.attr(fs.seek(path));
+    if (auto b = fs.trySeek(path)) {
+
+        const auto &stat = fs.attr(*b);
+
+        return FSPosixAttr {
+
+            .size           = stat.size,
+            .blocks         = stat.blocks,
+            .prot           = stat.mode(),
+            .isDir          = stat.isDir,
+
+            .btime          = stat.ctime.time(),
+            .atime          = stat.mtime.time(),
+            .mtime          = stat.mtime.time(),
+            .ctime          = stat.ctime.time()
+        };
+    }
+
+    throw FSError(FSError::FS_NOT_FOUND);
 }
 
 void

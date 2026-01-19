@@ -14,7 +14,7 @@
 #include "FuseDebug.h"
 #include <thread>
 
-class FuseFileSystem {
+class FuseMountPoint {
 
     std::thread fuseThread;
     struct fuse *gateway = nullptr;
@@ -78,8 +78,8 @@ private:
 
     static fuse_operations callbacks;
 
-    static FuseFileSystem &self() {
-        return *(static_cast<FuseFileSystem *>(fuse_get_context()->private_data));
+    static FuseMountPoint &self() {
+        return *(static_cast<FuseMountPoint *>(fuse_get_context()->private_data));
     }
 
 public:
