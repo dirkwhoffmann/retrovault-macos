@@ -11,10 +11,11 @@
 
 #include "FuseFileSystem.h"
 #include "FuseDebug.h"
-#include "BlockVolume.h"
+#include "BlockDevice.h"
 #include "FileSystem.h"
+#include "PosixView.h"
 
-using namespace vamiga;
+using namespace retro::vault;
 
 namespace vamiga {
 
@@ -31,10 +32,10 @@ class AmigaVolume : public FuseFileSystem {
     unique_ptr<Volume> vol;
 
     // Raw file system on top of the volume
-    unique_ptr<FileSystem> fs;
+    unique_ptr<amiga::FileSystem> fs;
 
     // POSIX layer on top of the raw file system
-    unique_ptr<PosixFileSystem> dos;
+    unique_ptr<PosixView> dos;
 
     // Synchronization lock
     std::mutex mtx;

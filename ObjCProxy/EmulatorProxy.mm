@@ -62,6 +62,7 @@ using namespace utl;
 // MediaFile
 //
 
+/*
 @implementation MediaFileProxy
 
 - (MediaFile *)file
@@ -212,7 +213,7 @@ using namespace utl;
 }
 
 @end
-
+*/
 
 //
 // AmigaDeviceProxy
@@ -302,7 +303,7 @@ using namespace utl;
     return [self adapter]->traits(volume);
 }
 
-- (FSStat)stat:(NSInteger)volume
+- (FSPosixStat)stat:(NSInteger)volume
 {
     return [self adapter]->stat(volume);
 }

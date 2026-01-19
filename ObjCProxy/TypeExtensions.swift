@@ -8,14 +8,14 @@
 // -----------------------------------------------------------------------------
 
 // typealias Compressor = utl.Compressor
-typealias FileType = vamiga.FileType
-typealias FSStat = vamiga.FSStat
-typealias FSTraits = vamiga.FSTraits
-typealias FSBootStat = vamiga.FSBootStat
-typealias FSBlockError = vamiga.FSBlockError
-typealias FSBlockType = vamiga.FSBlockType
-typealias FSItemType = vamiga.FSItemType
-typealias FSVolumeType = vamiga.FSFormat
+//typealias FileType = retro.vault.amiga.FileType
+typealias FSStat = retro.vault.amiga.FSStat
+typealias FSTraits = retro.vault.amiga.FSTraits
+typealias FSBootStat = retro.vault.amiga.FSBootStat
+typealias FSBlockError = retro.vault.amiga.FSBlockError
+typealias FSBlockType = retro.vault.amiga.FSBlockType
+typealias FSItemType = retro.vault.amiga.FSItemType
+typealias FSVolumeType = retro.vault.amiga.FSFormat
 
 /*
 extension Compressor: CustomStringConvertible {

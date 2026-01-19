@@ -57,7 +57,7 @@ class DeviceManager {
 
         let stat = devices[device].stat(volume)
         let mp = devices[device].mountPoint(volume)
-
+        
         // let stat = devices[device].info(volume)
 
         // Mount point
@@ -65,19 +65,21 @@ class DeviceManager {
 
         // Usage date
         result.freeBlocks = stat.freeBlocks
-        result.freeBytes = stat.freeBytes
+        result.freeBytes = stat.freeBlocks * stat.bsize
         result.usedBlocks = stat.usedBlocks
-        result.usedBytes = stat.usedBytes
-        result.fill = stat.fill
+        result.usedBytes = stat.usedBlocks * stat.bsize
+        result.fill = Double(stat.freeBlocks) / Double(stat.blocks)
 
         // Root block metadata
-        result.name  = String(cString: c_str(stat.name.cpp_str()))
-        result.bDate = String(cString: c_str(stat.bDate.str()))
-        result.mDate = String(cString: c_str(stat.mDate.str()))
+        let bt = Date(timeIntervalSince1970: TimeInterval(stat.btime))
+        let mt = Date(timeIntervalSince1970: TimeInterval(stat.mtime))
+        result.name  = String(cString: c_str(stat.name))
+        result.bDate = bt.formatted(date: .numeric, time: .standard)
+        result.mDate = mt.formatted(date: .numeric, time: .standard)
 
         // Access statistics
-        result.reads = stat.reads
-        result.writes = stat.writes
+        result.reads = stat.blockReads
+        result.writes = stat.blockWrites
 
         return result
     }

@@ -10,15 +10,16 @@
 #pragma once
 
 #import "config.h"
-#import "MediaFileTypes.h"
 #import "DeviceTypes.h"
-#import "FSTypes.h"
-#import "FSObjects.h"
+#import "FileSystems/Amiga/FSObjects.h"
+#import "FileSystems/Amiga/FSTypes.h"
+#import "FileSystems/PosixViewTypes.h"
 #import "FuseFileSystemTypes.h"
 #import "utl/abilities/Compressible.h"
 #import <Cocoa/Cocoa.h>
 
-using namespace vamiga;
+using namespace retro::vault;
+using namespace retro::vault::amiga;
 
 inline const char *c_str(const std::string &s)
 {
@@ -60,6 +61,7 @@ inline const char *c_str(const std::string &s)
 // MediaFile
 //
 
+/*
 @interface MediaFileProxy : Proxy
 {
     NSImage *preview;
@@ -96,6 +98,7 @@ inline const char *c_str(const std::string &s)
 - (NSString *)asciidump:(NSInteger)b offset:(NSInteger)offset len:(NSInteger)len;
 
 @end
+*/
 
 
 //
@@ -119,7 +122,7 @@ inline const char *c_str(const std::string &s)
 
 - (NSString *)mountPoint:(NSInteger)volume;
 - (FSTraits)traits:(NSInteger)volume;
-- (FSStat)stat:(NSInteger)volume;
+- (FSPosixStat)stat:(NSInteger)volume;
 - (FSBootStat)bootStat:(NSInteger)volume;
 
 @end

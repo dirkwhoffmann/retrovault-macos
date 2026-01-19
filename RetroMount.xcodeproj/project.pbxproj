@@ -15,61 +15,117 @@
 		507724962ECF2FA300DB04C5 /* libfuse.2.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 507724942ECF26BF00DB04C5 /* libfuse.2.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		5077249F2ECFA78E00DB04C5 /* FuseDebug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5077249E2ECFA78D00DB04C5 /* FuseDebug.cpp */; };
 		507724A62ED0843800DB04C5 /* AmigaVolume.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 507724A52ED0843700DB04C5 /* AmigaVolume.cpp */; };
-		50BCBDCB2EE87447000C53CF /* config.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50BCBDCA2EE87447000C53CF /* config.cpp */; };
+		50900B112F1E726D00A4A81B /* Dumpable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900AF62F1E726D00A4A81B /* Dumpable.cpp */; };
+		50900B122F1E726D00A4A81B /* Parser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900B012F1E726D00A4A81B /* Parser.cpp */; };
+		50900B132F1E726D00A4A81B /* Reflectable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900AF92F1E726D00A4A81B /* Reflectable.cpp */; };
+		50900B142F1E726D00A4A81B /* Hashable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900AF72F1E726D00A4A81B /* Hashable.cpp */; };
+		50900B152F1E726D00A4A81B /* Reportable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900AFA2F1E726D00A4A81B /* Reportable.cpp */; };
+		50900B162F1E726D00A4A81B /* Wakeable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900AFB2F1E726D00A4A81B /* Wakeable.cpp */; };
+		50900B172F1E726D00A4A81B /* Files.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900B072F1E726D00A4A81B /* Files.cpp */; };
+		50900B182F1E726D00A4A81B /* Formatter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900B002F1E726D00A4A81B /* Formatter.cpp */; };
+		50900B192F1E726D00A4A81B /* Loggable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900AF82F1E726D00A4A81B /* Loggable.cpp */; };
+		50900B1A2F1E726D00A4A81B /* Compressible.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900AF52F1E726D00A4A81B /* Compressible.cpp */; };
+		50900B1B2F1E726D00A4A81B /* Buffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900B042F1E726D00A4A81B /* Buffer.cpp */; };
+		50900B1C2F1E726D00A4A81B /* Time.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900AFE2F1E726D00A4A81B /* Time.cpp */; };
+		50900B1D2F1E726D00A4A81B /* Clock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900AFD2F1E726D00A4A81B /* Clock.cpp */; };
+		50900B1E2F1E726D00A4A81B /* lz4.c in Sources */ = {isa = PBXBuildFile; fileRef = 50900B0D2F1E726D00A4A81B /* lz4.c */; };
+		50900B1F2F1E726D00A4A81B /* Bits.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900B062F1E726D00A4A81B /* Bits.cpp */; };
+		50900B202F1E726D00A4A81B /* Strings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900B082F1E726D00A4A81B /* Strings.cpp */; };
+		50900B212F1E726D00A4A81B /* Streams.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900B022F1E726D00A4A81B /* Streams.cpp */; };
+		50900B222F1E726D00A4A81B /* CMakeLists.txt in Resources */ = {isa = PBXBuildFile; fileRef = 50900ABC2F1E726D00A4A81B /* CMakeLists.txt */; };
+		50900BCE2F1E727400A4A81B /* TrackDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900B2F2F1E727400A4A81B /* TrackDevice.cpp */; };
+		50900BCF2F1E727400A4A81B /* BlockDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900B252F1E727400A4A81B /* BlockDevice.cpp */; };
+		50900BD02F1E727400A4A81B /* FSExporter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900B4A2F1E727400A4A81B /* FSExporter.cpp */; };
+		50900BD12F1E727400A4A81B /* DOSEncoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900BA12F1E727400A4A81B /* DOSEncoder.cpp */; };
+		50900BD22F1E727400A4A81B /* ADZFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900B832F1E727400A4A81B /* ADZFile.cpp */; };
+		50900BD32F1E727400A4A81B /* FSImporter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900B6E2F1E727400A4A81B /* FSImporter.cpp */; };
+		50900BD42F1E727400A4A81B /* DeviceError.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900B2A2F1E727400A4A81B /* DeviceError.cpp */; };
+		50900BD52F1E727400A4A81B /* HDFFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900BAD2F1E727400A4A81B /* HDFFile.cpp */; };
+		50900BD62F1E727400A4A81B /* FSDescriptor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900B442F1E727400A4A81B /* FSDescriptor.cpp */; };
+		50900BD72F1E727400A4A81B /* FileSystemLayer3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900B382F1E727400A4A81B /* FileSystemLayer3.cpp */; };
+		50900BD82F1E727400A4A81B /* ImageError.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900BC52F1E727400A4A81B /* ImageError.cpp */; };
+		50900BD92F1E727400A4A81B /* FloppyDiskImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900BC12F1E727400A4A81B /* FloppyDiskImage.cpp */; };
+		50900BDA2F1E727400A4A81B /* FSCache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900B402F1E727400A4A81B /* FSCache.cpp */; };
+		50900BDB2F1E727400A4A81B /* FileSystemLayer1.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900B362F1E727400A4A81B /* FileSystemLayer1.cpp */; };
+		50900BDC2F1E727400A4A81B /* FSBlock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900B3C2F1E727400A4A81B /* FSBlock.cpp */; };
+		50900BDD2F1E727400A4A81B /* FileSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900B592F1E727400A4A81B /* FileSystem.cpp */; };
+		50900BDE2F1E727400A4A81B /* PosixAdapter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900B552F1E727400A4A81B /* PosixAdapter.cpp */; };
+		50900BDF2F1E727400A4A81B /* DeviceDescriptors.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900B282F1E727400A4A81B /* DeviceDescriptors.cpp */; };
+		50900BE02F1E727400A4A81B /* FSContract.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900B422F1E727400A4A81B /* FSContract.cpp */; };
+		50900BE12F1E727400A4A81B /* FSBlock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900B602F1E727400A4A81B /* FSBlock.cpp */; };
+		50900BE22F1E727400A4A81B /* AmigaEncoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900B952F1E727400A4A81B /* AmigaEncoder.cpp */; };
+		50900BE32F1E727400A4A81B /* FileSystemLayer3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900B5C2F1E727400A4A81B /* FileSystemLayer3.cpp */; };
+		50900BE42F1E727400A4A81B /* FSAllocator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900B3A2F1E727400A4A81B /* FSAllocator.cpp */; };
+		50900BE52F1E727400A4A81B /* AmigaDecoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900B932F1E727400A4A81B /* AmigaDecoder.cpp */; };
+		50900BE62F1E727400A4A81B /* FSAllocator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900B5E2F1E727400A4A81B /* FSAllocator.cpp */; };
+		50900BE72F1E727400A4A81B /* FileSystemLayer2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900B5B2F1E727400A4A81B /* FileSystemLayer2.cpp */; };
+		50900BE82F1E727400A4A81B /* FSTree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900B522F1E727400A4A81B /* FSTree.cpp */; };
+		50900BE92F1E727400A4A81B /* FSContract.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900B642F1E727400A4A81B /* FSContract.cpp */; };
+		50900BEA2F1E727400A4A81B /* DMSFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900B8C2F1E727400A4A81B /* DMSFile.cpp */; };
+		50900BEB2F1E727400A4A81B /* DOSDecoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900B9F2F1E727400A4A81B /* DOSDecoder.cpp */; };
+		50900BEC2F1E727400A4A81B /* FileSystemLayer1.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900B5A2F1E727400A4A81B /* FileSystemLayer1.cpp */; };
+		50900BED2F1E727400A4A81B /* C64Encoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900B992F1E727400A4A81B /* C64Encoder.cpp */; };
+		50900BEE2F1E727400A4A81B /* ADFFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900B7F2F1E727400A4A81B /* ADFFile.cpp */; };
+		50900BEF2F1E727400A4A81B /* FSCache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900B622F1E727400A4A81B /* FSCache.cpp */; };
+		50900BF02F1E727400A4A81B /* IMGFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900BB52F1E727400A4A81B /* IMGFile.cpp */; };
+		50900BF12F1E727400A4A81B /* FSError.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900B482F1E727400A4A81B /* FSError.cpp */; };
+		50900BF22F1E727400A4A81B /* FSDoctor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900B682F1E727400A4A81B /* FSDoctor.cpp */; };
+		50900BF32F1E727400A4A81B /* GCR.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900BA32F1E727400A4A81B /* GCR.cpp */; };
+		50900BF42F1E727400A4A81B /* MFM.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900BA52F1E727400A4A81B /* MFM.cpp */; };
+		50900BF52F1E727400A4A81B /* HDZFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900BB12F1E727400A4A81B /* HDZFile.cpp */; };
+		50900BF62F1E727400A4A81B /* FSDirEntry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900B662F1E727400A4A81B /* FSDirEntry.cpp */; };
+		50900BF72F1E727400A4A81B /* DiskDecoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900B9C2F1E727400A4A81B /* DiskDecoder.cpp */; };
+		50900BF82F1E727400A4A81B /* FileSystemLayer2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900B372F1E727400A4A81B /* FileSystemLayer2.cpp */; };
+		50900BF92F1E727400A4A81B /* Volume.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900B312F1E727400A4A81B /* Volume.cpp */; };
+		50900BFA2F1E727400A4A81B /* C64Decoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900B972F1E727400A4A81B /* C64Decoder.cpp */; };
+		50900BFB2F1E727400A4A81B /* FileSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900B352F1E727400A4A81B /* FileSystem.cpp */; };
+		50900BFC2F1E727400A4A81B /* HardDiskImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900BC32F1E727400A4A81B /* HardDiskImage.cpp */; };
+		50900BFD2F1E727400A4A81B /* DiskImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900BBF2F1E727400A4A81B /* DiskImage.cpp */; };
+		50900BFE2F1E727400A4A81B /* FSImporter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900B4C2F1E727400A4A81B /* FSImporter.cpp */; };
+		50900BFF2F1E727400A4A81B /* FSObjects.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900B4E2F1E727400A4A81B /* FSObjects.cpp */; };
+		50900C002F1E727400A4A81B /* AnyImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900BBC2F1E727400A4A81B /* AnyImage.cpp */; };
+		50900C012F1E727400A4A81B /* FSError.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900B6A2F1E727400A4A81B /* FSError.cpp */; };
+		50900C022F1E727400A4A81B /* PosixAdapter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900B772F1E727400A4A81B /* PosixAdapter.cpp */; };
+		50900C032F1E727400A4A81B /* FSExporter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900B6C2F1E727400A4A81B /* FSExporter.cpp */; };
+		50900C042F1E727400A4A81B /* FSBootBlockImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900B3E2F1E727400A4A81B /* FSBootBlockImage.cpp */; };
+		50900C052F1E727400A4A81B /* FSService.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900B502F1E727400A4A81B /* FSService.cpp */; };
+		50900C062F1E727400A4A81B /* STFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900BB92F1E727400A4A81B /* STFile.cpp */; };
+		50900C072F1E727400A4A81B /* FSService.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900B722F1E727400A4A81B /* FSService.cpp */; };
+		50900C082F1E727400A4A81B /* PosixView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900B7B2F1E727400A4A81B /* PosixView.cpp */; };
+		50900C092F1E727400A4A81B /* LinearDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900B2D2F1E727400A4A81B /* LinearDevice.cpp */; };
+		50900C0A2F1E727400A4A81B /* FSTraits.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900B742F1E727400A4A81B /* FSTraits.cpp */; };
+		50900C0B2F1E727400A4A81B /* FSDoctor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900B462F1E727400A4A81B /* FSDoctor.cpp */; };
+		50900C0C2F1E727400A4A81B /* FSObjects.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900B702F1E727400A4A81B /* FSObjects.cpp */; };
+		50900C0D2F1E727400A4A81B /* EADFFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900B902F1E727400A4A81B /* EADFFile.cpp */; };
+		50900C0E2F1E727400A4A81B /* EXEFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900BA92F1E727400A4A81B /* EXEFile.cpp */; };
+		50900C0F2F1E727400A4A81B /* D64File.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900B882F1E727400A4A81B /* D64File.cpp */; };
+		50900C302F1E729A00A4A81B /* DevicesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50900C212F1E729A00A4A81B /* DevicesViewController.swift */; };
+		50900C312F1E729A00A4A81B /* TableCellViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50900C222F1E729A00A4A81B /* TableCellViews.swift */; };
+		50900C322F1E729A00A4A81B /* Volume.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50900C2E2F1E729A00A4A81B /* Volume.swift */; };
+		50900C332F1E729A00A4A81B /* DeviceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50900C262F1E729A00A4A81B /* DeviceManager.swift */; };
+		50900C342F1E729A00A4A81B /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50900C282F1E729A00A4A81B /* Extensions.swift */; };
+		50900C352F1E729A00A4A81B /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50900C272F1E729A00A4A81B /* Errors.swift */; };
+		50900C362F1E729A00A4A81B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50900C2D2F1E729A00A4A81B /* ViewController.swift */; };
+		50900C372F1E729A00A4A81B /* Loggable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50900C2A2F1E729A00A4A81B /* Loggable.swift */; };
+		50900C382F1E729A00A4A81B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50900C242F1E729A00A4A81B /* AppDelegate.swift */; };
+		50900C392F1E729A00A4A81B /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 50900C292F1E729A00A4A81B /* Info.plist */; };
+		50900C3A2F1E729A00A4A81B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50900C2C2F1E729A00A4A81B /* Main.storyboard */; };
+		50900C3B2F1E729A00A4A81B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 50900C252F1E729A00A4A81B /* Assets.xcassets */; };
 		50BCBDFA2EEBF79B000C53CF /* AmigaDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50BCBDF92EEBF798000C53CF /* AmigaDevice.cpp */; };
-		50F152472EFAEB37002DDAC7 /* lz4.c in Sources */ = {isa = PBXBuildFile; fileRef = 50F152432EFAEB37002DDAC7 /* lz4.c */; };
-		50F152482EFAEB37002DDAC7 /* Buffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50F152392EFAEB37002DDAC7 /* Buffer.cpp */; };
-		50F152492EFAEB37002DDAC7 /* Loggable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50F1522E2EFAEB37002DDAC7 /* Loggable.cpp */; };
-		50F1524A2EFAEB37002DDAC7 /* Clock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50F152332EFAEB37002DDAC7 /* Clock.cpp */; };
-		50F1524B2EFAEB37002DDAC7 /* Streams.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50F1523D2EFAEB37002DDAC7 /* Streams.cpp */; };
-		50F1524C2EFAEB37002DDAC7 /* Parser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50F152372EFAEB37002DDAC7 /* Parser.cpp */; };
-		50F1524D2EFAEB37002DDAC7 /* Files.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50F1523C2EFAEB37002DDAC7 /* Files.cpp */; };
-		50F1524E2EFAEB37002DDAC7 /* Bits.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50F1523B2EFAEB37002DDAC7 /* Bits.cpp */; };
-		50F1524F2EFAEB37002DDAC7 /* Dumpable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50F1522C2EFAEB37002DDAC7 /* Dumpable.cpp */; };
-		50F152502EFAEB37002DDAC7 /* Formatter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50F152362EFAEB37002DDAC7 /* Formatter.cpp */; };
-		50F152512EFAEB37002DDAC7 /* Strings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50F1523E2EFAEB37002DDAC7 /* Strings.cpp */; };
-		50F152522EFAEB37002DDAC7 /* Time.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50F152342EFAEB37002DDAC7 /* Time.cpp */; };
-		50F152532EFAEB37002DDAC7 /* Reportable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50F152302EFAEB37002DDAC7 /* Reportable.cpp */; };
-		50F152542EFAEB37002DDAC7 /* Compressible.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50F1522B2EFAEB37002DDAC7 /* Compressible.cpp */; };
-		50F152552EFAEB37002DDAC7 /* Wakeable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50F152312EFAEB37002DDAC7 /* Wakeable.cpp */; };
-		50F152562EFAEB37002DDAC7 /* Hashable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50F1522D2EFAEB37002DDAC7 /* Hashable.cpp */; };
-		50F152572EFAEB37002DDAC7 /* Reflectable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50F1522F2EFAEB37002DDAC7 /* Reflectable.cpp */; };
-		50F152592EFAEB37002DDAC7 /* CMakeLists.txt in Resources */ = {isa = PBXBuildFile; fileRef = 50F151F52EFAEB37002DDAC7 /* CMakeLists.txt */; };
-		50F153012EFAEB4E002DDAC7 /* FSImporter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50F1527C2EFAEB4E002DDAC7 /* FSImporter.cpp */; };
-		50F153022EFAEB4E002DDAC7 /* FSContract.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50F152722EFAEB4E002DDAC7 /* FSContract.cpp */; };
-		50F153032EFAEB4E002DDAC7 /* BlockVolume.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50F1525F2EFAEB4E002DDAC7 /* BlockVolume.cpp */; };
-		50F153042EFAEB4E002DDAC7 /* IMGFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50F152C22EFAEB4E002DDAC7 /* IMGFile.cpp */; };
-		50F153062EFAEB4E002DDAC7 /* HDZFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50F152BA2EFAEB4E002DDAC7 /* HDZFile.cpp */; };
-		50F153072EFAEB4E002DDAC7 /* FSTree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50F152822EFAEB4E002DDAC7 /* FSTree.cpp */; };
-		50F153082EFAEB4E002DDAC7 /* ADZFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50F152942EFAEB4E002DDAC7 /* ADZFile.cpp */; };
-		50F1530B2EFAEB4E002DDAC7 /* DeviceError.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50F152EE2EFAEB4E002DDAC7 /* DeviceError.cpp */; };
-		50F1530C2EFAEB4E002DDAC7 /* FSDescriptor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50F152742EFAEB4E002DDAC7 /* FSDescriptor.cpp */; };
-		50F1530D2EFAEB4E002DDAC7 /* FSDoctor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50F152762EFAEB4E002DDAC7 /* FSDoctor.cpp */; };
-		50F1530F2EFAEB4E002DDAC7 /* ADFFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50F1528C2EFAEB4E002DDAC7 /* ADFFile.cpp */; };
-		50F153112EFAEB4E002DDAC7 /* FSError.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50F152782EFAEB4E002DDAC7 /* FSError.cpp */; };
-		50F153142EFAEB4E002DDAC7 /* FloppyFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50F152DC2EFAEB4E002DDAC7 /* FloppyFile.cpp */; };
-		50F153182EFAEB4E002DDAC7 /* STFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50F152D12EFAEB4E002DDAC7 /* STFile.cpp */; };
-		50F153192EFAEB4E002DDAC7 /* MediaFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50F152E12EFAEB4E002DDAC7 /* MediaFile.cpp */; };
-		50F1531B2EFAEB4E002DDAC7 /* FileSystemLayer2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50F152692EFAEB4E002DDAC7 /* FileSystemLayer2.cpp */; };
-		50F1531C2EFAEB4E002DDAC7 /* AnyFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50F152D42EFAEB4E002DDAC7 /* AnyFile.cpp */; };
-		50F1531D2EFAEB4E002DDAC7 /* FSCache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50F152702EFAEB4E002DDAC7 /* FSCache.cpp */; };
-		50F1531E2EFAEB4E002DDAC7 /* FloppyFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50F152DA2EFAEB4E002DDAC7 /* FloppyFactory.cpp */; };
-		50F1531F2EFAEB4E002DDAC7 /* FSExporter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50F1527A2EFAEB4E002DDAC7 /* FSExporter.cpp */; };
-		50F153202EFAEB4E002DDAC7 /* BlockView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50F1525D2EFAEB4E002DDAC7 /* BlockView.cpp */; };
-		50F153212EFAEB4E002DDAC7 /* PosixFileSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50F152852EFAEB4E002DDAC7 /* PosixFileSystem.cpp */; };
-		50F153222EFAEB4E002DDAC7 /* FSAllocator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50F1526C2EFAEB4E002DDAC7 /* FSAllocator.cpp */; };
-		50F153242EFAEB4E002DDAC7 /* FSService.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50F152802EFAEB4E002DDAC7 /* FSService.cpp */; };
-		50F153252EFAEB4E002DDAC7 /* FileSystemLayer3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50F1526A2EFAEB4E002DDAC7 /* FileSystemLayer3.cpp */; };
-		50F153272EFAEB4E002DDAC7 /* MediaError.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50F152DF2EFAEB4E002DDAC7 /* MediaError.cpp */; };
-		50F153292EFAEB4E002DDAC7 /* HDFFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50F152B32EFAEB4E002DDAC7 /* HDFFile.cpp */; };
-		50F1532A2EFAEB4E002DDAC7 /* FSObjects.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50F1527E2EFAEB4E002DDAC7 /* FSObjects.cpp */; };
-		50F1532C2EFAEB4E002DDAC7 /* FileSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50F152672EFAEB4E002DDAC7 /* FileSystem.cpp */; };
-		50F1532D2EFAEB4E002DDAC7 /* FSBlock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50F1526E2EFAEB4E002DDAC7 /* FSBlock.cpp */; };
-		50F153302EFAEB4E002DDAC7 /* DiskFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50F152D72EFAEB4E002DDAC7 /* DiskFile.cpp */; };
-		50F153322EFAEB4E002DDAC7 /* BlockDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50F1525B2EFAEB4E002DDAC7 /* BlockDevice.cpp */; };
-		50F153332EFAEB4E002DDAC7 /* FileSystemLayer1.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50F152682EFAEB4E002DDAC7 /* FileSystemLayer1.cpp */; };
-		50F153362EFAEB4E002DDAC7 /* DeviceDescriptors.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50F152EC2EFAEB4E002DDAC7 /* DeviceDescriptors.cpp */; };
-		50F153372EFAEB4E002DDAC7 /* BootBlockImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50F152642EFAEB4E002DDAC7 /* BootBlockImage.cpp */; };
+		50D89C512F1E775100ECC73D /* debug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50D89C502F1E775100ECC73D /* debug.cpp */; };
+		50D89C752F1E7C7B00ECC73D /* pfile.c in Sources */ = {isa = PBXBuildFile; fileRef = 50D89C5C2F1E7C7B00ECC73D /* pfile.c */; };
+		50D89C762F1E7C7B00ECC73D /* u_init.c in Sources */ = {isa = PBXBuildFile; fileRef = 50D89C642F1E7C7B00ECC73D /* u_init.c */; };
+		50D89C772F1E7C7B00ECC73D /* u_deep.c in Sources */ = {isa = PBXBuildFile; fileRef = 50D89C602F1E7C7B00ECC73D /* u_deep.c */; };
+		50D89C782F1E7C7B00ECC73D /* u_medium.c in Sources */ = {isa = PBXBuildFile; fileRef = 50D89C662F1E7C7B00ECC73D /* u_medium.c */; };
+		50D89C792F1E7C7B00ECC73D /* u_rle.c in Sources */ = {isa = PBXBuildFile; fileRef = 50D89C6A2F1E7C7B00ECC73D /* u_rle.c */; };
+		50D89C7A2F1E7C7B00ECC73D /* crc_csum.c in Sources */ = {isa = PBXBuildFile; fileRef = 50D89C562F1E7C7B00ECC73D /* crc_csum.c */; };
+		50D89C7B2F1E7C7B00ECC73D /* _old_pfile.c in Sources */ = {isa = PBXBuildFile; fileRef = 50D89C522F1E7C7B00ECC73D /* _old_pfile.c */; };
+		50D89C7C2F1E7C7B00ECC73D /* u_heavy.c in Sources */ = {isa = PBXBuildFile; fileRef = 50D89C622F1E7C7B00ECC73D /* u_heavy.c */; };
+		50D89C7D2F1E7C7B00ECC73D /* tables.c in Sources */ = {isa = PBXBuildFile; fileRef = 50D89C5E2F1E7C7B00ECC73D /* tables.c */; };
+		50D89C7E2F1E7C7B00ECC73D /* maketbl.c in Sources */ = {isa = PBXBuildFile; fileRef = 50D89C5A2F1E7C7B00ECC73D /* maketbl.c */; };
+		50D89C7F2F1E7C7B00ECC73D /* getbits.c in Sources */ = {isa = PBXBuildFile; fileRef = 50D89C582F1E7C7B00ECC73D /* getbits.c */; };
+		50D89C802F1E7C7B00ECC73D /* u_quick.c in Sources */ = {isa = PBXBuildFile; fileRef = 50D89C682F1E7C7B00ECC73D /* u_quick.c */; };
+		50D89C812F1E7C7B00ECC73D /* xdms.c in Sources */ = {isa = PBXBuildFile; fileRef = 50D89C6B2F1E7C7B00ECC73D /* xdms.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -102,177 +158,273 @@
 		5077249E2ECFA78D00DB04C5 /* FuseDebug.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FuseDebug.cpp; sourceTree = "<group>"; };
 		507724A42ED0841B00DB04C5 /* AmigaVolume.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AmigaVolume.h; sourceTree = "<group>"; };
 		507724A52ED0843700DB04C5 /* AmigaVolume.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AmigaVolume.cpp; sourceTree = "<group>"; };
+		50900ABC2F1E726D00A4A81B /* CMakeLists.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
+		50900ABD2F1E726D00A4A81B /* Compressible.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Compressible.h; sourceTree = "<group>"; };
+		50900ABE2F1E726D00A4A81B /* Dumpable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Dumpable.h; sourceTree = "<group>"; };
+		50900ABF2F1E726D00A4A81B /* Hashable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Hashable.h; sourceTree = "<group>"; };
+		50900AC02F1E726D00A4A81B /* Loggable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Loggable.h; sourceTree = "<group>"; };
+		50900AC12F1E726D00A4A81B /* Reflectable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Reflectable.h; sourceTree = "<group>"; };
+		50900AC22F1E726D00A4A81B /* Reportable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Reportable.h; sourceTree = "<group>"; };
+		50900AC32F1E726D00A4A81B /* Streamable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Streamable.h; sourceTree = "<group>"; };
+		50900AC42F1E726D00A4A81B /* Synchronizable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Synchronizable.h; sourceTree = "<group>"; };
+		50900AC52F1E726D00A4A81B /* Wakeable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Wakeable.h; sourceTree = "<group>"; };
+		50900AC72F1E726D00A4A81B /* Clock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Clock.h; sourceTree = "<group>"; };
+		50900AC82F1E726D00A4A81B /* Time.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Time.h; sourceTree = "<group>"; };
+		50900ACA2F1E726D00A4A81B /* AutoMutex.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AutoMutex.h; sourceTree = "<group>"; };
+		50900ACB2F1E726D00A4A81B /* ReentrantMutex.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReentrantMutex.h; sourceTree = "<group>"; };
+		50900ACD2F1E726D00A4A81B /* Files.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Files.h; sourceTree = "<group>"; };
+		50900ACE2F1E726D00A4A81B /* Formatter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Formatter.h; sourceTree = "<group>"; };
+		50900ACF2F1E726D00A4A81B /* IOError.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IOError.h; sourceTree = "<group>"; };
+		50900AD02F1E726D00A4A81B /* ParseError.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ParseError.h; sourceTree = "<group>"; };
+		50900AD12F1E726D00A4A81B /* Parser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Parser.h; sourceTree = "<group>"; };
+		50900AD22F1E726D00A4A81B /* Streams.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Streams.h; sourceTree = "<group>"; };
+		50900AD42F1E726D00A4A81B /* BitView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BitView.h; sourceTree = "<group>"; };
+		50900AD52F1E726D00A4A81B /* ByteView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ByteView.h; sourceTree = "<group>"; };
+		50900AD62F1E726D00A4A81B /* Range.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Range.h; sourceTree = "<group>"; };
+		50900AD82F1E726D00A4A81B /* Buffer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Buffer.h; sourceTree = "<group>"; };
+		50900AD92F1E726D00A4A81B /* Mailbox.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Mailbox.h; sourceTree = "<group>"; };
+		50900ADA2F1E726D00A4A81B /* RingBuffer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RingBuffer.h; sourceTree = "<group>"; };
+		50900ADC2F1E726D00A4A81B /* Bits.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Bits.h; sourceTree = "<group>"; };
+		50900ADD2F1E726D00A4A81B /* Strings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Strings.h; sourceTree = "<group>"; };
+		50900ADF2F1E726D00A4A81B /* Exception.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Exception.h; sourceTree = "<group>"; };
+		50900AE02F1E726D00A4A81B /* Integers.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Integers.h; sourceTree = "<group>"; };
+		50900AE12F1E726D00A4A81B /* Literals.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Literals.h; sourceTree = "<group>"; };
+		50900AE32F1E726D00A4A81B /* Animated.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Animated.h; sourceTree = "<group>"; };
+		50900AE42F1E726D00A4A81B /* Backed.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Backed.h; sourceTree = "<group>"; };
+		50900AE52F1E726D00A4A81B /* Cached.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Cached.h; sourceTree = "<group>"; };
+		50900AE62F1E726D00A4A81B /* Memorized.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Memorized.h; sourceTree = "<group>"; };
+		50900AE82F1E726D00A4A81B /* abilities.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = abilities.h; sourceTree = "<group>"; };
+		50900AE92F1E726D00A4A81B /* chrono.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = chrono.h; sourceTree = "<group>"; };
+		50900AEA2F1E726D00A4A81B /* common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = common.h; sourceTree = "<group>"; };
+		50900AEB2F1E726D00A4A81B /* concurrency.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = concurrency.h; sourceTree = "<group>"; };
+		50900AEC2F1E726D00A4A81B /* hints.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = hints.h; sourceTree = "<group>"; };
+		50900AED2F1E726D00A4A81B /* io.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = io.h; sourceTree = "<group>"; };
+		50900AEE2F1E726D00A4A81B /* primitives.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = primitives.h; sourceTree = "<group>"; };
+		50900AEF2F1E726D00A4A81B /* storage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = storage.h; sourceTree = "<group>"; };
+		50900AF02F1E726D00A4A81B /* support.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = support.h; sourceTree = "<group>"; };
+		50900AF12F1E726D00A4A81B /* types.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = types.h; sourceTree = "<group>"; };
+		50900AF22F1E726D00A4A81B /* wrappers.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = wrappers.h; sourceTree = "<group>"; };
+		50900AF52F1E726D00A4A81B /* Compressible.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Compressible.cpp; sourceTree = "<group>"; };
+		50900AF62F1E726D00A4A81B /* Dumpable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Dumpable.cpp; sourceTree = "<group>"; };
+		50900AF72F1E726D00A4A81B /* Hashable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Hashable.cpp; sourceTree = "<group>"; };
+		50900AF82F1E726D00A4A81B /* Loggable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Loggable.cpp; sourceTree = "<group>"; };
+		50900AF92F1E726D00A4A81B /* Reflectable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Reflectable.cpp; sourceTree = "<group>"; };
+		50900AFA2F1E726D00A4A81B /* Reportable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Reportable.cpp; sourceTree = "<group>"; };
+		50900AFB2F1E726D00A4A81B /* Wakeable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Wakeable.cpp; sourceTree = "<group>"; };
+		50900AFD2F1E726D00A4A81B /* Clock.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Clock.cpp; sourceTree = "<group>"; };
+		50900AFE2F1E726D00A4A81B /* Time.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Time.cpp; sourceTree = "<group>"; };
+		50900B002F1E726D00A4A81B /* Formatter.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Formatter.cpp; sourceTree = "<group>"; };
+		50900B012F1E726D00A4A81B /* Parser.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Parser.cpp; sourceTree = "<group>"; };
+		50900B022F1E726D00A4A81B /* Streams.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Streams.cpp; sourceTree = "<group>"; };
+		50900B042F1E726D00A4A81B /* Buffer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Buffer.cpp; sourceTree = "<group>"; };
+		50900B062F1E726D00A4A81B /* Bits.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Bits.cpp; sourceTree = "<group>"; };
+		50900B072F1E726D00A4A81B /* Files.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Files.cpp; sourceTree = "<group>"; };
+		50900B082F1E726D00A4A81B /* Strings.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Strings.cpp; sourceTree = "<group>"; };
+		50900B0C2F1E726D00A4A81B /* lz4.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = lz4.h; sourceTree = "<group>"; };
+		50900B0D2F1E726D00A4A81B /* lz4.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = lz4.c; sourceTree = "<group>"; };
+		50900B0F2F1E726D00A4A81B /* CMakeLists.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
+		50900B242F1E727400A4A81B /* BlockDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BlockDevice.h; sourceTree = "<group>"; };
+		50900B252F1E727400A4A81B /* BlockDevice.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = BlockDevice.cpp; sourceTree = "<group>"; };
+		50900B262F1E727400A4A81B /* CMakeLists.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
+		50900B272F1E727400A4A81B /* DeviceDescriptors.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DeviceDescriptors.h; sourceTree = "<group>"; };
+		50900B282F1E727400A4A81B /* DeviceDescriptors.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DeviceDescriptors.cpp; sourceTree = "<group>"; };
+		50900B292F1E727400A4A81B /* DeviceError.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DeviceError.h; sourceTree = "<group>"; };
+		50900B2A2F1E727400A4A81B /* DeviceError.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DeviceError.cpp; sourceTree = "<group>"; };
+		50900B2B2F1E727400A4A81B /* DeviceTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DeviceTypes.h; sourceTree = "<group>"; };
+		50900B2C2F1E727400A4A81B /* LinearDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LinearDevice.h; sourceTree = "<group>"; };
+		50900B2D2F1E727400A4A81B /* LinearDevice.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = LinearDevice.cpp; sourceTree = "<group>"; };
+		50900B2E2F1E727400A4A81B /* TrackDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TrackDevice.h; sourceTree = "<group>"; };
+		50900B2F2F1E727400A4A81B /* TrackDevice.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = TrackDevice.cpp; sourceTree = "<group>"; };
+		50900B302F1E727400A4A81B /* Volume.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Volume.h; sourceTree = "<group>"; };
+		50900B312F1E727400A4A81B /* Volume.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Volume.cpp; sourceTree = "<group>"; };
+		50900B332F1E727400A4A81B /* CMakeLists.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
+		50900B342F1E727400A4A81B /* FileSystem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FileSystem.h; sourceTree = "<group>"; };
+		50900B352F1E727400A4A81B /* FileSystem.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FileSystem.cpp; sourceTree = "<group>"; };
+		50900B362F1E727400A4A81B /* FileSystemLayer1.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FileSystemLayer1.cpp; sourceTree = "<group>"; };
+		50900B372F1E727400A4A81B /* FileSystemLayer2.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FileSystemLayer2.cpp; sourceTree = "<group>"; };
+		50900B382F1E727400A4A81B /* FileSystemLayer3.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FileSystemLayer3.cpp; sourceTree = "<group>"; };
+		50900B392F1E727400A4A81B /* FSAllocator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSAllocator.h; sourceTree = "<group>"; };
+		50900B3A2F1E727400A4A81B /* FSAllocator.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FSAllocator.cpp; sourceTree = "<group>"; };
+		50900B3B2F1E727400A4A81B /* FSBlock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSBlock.h; sourceTree = "<group>"; };
+		50900B3C2F1E727400A4A81B /* FSBlock.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FSBlock.cpp; sourceTree = "<group>"; };
+		50900B3D2F1E727400A4A81B /* FSBootBlockImage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSBootBlockImage.h; sourceTree = "<group>"; };
+		50900B3E2F1E727400A4A81B /* FSBootBlockImage.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FSBootBlockImage.cpp; sourceTree = "<group>"; };
+		50900B3F2F1E727400A4A81B /* FSCache.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSCache.h; sourceTree = "<group>"; };
+		50900B402F1E727400A4A81B /* FSCache.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FSCache.cpp; sourceTree = "<group>"; };
+		50900B412F1E727400A4A81B /* FSContract.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSContract.h; sourceTree = "<group>"; };
+		50900B422F1E727400A4A81B /* FSContract.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FSContract.cpp; sourceTree = "<group>"; };
+		50900B432F1E727400A4A81B /* FSDescriptor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSDescriptor.h; sourceTree = "<group>"; };
+		50900B442F1E727400A4A81B /* FSDescriptor.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FSDescriptor.cpp; sourceTree = "<group>"; };
+		50900B452F1E727400A4A81B /* FSDoctor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSDoctor.h; sourceTree = "<group>"; };
+		50900B462F1E727400A4A81B /* FSDoctor.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FSDoctor.cpp; sourceTree = "<group>"; };
+		50900B472F1E727400A4A81B /* FSError.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSError.h; sourceTree = "<group>"; };
+		50900B482F1E727400A4A81B /* FSError.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FSError.cpp; sourceTree = "<group>"; };
+		50900B492F1E727400A4A81B /* FSExporter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSExporter.h; sourceTree = "<group>"; };
+		50900B4A2F1E727400A4A81B /* FSExporter.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FSExporter.cpp; sourceTree = "<group>"; };
+		50900B4B2F1E727400A4A81B /* FSImporter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSImporter.h; sourceTree = "<group>"; };
+		50900B4C2F1E727400A4A81B /* FSImporter.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FSImporter.cpp; sourceTree = "<group>"; };
+		50900B4D2F1E727400A4A81B /* FSObjects.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSObjects.h; sourceTree = "<group>"; };
+		50900B4E2F1E727400A4A81B /* FSObjects.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FSObjects.cpp; sourceTree = "<group>"; };
+		50900B4F2F1E727400A4A81B /* FSService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSService.h; sourceTree = "<group>"; };
+		50900B502F1E727400A4A81B /* FSService.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FSService.cpp; sourceTree = "<group>"; };
+		50900B512F1E727400A4A81B /* FSTree.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSTree.h; sourceTree = "<group>"; };
+		50900B522F1E727400A4A81B /* FSTree.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FSTree.cpp; sourceTree = "<group>"; };
+		50900B532F1E727400A4A81B /* FSTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSTypes.h; sourceTree = "<group>"; };
+		50900B542F1E727400A4A81B /* PosixAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PosixAdapter.h; sourceTree = "<group>"; };
+		50900B552F1E727400A4A81B /* PosixAdapter.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PosixAdapter.cpp; sourceTree = "<group>"; };
+		50900B572F1E727400A4A81B /* CMakeLists.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
+		50900B582F1E727400A4A81B /* FileSystem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FileSystem.h; sourceTree = "<group>"; };
+		50900B592F1E727400A4A81B /* FileSystem.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FileSystem.cpp; sourceTree = "<group>"; };
+		50900B5A2F1E727400A4A81B /* FileSystemLayer1.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FileSystemLayer1.cpp; sourceTree = "<group>"; };
+		50900B5B2F1E727400A4A81B /* FileSystemLayer2.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FileSystemLayer2.cpp; sourceTree = "<group>"; };
+		50900B5C2F1E727400A4A81B /* FileSystemLayer3.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FileSystemLayer3.cpp; sourceTree = "<group>"; };
+		50900B5D2F1E727400A4A81B /* FSAllocator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSAllocator.h; sourceTree = "<group>"; };
+		50900B5E2F1E727400A4A81B /* FSAllocator.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FSAllocator.cpp; sourceTree = "<group>"; };
+		50900B5F2F1E727400A4A81B /* FSBlock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSBlock.h; sourceTree = "<group>"; };
+		50900B602F1E727400A4A81B /* FSBlock.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FSBlock.cpp; sourceTree = "<group>"; };
+		50900B612F1E727400A4A81B /* FSCache.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSCache.h; sourceTree = "<group>"; };
+		50900B622F1E727400A4A81B /* FSCache.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FSCache.cpp; sourceTree = "<group>"; };
+		50900B632F1E727400A4A81B /* FSContract.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSContract.h; sourceTree = "<group>"; };
+		50900B642F1E727400A4A81B /* FSContract.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FSContract.cpp; sourceTree = "<group>"; };
+		50900B652F1E727400A4A81B /* FSDirEntry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSDirEntry.h; sourceTree = "<group>"; };
+		50900B662F1E727400A4A81B /* FSDirEntry.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FSDirEntry.cpp; sourceTree = "<group>"; };
+		50900B672F1E727400A4A81B /* FSDoctor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSDoctor.h; sourceTree = "<group>"; };
+		50900B682F1E727400A4A81B /* FSDoctor.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FSDoctor.cpp; sourceTree = "<group>"; };
+		50900B692F1E727400A4A81B /* FSError.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSError.h; sourceTree = "<group>"; };
+		50900B6A2F1E727400A4A81B /* FSError.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FSError.cpp; sourceTree = "<group>"; };
+		50900B6B2F1E727400A4A81B /* FSExporter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSExporter.h; sourceTree = "<group>"; };
+		50900B6C2F1E727400A4A81B /* FSExporter.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FSExporter.cpp; sourceTree = "<group>"; };
+		50900B6D2F1E727400A4A81B /* FSImporter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSImporter.h; sourceTree = "<group>"; };
+		50900B6E2F1E727400A4A81B /* FSImporter.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FSImporter.cpp; sourceTree = "<group>"; };
+		50900B6F2F1E727400A4A81B /* FSObjects.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSObjects.h; sourceTree = "<group>"; };
+		50900B702F1E727400A4A81B /* FSObjects.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FSObjects.cpp; sourceTree = "<group>"; };
+		50900B712F1E727400A4A81B /* FSService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSService.h; sourceTree = "<group>"; };
+		50900B722F1E727400A4A81B /* FSService.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FSService.cpp; sourceTree = "<group>"; };
+		50900B732F1E727400A4A81B /* FSTraits.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSTraits.h; sourceTree = "<group>"; };
+		50900B742F1E727400A4A81B /* FSTraits.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FSTraits.cpp; sourceTree = "<group>"; };
+		50900B752F1E727400A4A81B /* FSTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSTypes.h; sourceTree = "<group>"; };
+		50900B762F1E727400A4A81B /* PosixAdapter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PosixAdapter.h; sourceTree = "<group>"; };
+		50900B772F1E727400A4A81B /* PosixAdapter.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PosixAdapter.cpp; sourceTree = "<group>"; };
+		50900B792F1E727400A4A81B /* CMakeLists.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
+		50900B7A2F1E727400A4A81B /* PosixView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PosixView.h; sourceTree = "<group>"; };
+		50900B7B2F1E727400A4A81B /* PosixView.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PosixView.cpp; sourceTree = "<group>"; };
+		50900B7C2F1E727400A4A81B /* PosixViewTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PosixViewTypes.h; sourceTree = "<group>"; };
+		50900B7E2F1E727400A4A81B /* ADFFile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ADFFile.h; sourceTree = "<group>"; };
+		50900B7F2F1E727400A4A81B /* ADFFile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ADFFile.cpp; sourceTree = "<group>"; };
+		50900B802F1E727400A4A81B /* CMakeLists.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
+		50900B822F1E727400A4A81B /* ADZFile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ADZFile.h; sourceTree = "<group>"; };
+		50900B832F1E727400A4A81B /* ADZFile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ADZFile.cpp; sourceTree = "<group>"; };
+		50900B842F1E727400A4A81B /* CMakeLists.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
+		50900B862F1E727400A4A81B /* CMakeLists.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
+		50900B872F1E727400A4A81B /* D64File.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = D64File.h; sourceTree = "<group>"; };
+		50900B882F1E727400A4A81B /* D64File.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = D64File.cpp; sourceTree = "<group>"; };
+		50900B8A2F1E727400A4A81B /* CMakeLists.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
+		50900B8B2F1E727400A4A81B /* DMSFile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DMSFile.h; sourceTree = "<group>"; };
+		50900B8C2F1E727400A4A81B /* DMSFile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DMSFile.cpp; sourceTree = "<group>"; };
+		50900B8E2F1E727400A4A81B /* CMakeLists.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
+		50900B8F2F1E727400A4A81B /* EADFFile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EADFFile.h; sourceTree = "<group>"; };
+		50900B902F1E727400A4A81B /* EADFFile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = EADFFile.cpp; sourceTree = "<group>"; };
+		50900B922F1E727400A4A81B /* AmigaDecoder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AmigaDecoder.h; sourceTree = "<group>"; };
+		50900B932F1E727400A4A81B /* AmigaDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AmigaDecoder.cpp; sourceTree = "<group>"; };
+		50900B942F1E727400A4A81B /* AmigaEncoder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AmigaEncoder.h; sourceTree = "<group>"; };
+		50900B952F1E727400A4A81B /* AmigaEncoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AmigaEncoder.cpp; sourceTree = "<group>"; };
+		50900B962F1E727400A4A81B /* C64Decoder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = C64Decoder.h; sourceTree = "<group>"; };
+		50900B972F1E727400A4A81B /* C64Decoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = C64Decoder.cpp; sourceTree = "<group>"; };
+		50900B982F1E727400A4A81B /* C64Encoder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = C64Encoder.h; sourceTree = "<group>"; };
+		50900B992F1E727400A4A81B /* C64Encoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = C64Encoder.cpp; sourceTree = "<group>"; };
+		50900B9A2F1E727400A4A81B /* CMakeLists.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
+		50900B9B2F1E727400A4A81B /* DiskDecoder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DiskDecoder.h; sourceTree = "<group>"; };
+		50900B9C2F1E727400A4A81B /* DiskDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DiskDecoder.cpp; sourceTree = "<group>"; };
+		50900B9D2F1E727400A4A81B /* DiskEncoder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DiskEncoder.h; sourceTree = "<group>"; };
+		50900B9E2F1E727400A4A81B /* DOSDecoder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DOSDecoder.h; sourceTree = "<group>"; };
+		50900B9F2F1E727400A4A81B /* DOSDecoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DOSDecoder.cpp; sourceTree = "<group>"; };
+		50900BA02F1E727400A4A81B /* DOSEncoder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DOSEncoder.h; sourceTree = "<group>"; };
+		50900BA12F1E727400A4A81B /* DOSEncoder.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DOSEncoder.cpp; sourceTree = "<group>"; };
+		50900BA22F1E727400A4A81B /* GCR.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GCR.h; sourceTree = "<group>"; };
+		50900BA32F1E727400A4A81B /* GCR.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GCR.cpp; sourceTree = "<group>"; };
+		50900BA42F1E727400A4A81B /* MFM.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MFM.h; sourceTree = "<group>"; };
+		50900BA52F1E727400A4A81B /* MFM.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MFM.cpp; sourceTree = "<group>"; };
+		50900BA72F1E727400A4A81B /* CMakeLists.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
+		50900BA82F1E727400A4A81B /* EXEFile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EXEFile.h; sourceTree = "<group>"; };
+		50900BA92F1E727400A4A81B /* EXEFile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = EXEFile.cpp; sourceTree = "<group>"; };
+		50900BAB2F1E727400A4A81B /* CMakeLists.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
+		50900BAC2F1E727400A4A81B /* HDFFile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HDFFile.h; sourceTree = "<group>"; };
+		50900BAD2F1E727400A4A81B /* HDFFile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = HDFFile.cpp; sourceTree = "<group>"; };
+		50900BAF2F1E727400A4A81B /* CMakeLists.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
+		50900BB02F1E727400A4A81B /* HDZFile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HDZFile.h; sourceTree = "<group>"; };
+		50900BB12F1E727400A4A81B /* HDZFile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = HDZFile.cpp; sourceTree = "<group>"; };
+		50900BB32F1E727400A4A81B /* CMakeLists.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
+		50900BB42F1E727400A4A81B /* IMGFile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IMGFile.h; sourceTree = "<group>"; };
+		50900BB52F1E727400A4A81B /* IMGFile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = IMGFile.cpp; sourceTree = "<group>"; };
+		50900BB72F1E727400A4A81B /* CMakeLists.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
+		50900BB82F1E727400A4A81B /* STFile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = STFile.h; sourceTree = "<group>"; };
+		50900BB92F1E727400A4A81B /* STFile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = STFile.cpp; sourceTree = "<group>"; };
+		50900BBB2F1E727400A4A81B /* AnyImage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AnyImage.h; sourceTree = "<group>"; };
+		50900BBC2F1E727400A4A81B /* AnyImage.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AnyImage.cpp; sourceTree = "<group>"; };
+		50900BBD2F1E727400A4A81B /* CMakeLists.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
+		50900BBE2F1E727400A4A81B /* DiskImage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DiskImage.h; sourceTree = "<group>"; };
+		50900BBF2F1E727400A4A81B /* DiskImage.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DiskImage.cpp; sourceTree = "<group>"; };
+		50900BC02F1E727400A4A81B /* FloppyDiskImage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FloppyDiskImage.h; sourceTree = "<group>"; };
+		50900BC12F1E727400A4A81B /* FloppyDiskImage.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FloppyDiskImage.cpp; sourceTree = "<group>"; };
+		50900BC22F1E727400A4A81B /* HardDiskImage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HardDiskImage.h; sourceTree = "<group>"; };
+		50900BC32F1E727400A4A81B /* HardDiskImage.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = HardDiskImage.cpp; sourceTree = "<group>"; };
+		50900BC42F1E727400A4A81B /* ImageError.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ImageError.h; sourceTree = "<group>"; };
+		50900BC52F1E727400A4A81B /* ImageError.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ImageError.cpp; sourceTree = "<group>"; };
+		50900BC62F1E727400A4A81B /* ImageTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ImageTypes.h; sourceTree = "<group>"; };
+		50900BC82F1E727400A4A81B /* AmigaFileSystem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AmigaFileSystem.h; sourceTree = "<group>"; };
+		50900BC92F1E727400A4A81B /* CBMFileSystem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CBMFileSystem.h; sourceTree = "<group>"; };
+		50900BCA2F1E727400A4A81B /* CMakeLists.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
+		50900BCB2F1E727400A4A81B /* Devices.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Devices.h; sourceTree = "<group>"; };
+		50900BCC2F1E727400A4A81B /* Images.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Images.h; sourceTree = "<group>"; };
+		50900C212F1E729A00A4A81B /* DevicesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevicesViewController.swift; sourceTree = "<group>"; };
+		50900C222F1E729A00A4A81B /* TableCellViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableCellViews.swift; sourceTree = "<group>"; };
+		50900C242F1E729A00A4A81B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		50900C252F1E729A00A4A81B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		50900C262F1E729A00A4A81B /* DeviceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceManager.swift; sourceTree = "<group>"; };
+		50900C272F1E729A00A4A81B /* Errors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Errors.swift; sourceTree = "<group>"; };
+		50900C282F1E729A00A4A81B /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		50900C292F1E729A00A4A81B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		50900C2A2F1E729A00A4A81B /* Loggable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Loggable.swift; sourceTree = "<group>"; };
+		50900C2B2F1E729A00A4A81B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		50900C2D2F1E729A00A4A81B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		50900C2E2F1E729A00A4A81B /* Volume.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Volume.swift; sourceTree = "<group>"; };
 		50BCBDC22EE866B0000C53CF /* config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
-		50BCBDCA2EE87447000C53CF /* config.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = config.cpp; sourceTree = "<group>"; };
 		50BCBDF82EEBF791000C53CF /* AmigaDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AmigaDevice.h; sourceTree = "<group>"; };
 		50BCBDF92EEBF798000C53CF /* AmigaDevice.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AmigaDevice.cpp; sourceTree = "<group>"; };
-		50F151F52EFAEB37002DDAC7 /* CMakeLists.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
-		50F151F62EFAEB37002DDAC7 /* Compressible.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Compressible.h; sourceTree = "<group>"; };
-		50F151F72EFAEB37002DDAC7 /* Dumpable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Dumpable.h; sourceTree = "<group>"; };
-		50F151F82EFAEB37002DDAC7 /* Hashable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Hashable.h; sourceTree = "<group>"; };
-		50F151F92EFAEB37002DDAC7 /* Loggable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Loggable.h; sourceTree = "<group>"; };
-		50F151FA2EFAEB37002DDAC7 /* Reflectable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Reflectable.h; sourceTree = "<group>"; };
-		50F151FB2EFAEB37002DDAC7 /* Reportable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Reportable.h; sourceTree = "<group>"; };
-		50F151FC2EFAEB37002DDAC7 /* Synchronizable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Synchronizable.h; sourceTree = "<group>"; };
-		50F151FD2EFAEB37002DDAC7 /* Wakeable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Wakeable.h; sourceTree = "<group>"; };
-		50F151FF2EFAEB37002DDAC7 /* Clock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Clock.h; sourceTree = "<group>"; };
-		50F152002EFAEB37002DDAC7 /* Time.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Time.h; sourceTree = "<group>"; };
-		50F152022EFAEB37002DDAC7 /* AutoMutex.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AutoMutex.h; sourceTree = "<group>"; };
-		50F152032EFAEB37002DDAC7 /* ReentrantMutex.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReentrantMutex.h; sourceTree = "<group>"; };
-		50F152052EFAEB37002DDAC7 /* Files.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Files.h; sourceTree = "<group>"; };
-		50F152062EFAEB37002DDAC7 /* Formatter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Formatter.h; sourceTree = "<group>"; };
-		50F152072EFAEB37002DDAC7 /* IOError.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IOError.h; sourceTree = "<group>"; };
-		50F152082EFAEB37002DDAC7 /* ParseError.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ParseError.h; sourceTree = "<group>"; };
-		50F152092EFAEB37002DDAC7 /* Parser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Parser.h; sourceTree = "<group>"; };
-		50F1520A2EFAEB37002DDAC7 /* Streams.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Streams.h; sourceTree = "<group>"; };
-		50F1520C2EFAEB37002DDAC7 /* Range.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Range.h; sourceTree = "<group>"; };
-		50F1520E2EFAEB37002DDAC7 /* Buffer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Buffer.h; sourceTree = "<group>"; };
-		50F1520F2EFAEB37002DDAC7 /* Mailbox.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Mailbox.h; sourceTree = "<group>"; };
-		50F152102EFAEB37002DDAC7 /* RingBuffer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RingBuffer.h; sourceTree = "<group>"; };
-		50F152122EFAEB37002DDAC7 /* Bits.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Bits.h; sourceTree = "<group>"; };
-		50F152132EFAEB37002DDAC7 /* Strings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Strings.h; sourceTree = "<group>"; };
-		50F152152EFAEB37002DDAC7 /* Exception.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Exception.h; sourceTree = "<group>"; };
-		50F152162EFAEB37002DDAC7 /* Integers.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Integers.h; sourceTree = "<group>"; };
-		50F152172EFAEB37002DDAC7 /* Literals.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Literals.h; sourceTree = "<group>"; };
-		50F152192EFAEB37002DDAC7 /* Animated.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Animated.h; sourceTree = "<group>"; };
-		50F1521A2EFAEB37002DDAC7 /* Backed.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Backed.h; sourceTree = "<group>"; };
-		50F1521B2EFAEB37002DDAC7 /* Cached.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Cached.h; sourceTree = "<group>"; };
-		50F1521C2EFAEB37002DDAC7 /* Memorized.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Memorized.h; sourceTree = "<group>"; };
-		50F1521E2EFAEB37002DDAC7 /* abilities.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = abilities.h; sourceTree = "<group>"; };
-		50F1521F2EFAEB37002DDAC7 /* chrono.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = chrono.h; sourceTree = "<group>"; };
-		50F152202EFAEB37002DDAC7 /* common.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = common.h; sourceTree = "<group>"; };
-		50F152212EFAEB37002DDAC7 /* concurrency.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = concurrency.h; sourceTree = "<group>"; };
-		50F152222EFAEB37002DDAC7 /* hints.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = hints.h; sourceTree = "<group>"; };
-		50F152232EFAEB37002DDAC7 /* io.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = io.h; sourceTree = "<group>"; };
-		50F152242EFAEB37002DDAC7 /* primitives.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = primitives.h; sourceTree = "<group>"; };
-		50F152252EFAEB37002DDAC7 /* storage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = storage.h; sourceTree = "<group>"; };
-		50F152262EFAEB37002DDAC7 /* support.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = support.h; sourceTree = "<group>"; };
-		50F152272EFAEB37002DDAC7 /* types.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = types.h; sourceTree = "<group>"; };
-		50F152282EFAEB37002DDAC7 /* wrappers.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = wrappers.h; sourceTree = "<group>"; };
-		50F1522B2EFAEB37002DDAC7 /* Compressible.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Compressible.cpp; sourceTree = "<group>"; };
-		50F1522C2EFAEB37002DDAC7 /* Dumpable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Dumpable.cpp; sourceTree = "<group>"; };
-		50F1522D2EFAEB37002DDAC7 /* Hashable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Hashable.cpp; sourceTree = "<group>"; };
-		50F1522E2EFAEB37002DDAC7 /* Loggable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Loggable.cpp; sourceTree = "<group>"; };
-		50F1522F2EFAEB37002DDAC7 /* Reflectable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Reflectable.cpp; sourceTree = "<group>"; };
-		50F152302EFAEB37002DDAC7 /* Reportable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Reportable.cpp; sourceTree = "<group>"; };
-		50F152312EFAEB37002DDAC7 /* Wakeable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Wakeable.cpp; sourceTree = "<group>"; };
-		50F152332EFAEB37002DDAC7 /* Clock.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Clock.cpp; sourceTree = "<group>"; };
-		50F152342EFAEB37002DDAC7 /* Time.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Time.cpp; sourceTree = "<group>"; };
-		50F152362EFAEB37002DDAC7 /* Formatter.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Formatter.cpp; sourceTree = "<group>"; };
-		50F152372EFAEB37002DDAC7 /* Parser.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Parser.cpp; sourceTree = "<group>"; };
-		50F152392EFAEB37002DDAC7 /* Buffer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Buffer.cpp; sourceTree = "<group>"; };
-		50F1523B2EFAEB37002DDAC7 /* Bits.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Bits.cpp; sourceTree = "<group>"; };
-		50F1523C2EFAEB37002DDAC7 /* Files.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Files.cpp; sourceTree = "<group>"; };
-		50F1523D2EFAEB37002DDAC7 /* Streams.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Streams.cpp; sourceTree = "<group>"; };
-		50F1523E2EFAEB37002DDAC7 /* Strings.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Strings.cpp; sourceTree = "<group>"; };
-		50F152422EFAEB37002DDAC7 /* lz4.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = lz4.h; sourceTree = "<group>"; };
-		50F152432EFAEB37002DDAC7 /* lz4.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = lz4.c; sourceTree = "<group>"; };
-		50F152452EFAEB37002DDAC7 /* CMakeLists.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
-		50F1525A2EFAEB4E002DDAC7 /* BlockDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BlockDevice.h; sourceTree = "<group>"; };
-		50F1525B2EFAEB4E002DDAC7 /* BlockDevice.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = BlockDevice.cpp; sourceTree = "<group>"; };
-		50F1525C2EFAEB4E002DDAC7 /* BlockView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BlockView.h; sourceTree = "<group>"; };
-		50F1525D2EFAEB4E002DDAC7 /* BlockView.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = BlockView.cpp; sourceTree = "<group>"; };
-		50F1525E2EFAEB4E002DDAC7 /* BlockVolume.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BlockVolume.h; sourceTree = "<group>"; };
-		50F1525F2EFAEB4E002DDAC7 /* BlockVolume.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = BlockVolume.cpp; sourceTree = "<group>"; };
-		50F152602EFAEB4E002DDAC7 /* CMakeLists.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
-		50F152632EFAEB4E002DDAC7 /* BootBlockImage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BootBlockImage.h; sourceTree = "<group>"; };
-		50F152642EFAEB4E002DDAC7 /* BootBlockImage.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = BootBlockImage.cpp; sourceTree = "<group>"; };
-		50F152652EFAEB4E002DDAC7 /* CMakeLists.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
-		50F152662EFAEB4E002DDAC7 /* FileSystem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FileSystem.h; sourceTree = "<group>"; };
-		50F152672EFAEB4E002DDAC7 /* FileSystem.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FileSystem.cpp; sourceTree = "<group>"; };
-		50F152682EFAEB4E002DDAC7 /* FileSystemLayer1.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FileSystemLayer1.cpp; sourceTree = "<group>"; };
-		50F152692EFAEB4E002DDAC7 /* FileSystemLayer2.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FileSystemLayer2.cpp; sourceTree = "<group>"; };
-		50F1526A2EFAEB4E002DDAC7 /* FileSystemLayer3.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FileSystemLayer3.cpp; sourceTree = "<group>"; };
-		50F1526B2EFAEB4E002DDAC7 /* FSAllocator.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSAllocator.h; sourceTree = "<group>"; };
-		50F1526C2EFAEB4E002DDAC7 /* FSAllocator.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FSAllocator.cpp; sourceTree = "<group>"; };
-		50F1526D2EFAEB4E002DDAC7 /* FSBlock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSBlock.h; sourceTree = "<group>"; };
-		50F1526E2EFAEB4E002DDAC7 /* FSBlock.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FSBlock.cpp; sourceTree = "<group>"; };
-		50F1526F2EFAEB4E002DDAC7 /* FSCache.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSCache.h; sourceTree = "<group>"; };
-		50F152702EFAEB4E002DDAC7 /* FSCache.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FSCache.cpp; sourceTree = "<group>"; };
-		50F152712EFAEB4E002DDAC7 /* FSContract.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSContract.h; sourceTree = "<group>"; };
-		50F152722EFAEB4E002DDAC7 /* FSContract.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FSContract.cpp; sourceTree = "<group>"; };
-		50F152732EFAEB4E002DDAC7 /* FSDescriptor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSDescriptor.h; sourceTree = "<group>"; };
-		50F152742EFAEB4E002DDAC7 /* FSDescriptor.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FSDescriptor.cpp; sourceTree = "<group>"; };
-		50F152752EFAEB4E002DDAC7 /* FSDoctor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSDoctor.h; sourceTree = "<group>"; };
-		50F152762EFAEB4E002DDAC7 /* FSDoctor.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FSDoctor.cpp; sourceTree = "<group>"; };
-		50F152772EFAEB4E002DDAC7 /* FSError.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSError.h; sourceTree = "<group>"; };
-		50F152782EFAEB4E002DDAC7 /* FSError.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FSError.cpp; sourceTree = "<group>"; };
-		50F152792EFAEB4E002DDAC7 /* FSExporter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSExporter.h; sourceTree = "<group>"; };
-		50F1527A2EFAEB4E002DDAC7 /* FSExporter.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FSExporter.cpp; sourceTree = "<group>"; };
-		50F1527B2EFAEB4E002DDAC7 /* FSImporter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSImporter.h; sourceTree = "<group>"; };
-		50F1527C2EFAEB4E002DDAC7 /* FSImporter.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FSImporter.cpp; sourceTree = "<group>"; };
-		50F1527D2EFAEB4E002DDAC7 /* FSObjects.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSObjects.h; sourceTree = "<group>"; };
-		50F1527E2EFAEB4E002DDAC7 /* FSObjects.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FSObjects.cpp; sourceTree = "<group>"; };
-		50F1527F2EFAEB4E002DDAC7 /* FSService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSService.h; sourceTree = "<group>"; };
-		50F152802EFAEB4E002DDAC7 /* FSService.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FSService.cpp; sourceTree = "<group>"; };
-		50F152812EFAEB4E002DDAC7 /* FSTree.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSTree.h; sourceTree = "<group>"; };
-		50F152822EFAEB4E002DDAC7 /* FSTree.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FSTree.cpp; sourceTree = "<group>"; };
-		50F152832EFAEB4E002DDAC7 /* FSTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSTypes.h; sourceTree = "<group>"; };
-		50F152842EFAEB4E002DDAC7 /* PosixFileSystem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PosixFileSystem.h; sourceTree = "<group>"; };
-		50F152852EFAEB4E002DDAC7 /* PosixFileSystem.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PosixFileSystem.cpp; sourceTree = "<group>"; };
-		50F1528B2EFAEB4E002DDAC7 /* ADFFile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ADFFile.h; sourceTree = "<group>"; };
-		50F1528C2EFAEB4E002DDAC7 /* ADFFile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ADFFile.cpp; sourceTree = "<group>"; };
-		50F1528D2EFAEB4E002DDAC7 /* CMakeLists.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
-		50F152932EFAEB4E002DDAC7 /* ADZFile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ADZFile.h; sourceTree = "<group>"; };
-		50F152942EFAEB4E002DDAC7 /* ADZFile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ADZFile.cpp; sourceTree = "<group>"; };
-		50F152952EFAEB4E002DDAC7 /* CMakeLists.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
-		50F152AF2EFAEB4E002DDAC7 /* CMakeLists.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
-		50F152B22EFAEB4E002DDAC7 /* HDFFile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HDFFile.h; sourceTree = "<group>"; };
-		50F152B32EFAEB4E002DDAC7 /* HDFFile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = HDFFile.cpp; sourceTree = "<group>"; };
-		50F152B42EFAEB4E002DDAC7 /* HDFFileTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HDFFileTypes.h; sourceTree = "<group>"; };
-		50F152B62EFAEB4E002DDAC7 /* CMakeLists.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
-		50F152B92EFAEB4E002DDAC7 /* HDZFile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HDZFile.h; sourceTree = "<group>"; };
-		50F152BA2EFAEB4E002DDAC7 /* HDZFile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = HDZFile.cpp; sourceTree = "<group>"; };
-		50F152BC2EFAEB4E002DDAC7 /* CMakeLists.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
-		50F152C12EFAEB4E002DDAC7 /* IMGFile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IMGFile.h; sourceTree = "<group>"; };
-		50F152C22EFAEB4E002DDAC7 /* IMGFile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = IMGFile.cpp; sourceTree = "<group>"; };
-		50F152CB2EFAEB4E002DDAC7 /* CMakeLists.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
-		50F152D02EFAEB4E002DDAC7 /* STFile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = STFile.h; sourceTree = "<group>"; };
-		50F152D12EFAEB4E002DDAC7 /* STFile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = STFile.cpp; sourceTree = "<group>"; };
-		50F152D32EFAEB4E002DDAC7 /* AnyFile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AnyFile.h; sourceTree = "<group>"; };
-		50F152D42EFAEB4E002DDAC7 /* AnyFile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AnyFile.cpp; sourceTree = "<group>"; };
-		50F152D52EFAEB4E002DDAC7 /* CMakeLists.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
-		50F152D62EFAEB4E002DDAC7 /* DiskFile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DiskFile.h; sourceTree = "<group>"; };
-		50F152D72EFAEB4E002DDAC7 /* DiskFile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DiskFile.cpp; sourceTree = "<group>"; };
-		50F152D82EFAEB4E002DDAC7 /* FileFactories.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FileFactories.h; sourceTree = "<group>"; };
-		50F152D92EFAEB4E002DDAC7 /* FloppyFactory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FloppyFactory.h; sourceTree = "<group>"; };
-		50F152DA2EFAEB4E002DDAC7 /* FloppyFactory.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FloppyFactory.cpp; sourceTree = "<group>"; };
-		50F152DB2EFAEB4E002DDAC7 /* FloppyFile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FloppyFile.h; sourceTree = "<group>"; };
-		50F152DC2EFAEB4E002DDAC7 /* FloppyFile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FloppyFile.cpp; sourceTree = "<group>"; };
-		50F152DD2EFAEB4E002DDAC7 /* Media.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Media.h; sourceTree = "<group>"; };
-		50F152DE2EFAEB4E002DDAC7 /* MediaError.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MediaError.h; sourceTree = "<group>"; };
-		50F152DF2EFAEB4E002DDAC7 /* MediaError.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MediaError.cpp; sourceTree = "<group>"; };
-		50F152E02EFAEB4E002DDAC7 /* MediaFile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MediaFile.h; sourceTree = "<group>"; };
-		50F152E12EFAEB4E002DDAC7 /* MediaFile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MediaFile.cpp; sourceTree = "<group>"; };
-		50F152E22EFAEB4E002DDAC7 /* MediaFileTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MediaFileTypes.h; sourceTree = "<group>"; };
-		50F152EA2EFAEB4E002DDAC7 /* CMakeLists.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
-		50F152EB2EFAEB4E002DDAC7 /* DeviceDescriptors.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DeviceDescriptors.h; sourceTree = "<group>"; };
-		50F152EC2EFAEB4E002DDAC7 /* DeviceDescriptors.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DeviceDescriptors.cpp; sourceTree = "<group>"; };
-		50F152ED2EFAEB4E002DDAC7 /* DeviceError.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DeviceError.h; sourceTree = "<group>"; };
-		50F152EE2EFAEB4E002DDAC7 /* DeviceError.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DeviceError.cpp; sourceTree = "<group>"; };
-		50F152EF2EFAEB4E002DDAC7 /* DeviceTypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DeviceTypes.h; sourceTree = "<group>"; };
+		50D89C4F2F1E774900ECC73D /* debug.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = debug.h; sourceTree = "<group>"; };
+		50D89C502F1E775100ECC73D /* debug.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = debug.cpp; sourceTree = "<group>"; };
+		50D89C522F1E7C7B00ECC73D /* _old_pfile.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = _old_pfile.c; sourceTree = "<group>"; };
+		50D89C532F1E7C7B00ECC73D /* cdata.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = cdata.h; sourceTree = "<group>"; };
+		50D89C542F1E7C7B00ECC73D /* CMakeLists.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
+		50D89C552F1E7C7B00ECC73D /* crc_csum.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = crc_csum.h; sourceTree = "<group>"; };
+		50D89C562F1E7C7B00ECC73D /* crc_csum.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = crc_csum.c; sourceTree = "<group>"; };
+		50D89C572F1E7C7B00ECC73D /* getbits.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = getbits.h; sourceTree = "<group>"; };
+		50D89C582F1E7C7B00ECC73D /* getbits.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = getbits.c; sourceTree = "<group>"; };
+		50D89C592F1E7C7B00ECC73D /* maketbl.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = maketbl.h; sourceTree = "<group>"; };
+		50D89C5A2F1E7C7B00ECC73D /* maketbl.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = maketbl.c; sourceTree = "<group>"; };
+		50D89C5B2F1E7C7B00ECC73D /* pfile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = pfile.h; sourceTree = "<group>"; };
+		50D89C5C2F1E7C7B00ECC73D /* pfile.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = pfile.c; sourceTree = "<group>"; };
+		50D89C5D2F1E7C7B00ECC73D /* tables.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = tables.h; sourceTree = "<group>"; };
+		50D89C5E2F1E7C7B00ECC73D /* tables.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = tables.c; sourceTree = "<group>"; };
+		50D89C5F2F1E7C7B00ECC73D /* u_deep.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = u_deep.h; sourceTree = "<group>"; };
+		50D89C602F1E7C7B00ECC73D /* u_deep.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = u_deep.c; sourceTree = "<group>"; };
+		50D89C612F1E7C7B00ECC73D /* u_heavy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = u_heavy.h; sourceTree = "<group>"; };
+		50D89C622F1E7C7B00ECC73D /* u_heavy.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = u_heavy.c; sourceTree = "<group>"; };
+		50D89C632F1E7C7B00ECC73D /* u_init.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = u_init.h; sourceTree = "<group>"; };
+		50D89C642F1E7C7B00ECC73D /* u_init.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = u_init.c; sourceTree = "<group>"; };
+		50D89C652F1E7C7B00ECC73D /* u_medium.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = u_medium.h; sourceTree = "<group>"; };
+		50D89C662F1E7C7B00ECC73D /* u_medium.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = u_medium.c; sourceTree = "<group>"; };
+		50D89C672F1E7C7B00ECC73D /* u_quick.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = u_quick.h; sourceTree = "<group>"; };
+		50D89C682F1E7C7B00ECC73D /* u_quick.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = u_quick.c; sourceTree = "<group>"; };
+		50D89C692F1E7C7B00ECC73D /* u_rle.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = u_rle.h; sourceTree = "<group>"; };
+		50D89C6A2F1E7C7B00ECC73D /* u_rle.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = u_rle.c; sourceTree = "<group>"; };
+		50D89C6B2F1E7C7B00ECC73D /* xdms.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = xdms.c; sourceTree = "<group>"; };
+		50D89C6C2F1E7C7B00ECC73D /* xdmsconfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = xdmsconfig.h; sourceTree = "<group>"; };
+		50D89C6E2F1E7C7B00ECC73D /* CMakeLists.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
+		50D89C6F2F1E7C7B00ECC73D /* httplib.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = httplib.h; sourceTree = "<group>"; };
+		50D89C702F1E7C7B00ECC73D /* json.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = json.h; sourceTree = "<group>"; };
+		50D89C712F1E7C7B00ECC73D /* json_fwd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = json_fwd.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
-
-/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		50559ADA2ED851640001AEEF /* Exceptions for "RetroMount" folder in "RetroMount" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Info.plist,
-			);
-			target = 504EA7BC2ECE39E8008CF9FC /* RetroMount */;
-		};
-/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
-
-/* Begin PBXFileSystemSynchronizedRootGroup section */
-		504EA7BF2ECE39E8008CF9FC /* RetroMount */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				50559ADA2ED851640001AEEF /* Exceptions for "RetroMount" folder in "RetroMount" target */,
-			);
-			path = RetroMount;
-			sourceTree = "<group>";
-		};
-/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		507724922ECF25B200DB04C5 /* Frameworks */ = {
@@ -289,6 +441,9 @@
 		504EA7B42ECE39E8008CF9FC = {
 			isa = PBXGroup;
 			children = (
+				50BCBDC22EE866B0000C53CF /* config.h */,
+				50D89C4F2F1E774900ECC73D /* debug.h */,
+				50D89C502F1E775100ECC73D /* debug.cpp */,
 				5077249C2ECF8BC000DB04C5 /* FuseAPI.h */,
 				50559ADE2ED870190001AEEF /* FuseFileSystemTypes.h */,
 				504EAD2A2ECF024E008CF9FC /* FuseFileSystem.h */,
@@ -299,9 +454,11 @@
 				507724A52ED0843700DB04C5 /* AmigaVolume.cpp */,
 				50BCBDF82EEBF791000C53CF /* AmigaDevice.h */,
 				50BCBDF92EEBF798000C53CF /* AmigaDevice.cpp */,
-				50BCBC932EE86574000C53CF /* Core */,
+				50900BCD2F1E727400A4A81B /* RetroVault */,
+				50900B102F1E726D00A4A81B /* utlib */,
+				50900C2F2F1E729A00A4A81B /* RetroMount */,
+				50D89C722F1E7C7B00ECC73D /* ThirdParty */,
 				504EAD242ECF00CE008CF9FC /* ObjCProxy */,
-				504EA7BF2ECE39E8008CF9FC /* RetroMount */,
 				504EAD362ECF10DC008CF9FC /* Frameworks */,
 				504EA7BE2ECE39E8008CF9FC /* Products */,
 			);
@@ -335,398 +492,589 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		50BCBC932EE86574000C53CF /* Core */ = {
+		50900AC62F1E726D00A4A81B /* abilities */ = {
 			isa = PBXGroup;
 			children = (
-				50BCBDC22EE866B0000C53CF /* config.h */,
-				50BCBDCA2EE87447000C53CF /* config.cpp */,
-				50F152462EFAEB37002DDAC7 /* utlib */,
-				50F152F02EFAEB4E002DDAC7 /* Storage */,
-			);
-			path = Core;
-			sourceTree = "<group>";
-		};
-		50F151FE2EFAEB37002DDAC7 /* abilities */ = {
-			isa = PBXGroup;
-			children = (
-				50F151F52EFAEB37002DDAC7 /* CMakeLists.txt */,
-				50F151F62EFAEB37002DDAC7 /* Compressible.h */,
-				50F151F72EFAEB37002DDAC7 /* Dumpable.h */,
-				50F151F82EFAEB37002DDAC7 /* Hashable.h */,
-				50F151F92EFAEB37002DDAC7 /* Loggable.h */,
-				50F151FA2EFAEB37002DDAC7 /* Reflectable.h */,
-				50F151FB2EFAEB37002DDAC7 /* Reportable.h */,
-				50F151FC2EFAEB37002DDAC7 /* Synchronizable.h */,
-				50F151FD2EFAEB37002DDAC7 /* Wakeable.h */,
+				50900ABC2F1E726D00A4A81B /* CMakeLists.txt */,
+				50900ABD2F1E726D00A4A81B /* Compressible.h */,
+				50900ABE2F1E726D00A4A81B /* Dumpable.h */,
+				50900ABF2F1E726D00A4A81B /* Hashable.h */,
+				50900AC02F1E726D00A4A81B /* Loggable.h */,
+				50900AC12F1E726D00A4A81B /* Reflectable.h */,
+				50900AC22F1E726D00A4A81B /* Reportable.h */,
+				50900AC32F1E726D00A4A81B /* Streamable.h */,
+				50900AC42F1E726D00A4A81B /* Synchronizable.h */,
+				50900AC52F1E726D00A4A81B /* Wakeable.h */,
 			);
 			path = abilities;
 			sourceTree = "<group>";
 		};
-		50F152012EFAEB37002DDAC7 /* chrono */ = {
+		50900AC92F1E726D00A4A81B /* chrono */ = {
 			isa = PBXGroup;
 			children = (
-				50F151FF2EFAEB37002DDAC7 /* Clock.h */,
-				50F152002EFAEB37002DDAC7 /* Time.h */,
+				50900AC72F1E726D00A4A81B /* Clock.h */,
+				50900AC82F1E726D00A4A81B /* Time.h */,
 			);
 			path = chrono;
 			sourceTree = "<group>";
 		};
-		50F152042EFAEB37002DDAC7 /* concurrency */ = {
+		50900ACC2F1E726D00A4A81B /* concurrency */ = {
 			isa = PBXGroup;
 			children = (
-				50F152022EFAEB37002DDAC7 /* AutoMutex.h */,
-				50F152032EFAEB37002DDAC7 /* ReentrantMutex.h */,
+				50900ACA2F1E726D00A4A81B /* AutoMutex.h */,
+				50900ACB2F1E726D00A4A81B /* ReentrantMutex.h */,
 			);
 			path = concurrency;
 			sourceTree = "<group>";
 		};
-		50F1520B2EFAEB37002DDAC7 /* io */ = {
+		50900AD32F1E726D00A4A81B /* io */ = {
 			isa = PBXGroup;
 			children = (
-				50F152052EFAEB37002DDAC7 /* Files.h */,
-				50F152062EFAEB37002DDAC7 /* Formatter.h */,
-				50F152072EFAEB37002DDAC7 /* IOError.h */,
-				50F152082EFAEB37002DDAC7 /* ParseError.h */,
-				50F152092EFAEB37002DDAC7 /* Parser.h */,
-				50F1520A2EFAEB37002DDAC7 /* Streams.h */,
+				50900ACD2F1E726D00A4A81B /* Files.h */,
+				50900ACE2F1E726D00A4A81B /* Formatter.h */,
+				50900ACF2F1E726D00A4A81B /* IOError.h */,
+				50900AD02F1E726D00A4A81B /* ParseError.h */,
+				50900AD12F1E726D00A4A81B /* Parser.h */,
+				50900AD22F1E726D00A4A81B /* Streams.h */,
 			);
 			path = io;
 			sourceTree = "<group>";
 		};
-		50F1520D2EFAEB37002DDAC7 /* primitives */ = {
+		50900AD72F1E726D00A4A81B /* primitives */ = {
 			isa = PBXGroup;
 			children = (
-				50F1520C2EFAEB37002DDAC7 /* Range.h */,
+				50900AD42F1E726D00A4A81B /* BitView.h */,
+				50900AD52F1E726D00A4A81B /* ByteView.h */,
+				50900AD62F1E726D00A4A81B /* Range.h */,
 			);
 			path = primitives;
 			sourceTree = "<group>";
 		};
-		50F152112EFAEB37002DDAC7 /* storage */ = {
+		50900ADB2F1E726D00A4A81B /* storage */ = {
 			isa = PBXGroup;
 			children = (
-				50F1520E2EFAEB37002DDAC7 /* Buffer.h */,
-				50F1520F2EFAEB37002DDAC7 /* Mailbox.h */,
-				50F152102EFAEB37002DDAC7 /* RingBuffer.h */,
+				50900AD82F1E726D00A4A81B /* Buffer.h */,
+				50900AD92F1E726D00A4A81B /* Mailbox.h */,
+				50900ADA2F1E726D00A4A81B /* RingBuffer.h */,
 			);
 			path = storage;
 			sourceTree = "<group>";
 		};
-		50F152142EFAEB37002DDAC7 /* support */ = {
+		50900ADE2F1E726D00A4A81B /* support */ = {
 			isa = PBXGroup;
 			children = (
-				50F152122EFAEB37002DDAC7 /* Bits.h */,
-				50F152132EFAEB37002DDAC7 /* Strings.h */,
+				50900ADC2F1E726D00A4A81B /* Bits.h */,
+				50900ADD2F1E726D00A4A81B /* Strings.h */,
 			);
 			path = support;
 			sourceTree = "<group>";
 		};
-		50F152182EFAEB37002DDAC7 /* types */ = {
+		50900AE22F1E726D00A4A81B /* types */ = {
 			isa = PBXGroup;
 			children = (
-				50F152152EFAEB37002DDAC7 /* Exception.h */,
-				50F152162EFAEB37002DDAC7 /* Integers.h */,
-				50F152172EFAEB37002DDAC7 /* Literals.h */,
+				50900ADF2F1E726D00A4A81B /* Exception.h */,
+				50900AE02F1E726D00A4A81B /* Integers.h */,
+				50900AE12F1E726D00A4A81B /* Literals.h */,
 			);
 			path = types;
 			sourceTree = "<group>";
 		};
-		50F1521D2EFAEB37002DDAC7 /* wrappers */ = {
+		50900AE72F1E726D00A4A81B /* wrappers */ = {
 			isa = PBXGroup;
 			children = (
-				50F152192EFAEB37002DDAC7 /* Animated.h */,
-				50F1521A2EFAEB37002DDAC7 /* Backed.h */,
-				50F1521B2EFAEB37002DDAC7 /* Cached.h */,
-				50F1521C2EFAEB37002DDAC7 /* Memorized.h */,
+				50900AE32F1E726D00A4A81B /* Animated.h */,
+				50900AE42F1E726D00A4A81B /* Backed.h */,
+				50900AE52F1E726D00A4A81B /* Cached.h */,
+				50900AE62F1E726D00A4A81B /* Memorized.h */,
 			);
 			path = wrappers;
 			sourceTree = "<group>";
 		};
-		50F152292EFAEB37002DDAC7 /* utl */ = {
+		50900AF32F1E726D00A4A81B /* utl */ = {
 			isa = PBXGroup;
 			children = (
-				50F151FE2EFAEB37002DDAC7 /* abilities */,
-				50F152012EFAEB37002DDAC7 /* chrono */,
-				50F152042EFAEB37002DDAC7 /* concurrency */,
-				50F1520B2EFAEB37002DDAC7 /* io */,
-				50F1520D2EFAEB37002DDAC7 /* primitives */,
-				50F152112EFAEB37002DDAC7 /* storage */,
-				50F152142EFAEB37002DDAC7 /* support */,
-				50F152182EFAEB37002DDAC7 /* types */,
-				50F1521D2EFAEB37002DDAC7 /* wrappers */,
-				50F1521E2EFAEB37002DDAC7 /* abilities.h */,
-				50F1521F2EFAEB37002DDAC7 /* chrono.h */,
-				50F152202EFAEB37002DDAC7 /* common.h */,
-				50F152212EFAEB37002DDAC7 /* concurrency.h */,
-				50F152222EFAEB37002DDAC7 /* hints.h */,
-				50F152232EFAEB37002DDAC7 /* io.h */,
-				50F152242EFAEB37002DDAC7 /* primitives.h */,
-				50F152252EFAEB37002DDAC7 /* storage.h */,
-				50F152262EFAEB37002DDAC7 /* support.h */,
-				50F152272EFAEB37002DDAC7 /* types.h */,
-				50F152282EFAEB37002DDAC7 /* wrappers.h */,
+				50900AC62F1E726D00A4A81B /* abilities */,
+				50900AC92F1E726D00A4A81B /* chrono */,
+				50900ACC2F1E726D00A4A81B /* concurrency */,
+				50900AD32F1E726D00A4A81B /* io */,
+				50900AD72F1E726D00A4A81B /* primitives */,
+				50900ADB2F1E726D00A4A81B /* storage */,
+				50900ADE2F1E726D00A4A81B /* support */,
+				50900AE22F1E726D00A4A81B /* types */,
+				50900AE72F1E726D00A4A81B /* wrappers */,
+				50900AE82F1E726D00A4A81B /* abilities.h */,
+				50900AE92F1E726D00A4A81B /* chrono.h */,
+				50900AEA2F1E726D00A4A81B /* common.h */,
+				50900AEB2F1E726D00A4A81B /* concurrency.h */,
+				50900AEC2F1E726D00A4A81B /* hints.h */,
+				50900AED2F1E726D00A4A81B /* io.h */,
+				50900AEE2F1E726D00A4A81B /* primitives.h */,
+				50900AEF2F1E726D00A4A81B /* storage.h */,
+				50900AF02F1E726D00A4A81B /* support.h */,
+				50900AF12F1E726D00A4A81B /* types.h */,
+				50900AF22F1E726D00A4A81B /* wrappers.h */,
 			);
 			path = utl;
 			sourceTree = "<group>";
 		};
-		50F1522A2EFAEB37002DDAC7 /* include */ = {
+		50900AF42F1E726D00A4A81B /* include */ = {
 			isa = PBXGroup;
 			children = (
-				50F152292EFAEB37002DDAC7 /* utl */,
+				50900AF32F1E726D00A4A81B /* utl */,
 			);
 			path = include;
 			sourceTree = "<group>";
 		};
-		50F152322EFAEB37002DDAC7 /* abilities */ = {
+		50900AFC2F1E726D00A4A81B /* abilities */ = {
 			isa = PBXGroup;
 			children = (
-				50F1522B2EFAEB37002DDAC7 /* Compressible.cpp */,
-				50F1522C2EFAEB37002DDAC7 /* Dumpable.cpp */,
-				50F1522D2EFAEB37002DDAC7 /* Hashable.cpp */,
-				50F1522E2EFAEB37002DDAC7 /* Loggable.cpp */,
-				50F1522F2EFAEB37002DDAC7 /* Reflectable.cpp */,
-				50F152302EFAEB37002DDAC7 /* Reportable.cpp */,
-				50F152312EFAEB37002DDAC7 /* Wakeable.cpp */,
+				50900AF52F1E726D00A4A81B /* Compressible.cpp */,
+				50900AF62F1E726D00A4A81B /* Dumpable.cpp */,
+				50900AF72F1E726D00A4A81B /* Hashable.cpp */,
+				50900AF82F1E726D00A4A81B /* Loggable.cpp */,
+				50900AF92F1E726D00A4A81B /* Reflectable.cpp */,
+				50900AFA2F1E726D00A4A81B /* Reportable.cpp */,
+				50900AFB2F1E726D00A4A81B /* Wakeable.cpp */,
 			);
 			path = abilities;
 			sourceTree = "<group>";
 		};
-		50F152352EFAEB37002DDAC7 /* chrono */ = {
+		50900AFF2F1E726D00A4A81B /* chrono */ = {
 			isa = PBXGroup;
 			children = (
-				50F152332EFAEB37002DDAC7 /* Clock.cpp */,
-				50F152342EFAEB37002DDAC7 /* Time.cpp */,
+				50900AFD2F1E726D00A4A81B /* Clock.cpp */,
+				50900AFE2F1E726D00A4A81B /* Time.cpp */,
 			);
 			path = chrono;
 			sourceTree = "<group>";
 		};
-		50F152382EFAEB37002DDAC7 /* io */ = {
+		50900B032F1E726D00A4A81B /* io */ = {
 			isa = PBXGroup;
 			children = (
-				50F152362EFAEB37002DDAC7 /* Formatter.cpp */,
-				50F152372EFAEB37002DDAC7 /* Parser.cpp */,
+				50900B002F1E726D00A4A81B /* Formatter.cpp */,
+				50900B012F1E726D00A4A81B /* Parser.cpp */,
+				50900B022F1E726D00A4A81B /* Streams.cpp */,
 			);
 			path = io;
 			sourceTree = "<group>";
 		};
-		50F1523A2EFAEB37002DDAC7 /* storage */ = {
+		50900B052F1E726D00A4A81B /* storage */ = {
 			isa = PBXGroup;
 			children = (
-				50F152392EFAEB37002DDAC7 /* Buffer.cpp */,
+				50900B042F1E726D00A4A81B /* Buffer.cpp */,
 			);
 			path = storage;
 			sourceTree = "<group>";
 		};
-		50F1523F2EFAEB37002DDAC7 /* support */ = {
+		50900B092F1E726D00A4A81B /* support */ = {
 			isa = PBXGroup;
 			children = (
-				50F1523B2EFAEB37002DDAC7 /* Bits.cpp */,
-				50F1523C2EFAEB37002DDAC7 /* Files.cpp */,
-				50F1523D2EFAEB37002DDAC7 /* Streams.cpp */,
-				50F1523E2EFAEB37002DDAC7 /* Strings.cpp */,
+				50900B062F1E726D00A4A81B /* Bits.cpp */,
+				50900B072F1E726D00A4A81B /* Files.cpp */,
+				50900B082F1E726D00A4A81B /* Strings.cpp */,
 			);
 			path = support;
 			sourceTree = "<group>";
 		};
-		50F152402EFAEB37002DDAC7 /* types */ = {
+		50900B0A2F1E726D00A4A81B /* types */ = {
 			isa = PBXGroup;
 			children = (
 			);
 			path = types;
 			sourceTree = "<group>";
 		};
-		50F152412EFAEB37002DDAC7 /* src */ = {
+		50900B0B2F1E726D00A4A81B /* src */ = {
 			isa = PBXGroup;
 			children = (
-				50F152322EFAEB37002DDAC7 /* abilities */,
-				50F152352EFAEB37002DDAC7 /* chrono */,
-				50F152382EFAEB37002DDAC7 /* io */,
-				50F1523A2EFAEB37002DDAC7 /* storage */,
-				50F1523F2EFAEB37002DDAC7 /* support */,
-				50F152402EFAEB37002DDAC7 /* types */,
+				50900AFC2F1E726D00A4A81B /* abilities */,
+				50900AFF2F1E726D00A4A81B /* chrono */,
+				50900B032F1E726D00A4A81B /* io */,
+				50900B052F1E726D00A4A81B /* storage */,
+				50900B092F1E726D00A4A81B /* support */,
+				50900B0A2F1E726D00A4A81B /* types */,
 			);
 			path = src;
 			sourceTree = "<group>";
 		};
-		50F152442EFAEB37002DDAC7 /* thirdparty */ = {
+		50900B0E2F1E726D00A4A81B /* thirdparty */ = {
 			isa = PBXGroup;
 			children = (
-				50F152422EFAEB37002DDAC7 /* lz4.h */,
-				50F152432EFAEB37002DDAC7 /* lz4.c */,
+				50900B0C2F1E726D00A4A81B /* lz4.h */,
+				50900B0D2F1E726D00A4A81B /* lz4.c */,
 			);
 			path = thirdparty;
 			sourceTree = "<group>";
 		};
-		50F152462EFAEB37002DDAC7 /* utlib */ = {
+		50900B102F1E726D00A4A81B /* utlib */ = {
 			isa = PBXGroup;
 			children = (
-				50F1522A2EFAEB37002DDAC7 /* include */,
-				50F152412EFAEB37002DDAC7 /* src */,
-				50F152442EFAEB37002DDAC7 /* thirdparty */,
-				50F152452EFAEB37002DDAC7 /* CMakeLists.txt */,
+				50900AF42F1E726D00A4A81B /* include */,
+				50900B0B2F1E726D00A4A81B /* src */,
+				50900B0E2F1E726D00A4A81B /* thirdparty */,
+				50900B0F2F1E726D00A4A81B /* CMakeLists.txt */,
 			);
 			path = utlib;
 			sourceTree = "<group>";
 		};
-		50F152622EFAEB4E002DDAC7 /* Devices */ = {
+		50900B322F1E727400A4A81B /* Devices */ = {
 			isa = PBXGroup;
 			children = (
-				50F1525A2EFAEB4E002DDAC7 /* BlockDevice.h */,
-				50F1525B2EFAEB4E002DDAC7 /* BlockDevice.cpp */,
-				50F1525C2EFAEB4E002DDAC7 /* BlockView.h */,
-				50F1525D2EFAEB4E002DDAC7 /* BlockView.cpp */,
-				50F1525E2EFAEB4E002DDAC7 /* BlockVolume.h */,
-				50F1525F2EFAEB4E002DDAC7 /* BlockVolume.cpp */,
-				50F152602EFAEB4E002DDAC7 /* CMakeLists.txt */,
+				50900B242F1E727400A4A81B /* BlockDevice.h */,
+				50900B252F1E727400A4A81B /* BlockDevice.cpp */,
+				50900B262F1E727400A4A81B /* CMakeLists.txt */,
+				50900B272F1E727400A4A81B /* DeviceDescriptors.h */,
+				50900B282F1E727400A4A81B /* DeviceDescriptors.cpp */,
+				50900B292F1E727400A4A81B /* DeviceError.h */,
+				50900B2A2F1E727400A4A81B /* DeviceError.cpp */,
+				50900B2B2F1E727400A4A81B /* DeviceTypes.h */,
+				50900B2C2F1E727400A4A81B /* LinearDevice.h */,
+				50900B2D2F1E727400A4A81B /* LinearDevice.cpp */,
+				50900B2E2F1E727400A4A81B /* TrackDevice.h */,
+				50900B2F2F1E727400A4A81B /* TrackDevice.cpp */,
+				50900B302F1E727400A4A81B /* Volume.h */,
+				50900B312F1E727400A4A81B /* Volume.cpp */,
 			);
 			path = Devices;
 			sourceTree = "<group>";
 		};
-		50F152862EFAEB4E002DDAC7 /* FileSystems */ = {
+		50900B562F1E727400A4A81B /* Amiga */ = {
 			isa = PBXGroup;
 			children = (
-				50F152632EFAEB4E002DDAC7 /* BootBlockImage.h */,
-				50F152642EFAEB4E002DDAC7 /* BootBlockImage.cpp */,
-				50F152652EFAEB4E002DDAC7 /* CMakeLists.txt */,
-				50F152662EFAEB4E002DDAC7 /* FileSystem.h */,
-				50F152672EFAEB4E002DDAC7 /* FileSystem.cpp */,
-				50F152682EFAEB4E002DDAC7 /* FileSystemLayer1.cpp */,
-				50F152692EFAEB4E002DDAC7 /* FileSystemLayer2.cpp */,
-				50F1526A2EFAEB4E002DDAC7 /* FileSystemLayer3.cpp */,
-				50F1526B2EFAEB4E002DDAC7 /* FSAllocator.h */,
-				50F1526C2EFAEB4E002DDAC7 /* FSAllocator.cpp */,
-				50F1526D2EFAEB4E002DDAC7 /* FSBlock.h */,
-				50F1526E2EFAEB4E002DDAC7 /* FSBlock.cpp */,
-				50F1526F2EFAEB4E002DDAC7 /* FSCache.h */,
-				50F152702EFAEB4E002DDAC7 /* FSCache.cpp */,
-				50F152712EFAEB4E002DDAC7 /* FSContract.h */,
-				50F152722EFAEB4E002DDAC7 /* FSContract.cpp */,
-				50F152732EFAEB4E002DDAC7 /* FSDescriptor.h */,
-				50F152742EFAEB4E002DDAC7 /* FSDescriptor.cpp */,
-				50F152752EFAEB4E002DDAC7 /* FSDoctor.h */,
-				50F152762EFAEB4E002DDAC7 /* FSDoctor.cpp */,
-				50F152772EFAEB4E002DDAC7 /* FSError.h */,
-				50F152782EFAEB4E002DDAC7 /* FSError.cpp */,
-				50F152792EFAEB4E002DDAC7 /* FSExporter.h */,
-				50F1527A2EFAEB4E002DDAC7 /* FSExporter.cpp */,
-				50F1527B2EFAEB4E002DDAC7 /* FSImporter.h */,
-				50F1527C2EFAEB4E002DDAC7 /* FSImporter.cpp */,
-				50F1527D2EFAEB4E002DDAC7 /* FSObjects.h */,
-				50F1527E2EFAEB4E002DDAC7 /* FSObjects.cpp */,
-				50F1527F2EFAEB4E002DDAC7 /* FSService.h */,
-				50F152802EFAEB4E002DDAC7 /* FSService.cpp */,
-				50F152812EFAEB4E002DDAC7 /* FSTree.h */,
-				50F152822EFAEB4E002DDAC7 /* FSTree.cpp */,
-				50F152832EFAEB4E002DDAC7 /* FSTypes.h */,
-				50F152842EFAEB4E002DDAC7 /* PosixFileSystem.h */,
-				50F152852EFAEB4E002DDAC7 /* PosixFileSystem.cpp */,
+				50900B332F1E727400A4A81B /* CMakeLists.txt */,
+				50900B342F1E727400A4A81B /* FileSystem.h */,
+				50900B352F1E727400A4A81B /* FileSystem.cpp */,
+				50900B362F1E727400A4A81B /* FileSystemLayer1.cpp */,
+				50900B372F1E727400A4A81B /* FileSystemLayer2.cpp */,
+				50900B382F1E727400A4A81B /* FileSystemLayer3.cpp */,
+				50900B392F1E727400A4A81B /* FSAllocator.h */,
+				50900B3A2F1E727400A4A81B /* FSAllocator.cpp */,
+				50900B3B2F1E727400A4A81B /* FSBlock.h */,
+				50900B3C2F1E727400A4A81B /* FSBlock.cpp */,
+				50900B3D2F1E727400A4A81B /* FSBootBlockImage.h */,
+				50900B3E2F1E727400A4A81B /* FSBootBlockImage.cpp */,
+				50900B3F2F1E727400A4A81B /* FSCache.h */,
+				50900B402F1E727400A4A81B /* FSCache.cpp */,
+				50900B412F1E727400A4A81B /* FSContract.h */,
+				50900B422F1E727400A4A81B /* FSContract.cpp */,
+				50900B432F1E727400A4A81B /* FSDescriptor.h */,
+				50900B442F1E727400A4A81B /* FSDescriptor.cpp */,
+				50900B452F1E727400A4A81B /* FSDoctor.h */,
+				50900B462F1E727400A4A81B /* FSDoctor.cpp */,
+				50900B472F1E727400A4A81B /* FSError.h */,
+				50900B482F1E727400A4A81B /* FSError.cpp */,
+				50900B492F1E727400A4A81B /* FSExporter.h */,
+				50900B4A2F1E727400A4A81B /* FSExporter.cpp */,
+				50900B4B2F1E727400A4A81B /* FSImporter.h */,
+				50900B4C2F1E727400A4A81B /* FSImporter.cpp */,
+				50900B4D2F1E727400A4A81B /* FSObjects.h */,
+				50900B4E2F1E727400A4A81B /* FSObjects.cpp */,
+				50900B4F2F1E727400A4A81B /* FSService.h */,
+				50900B502F1E727400A4A81B /* FSService.cpp */,
+				50900B512F1E727400A4A81B /* FSTree.h */,
+				50900B522F1E727400A4A81B /* FSTree.cpp */,
+				50900B532F1E727400A4A81B /* FSTypes.h */,
+				50900B542F1E727400A4A81B /* PosixAdapter.h */,
+				50900B552F1E727400A4A81B /* PosixAdapter.cpp */,
+			);
+			path = Amiga;
+			sourceTree = "<group>";
+		};
+		50900B782F1E727400A4A81B /* CBM */ = {
+			isa = PBXGroup;
+			children = (
+				50900B572F1E727400A4A81B /* CMakeLists.txt */,
+				50900B582F1E727400A4A81B /* FileSystem.h */,
+				50900B592F1E727400A4A81B /* FileSystem.cpp */,
+				50900B5A2F1E727400A4A81B /* FileSystemLayer1.cpp */,
+				50900B5B2F1E727400A4A81B /* FileSystemLayer2.cpp */,
+				50900B5C2F1E727400A4A81B /* FileSystemLayer3.cpp */,
+				50900B5D2F1E727400A4A81B /* FSAllocator.h */,
+				50900B5E2F1E727400A4A81B /* FSAllocator.cpp */,
+				50900B5F2F1E727400A4A81B /* FSBlock.h */,
+				50900B602F1E727400A4A81B /* FSBlock.cpp */,
+				50900B612F1E727400A4A81B /* FSCache.h */,
+				50900B622F1E727400A4A81B /* FSCache.cpp */,
+				50900B632F1E727400A4A81B /* FSContract.h */,
+				50900B642F1E727400A4A81B /* FSContract.cpp */,
+				50900B652F1E727400A4A81B /* FSDirEntry.h */,
+				50900B662F1E727400A4A81B /* FSDirEntry.cpp */,
+				50900B672F1E727400A4A81B /* FSDoctor.h */,
+				50900B682F1E727400A4A81B /* FSDoctor.cpp */,
+				50900B692F1E727400A4A81B /* FSError.h */,
+				50900B6A2F1E727400A4A81B /* FSError.cpp */,
+				50900B6B2F1E727400A4A81B /* FSExporter.h */,
+				50900B6C2F1E727400A4A81B /* FSExporter.cpp */,
+				50900B6D2F1E727400A4A81B /* FSImporter.h */,
+				50900B6E2F1E727400A4A81B /* FSImporter.cpp */,
+				50900B6F2F1E727400A4A81B /* FSObjects.h */,
+				50900B702F1E727400A4A81B /* FSObjects.cpp */,
+				50900B712F1E727400A4A81B /* FSService.h */,
+				50900B722F1E727400A4A81B /* FSService.cpp */,
+				50900B732F1E727400A4A81B /* FSTraits.h */,
+				50900B742F1E727400A4A81B /* FSTraits.cpp */,
+				50900B752F1E727400A4A81B /* FSTypes.h */,
+				50900B762F1E727400A4A81B /* PosixAdapter.h */,
+				50900B772F1E727400A4A81B /* PosixAdapter.cpp */,
+			);
+			path = CBM;
+			sourceTree = "<group>";
+		};
+		50900B7D2F1E727400A4A81B /* FileSystems */ = {
+			isa = PBXGroup;
+			children = (
+				50900B562F1E727400A4A81B /* Amiga */,
+				50900B782F1E727400A4A81B /* CBM */,
+				50900B792F1E727400A4A81B /* CMakeLists.txt */,
+				50900B7A2F1E727400A4A81B /* PosixView.h */,
+				50900B7B2F1E727400A4A81B /* PosixView.cpp */,
+				50900B7C2F1E727400A4A81B /* PosixViewTypes.h */,
 			);
 			path = FileSystems;
 			sourceTree = "<group>";
 		};
-		50F1528E2EFAEB4E002DDAC7 /* ADF */ = {
+		50900B812F1E727400A4A81B /* ADF */ = {
 			isa = PBXGroup;
 			children = (
-				50F1528B2EFAEB4E002DDAC7 /* ADFFile.h */,
-				50F1528C2EFAEB4E002DDAC7 /* ADFFile.cpp */,
-				50F1528D2EFAEB4E002DDAC7 /* CMakeLists.txt */,
+				50900B7E2F1E727400A4A81B /* ADFFile.h */,
+				50900B7F2F1E727400A4A81B /* ADFFile.cpp */,
+				50900B802F1E727400A4A81B /* CMakeLists.txt */,
 			);
 			path = ADF;
 			sourceTree = "<group>";
 		};
-		50F152962EFAEB4E002DDAC7 /* ADZ */ = {
+		50900B852F1E727400A4A81B /* ADZ */ = {
 			isa = PBXGroup;
 			children = (
-				50F152932EFAEB4E002DDAC7 /* ADZFile.h */,
-				50F152942EFAEB4E002DDAC7 /* ADZFile.cpp */,
-				50F152952EFAEB4E002DDAC7 /* CMakeLists.txt */,
+				50900B822F1E727400A4A81B /* ADZFile.h */,
+				50900B832F1E727400A4A81B /* ADZFile.cpp */,
+				50900B842F1E727400A4A81B /* CMakeLists.txt */,
 			);
 			path = ADZ;
 			sourceTree = "<group>";
 		};
-		50F152B52EFAEB4E002DDAC7 /* HDF */ = {
+		50900B892F1E727400A4A81B /* D64 */ = {
 			isa = PBXGroup;
 			children = (
-				50F152AF2EFAEB4E002DDAC7 /* CMakeLists.txt */,
-				50F152B22EFAEB4E002DDAC7 /* HDFFile.h */,
-				50F152B32EFAEB4E002DDAC7 /* HDFFile.cpp */,
-				50F152B42EFAEB4E002DDAC7 /* HDFFileTypes.h */,
+				50900B862F1E727400A4A81B /* CMakeLists.txt */,
+				50900B872F1E727400A4A81B /* D64File.h */,
+				50900B882F1E727400A4A81B /* D64File.cpp */,
+			);
+			path = D64;
+			sourceTree = "<group>";
+		};
+		50900B8D2F1E727400A4A81B /* DMS */ = {
+			isa = PBXGroup;
+			children = (
+				50900B8A2F1E727400A4A81B /* CMakeLists.txt */,
+				50900B8B2F1E727400A4A81B /* DMSFile.h */,
+				50900B8C2F1E727400A4A81B /* DMSFile.cpp */,
+			);
+			path = DMS;
+			sourceTree = "<group>";
+		};
+		50900B912F1E727400A4A81B /* EADF */ = {
+			isa = PBXGroup;
+			children = (
+				50900B8E2F1E727400A4A81B /* CMakeLists.txt */,
+				50900B8F2F1E727400A4A81B /* EADFFile.h */,
+				50900B902F1E727400A4A81B /* EADFFile.cpp */,
+			);
+			path = EADF;
+			sourceTree = "<group>";
+		};
+		50900BA62F1E727400A4A81B /* Encoders */ = {
+			isa = PBXGroup;
+			children = (
+				50900B922F1E727400A4A81B /* AmigaDecoder.h */,
+				50900B932F1E727400A4A81B /* AmigaDecoder.cpp */,
+				50900B942F1E727400A4A81B /* AmigaEncoder.h */,
+				50900B952F1E727400A4A81B /* AmigaEncoder.cpp */,
+				50900B962F1E727400A4A81B /* C64Decoder.h */,
+				50900B972F1E727400A4A81B /* C64Decoder.cpp */,
+				50900B982F1E727400A4A81B /* C64Encoder.h */,
+				50900B992F1E727400A4A81B /* C64Encoder.cpp */,
+				50900B9A2F1E727400A4A81B /* CMakeLists.txt */,
+				50900B9B2F1E727400A4A81B /* DiskDecoder.h */,
+				50900B9C2F1E727400A4A81B /* DiskDecoder.cpp */,
+				50900B9D2F1E727400A4A81B /* DiskEncoder.h */,
+				50900B9E2F1E727400A4A81B /* DOSDecoder.h */,
+				50900B9F2F1E727400A4A81B /* DOSDecoder.cpp */,
+				50900BA02F1E727400A4A81B /* DOSEncoder.h */,
+				50900BA12F1E727400A4A81B /* DOSEncoder.cpp */,
+				50900BA22F1E727400A4A81B /* GCR.h */,
+				50900BA32F1E727400A4A81B /* GCR.cpp */,
+				50900BA42F1E727400A4A81B /* MFM.h */,
+				50900BA52F1E727400A4A81B /* MFM.cpp */,
+			);
+			path = Encoders;
+			sourceTree = "<group>";
+		};
+		50900BAA2F1E727400A4A81B /* EXE */ = {
+			isa = PBXGroup;
+			children = (
+				50900BA72F1E727400A4A81B /* CMakeLists.txt */,
+				50900BA82F1E727400A4A81B /* EXEFile.h */,
+				50900BA92F1E727400A4A81B /* EXEFile.cpp */,
+			);
+			path = EXE;
+			sourceTree = "<group>";
+		};
+		50900BAE2F1E727400A4A81B /* HDF */ = {
+			isa = PBXGroup;
+			children = (
+				50900BAB2F1E727400A4A81B /* CMakeLists.txt */,
+				50900BAC2F1E727400A4A81B /* HDFFile.h */,
+				50900BAD2F1E727400A4A81B /* HDFFile.cpp */,
 			);
 			path = HDF;
 			sourceTree = "<group>";
 		};
-		50F152BB2EFAEB4E002DDAC7 /* HDZ */ = {
+		50900BB22F1E727400A4A81B /* HDZ */ = {
 			isa = PBXGroup;
 			children = (
-				50F152B62EFAEB4E002DDAC7 /* CMakeLists.txt */,
-				50F152B92EFAEB4E002DDAC7 /* HDZFile.h */,
-				50F152BA2EFAEB4E002DDAC7 /* HDZFile.cpp */,
+				50900BAF2F1E727400A4A81B /* CMakeLists.txt */,
+				50900BB02F1E727400A4A81B /* HDZFile.h */,
+				50900BB12F1E727400A4A81B /* HDZFile.cpp */,
 			);
 			path = HDZ;
 			sourceTree = "<group>";
 		};
-		50F152C32EFAEB4E002DDAC7 /* IMG */ = {
+		50900BB62F1E727400A4A81B /* IMG */ = {
 			isa = PBXGroup;
 			children = (
-				50F152BC2EFAEB4E002DDAC7 /* CMakeLists.txt */,
-				50F152C12EFAEB4E002DDAC7 /* IMGFile.h */,
-				50F152C22EFAEB4E002DDAC7 /* IMGFile.cpp */,
+				50900BB32F1E727400A4A81B /* CMakeLists.txt */,
+				50900BB42F1E727400A4A81B /* IMGFile.h */,
+				50900BB52F1E727400A4A81B /* IMGFile.cpp */,
 			);
 			path = IMG;
 			sourceTree = "<group>";
 		};
-		50F152D22EFAEB4E002DDAC7 /* ST */ = {
+		50900BBA2F1E727400A4A81B /* ST */ = {
 			isa = PBXGroup;
 			children = (
-				50F152CB2EFAEB4E002DDAC7 /* CMakeLists.txt */,
-				50F152D02EFAEB4E002DDAC7 /* STFile.h */,
-				50F152D12EFAEB4E002DDAC7 /* STFile.cpp */,
+				50900BB72F1E727400A4A81B /* CMakeLists.txt */,
+				50900BB82F1E727400A4A81B /* STFile.h */,
+				50900BB92F1E727400A4A81B /* STFile.cpp */,
 			);
 			path = ST;
 			sourceTree = "<group>";
 		};
-		50F152E92EFAEB4E002DDAC7 /* Media */ = {
+		50900BC72F1E727400A4A81B /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				50F1528E2EFAEB4E002DDAC7 /* ADF */,
-				50F152962EFAEB4E002DDAC7 /* ADZ */,
-				50F152B52EFAEB4E002DDAC7 /* HDF */,
-				50F152BB2EFAEB4E002DDAC7 /* HDZ */,
-				50F152C32EFAEB4E002DDAC7 /* IMG */,
-				50F152D22EFAEB4E002DDAC7 /* ST */,
-				50F152D32EFAEB4E002DDAC7 /* AnyFile.h */,
-				50F152D42EFAEB4E002DDAC7 /* AnyFile.cpp */,
-				50F152D52EFAEB4E002DDAC7 /* CMakeLists.txt */,
-				50F152D62EFAEB4E002DDAC7 /* DiskFile.h */,
-				50F152D72EFAEB4E002DDAC7 /* DiskFile.cpp */,
-				50F152D82EFAEB4E002DDAC7 /* FileFactories.h */,
-				50F152D92EFAEB4E002DDAC7 /* FloppyFactory.h */,
-				50F152DA2EFAEB4E002DDAC7 /* FloppyFactory.cpp */,
-				50F152DB2EFAEB4E002DDAC7 /* FloppyFile.h */,
-				50F152DC2EFAEB4E002DDAC7 /* FloppyFile.cpp */,
-				50F152DD2EFAEB4E002DDAC7 /* Media.h */,
-				50F152DE2EFAEB4E002DDAC7 /* MediaError.h */,
-				50F152DF2EFAEB4E002DDAC7 /* MediaError.cpp */,
-				50F152E02EFAEB4E002DDAC7 /* MediaFile.h */,
-				50F152E12EFAEB4E002DDAC7 /* MediaFile.cpp */,
-				50F152E22EFAEB4E002DDAC7 /* MediaFileTypes.h */,
+				50900B812F1E727400A4A81B /* ADF */,
+				50900B852F1E727400A4A81B /* ADZ */,
+				50900B892F1E727400A4A81B /* D64 */,
+				50900B8D2F1E727400A4A81B /* DMS */,
+				50900B912F1E727400A4A81B /* EADF */,
+				50900BA62F1E727400A4A81B /* Encoders */,
+				50900BAA2F1E727400A4A81B /* EXE */,
+				50900BAE2F1E727400A4A81B /* HDF */,
+				50900BB22F1E727400A4A81B /* HDZ */,
+				50900BB62F1E727400A4A81B /* IMG */,
+				50900BBA2F1E727400A4A81B /* ST */,
+				50900BBB2F1E727400A4A81B /* AnyImage.h */,
+				50900BBC2F1E727400A4A81B /* AnyImage.cpp */,
+				50900BBD2F1E727400A4A81B /* CMakeLists.txt */,
+				50900BBE2F1E727400A4A81B /* DiskImage.h */,
+				50900BBF2F1E727400A4A81B /* DiskImage.cpp */,
+				50900BC02F1E727400A4A81B /* FloppyDiskImage.h */,
+				50900BC12F1E727400A4A81B /* FloppyDiskImage.cpp */,
+				50900BC22F1E727400A4A81B /* HardDiskImage.h */,
+				50900BC32F1E727400A4A81B /* HardDiskImage.cpp */,
+				50900BC42F1E727400A4A81B /* ImageError.h */,
+				50900BC52F1E727400A4A81B /* ImageError.cpp */,
+				50900BC62F1E727400A4A81B /* ImageTypes.h */,
 			);
-			path = Media;
+			path = Images;
 			sourceTree = "<group>";
 		};
-		50F152F02EFAEB4E002DDAC7 /* Storage */ = {
+		50900BCD2F1E727400A4A81B /* RetroVault */ = {
 			isa = PBXGroup;
 			children = (
-				50F152622EFAEB4E002DDAC7 /* Devices */,
-				50F152862EFAEB4E002DDAC7 /* FileSystems */,
-				50F152E92EFAEB4E002DDAC7 /* Media */,
-				50F152EA2EFAEB4E002DDAC7 /* CMakeLists.txt */,
-				50F152EB2EFAEB4E002DDAC7 /* DeviceDescriptors.h */,
-				50F152EC2EFAEB4E002DDAC7 /* DeviceDescriptors.cpp */,
-				50F152ED2EFAEB4E002DDAC7 /* DeviceError.h */,
-				50F152EE2EFAEB4E002DDAC7 /* DeviceError.cpp */,
-				50F152EF2EFAEB4E002DDAC7 /* DeviceTypes.h */,
+				50900B322F1E727400A4A81B /* Devices */,
+				50900B7D2F1E727400A4A81B /* FileSystems */,
+				50900BC72F1E727400A4A81B /* Images */,
+				50900BC82F1E727400A4A81B /* AmigaFileSystem.h */,
+				50900BC92F1E727400A4A81B /* CBMFileSystem.h */,
+				50900BCA2F1E727400A4A81B /* CMakeLists.txt */,
+				50900BCB2F1E727400A4A81B /* Devices.h */,
+				50900BCC2F1E727400A4A81B /* Images.h */,
 			);
-			path = Storage;
+			path = RetroVault;
+			sourceTree = "<group>";
+		};
+		50900C232F1E729A00A4A81B /* New Folder */ = {
+			isa = PBXGroup;
+			children = (
+				50900C212F1E729A00A4A81B /* DevicesViewController.swift */,
+				50900C222F1E729A00A4A81B /* TableCellViews.swift */,
+			);
+			path = "New Folder";
+			sourceTree = "<group>";
+		};
+		50900C2F2F1E729A00A4A81B /* RetroMount */ = {
+			isa = PBXGroup;
+			children = (
+				50900C232F1E729A00A4A81B /* New Folder */,
+				50900C242F1E729A00A4A81B /* AppDelegate.swift */,
+				50900C252F1E729A00A4A81B /* Assets.xcassets */,
+				50900C262F1E729A00A4A81B /* DeviceManager.swift */,
+				50900C272F1E729A00A4A81B /* Errors.swift */,
+				50900C282F1E729A00A4A81B /* Extensions.swift */,
+				50900C292F1E729A00A4A81B /* Info.plist */,
+				50900C2A2F1E729A00A4A81B /* Loggable.swift */,
+				50900C2C2F1E729A00A4A81B /* Main.storyboard */,
+				50900C2D2F1E729A00A4A81B /* ViewController.swift */,
+				50900C2E2F1E729A00A4A81B /* Volume.swift */,
+			);
+			path = RetroMount;
+			sourceTree = "<group>";
+		};
+		50D89C6D2F1E7C7B00ECC73D /* xdms */ = {
+			isa = PBXGroup;
+			children = (
+				50D89C522F1E7C7B00ECC73D /* _old_pfile.c */,
+				50D89C532F1E7C7B00ECC73D /* cdata.h */,
+				50D89C542F1E7C7B00ECC73D /* CMakeLists.txt */,
+				50D89C552F1E7C7B00ECC73D /* crc_csum.h */,
+				50D89C562F1E7C7B00ECC73D /* crc_csum.c */,
+				50D89C572F1E7C7B00ECC73D /* getbits.h */,
+				50D89C582F1E7C7B00ECC73D /* getbits.c */,
+				50D89C592F1E7C7B00ECC73D /* maketbl.h */,
+				50D89C5A2F1E7C7B00ECC73D /* maketbl.c */,
+				50D89C5B2F1E7C7B00ECC73D /* pfile.h */,
+				50D89C5C2F1E7C7B00ECC73D /* pfile.c */,
+				50D89C5D2F1E7C7B00ECC73D /* tables.h */,
+				50D89C5E2F1E7C7B00ECC73D /* tables.c */,
+				50D89C5F2F1E7C7B00ECC73D /* u_deep.h */,
+				50D89C602F1E7C7B00ECC73D /* u_deep.c */,
+				50D89C612F1E7C7B00ECC73D /* u_heavy.h */,
+				50D89C622F1E7C7B00ECC73D /* u_heavy.c */,
+				50D89C632F1E7C7B00ECC73D /* u_init.h */,
+				50D89C642F1E7C7B00ECC73D /* u_init.c */,
+				50D89C652F1E7C7B00ECC73D /* u_medium.h */,
+				50D89C662F1E7C7B00ECC73D /* u_medium.c */,
+				50D89C672F1E7C7B00ECC73D /* u_quick.h */,
+				50D89C682F1E7C7B00ECC73D /* u_quick.c */,
+				50D89C692F1E7C7B00ECC73D /* u_rle.h */,
+				50D89C6A2F1E7C7B00ECC73D /* u_rle.c */,
+				50D89C6B2F1E7C7B00ECC73D /* xdms.c */,
+				50D89C6C2F1E7C7B00ECC73D /* xdmsconfig.h */,
+			);
+			path = xdms;
+			sourceTree = "<group>";
+		};
+		50D89C722F1E7C7B00ECC73D /* ThirdParty */ = {
+			isa = PBXGroup;
+			children = (
+				50D89C6D2F1E7C7B00ECC73D /* xdms */,
+				50D89C6E2F1E7C7B00ECC73D /* CMakeLists.txt */,
+				50D89C6F2F1E7C7B00ECC73D /* httplib.h */,
+				50D89C702F1E7C7B00ECC73D /* json.h */,
+				50D89C712F1E7C7B00ECC73D /* json_fwd.h */,
+			);
+			path = ThirdParty;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -745,13 +1093,10 @@
 			);
 			dependencies = (
 			);
-			fileSystemSynchronizedGroups = (
-				504EA7BF2ECE39E8008CF9FC /* RetroMount */,
-			);
 			name = RetroMount;
 			packageProductDependencies = (
 			);
-			productName = vMount;
+			productName = RetroMount;
 			productReference = 504EA7BD2ECE39E8008CF9FC /* RetroMount.app */;
 			productType = "com.apple.product-type.application";
 		};
@@ -794,7 +1139,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				50F152592EFAEB37002DDAC7 /* CMakeLists.txt in Resources */,
+				50900B222F1E726D00A4A81B /* CMakeLists.txt in Resources */,
+				50900C392F1E729A00A4A81B /* Info.plist in Resources */,
+				50900C3A2F1E729A00A4A81B /* Main.storyboard in Resources */,
+				50900C3B2F1E729A00A4A81B /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -805,70 +1153,134 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				50900B112F1E726D00A4A81B /* Dumpable.cpp in Sources */,
+				50900B122F1E726D00A4A81B /* Parser.cpp in Sources */,
+				50900B132F1E726D00A4A81B /* Reflectable.cpp in Sources */,
+				50900B142F1E726D00A4A81B /* Hashable.cpp in Sources */,
+				50900C302F1E729A00A4A81B /* DevicesViewController.swift in Sources */,
+				50900C312F1E729A00A4A81B /* TableCellViews.swift in Sources */,
+				50900C322F1E729A00A4A81B /* Volume.swift in Sources */,
+				50900C332F1E729A00A4A81B /* DeviceManager.swift in Sources */,
+				50900C342F1E729A00A4A81B /* Extensions.swift in Sources */,
+				50900C352F1E729A00A4A81B /* Errors.swift in Sources */,
+				50900C362F1E729A00A4A81B /* ViewController.swift in Sources */,
+				50900C372F1E729A00A4A81B /* Loggable.swift in Sources */,
+				50900C382F1E729A00A4A81B /* AppDelegate.swift in Sources */,
+				50900B152F1E726D00A4A81B /* Reportable.cpp in Sources */,
+				50900B162F1E726D00A4A81B /* Wakeable.cpp in Sources */,
+				50900B172F1E726D00A4A81B /* Files.cpp in Sources */,
+				50D89C752F1E7C7B00ECC73D /* pfile.c in Sources */,
+				50D89C762F1E7C7B00ECC73D /* u_init.c in Sources */,
+				50D89C772F1E7C7B00ECC73D /* u_deep.c in Sources */,
+				50D89C782F1E7C7B00ECC73D /* u_medium.c in Sources */,
+				50D89C792F1E7C7B00ECC73D /* u_rle.c in Sources */,
+				50D89C7A2F1E7C7B00ECC73D /* crc_csum.c in Sources */,
+				50D89C7B2F1E7C7B00ECC73D /* _old_pfile.c in Sources */,
+				50D89C7C2F1E7C7B00ECC73D /* u_heavy.c in Sources */,
+				50D89C7D2F1E7C7B00ECC73D /* tables.c in Sources */,
+				50D89C7E2F1E7C7B00ECC73D /* maketbl.c in Sources */,
+				50D89C7F2F1E7C7B00ECC73D /* getbits.c in Sources */,
+				50D89C802F1E7C7B00ECC73D /* u_quick.c in Sources */,
+				50D89C812F1E7C7B00ECC73D /* xdms.c in Sources */,
+				50900B182F1E726D00A4A81B /* Formatter.cpp in Sources */,
+				50900B192F1E726D00A4A81B /* Loggable.cpp in Sources */,
+				50900B1A2F1E726D00A4A81B /* Compressible.cpp in Sources */,
+				50900B1B2F1E726D00A4A81B /* Buffer.cpp in Sources */,
+				50900B1C2F1E726D00A4A81B /* Time.cpp in Sources */,
+				50900B1D2F1E726D00A4A81B /* Clock.cpp in Sources */,
+				50900B1E2F1E726D00A4A81B /* lz4.c in Sources */,
+				50900B1F2F1E726D00A4A81B /* Bits.cpp in Sources */,
+				50900B202F1E726D00A4A81B /* Strings.cpp in Sources */,
+				50900B212F1E726D00A4A81B /* Streams.cpp in Sources */,
 				504EAD2D2ECF0266008CF9FC /* FuseFileSystem.cpp in Sources */,
 				5077249F2ECFA78E00DB04C5 /* FuseDebug.cpp in Sources */,
-				50BCBDCB2EE87447000C53CF /* config.cpp in Sources */,
-				50F152472EFAEB37002DDAC7 /* lz4.c in Sources */,
-				50F152482EFAEB37002DDAC7 /* Buffer.cpp in Sources */,
-				50F152492EFAEB37002DDAC7 /* Loggable.cpp in Sources */,
-				50F1524A2EFAEB37002DDAC7 /* Clock.cpp in Sources */,
-				50F1524B2EFAEB37002DDAC7 /* Streams.cpp in Sources */,
-				50F1524C2EFAEB37002DDAC7 /* Parser.cpp in Sources */,
-				50F1524D2EFAEB37002DDAC7 /* Files.cpp in Sources */,
-				50F1524E2EFAEB37002DDAC7 /* Bits.cpp in Sources */,
-				50F1524F2EFAEB37002DDAC7 /* Dumpable.cpp in Sources */,
-				50F152502EFAEB37002DDAC7 /* Formatter.cpp in Sources */,
-				50F152512EFAEB37002DDAC7 /* Strings.cpp in Sources */,
-				50F152522EFAEB37002DDAC7 /* Time.cpp in Sources */,
-				50F152532EFAEB37002DDAC7 /* Reportable.cpp in Sources */,
-				50F152542EFAEB37002DDAC7 /* Compressible.cpp in Sources */,
-				50F152552EFAEB37002DDAC7 /* Wakeable.cpp in Sources */,
-				50F152562EFAEB37002DDAC7 /* Hashable.cpp in Sources */,
-				50F152572EFAEB37002DDAC7 /* Reflectable.cpp in Sources */,
 				50BCBDFA2EEBF79B000C53CF /* AmigaDevice.cpp in Sources */,
 				507724A62ED0843800DB04C5 /* AmigaVolume.cpp in Sources */,
 				504EAD252ECF00CE008CF9FC /* EmulatorProxy.mm in Sources */,
 				504EAD262ECF00CE008CF9FC /* TypeExtensions.swift in Sources */,
 				504EAD272ECF00CE008CF9FC /* ProxyExtensions.swift in Sources */,
-				50F153012EFAEB4E002DDAC7 /* FSImporter.cpp in Sources */,
-				50F153022EFAEB4E002DDAC7 /* FSContract.cpp in Sources */,
-				50F153032EFAEB4E002DDAC7 /* BlockVolume.cpp in Sources */,
-				50F153042EFAEB4E002DDAC7 /* IMGFile.cpp in Sources */,
-				50F153062EFAEB4E002DDAC7 /* HDZFile.cpp in Sources */,
-				50F153072EFAEB4E002DDAC7 /* FSTree.cpp in Sources */,
-				50F153082EFAEB4E002DDAC7 /* ADZFile.cpp in Sources */,
-				50F1530B2EFAEB4E002DDAC7 /* DeviceError.cpp in Sources */,
-				50F1530C2EFAEB4E002DDAC7 /* FSDescriptor.cpp in Sources */,
-				50F1530D2EFAEB4E002DDAC7 /* FSDoctor.cpp in Sources */,
-				50F1530F2EFAEB4E002DDAC7 /* ADFFile.cpp in Sources */,
-				50F153112EFAEB4E002DDAC7 /* FSError.cpp in Sources */,
-				50F153142EFAEB4E002DDAC7 /* FloppyFile.cpp in Sources */,
-				50F153182EFAEB4E002DDAC7 /* STFile.cpp in Sources */,
-				50F153192EFAEB4E002DDAC7 /* MediaFile.cpp in Sources */,
-				50F1531B2EFAEB4E002DDAC7 /* FileSystemLayer2.cpp in Sources */,
-				50F1531C2EFAEB4E002DDAC7 /* AnyFile.cpp in Sources */,
-				50F1531D2EFAEB4E002DDAC7 /* FSCache.cpp in Sources */,
-				50F1531E2EFAEB4E002DDAC7 /* FloppyFactory.cpp in Sources */,
-				50F1531F2EFAEB4E002DDAC7 /* FSExporter.cpp in Sources */,
-				50F153202EFAEB4E002DDAC7 /* BlockView.cpp in Sources */,
-				50F153212EFAEB4E002DDAC7 /* PosixFileSystem.cpp in Sources */,
-				50F153222EFAEB4E002DDAC7 /* FSAllocator.cpp in Sources */,
-				50F153242EFAEB4E002DDAC7 /* FSService.cpp in Sources */,
-				50F153252EFAEB4E002DDAC7 /* FileSystemLayer3.cpp in Sources */,
-				50F153272EFAEB4E002DDAC7 /* MediaError.cpp in Sources */,
-				50F153292EFAEB4E002DDAC7 /* HDFFile.cpp in Sources */,
-				50F1532A2EFAEB4E002DDAC7 /* FSObjects.cpp in Sources */,
-				50F1532C2EFAEB4E002DDAC7 /* FileSystem.cpp in Sources */,
-				50F1532D2EFAEB4E002DDAC7 /* FSBlock.cpp in Sources */,
-				50F153302EFAEB4E002DDAC7 /* DiskFile.cpp in Sources */,
-				50F153322EFAEB4E002DDAC7 /* BlockDevice.cpp in Sources */,
-				50F153332EFAEB4E002DDAC7 /* FileSystemLayer1.cpp in Sources */,
-				50F153362EFAEB4E002DDAC7 /* DeviceDescriptors.cpp in Sources */,
-				50F153372EFAEB4E002DDAC7 /* BootBlockImage.cpp in Sources */,
+				50900BCE2F1E727400A4A81B /* TrackDevice.cpp in Sources */,
+				50900BCF2F1E727400A4A81B /* BlockDevice.cpp in Sources */,
+				50900BD02F1E727400A4A81B /* FSExporter.cpp in Sources */,
+				50900BD12F1E727400A4A81B /* DOSEncoder.cpp in Sources */,
+				50900BD22F1E727400A4A81B /* ADZFile.cpp in Sources */,
+				50900BD32F1E727400A4A81B /* FSImporter.cpp in Sources */,
+				50900BD42F1E727400A4A81B /* DeviceError.cpp in Sources */,
+				50900BD52F1E727400A4A81B /* HDFFile.cpp in Sources */,
+				50900BD62F1E727400A4A81B /* FSDescriptor.cpp in Sources */,
+				50900BD72F1E727400A4A81B /* FileSystemLayer3.cpp in Sources */,
+				50900BD82F1E727400A4A81B /* ImageError.cpp in Sources */,
+				50900BD92F1E727400A4A81B /* FloppyDiskImage.cpp in Sources */,
+				50900BDA2F1E727400A4A81B /* FSCache.cpp in Sources */,
+				50900BDB2F1E727400A4A81B /* FileSystemLayer1.cpp in Sources */,
+				50900BDC2F1E727400A4A81B /* FSBlock.cpp in Sources */,
+				50900BDD2F1E727400A4A81B /* FileSystem.cpp in Sources */,
+				50900BDE2F1E727400A4A81B /* PosixAdapter.cpp in Sources */,
+				50900BDF2F1E727400A4A81B /* DeviceDescriptors.cpp in Sources */,
+				50900BE02F1E727400A4A81B /* FSContract.cpp in Sources */,
+				50900BE12F1E727400A4A81B /* FSBlock.cpp in Sources */,
+				50900BE22F1E727400A4A81B /* AmigaEncoder.cpp in Sources */,
+				50900BE32F1E727400A4A81B /* FileSystemLayer3.cpp in Sources */,
+				50900BE42F1E727400A4A81B /* FSAllocator.cpp in Sources */,
+				50900BE52F1E727400A4A81B /* AmigaDecoder.cpp in Sources */,
+				50900BE62F1E727400A4A81B /* FSAllocator.cpp in Sources */,
+				50900BE72F1E727400A4A81B /* FileSystemLayer2.cpp in Sources */,
+				50900BE82F1E727400A4A81B /* FSTree.cpp in Sources */,
+				50900BE92F1E727400A4A81B /* FSContract.cpp in Sources */,
+				50900BEA2F1E727400A4A81B /* DMSFile.cpp in Sources */,
+				50900BEB2F1E727400A4A81B /* DOSDecoder.cpp in Sources */,
+				50900BEC2F1E727400A4A81B /* FileSystemLayer1.cpp in Sources */,
+				50900BED2F1E727400A4A81B /* C64Encoder.cpp in Sources */,
+				50900BEE2F1E727400A4A81B /* ADFFile.cpp in Sources */,
+				50900BEF2F1E727400A4A81B /* FSCache.cpp in Sources */,
+				50900BF02F1E727400A4A81B /* IMGFile.cpp in Sources */,
+				50900BF12F1E727400A4A81B /* FSError.cpp in Sources */,
+				50900BF22F1E727400A4A81B /* FSDoctor.cpp in Sources */,
+				50900BF32F1E727400A4A81B /* GCR.cpp in Sources */,
+				50D89C512F1E775100ECC73D /* debug.cpp in Sources */,
+				50900BF42F1E727400A4A81B /* MFM.cpp in Sources */,
+				50900BF52F1E727400A4A81B /* HDZFile.cpp in Sources */,
+				50900BF62F1E727400A4A81B /* FSDirEntry.cpp in Sources */,
+				50900BF72F1E727400A4A81B /* DiskDecoder.cpp in Sources */,
+				50900BF82F1E727400A4A81B /* FileSystemLayer2.cpp in Sources */,
+				50900BF92F1E727400A4A81B /* Volume.cpp in Sources */,
+				50900BFA2F1E727400A4A81B /* C64Decoder.cpp in Sources */,
+				50900BFB2F1E727400A4A81B /* FileSystem.cpp in Sources */,
+				50900BFC2F1E727400A4A81B /* HardDiskImage.cpp in Sources */,
+				50900BFD2F1E727400A4A81B /* DiskImage.cpp in Sources */,
+				50900BFE2F1E727400A4A81B /* FSImporter.cpp in Sources */,
+				50900BFF2F1E727400A4A81B /* FSObjects.cpp in Sources */,
+				50900C002F1E727400A4A81B /* AnyImage.cpp in Sources */,
+				50900C012F1E727400A4A81B /* FSError.cpp in Sources */,
+				50900C022F1E727400A4A81B /* PosixAdapter.cpp in Sources */,
+				50900C032F1E727400A4A81B /* FSExporter.cpp in Sources */,
+				50900C042F1E727400A4A81B /* FSBootBlockImage.cpp in Sources */,
+				50900C052F1E727400A4A81B /* FSService.cpp in Sources */,
+				50900C062F1E727400A4A81B /* STFile.cpp in Sources */,
+				50900C072F1E727400A4A81B /* FSService.cpp in Sources */,
+				50900C082F1E727400A4A81B /* PosixView.cpp in Sources */,
+				50900C092F1E727400A4A81B /* LinearDevice.cpp in Sources */,
+				50900C0A2F1E727400A4A81B /* FSTraits.cpp in Sources */,
+				50900C0B2F1E727400A4A81B /* FSDoctor.cpp in Sources */,
+				50900C0C2F1E727400A4A81B /* FSObjects.cpp in Sources */,
+				50900C0D2F1E727400A4A81B /* EADFFile.cpp in Sources */,
+				50900C0E2F1E727400A4A81B /* EXEFile.cpp in Sources */,
+				50900C0F2F1E727400A4A81B /* D64File.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		50900C2C2F1E729A00A4A81B /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				50900C2B2F1E729A00A4A81B /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		504EA7C92ECE39E9008CF9FC /* Debug */ = {
@@ -1027,9 +1439,9 @@
 				ENABLE_RESOURCE_ACCESS_PHOTO_LIBRARY = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				HEADER_SEARCH_PATHS = (
-					Core,
 					/usr/local/include,
-					Core/utlib/include,
+					utlib/include,
+					RetroVault,
 				);
 				INFOPLIST_FILE = RetroMount/Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
@@ -1081,9 +1493,9 @@
 				ENABLE_RESOURCE_ACCESS_PHOTO_LIBRARY = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				HEADER_SEARCH_PATHS = (
-					Core,
 					/usr/local/include,
-					Core/utlib/include,
+					utlib/include,
+					RetroVault,
 				);
 				INFOPLIST_FILE = RetroMount/Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";

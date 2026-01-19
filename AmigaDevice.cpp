@@ -8,11 +8,10 @@
 // -----------------------------------------------------------------------------
 
 #include "AmigaDevice.h"
-#include "Media.h"
 
 // #include "FileSystemFactory.h"
 
-using namespace vamiga;
+using retro::vault::image::ADFFile;
 
 /*
 namespace vamiga {
@@ -102,21 +101,21 @@ AmigaDevice::unmount()
     }
 }
 
-FSTraits
+amiga::FSTraits
 AmigaDevice::traits(isize partition)
 {
     assert(partition >= 0 && partition < volumes.size());
     return volumes[partition]->fs->getTraits();
 }
 
-FSStat
+FSPosixStat
 AmigaDevice::stat(isize partition)
 {
     assert(partition >= 0 && partition < volumes.size());
     return volumes[partition]->fs->stat();
 }
 
-FSBootStat
+amiga::FSBootStat
 AmigaDevice::bootStat(isize partition)
 {
     assert(partition >= 0 && partition < volumes.size());

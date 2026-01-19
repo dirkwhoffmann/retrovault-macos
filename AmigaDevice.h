@@ -10,13 +10,16 @@
 #pragma once
 
 #include "AmigaVolume.h"
-#include "MediaFile.h"
+#include "ADFFile.h"
+#include "FileSystems/Amiga/FSTypes.h"
 #include "BlockDevice.h"
+
+using namespace retro::vault;
 
 class AmigaDevice {
 
     // Amiga Disk File
-    std::unique_ptr<MediaFile> mediaFile;
+    std::unique_ptr<image::ADFFile> mediaFile;
 
     // Block device
     std::unique_ptr<BlockDevice> dev;
@@ -39,9 +42,9 @@ public:
     void unmount(isize volume);
     void unmount();
 
-    FSTraits traits(isize volume);
-    FSStat stat(isize volume);
-    FSBootStat bootStat(isize volume);
+    amiga::FSTraits traits(isize volume);
+    FSPosixStat stat(isize volume);
+    amiga::FSBootStat bootStat(isize volume);
 
     isize count() { return volumes.size(); }
 };

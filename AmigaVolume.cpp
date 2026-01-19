@@ -9,27 +9,12 @@
 
 #include "config.h"
 #include "AmigaVolume.h"
-#include "Media.h"
-#include "PosixFileSystem.h"
 #include "FuseDebug.h"
+#include "FileSystems/Amiga/FSError.h"
+#include "FileSystems/Amiga/PosixAdapter.h"
 
-using namespace vamiga;
-
-/*
-template <typename Fn>
-int fsexec(Fn &&fn)
-{
-    try {
-        return fn();
-    } catch (const AppError &err) {
-        log("           Error: {} ({})\n", AmigaFileSystem::posixErrno(err), err.what());
-        return -AmigaFileSystem::posixErrno(err);
-    } catch (...) {
-        log("           Exception: {}\n", EIO);
-        return -EIO;
-    }
-}
-*/
+using namespace retro::vault;
+using retro::vault::amiga::FSError;
 
 int
 AmigaVolume::posixErrno(const Error &err)
@@ -116,14 +101,14 @@ AmigaVolume::AmigaVolume(const fs::path &filename)
 AmigaVolume::AmigaVolume(unique_ptr<Volume> v) : vol(std::move(v))
 {
     mylog("Creating file system...\n");
-    fs = std::make_unique<FileSystem>(*vol);
+    fs = std::make_unique<amiga::FileSystem>(*vol);
 
     std::stringstream ss;
     fs->dumpInfo(ss);
     std::cout << ss.str();
 
     mylog("Wrapping into DOS layer...\n");
-    dos = std::make_unique<PosixFileSystem>(*this->fs);
+    dos = std::make_unique<amiga::PosixAdapter>(*this->fs);
 }
 
 AmigaVolume::~AmigaVolume()
@@ -139,10 +124,10 @@ AmigaVolume::getattr(const char *path, struct stat *st)
     return fsexec([&]{
 
         auto attr   = dos->attr(path);
-        auto create = attr.ctime.time();
-        auto modify = attr.mtime.time();
+        auto create = attr.ctime;
+        auto modify = attr.mtime;
 
-        st->st_mode = attr.mode();
+        st->st_mode = attr.prot;
         st->st_nlink = 1;
         st->st_size = attr.size;
         st->st_birthtimespec.tv_sec  = create;
@@ -222,7 +207,7 @@ AmigaVolume::open(const char *path, struct fuse_file_info *fi)
 {
     return fsexec([&]{
 
-        fi->fh = dos->open(path, (u32)fi->flags);
+        fi->fh = (uint64_t)dos->open(path, (u32)fi->flags);
         return 0;
     });
 }
@@ -253,8 +238,8 @@ AmigaVolume::statfs(const char *path, struct statvfs *st)
     memset(st, 0, sizeof(*st));
 
     const auto &stat = dos->stat();
-    const auto bsize = (unsigned long)stat.traits.bsize;
-    const auto total = (fsblkcnt_t)stat.traits.blocks;
+    const auto bsize = (unsigned long)stat.bsize;
+    const auto total = (fsblkcnt_t)stat.blocks;
     const auto free  = (fsblkcnt_t)stat.freeBlocks;
 
     st->f_bsize   = bsize;         // Preferred block size
@@ -276,7 +261,7 @@ AmigaVolume::release(const char *path, struct fuse_file_info *fi)
 {
     return fsexec([&]{
 
-        dos->close(fi->fh);
+        dos->close(HandleRef(fi->fh));
         return 0;
     });
 }
@@ -321,7 +306,7 @@ AmigaVolume::create(const char *path, mode_t mode, struct fuse_file_info *fi)
     return fsexec([&]{
 
         dos->create(path);
-        fi->fh = dos->open(path, mode);
+        fi->fh = (uint64_t)dos->open(path, mode);
         return 0;
     });
 }
