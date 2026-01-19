@@ -87,7 +87,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		504EA7BD2ECE39E8008CF9FC /* vMount.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = vMount.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		504EA7BD2ECE39E8008CF9FC /* RetroMount.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RetroMount.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		504EAD1F2ECF00CE008CF9FC /* Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
 		504EAD202ECF00CE008CF9FC /* EmulatorProxy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EmulatorProxy.h; sourceTree = "<group>"; };
 		504EAD212ECF00CE008CF9FC /* EmulatorProxy.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = EmulatorProxy.mm; sourceTree = "<group>"; };
@@ -254,22 +254,22 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		50559ADA2ED851640001AEEF /* Exceptions for "vMount" folder in "vMount" target */ = {
+		50559ADA2ED851640001AEEF /* Exceptions for "RetroMount" folder in "RetroMount" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
 			);
-			target = 504EA7BC2ECE39E8008CF9FC /* vMount */;
+			target = 504EA7BC2ECE39E8008CF9FC /* RetroMount */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		504EA7BF2ECE39E8008CF9FC /* vMount */ = {
+		504EA7BF2ECE39E8008CF9FC /* RetroMount */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				50559ADA2ED851640001AEEF /* Exceptions for "vMount" folder in "vMount" target */,
+				50559ADA2ED851640001AEEF /* Exceptions for "RetroMount" folder in "RetroMount" target */,
 			);
-			path = vMount;
+			path = RetroMount;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -301,7 +301,7 @@
 				50BCBDF92EEBF798000C53CF /* AmigaDevice.cpp */,
 				50BCBC932EE86574000C53CF /* Core */,
 				504EAD242ECF00CE008CF9FC /* ObjCProxy */,
-				504EA7BF2ECE39E8008CF9FC /* vMount */,
+				504EA7BF2ECE39E8008CF9FC /* RetroMount */,
 				504EAD362ECF10DC008CF9FC /* Frameworks */,
 				504EA7BE2ECE39E8008CF9FC /* Products */,
 			);
@@ -310,7 +310,7 @@
 		504EA7BE2ECE39E8008CF9FC /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				504EA7BD2ECE39E8008CF9FC /* vMount.app */,
+				504EA7BD2ECE39E8008CF9FC /* RetroMount.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -732,9 +732,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		504EA7BC2ECE39E8008CF9FC /* vMount */ = {
+		504EA7BC2ECE39E8008CF9FC /* RetroMount */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 504EA7CB2ECE39E9008CF9FC /* Build configuration list for PBXNativeTarget "vMount" */;
+			buildConfigurationList = 504EA7CB2ECE39E9008CF9FC /* Build configuration list for PBXNativeTarget "RetroMount" */;
 			buildPhases = (
 				504EA7B92ECE39E8008CF9FC /* Sources */,
 				504EAD3F2ECF14AA008CF9FC /* Embed Libraries */,
@@ -746,13 +746,13 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				504EA7BF2ECE39E8008CF9FC /* vMount */,
+				504EA7BF2ECE39E8008CF9FC /* RetroMount */,
 			);
-			name = vMount;
+			name = RetroMount;
 			packageProductDependencies = (
 			);
 			productName = vMount;
-			productReference = 504EA7BD2ECE39E8008CF9FC /* vMount.app */;
+			productReference = 504EA7BD2ECE39E8008CF9FC /* RetroMount.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -770,7 +770,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 504EA7B82ECE39E8008CF9FC /* Build configuration list for PBXProject "vMount" */;
+			buildConfigurationList = 504EA7B82ECE39E8008CF9FC /* Build configuration list for PBXProject "RetroMount" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -784,7 +784,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				504EA7BC2ECE39E8008CF9FC /* vMount */,
+				504EA7BC2ECE39E8008CF9FC /* RetroMount */,
 			);
 		};
 /* End PBXProject section */
@@ -1031,7 +1031,7 @@
 					/usr/local/include,
 					Core/utlib/include,
 				);
-				INFOPLIST_FILE = vMount/Info.plist;
+				INFOPLIST_FILE = RetroMount/Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_NSMainStoryboardFile = Main;
 				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
@@ -1045,7 +1045,7 @@
 					/usr/local/lib,
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = de.dirkwhoffmann.de.vMount;
+				PRODUCT_BUNDLE_IDENTIFIER = de.dirkwhoffmann.de.retroMount;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
 				RUNTIME_EXCEPTION_ALLOW_DYLD_ENVIRONMENT_VARIABLES = NO;
@@ -1085,7 +1085,7 @@
 					/usr/local/include,
 					Core/utlib/include,
 				);
-				INFOPLIST_FILE = vMount/Info.plist;
+				INFOPLIST_FILE = RetroMount/Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_NSMainStoryboardFile = Main;
 				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
@@ -1099,7 +1099,7 @@
 					/usr/local/lib,
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = de.dirkwhoffmann.de.vMount;
+				PRODUCT_BUNDLE_IDENTIFIER = de.dirkwhoffmann.de.retroMount;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
 				RUNTIME_EXCEPTION_ALLOW_DYLD_ENVIRONMENT_VARIABLES = NO;
@@ -1121,7 +1121,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		504EA7B82ECE39E8008CF9FC /* Build configuration list for PBXProject "vMount" */ = {
+		504EA7B82ECE39E8008CF9FC /* Build configuration list for PBXProject "RetroMount" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				504EA7C92ECE39E9008CF9FC /* Debug */,
@@ -1130,7 +1130,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		504EA7CB2ECE39E9008CF9FC /* Build configuration list for PBXNativeTarget "vMount" */ = {
+		504EA7CB2ECE39E9008CF9FC /* Build configuration list for PBXNativeTarget "RetroMount" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				504EA7CC2ECE39E9008CF9FC /* Debug */,

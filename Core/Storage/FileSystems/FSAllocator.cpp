@@ -17,8 +17,6 @@ namespace vamiga {
 isize
 FSAllocator::requiredDataBlocks(isize fileSize) const noexcept
 {
-    auto &traits = fs.getTraits();
-
     // Compute the capacity of a single data block
     isize numBytes = traits.bsize - (traits.ofs() ? 24 : 0);
 
@@ -29,8 +27,6 @@ FSAllocator::requiredDataBlocks(isize fileSize) const noexcept
 isize
 FSAllocator::requiredFileListBlocks(isize fileSize) const noexcept
 {
-    auto &traits = fs.getTraits();
-
     // Compute the required number of data blocks
     isize numBlocks = requiredDataBlocks(fileSize);
 
@@ -183,8 +179,6 @@ FSAllocator::allocateFileBlocks(isize bytes,
         are allocated and appended to the respective lists.
     */
 
-    auto &traits = fs.getTraits();
-
     auto freeSurplus = [&](std::vector<BlockNr> &blocks, usize count) {
 
         if (blocks.size() > count) {
@@ -261,8 +255,6 @@ FSAllocator::allocateFileBlocks(isize bytes,
 bool
 FSAllocator::isUnallocated(BlockNr nr) const noexcept
 {
-    auto &traits = fs.getTraits();
-
     assert(isize(nr) < traits.blocks);
 
     // The first two blocks are always allocated and not part of the bitmap
@@ -279,8 +271,6 @@ FSAllocator::isUnallocated(BlockNr nr) const noexcept
 const FSBlock *
 FSAllocator::locateAllocationBit(BlockNr nr, isize *byte, isize *bit) const noexcept
 {
-    auto &traits = fs.getTraits();
-
     assert(isize(nr) < traits.blocks);
 
     auto &bmBlocks = fs.getBmBlocks();
@@ -362,8 +352,6 @@ FSAllocator::numAllocated() const noexcept
 std::vector<u32>
 FSAllocator::serializeBitmap() const
 {
-    auto &traits = fs.getTraits();
-
     if (!fs.isFormatted()) return {};
 
     auto longwords = ((fs.blocks() - 2) + 31) / 32;

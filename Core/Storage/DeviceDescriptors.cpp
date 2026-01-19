@@ -17,8 +17,6 @@
 
 namespace vamiga {
 
-// using namespace utl;
-
 //
 // GeometryDescriptor
 //

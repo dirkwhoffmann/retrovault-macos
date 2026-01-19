@@ -21,8 +21,6 @@ FSImporter::importVolume(const u8 *src, isize size)
 {
     assert(src != nullptr);
 
-    auto &traits = fs.getTraits();
-
     debug(FS_DEBUG, "Importing file system...\n");
 
     // Only proceed if the (predicted) block size matches
@@ -134,8 +132,6 @@ FSImporter::import(BlockNr top, const fs::directory_entry &entry, bool recursive
 void
 FSImporter::importBlock(BlockNr nr, const fs::path &path)
 {
-    auto &traits = fs.getTraits();
-
     std::ifstream stream(path, std::ios::binary);
 
     if (!stream.is_open()) {

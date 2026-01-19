@@ -266,8 +266,6 @@ FSDoctor::xray(bool strict)
 isize
 FSDoctor::xray(bool strict, std::ostream &os, bool verbose)
 {
-    auto &traits = fs.getTraits();
-
     diagnosis.blockErrors = {};
 
     for (BlockNr nr = 0; isize(nr) < traits.blocks; nr++) {
@@ -400,7 +398,6 @@ FSDoctor::xray32(BlockNr ref, isize pos, bool strict, optional<u32> &expected) c
 {
     assert(pos % 4 == 0);
 
-    auto &traits = fs.getTraits();
     auto &node = fs.fetch(ref);
     isize word = pos / 4;
     isize sword = word - (node.bsize() / 4);
@@ -595,7 +592,6 @@ FSDoctor::xray32(BlockNr ref, isize pos, bool strict, optional<u32> &expected) c
 isize
 FSDoctor::xray(BlockNr ref, bool strict, std::ostream &os) const
 {
-    auto &traits = fs.getTraits();
     auto &node   = fs.fetch(ref);
     auto errors  = isize(0);
 
@@ -683,11 +679,7 @@ FSDoctor::rectify(bool strict)
 void
 FSDoctor::rectify(BlockNr ref, bool strict)
 {
-    auto &traits = fs.getTraits();
-    auto &node   = fs.fetch(ref);
-
-    // auto *mfs = dynamic_cast<FileSystem *>(&fs);
-    // if (!mfs) throw FSError(FSError::FS_READ_ONLY);
+    auto &node = fs.fetch(ref);
 
     for (isize i = 0; i < traits.bsize / 4; i += 4) {
 
@@ -721,7 +713,7 @@ FSDoctor::rectifyBitmap(bool strict)
 string
 FSDoctor::ascii(BlockNr nr, isize offset, isize len) const noexcept
 {
-    assert(offset + len <= fs.getTraits().bsize);
+    assert(offset + len <= traits.bsize);
 
     return  utl::createAscii(fs.fetch(nr).data() + offset, len);
 }
@@ -729,8 +721,6 @@ FSDoctor::ascii(BlockNr nr, isize offset, isize len) const noexcept
 void
 FSDoctor::createUsageMap(u8 *buffer, isize len) const
 {
-    auto &traits = fs.getTraits();
-
     // Setup priorities
     i8 pri[12];
     pri[isize(FSBlockType::UNKNOWN)]      = 0;
@@ -774,7 +764,6 @@ FSDoctor::createUsageMap(u8 *buffer, isize len) const
 void
 FSDoctor::createAllocationMap(u8 *buffer, isize len) const
 {
-    auto &traits = fs.getTraits();
     auto &unusedButAllocated = diagnosis.unusedButAllocated;
     auto &usedButUnallocated = diagnosis.usedButUnallocated;
 
@@ -807,7 +796,6 @@ FSDoctor::createAllocationMap(u8 *buffer, isize len) const
 void
 FSDoctor::createHealthMap(u8 *buffer, isize len) const
 {
-    auto &traits = fs.getTraits();
     auto &blockErrors = diagnosis.blockErrors;
 
     isize max = traits.blocks;
@@ -838,7 +826,6 @@ FSDoctor::createHealthMap(u8 *buffer, isize len) const
 isize
 FSDoctor::nextBlockOfType(FSBlockType type, BlockNr after) const
 {
-    auto &traits = fs.getTraits();
     assert(isize(after) < traits.blocks);
 
     isize result = after;

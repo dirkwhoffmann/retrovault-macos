@@ -57,7 +57,6 @@ FSExporter::exportBlocks(BlockNr first, BlockNr last, u8 *dst, isize size, FSFau
     assert(first <= last);
     assert(dst);
 
-    auto &traits = fs.getTraits();
     isize count = last - first + 1;
 
     debug(FS_DEBUG, "Exporting %ld blocks (%d - %d)\n", count, first, last);
@@ -97,7 +96,6 @@ FSExporter::exportBlock(BlockNr nr, const fs::path &path) const
 void
 FSExporter::exportBlocks(BlockNr first, BlockNr last, const fs::path &path) const
 {
-    auto &traits = fs.getTraits();
     std::ofstream stream(path, std::ios::binary);
 
     if (!stream.is_open()) {
@@ -118,8 +116,6 @@ FSExporter::exportBlocks(BlockNr first, BlockNr last, const fs::path &path) cons
 void
 FSExporter::exportBlocks(const fs::path &path) const
 {
-    auto &traits = fs.getTraits();
-
     if (traits.blocks) {
         exportBlocks(0, BlockNr(traits.blocks - 1), path);
     }
