@@ -18,13 +18,8 @@ using namespace retro::vault;
 
 class FuseDevice {
 
-    // Amiga Disk File
-    std::unique_ptr<image::ADFFile> mediaFile;
-
-    // Block device
-    std::unique_ptr<BlockDevice> dev;
-
-public:
+    // Image file
+    std::unique_ptr<DiskImage> image;
 
     // Logical volumes
     std::vector<std::unique_ptr<FuseVolume>> volumes;
@@ -36,15 +31,15 @@ public:
 
     // Registers a listener together with it's callback function
     void setListener(const void *listener, AdapterCallback *func);
-    
+
+    const FuseVolume &getVolume(isize volume);
+
     void mount(isize volume, const fs::path &mountPoint);
     void mount(const fs::path &mountPoint);
     void unmount(isize volume);
     void unmount();
 
-    amiga::FSTraits traits(isize volume);
     FSPosixStat stat(isize volume);
-    amiga::FSBootStat bootStat(isize volume);
 
     isize count() { return volumes.size(); }
 };

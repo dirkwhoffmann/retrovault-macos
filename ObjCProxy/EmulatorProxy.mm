@@ -270,13 +270,6 @@ using namespace utl;
     return [self adapter]->count();
 }
 
-/*
-- (NSString *)name
-{
-    return @"NAME (TODO)";
-}
-*/
-
 - (void)mount:(NSURL *)mountpoint exception:(ExceptionWrapper *)ex
 {
     try { [self adapter]->mount([mountpoint fileSystemRepresentation]); }
@@ -293,24 +286,14 @@ using namespace utl;
     [self adapter]->setListener(listener, func);
 }
 
-- (NSString *)mountPoint:(NSInteger)volume
+- (NSString *)mountPoint:(NSInteger)v
 {
-    return @([self adapter]->volumes[volume]->mountPoint.string().c_str());
-}
-
-- (FSTraits)traits:(NSInteger)volume
-{
-    return [self adapter]->traits(volume);
+    return @([self adapter]->getVolume(v).getMountPoint().string().c_str());
 }
 
 - (FSPosixStat)stat:(NSInteger)volume
 {
     return [self adapter]->stat(volume);
-}
-
-- (FSBootStat)bootStat:(NSInteger)volume
-{
-    return [self adapter]->bootStat(volume);
 }
 
 @end

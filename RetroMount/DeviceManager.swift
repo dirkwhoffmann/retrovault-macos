@@ -18,6 +18,10 @@ class VolumeInfo {
     // Mount point
     var mountPoint = ""
 
+    // File system properties
+    var blocks = 0
+    var bsize = 0
+
     // Usage information
     var freeBlocks = 0
     var freeBytes = 0
@@ -63,6 +67,10 @@ class DeviceManager {
         // Mount point
         result.mountPoint = mp ?? ""
 
+        // File system properties
+        result.blocks = stat.blocks
+        result.bsize = stat.bsize
+
         // Usage date
         result.freeBlocks = stat.freeBlocks
         result.freeBytes = stat.freeBlocks * stat.bsize
@@ -84,10 +92,12 @@ class DeviceManager {
         return result
     }
 
+    /*
     func traits(device: Int, volume: Int = 0) -> FSTraits {
 
         return devices[device].traits(volume)
     }
+    */
     
     func process(message msg: Int) {
 
@@ -103,14 +113,10 @@ class DeviceManager {
             print("Creating device proxy for \(url)...")
             let proxy = try AmigaDeviceProxy.make(with: url)
 
+            let traits = proxy.stat(0) // traits(0)
 
-            let traits = proxy.traits(0)
-
-            print("DOS: \(traits.dos)")
             print("Blocks: \(traits.blocks)")
-            print("Bytes: \(traits.bytes)")
             print("Bsize: \(traits.bsize)")
-            print("Reserved: \(traits.reserved)")
 
             let mountPoint = URL(fileURLWithPath: "/Volumes")
                 .appendingPathComponent(url.deletingPathExtension().lastPathComponent)

@@ -121,8 +121,8 @@ inline const char *c_str(const std::string &s)
 - (void)setListener:(const void *)listener function:(AdapterCallback *)func;
 
 - (NSString *)mountPoint:(NSInteger)volume;
-- (FSTraits)traits:(NSInteger)volume;
+// - (FSTraits)traits:(NSInteger)volume;
 - (FSPosixStat)stat:(NSInteger)volume;
-- (FSBootStat)bootStat:(NSInteger)volume;
+// - (FSBootStat)bootStat:(NSInteger)volume;
 
 @end

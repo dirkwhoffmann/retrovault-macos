@@ -26,7 +26,7 @@ class PosixFileSystem;
 
 class FuseVolume : public FuseMountPoint {
     
-    friend class FuseDevice;
+    // friend class FuseDevice;
 
     // Logical volume
     unique_ptr<Volume> vol;

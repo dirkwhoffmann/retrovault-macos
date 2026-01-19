@@ -110,11 +110,10 @@ class TableVolumeView: TableCellView {
 
     func update() {
 
-        let traits = app.manager.traits(device: device, volume: volume)
         let info = app.manager.info(device: device, volume: volume)
 
         textField?.stringValue = info.mountPoint
-        label.stringValue = "\(traits.blocks) block"
+        label.stringValue = "\(info.blocks) block"
         sublabel.stringValue = "\(info.fill)% full"
     }
 

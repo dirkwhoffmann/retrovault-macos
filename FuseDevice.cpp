@@ -25,10 +25,10 @@ class PosixFileSystem;
 FuseDevice::FuseDevice(const fs::path &filename)
 {
     mylog("Trying to load %s...\n", filename.string().c_str());
-    // mediaFile = std::make_unique<MediaFile>(filename);
+    // image = std::make_unique<MediaFile>(filename);
 
     /*
-    if (mediaFile->type() != FileType::ADF) {
+    if (image->type() != FileType::ADF) {
 
         warn("%s is not an ADF. Aborting.\n", filename.string().c_str());
         return;
@@ -38,13 +38,15 @@ FuseDevice::FuseDevice(const fs::path &filename)
     // Get the ADF
     unique_ptr<ADFFile> adf = make_unique<ADFFile>(filename);
 
+    // image = std::move(adf);
+
     // Create the block device
     mylog("Creating block device...\n");
-    dev = std::move(adf);
+    image = std::move(adf);
 
     // Create a logical volume
     mylog("Creating volume...\n");
-    unique_ptr<Volume> vol = make_unique<Volume>(*dev);
+    unique_ptr<Volume> vol = make_unique<Volume>(*image);
 
     mylog("Creating FuseVolume...\n");
     volumes.push_back(make_unique<FuseVolume>(std::move(vol)));
@@ -61,6 +63,12 @@ void
 FuseDevice::setListener(const void *listener, AdapterCallback *callback)
 {
     for (auto &volume : volumes) volume->setListener(listener, callback);
+}
+
+const FuseVolume &
+FuseDevice::getVolume(isize v)
+{
+    return *volumes.at(v);
 }
 
 void
@@ -96,29 +104,13 @@ FuseDevice::unmount(isize partition)
 void
 FuseDevice::unmount()
 {
-    for (isize i = 0; i < volumes.size(); i++) {
+    for (isize i = 0; i < volumes.size(); i++)
         unmount(i);
-    }
-}
-
-amiga::FSTraits
-FuseDevice::traits(isize partition)
-{
-    assert(partition >= 0 && partition < volumes.size());
-    return volumes[partition]->fs->getTraits();
 }
 
 FSPosixStat
 FuseDevice::stat(isize partition)
 {
     assert(partition >= 0 && partition < volumes.size());
-
     return volumes[partition]->stat();
-}
-
-amiga::FSBootStat
-FuseDevice::bootStat(isize partition)
-{
-    assert(partition >= 0 && partition < volumes.size());
-    return volumes[partition]->fs->bootStat();
 }

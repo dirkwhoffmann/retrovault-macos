@@ -20,9 +20,9 @@ class FuseMountPoint {
     struct fuse *gateway = nullptr;
     fuse_chan *channel = nullptr;
 
-public:
-
     fs::path mountPoint;
+
+public:
 
     bool debug = true;
     const void *listener = nullptr;
@@ -83,6 +83,8 @@ private:
     }
 
 public:
+
+    const fs::path &getMountPoint() const { return mountPoint; }
 
     void mount(const fs::path &mountpoint);
     void unmount();
