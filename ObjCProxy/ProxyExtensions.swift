@@ -7,12 +7,12 @@
 // See https://www.gnu.org for license information
 // -----------------------------------------------------------------------------
 
-extension AmigaDeviceProxy {
+extension FuseDeviceProxy {
 
-    static func make(with url: URL) throws -> AmigaDeviceProxy {
+    static func make(with url: URL) throws -> FuseDeviceProxy {
 
         let exception = ExceptionWrapper()
-        let result = AmigaDeviceProxy.make(url, exception: exception)
+        let result = FuseDeviceProxy.make(url, exception: exception)
         if exception.fault != 0 { throw AppError(exception) }
 
         return result!

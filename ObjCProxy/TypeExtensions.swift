@@ -16,6 +16,9 @@ typealias FSBlockError = retro.vault.amiga.FSBlockError
 typealias FSBlockType = retro.vault.amiga.FSBlockType
 typealias FSItemType = retro.vault.amiga.FSItemType
 typealias FSVolumeType = retro.vault.amiga.FSFormat
+typealias ImageInfo = retro.vault.ImageInfo
+typealias ImageType = retro.vault.ImageType
+typealias ImageFormat = retro.vault.ImageFormat
 
 /*
 extension Compressor: CustomStringConvertible {

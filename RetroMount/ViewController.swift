@@ -5,6 +5,7 @@
 //  Created by Dirk Hoffmann on 19.11.25.
 //
 
+/*
 import Cocoa
 
 class ViewController: NSViewController {
@@ -23,4 +24,4 @@ class ViewController: NSViewController {
 
 
 }
-
+*/

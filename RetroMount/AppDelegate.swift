@@ -21,9 +21,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     // View controller of the devices window
     var vc: DevicesViewController?
 
-    // Gateway to macFUSE
-    // var mounter = DeviceManager()
-
     /*
     var windowController: WindowController? {
         return NSApplication.shared.windows.first?.windowController as? WindowController

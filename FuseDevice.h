@@ -40,6 +40,7 @@ public:
     void unmount();
 
     FSPosixStat stat(isize volume);
-
-    isize count() { return volumes.size(); }
+    ImageInfo imageInfo() const { return image->info(); }
+    isize imageSize() const { return image->size(); }
+    isize count() const { return volumes.size(); }
 };

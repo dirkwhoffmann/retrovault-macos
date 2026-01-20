@@ -11,6 +11,7 @@
 
 #import "config.h"
 #import "DeviceTypes.h"
+#import "ImageTypes.h"
 #import "FileSystems/Amiga/FSObjects.h"
 #import "FileSystems/Amiga/FSTypes.h"
 #import "FileSystems/PosixViewTypes.h"
@@ -102,10 +103,10 @@ inline const char *c_str(const std::string &s)
 
 
 //
-// AmigaDeviceProxy
+// FuseDeviceProxy
 //
 
-@interface AmigaDeviceProxy : Proxy {
+@interface FuseDeviceProxy : Proxy {
 
     NSURL *url;
 }
@@ -113,16 +114,15 @@ inline const char *c_str(const std::string &s)
 + (instancetype)make:(NSURL *)url exception:(ExceptionWrapper *)ex;
 
 @property (readonly, strong) NSURL *url;
+@property (readonly) NSInteger numBytes;
 @property (readonly) NSInteger numVolumes;
-// @property (readonly) NSString *name;
+@property (readonly) ImageInfo info;
 
 - (void)mount:(NSURL *)url exception:(ExceptionWrapper *)ex;
 - (void)unmount;
 - (void)setListener:(const void *)listener function:(AdapterCallback *)func;
 
 - (NSString *)mountPoint:(NSInteger)volume;
-// - (FSTraits)traits:(NSInteger)volume;
 - (FSPosixStat)stat:(NSInteger)volume;
-// - (FSBootStat)bootStat:(NSInteger)volume;
 
 @end

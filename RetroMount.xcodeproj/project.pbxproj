@@ -1003,19 +1003,19 @@
 			path = RetroVault;
 			sourceTree = "<group>";
 		};
-		50900C232F1E729A00A4A81B /* New Folder */ = {
+		50900C232F1E729A00A4A81B /* VolumeBrowser */ = {
 			isa = PBXGroup;
 			children = (
 				50900C212F1E729A00A4A81B /* DevicesViewController.swift */,
 				50900C222F1E729A00A4A81B /* TableCellViews.swift */,
 			);
-			path = "New Folder";
+			path = VolumeBrowser;
 			sourceTree = "<group>";
 		};
 		50900C2F2F1E729A00A4A81B /* RetroMount */ = {
 			isa = PBXGroup;
 			children = (
-				50900C232F1E729A00A4A81B /* New Folder */,
+				50900C232F1E729A00A4A81B /* VolumeBrowser */,
 				50900C242F1E729A00A4A81B /* AppDelegate.swift */,
 				50900C252F1E729A00A4A81B /* Assets.xcassets */,
 				50900C262F1E729A00A4A81B /* DeviceManager.swift */,

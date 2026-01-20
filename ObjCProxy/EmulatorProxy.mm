@@ -216,10 +216,10 @@ using namespace utl;
 */
 
 //
-// AmigaDeviceProxy
+// FuseDeviceProxy
 //
 
-@implementation AmigaDeviceProxy
+@implementation FuseDeviceProxy
 
 - (FuseDevice *)adapter
 {
@@ -230,7 +230,7 @@ using namespace utl;
 {
     if (device == nullptr) { return nil; }
 
-    AmigaDeviceProxy *proxy = [[self alloc] initWith: device];
+    FuseDeviceProxy *proxy = [[self alloc] initWith: device];
     return proxy;
 }
 
@@ -240,7 +240,7 @@ using namespace utl;
 
         auto device = std::make_unique<FuseDevice>([url fileSystemRepresentation]);
 
-        AmigaDeviceProxy *proxy = [self make:device.get()];
+        FuseDeviceProxy *proxy = [self make:device.get()];
         device.release();
         proxy->url = url;
         return proxy;
@@ -248,7 +248,7 @@ using namespace utl;
 /*
         auto device = new AmigaDevice([url fileSystemRepresentation]);
 
-        AmigaDeviceProxy *proxy = [self make:device];
+        FuseDeviceProxy *proxy = [self make:device];
         proxy->url = url;
         return proxy;
 */
@@ -265,9 +265,19 @@ using namespace utl;
     return url;
 }
 
+- (NSInteger)numBytes
+{
+    return [self adapter]->imageSize();
+}
+
 - (NSInteger)numVolumes
 {
     return [self adapter]->count();
+}
+
+- (ImageInfo)info
+{
+    return [self adapter]->imageInfo();
 }
 
 - (void)mount:(NSURL *)mountpoint exception:(ExceptionWrapper *)ex

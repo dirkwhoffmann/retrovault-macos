@@ -10,7 +10,65 @@
 class DeviceInfo {
 
     var name = ""
+    var numBytes = 0
     var numPartitions = 0
+    var info: ImageInfo = .init()
+
+    var kb: Double { return Double(numBytes) / Double(1024); }
+    var mb: Double { return kb / Double(1024); }
+    var gb: Double { return mb / Double(1024); }
+
+    var description: String {
+
+        var name = ""
+
+        switch info.format {
+
+        case .ADF, .ADZ, .EADF, .DMS:   name = "Amiga Floppy Disk"
+        case .HDF, .HDZ:                name = "Amiga Hard Drive"
+        case .IMG:                      name = "DOS Floppy Disk"
+        case .ST:                       name = "AtariST Floppy Disk"
+        case .D64:                      name = "Commodore 64 Floppy Disk"
+
+        default:
+            return ""
+        }
+
+        return name + " (" + capacityString + ")"
+    }
+
+    var capacityString: String {
+
+        print("(numBytes = \(numBytes))")
+        if gb > 1.0 { return String(format: "%.2f GB", gb) }
+        if mb > 1.0 { return String(format: "%.2f MB", mb) }
+        if kb > 1.0 { return String(format: "%d KB", Int(round(kb))) }
+        return "\(numBytes)"
+    }
+
+    func icon(wp: Bool = false) -> NSImage? {
+
+        var name = ""
+
+        switch info.format {
+
+        case .ADF, .ADZ, .EADF, .DMS:   name = "amiga"
+        case .HDF, .HDZ:                name = "amiga_hd"
+        case .IMG, .ST:                 name = "dos"
+        case .D64:                      name = "cbm"
+
+        default:
+            return nil
+        }
+
+        if (info.type != .HARDDISK) {
+        
+            name += mb > 1.0 ? "_35_hd" : "_35_dd"
+            if wp { name += "_wp" }
+        }
+
+        return NSImage(named: name)
+    }
 }
 
 class VolumeInfo {
@@ -41,7 +99,7 @@ class VolumeInfo {
 
 class DeviceManager {
 
-    private var devices: [AmigaDeviceProxy] = []
+    private var devices: [FuseDeviceProxy] = []
 
     var count: Int { devices.count }
 
@@ -50,7 +108,9 @@ class DeviceManager {
         let result = DeviceInfo.init()
 
         result.name = devices[device].url?.lastPathComponent ?? ""
+        result.numBytes = devices[device].numBytes
         result.numPartitions = devices[device].numVolumes
+        result.info = devices[device].info
 
         return result
     }
@@ -61,8 +121,6 @@ class DeviceManager {
 
         let stat = devices[device].stat(volume)
         let mp = devices[device].mountPoint(volume)
-        
-        // let stat = devices[device].info(volume)
 
         // Mount point
         result.mountPoint = mp ?? ""
@@ -81,7 +139,7 @@ class DeviceManager {
         // Root block metadata
         let bt = Date(timeIntervalSince1970: TimeInterval(stat.btime))
         let mt = Date(timeIntervalSince1970: TimeInterval(stat.mtime))
-        result.name  = String(cString: c_str(stat.name))
+        result.name = String(cString: c_str(stat.name))
         result.bDate = bt.formatted(date: .numeric, time: .standard)
         result.mDate = mt.formatted(date: .numeric, time: .standard)
 
@@ -92,13 +150,7 @@ class DeviceManager {
         return result
     }
 
-    /*
-    func traits(device: Int, volume: Int = 0) -> FSTraits {
 
-        return devices[device].traits(volume)
-    }
-    */
-    
     func process(message msg: Int) {
 
         print("Holla, die Waldfee")
@@ -111,9 +163,9 @@ class DeviceManager {
         do {
 
             print("Creating device proxy for \(url)...")
-            let proxy = try AmigaDeviceProxy.make(with: url)
+            let proxy = try FuseDeviceProxy.make(with: url)
 
-            let traits = proxy.stat(0) // traits(0)
+            let traits = proxy.stat(0)
 
             print("Blocks: \(traits.blocks)")
             print("Bsize: \(traits.bsize)")
@@ -137,7 +189,7 @@ class DeviceManager {
         } catch { print("Error launching DeviceManager: \(error)") }
     }
 
-    func unmount(proxy: AmigaDeviceProxy) {
+    func unmount(proxy: FuseDeviceProxy) {
 
         proxy.unmount()
         devices.removeAll { $0 === proxy }

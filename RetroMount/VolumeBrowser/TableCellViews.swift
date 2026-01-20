@@ -22,6 +22,7 @@ class TableCellView: NSTableCellView {
 
 class TableDeviceView: TableCellView {
 
+    @IBOutlet weak var icon: NSImageView!
     @IBOutlet weak var disclosureButton: NSButton!
     @IBOutlet weak var protected: NSButton!
     @IBOutlet weak var label: NSTextField!
@@ -39,12 +40,13 @@ class TableDeviceView: TableCellView {
 
     func update() {
 
-        // let traits = app.manager.traits(device: device, volume: volume)
         let info = app.manager.info(device: device)
         let volumes = info.numPartitions
 
+        imageView?.image = info.icon()
         label.stringValue = info.name
-        sublabel.stringValue = "Amiga Floppy Disk"
+        sublabel.stringValue = info.description
+        print("descr = \(info.description)")
         subsublabel.stringValue = "\(volumes) " + (volumes == 1 ? "volume" : "volumes")
     }
 
