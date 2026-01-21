@@ -12,7 +12,7 @@ class DeviceInfo {
     var name = ""
     var numBytes = 0
     var numPartitions = 0
-    var info: ImageInfo = .init()
+    var info = ImageInfo.init()
 
     var kb: Double { return Double(numBytes) / Double(1024); }
     var mb: Double { return kb / Double(1024); }
@@ -50,22 +50,27 @@ class DeviceInfo {
 
         var name = ""
 
-        switch info.format {
+        if (info.type == .HARDDISK) {
 
-        case .ADF, .ADZ, .EADF, .DMS:   name = "amiga"
-        case .HDF, .HDZ:                name = "amiga_hd"
-        case .IMG, .ST:                 name = "dos"
-        case .D64:                      name = "cbm"
+            name = "harddrive"
 
-        default:
-            return nil
+        } else {
+
+            name = "floppy"
+
+            switch info.format {
+
+            case .ADF, .ADZ, .EADF, .DMS, .IMG, .ST:
+                name += "_35"
+            case .D64:
+                name += "_525"
+            default:
+                return nil
+            }
+            name += mb > 1.0 ? "_hd" : "_dd"
         }
 
-        if (info.type != .HARDDISK) {
-        
-            name += mb > 1.0 ? "_35_hd" : "_35_dd"
-            if wp { name += "_wp" }
-        }
+        if wp { name += "_wp" }
 
         return NSImage(named: name)
     }
@@ -75,6 +80,9 @@ class VolumeInfo {
 
     // Mount point
     var mountPoint = ""
+
+    // Device info
+    var deviceInfo = DeviceInfo.init()
 
     // File system properties
     var blocks = 0
@@ -95,6 +103,27 @@ class VolumeInfo {
     // Access statistics
     var reads = 0
     var writes = 0
+
+    func icon() -> NSImage? {
+
+        var name = "volume"
+
+        switch deviceInfo.info.format {
+
+        case .ADF, .ADZ, .EADF, .DMS:
+            name += "_amiga"
+        case .IMG:
+            name += "_dos"
+        case .ST:
+            name += "_st"
+        case .D64:
+            name += "_cbm"
+        default:
+            return nil
+        }
+
+        return NSImage(named: name)
+    }
 }
 
 class DeviceManager {
@@ -124,6 +153,9 @@ class DeviceManager {
 
         // Mount point
         result.mountPoint = mp ?? ""
+
+        // Image info
+        result.deviceInfo = info(device: device)
 
         // File system properties
         result.blocks = stat.blocks

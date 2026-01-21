@@ -46,7 +46,6 @@ class TableDeviceView: TableCellView {
         imageView?.image = info.icon()
         label.stringValue = info.name
         sublabel.stringValue = info.description
-        print("descr = \(info.description)")
         subsublabel.stringValue = "\(volumes) " + (volumes == 1 ? "volume" : "volumes")
     }
 
@@ -114,6 +113,7 @@ class TableVolumeView: TableCellView {
 
         let info = app.manager.info(device: device, volume: volume)
 
+        imageView?.image = info.icon()
         textField?.stringValue = info.mountPoint
         label.stringValue = "\(info.blocks) block"
         sublabel.stringValue = "\(info.fill)% full"
