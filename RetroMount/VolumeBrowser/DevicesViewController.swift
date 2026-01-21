@@ -47,8 +47,10 @@ class DevicesViewController: NSViewController {
         outlineView.dataSource = self
         outlineView.indentationPerLevel = 0
         outlineView.intercellSpacing = NSSize(width: 0, height: 2)
-        outlineView.gridColor = .separatorColor // .controlBackgroundColor // windowBackgroundColor
-        outlineView.gridStyleMask = [.solidHorizontalGridLineMask]
+        outlineView.backgroundColor = .clear
+        outlineView.usesAlternatingRowBackgroundColors = false
+        // outlineView.gridColor = .separatorColor // .controlBackgroundColor // windowBackgroundColor
+        // outlineView.gridStyleMask = [.solidHorizontalGridLineMask]
         outlineView.reloadData()
 
         expandAll()
@@ -118,7 +120,7 @@ extension DevicesViewController: NSOutlineViewDataSource {
 
     func outlineView(_ outlineView: NSOutlineView, heightOfRowByItem item: Any) -> CGFloat {
 
-        return 74
+        return 84
     }
     func outlineView(_ outlineView: NSOutlineView, isItemExpandable item: Any) -> Bool {
 

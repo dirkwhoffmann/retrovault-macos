@@ -22,9 +22,8 @@ class TableCellView: NSTableCellView {
 
 class TableDeviceView: TableCellView {
 
-    @IBOutlet weak var icon: NSImageView!
     @IBOutlet weak var disclosureButton: NSButton!
-    @IBOutlet weak var protected: NSButton!
+    @IBOutlet weak var syncButton: NSButton!
     @IBOutlet weak var label: NSTextField!
     @IBOutlet weak var sublabel: NSTextField!
     @IBOutlet weak var subsublabel: NSTextField!
@@ -55,6 +54,7 @@ class TableDeviceView: TableCellView {
         disclosureButton.image = expanded ? .chevronDown() : .chevronRight()
     }
 
+    /*
     override func draw(_ dirtyRect: NSRect) {
 
         // NSColor.controlAccentColor.withAlphaComponent(0.25).setFill()
@@ -62,6 +62,7 @@ class TableDeviceView: TableCellView {
         dirtyRect.fill()
         super.draw(dirtyRect)
     }
+    */
 
     @IBAction func disclosureAction(_ sender: NSButton) {
 
@@ -76,9 +77,9 @@ class TableDeviceView: TableCellView {
         outlineView.reloadData()
     }
 
-    @IBAction func enableAction(_ sender: NSButton) {
+    @IBAction func syncAction(_ sender: NSButton) {
 
-        outlineView.reloadData()
+        print("syncAction")
     }
 }
 
@@ -86,7 +87,7 @@ class TableVolumeView: TableCellView {
 
     @IBOutlet weak var label: NSTextField!
     @IBOutlet weak var sublabel: NSTextField!
-    @IBOutlet weak var infoButton: NSButton!
+    @IBOutlet weak var unmountButton: NSButton!
 
     var device = 0
     var volume = 0
@@ -119,8 +120,8 @@ class TableVolumeView: TableCellView {
         sublabel.stringValue = "\(info.fill)% full"
     }
 
-    @IBAction func helpAction(_ sender: NSButton) {
+    @IBAction func unmountAction(_ sender: NSButton) {
 
-        // Not implemented yet
+        print("unmountAction")
     }
 }
