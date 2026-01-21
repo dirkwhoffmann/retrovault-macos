@@ -39,11 +39,10 @@ class DeviceInfo {
 
     var capacityString: String {
 
-        print("(numBytes = \(numBytes))")
         if gb > 1.0 { return String(format: "%.2f GB", gb) }
         if mb > 1.0 { return String(format: "%.2f MB", mb) }
         if kb > 1.0 { return String(format: "%d KB", Int(round(kb))) }
-        return "\(numBytes)"
+        return "\(numBytes) Bytes"
     }
 
     func icon(wp: Bool = false) -> NSImage? {
@@ -104,6 +103,28 @@ class VolumeInfo {
     var reads = 0
     var writes = 0
 
+    var bytes: Int { return blocks * bsize; }
+    var kb: Double { return Double(bytes) / Double(1024); }
+    var mb: Double { return kb / Double(1024); }
+    var gb: Double { return mb / Double(1024); }
+
+    var capacityString: String {
+
+        var result = "\(blocks) Block" + (blocks != 1 ? "s " : " ")
+
+        if gb > 1.0 { result += String(format: "(%.2f GB)", gb) }
+        else if mb > 1.0 { result += String(format: "(%.2f MB)", mb) }
+        else if kb > 1.0 { result += String(format: "(%d KB)", Int(round(kb))) }
+        else { result += "(\(bytes) Bytes)" }
+
+        return result
+    }
+
+    var fillString: String {
+
+        return String(format: "%.0f%%", fill * 100.0)
+    }
+    
     func icon() -> NSImage? {
 
         var name = "volume"

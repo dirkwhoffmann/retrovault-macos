@@ -116,8 +116,8 @@ class TableVolumeView: TableCellView {
 
         imageView?.image = info.icon()
         textField?.stringValue = info.mountPoint
-        label.stringValue = "\(info.blocks) block"
-        sublabel.stringValue = "\(info.fill)% full"
+        label.stringValue = info.capacityString
+        sublabel.stringValue = info.fillString + " full"
     }
 
     @IBAction func unmountAction(_ sender: NSButton) {
