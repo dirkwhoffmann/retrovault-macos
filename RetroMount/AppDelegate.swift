@@ -66,6 +66,20 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func showVolumeWindow() {
 
+        let storyboard = NSStoryboard(name: "Main", bundle: nil)
+        if let wc = storyboard.instantiateController(withIdentifier: "MyWindowController") as? NSWindowController {
+
+            // wc.window?.level = .floating
+            // wc.showWindow(self)
+            // wc.window?.makeKeyAndOrderFront(nil)
+            // NSApp.activate(ignoringOtherApps: true)
+            wc.window?.setContentSize(NSSize(width: 800, height: 600))
+            wc.window?.center()
+            wc.showWindow(self)
+
+        }
+
+        /*
         print("showVolumeWindow")
         let sb = NSStoryboard(name: "Main", bundle: nil)
         if let wc = sb.instantiateController(withIdentifier: "Volumes") as? NSWindowController {
@@ -76,6 +90,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             wc.window?.center()
             wc.showWindow(self)
         }
+        */
     }
 
 }
