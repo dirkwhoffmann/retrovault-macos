@@ -17,7 +17,7 @@
 		504EAD262ECF00CE008CF9FC /* TypeExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504EAD232ECF00CE008CF9FC /* TypeExtensions.swift */; };
 		504EAD272ECF00CE008CF9FC /* ProxyExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504EAD222ECF00CE008CF9FC /* ProxyExtensions.swift */; };
 		504EAD2D2ECF0266008CF9FC /* FuseMountPoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 504EAD2C2ECF0263008CF9FC /* FuseMountPoint.cpp */; };
-		507724952ECF26F800DB04C5 /* libfuse.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 507724942ECF26BF00DB04C5 /* libfuse.2.dylib */; };
+		507724952ECF26F800DB04C5 /* libfuse.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 507724942ECF26BF00DB04C5 /* libfuse.2.dylib */; settings = {ATTRIBUTES = (Weak, ); }; };
 		507724962ECF2FA300DB04C5 /* libfuse.2.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 507724942ECF26BF00DB04C5 /* libfuse.2.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		5077249F2ECFA78E00DB04C5 /* FuseDebug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5077249E2ECFA78D00DB04C5 /* FuseDebug.cpp */; };
 		507724A62ED0843800DB04C5 /* FuseVolume.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 507724A52ED0843700DB04C5 /* FuseVolume.cpp */; };
@@ -1478,6 +1478,7 @@
 					"$(PROJECT_DIR)",
 					/usr/local/lib,
 				);
+				MACOSX_DEPLOYMENT_TARGET = 15.6;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = de.dirkwhoffmann.de.retroMount;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1532,6 +1533,7 @@
 					"$(PROJECT_DIR)",
 					/usr/local/lib,
 				);
+				MACOSX_DEPLOYMENT_TARGET = 15.6;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = de.dirkwhoffmann.de.retroMount;
 				PRODUCT_NAME = "$(TARGET_NAME)";
