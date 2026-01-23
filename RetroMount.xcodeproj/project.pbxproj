@@ -10,6 +10,9 @@
 		5045033B2F216094007A7268 /* MySplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5045033A2F21608D007A7268 /* MySplitViewController.swift */; };
 		5045033D2F216157007A7268 /* MySidebarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5045033C2F21614D007A7268 /* MySidebarViewController.swift */; };
 		5045033F2F2161A4007A7268 /* GeneralPreferencesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5045033E2F21619E007A7268 /* GeneralPreferencesViewController.swift */; };
+		504503412F216864007A7268 /* MyOutlineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504503402F21685E007A7268 /* MyOutlineView.swift */; };
+		504503432F216BC4007A7268 /* MySettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504503422F216BAC007A7268 /* MySettingsViewController.swift */; };
+		504503452F235D7B007A7268 /* IconBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504503442F235D78007A7268 /* IconBar.swift */; };
 		504EAD252ECF00CE008CF9FC /* EmulatorProxy.mm in Sources */ = {isa = PBXBuildFile; fileRef = 504EAD212ECF00CE008CF9FC /* EmulatorProxy.mm */; };
 		504EAD262ECF00CE008CF9FC /* TypeExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504EAD232ECF00CE008CF9FC /* TypeExtensions.swift */; };
 		504EAD272ECF00CE008CF9FC /* ProxyExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504EAD222ECF00CE008CF9FC /* ProxyExtensions.swift */; };
@@ -148,6 +151,9 @@
 		5045033A2F21608D007A7268 /* MySplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MySplitViewController.swift; sourceTree = "<group>"; };
 		5045033C2F21614D007A7268 /* MySidebarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MySidebarViewController.swift; sourceTree = "<group>"; };
 		5045033E2F21619E007A7268 /* GeneralPreferencesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralPreferencesViewController.swift; sourceTree = "<group>"; };
+		504503402F21685E007A7268 /* MyOutlineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyOutlineView.swift; sourceTree = "<group>"; };
+		504503422F216BAC007A7268 /* MySettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MySettingsViewController.swift; sourceTree = "<group>"; };
+		504503442F235D78007A7268 /* IconBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconBar.swift; sourceTree = "<group>"; };
 		504EA7BD2ECE39E8008CF9FC /* RetroMount.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RetroMount.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		504EAD1F2ECF00CE008CF9FC /* Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
 		504EAD202ECF00CE008CF9FC /* EmulatorProxy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EmulatorProxy.h; sourceTree = "<group>"; };
@@ -1034,6 +1040,9 @@
 				5045033A2F21608D007A7268 /* MySplitViewController.swift */,
 				5045033C2F21614D007A7268 /* MySidebarViewController.swift */,
 				5045033E2F21619E007A7268 /* GeneralPreferencesViewController.swift */,
+				504503422F216BAC007A7268 /* MySettingsViewController.swift */,
+				504503402F21685E007A7268 /* MyOutlineView.swift */,
+				504503442F235D78007A7268 /* IconBar.swift */,
 				50900C2E2F1E729A00A4A81B /* Volume.swift */,
 			);
 			path = RetroMount;
@@ -1164,6 +1173,7 @@
 				50900B122F1E726D00A4A81B /* Parser.cpp in Sources */,
 				50900B132F1E726D00A4A81B /* Reflectable.cpp in Sources */,
 				50900B142F1E726D00A4A81B /* Hashable.cpp in Sources */,
+				504503452F235D7B007A7268 /* IconBar.swift in Sources */,
 				50900C302F1E729A00A4A81B /* DevicesViewController.swift in Sources */,
 				50900C312F1E729A00A4A81B /* TableCellViews.swift in Sources */,
 				50900C322F1E729A00A4A81B /* Volume.swift in Sources */,
@@ -1223,6 +1233,7 @@
 				50900BDA2F1E727400A4A81B /* FSCache.cpp in Sources */,
 				50900BDB2F1E727400A4A81B /* FileSystemLayer1.cpp in Sources */,
 				50900BDC2F1E727400A4A81B /* FSBlock.cpp in Sources */,
+				504503412F216864007A7268 /* MyOutlineView.swift in Sources */,
 				50900BDD2F1E727400A4A81B /* FileSystem.cpp in Sources */,
 				50900BDE2F1E727400A4A81B /* PosixAdapter.cpp in Sources */,
 				50900BDF2F1E727400A4A81B /* DeviceDescriptors.cpp in Sources */,
@@ -1263,6 +1274,7 @@
 				50900C012F1E727400A4A81B /* FSError.cpp in Sources */,
 				50900C022F1E727400A4A81B /* PosixAdapter.cpp in Sources */,
 				50900C032F1E727400A4A81B /* FSExporter.cpp in Sources */,
+				504503432F216BC4007A7268 /* MySettingsViewController.swift in Sources */,
 				50900C042F1E727400A4A81B /* FSBootBlockImage.cpp in Sources */,
 				50900C052F1E727400A4A81B /* FSService.cpp in Sources */,
 				50900C062F1E727400A4A81B /* STFile.cpp in Sources */,

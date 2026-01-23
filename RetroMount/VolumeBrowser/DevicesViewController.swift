@@ -9,32 +9,6 @@
 
 import Cocoa
 
-class MyOutlineView : NSOutlineView {
-
-    /*
-    var devices: [DeviceInfo] {
-
-        var result: [DeviceInfo] = []
-        if let ds = self.dataSource {
-            let count = ds.outlineView?(self, numberOfChildrenOfItem: parent) ?? 0
-            for i in 0..<count {
-                if let child = ds.outlineView?(self, child: i, ofItem: parent) {
-                    if let group = child as? DeviceInfo {
-                        result.append(group)
-                    }
-                }
-            }
-        }
-        return result
-    }
-    */
-
-    override func frameOfOutlineCell(atRow row: Int) -> NSRect {
-
-        return .zero
-    }
-}
-
 class DevicesViewController: NSViewController {
 
     @IBOutlet weak var outlineView: MyOutlineView!

@@ -73,10 +73,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             // wc.showWindow(self)
             // wc.window?.makeKeyAndOrderFront(nil)
             // NSApp.activate(ignoringOtherApps: true)
-            wc.window?.setContentSize(NSSize(width: 800, height: 600))
+            /*
+            wc.window?.setContentSize(NSSize(width: 300, height: 600))
             wc.window?.center()
             wc.showWindow(self)
-
+            */
         }
 
         /*

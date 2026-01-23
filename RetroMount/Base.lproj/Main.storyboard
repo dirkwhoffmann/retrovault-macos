@@ -3,6 +3,7 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="24506"/>
         <capability name="NSView safe area layout guides" minToolsVersion="12.0"/>
+        <capability name="System colors introduced in macOS 10.14" minToolsVersion="10.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -685,7 +686,7 @@
         <scene sceneID="0jt-Nq-Kgm">
             <objects>
                 <windowController storyboardIdentifier="MyWindowController" id="d5P-RV-lOQ" customClass="MyWindowController" customModule="RetroMount" customModuleProvider="target" sceneMemberID="viewController">
-                    <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="aZG-eu-cP4">
+                    <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="aZG-eu-cP4">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" fullSizeContentView="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
                         <rect key="contentRect" x="255" y="326" width="480" height="270"/>
@@ -742,20 +743,93 @@
             </objects>
             <point key="canvasLocation" x="790" y="276"/>
         </scene>
-        <!--View Controller-->
+        <!--My Sidebar View Controller-->
         <scene sceneID="eWr-9a-TKu">
             <objects>
-                <viewController id="W61-1Q-cxU" sceneMemberID="viewController">
+                <viewController id="W61-1Q-cxU" customClass="MySidebarViewController" customModule="RetroMount" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="1Ak-P6-jg5">
-                        <rect key="frame" x="0.0" y="0.0" width="149" height="300"/>
+                        <rect key="frame" x="0.0" y="0.0" width="234" height="300"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <scrollView fixedFrame="YES" autohidesScrollers="YES" horizontalLineScroll="32" horizontalPageScroll="10" verticalLineScroll="32" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zhY-qm-vSR">
+                                <rect key="frame" x="0.0" y="0.0" width="234" height="300"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <clipView key="contentView" id="Ucq-m6-TbC">
+                                    <rect key="frame" x="1" y="1" width="232" height="298"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnReordering="NO" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowHeight="32" viewBased="YES" indentationPerLevel="13" outlineTableColumn="JyQ-Cx-3OV" id="GMQ-1A-kqo" customClass="MyOutlineView" customModule="RetroMount" customModuleProvider="target">
+                                            <rect key="frame" x="0.0" y="0.0" width="232" height="298"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <size key="intercellSpacing" width="17" height="0.0"/>
+                                            <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="gridColor" name="separatorColor" catalog="System" colorSpace="catalog"/>
+                                            <tableColumns>
+                                                <tableColumn identifier="AutomaticTableColumnIdentifier.0" width="220" minWidth="40" maxWidth="1000" id="JyQ-Cx-3OV">
+                                                    <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border">
+                                                        <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
+                                                    </tableHeaderCell>
+                                                    <textFieldCell key="dataCell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" title="Text Cell" id="0Ms-uM-Wns">
+                                                        <font key="font" metaFont="system"/>
+                                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                    </textFieldCell>
+                                                    <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
+                                                    <prototypeCellViews>
+                                                        <tableCellView identifier="SidebarCell" id="rOE-AA-9WU">
+                                                            <rect key="frame" x="8" y="0.0" width="215" height="48"/>
+                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                            <subviews>
+                                                                <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uLZ-xQ-a7s">
+                                                                    <rect key="frame" x="3" y="8" width="32" height="32"/>
+                                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="floppy_35_dd" id="f97-Qu-L81"/>
+                                                                </imageView>
+                                                                <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="N0J-hm-uFo">
+                                                                    <rect key="frame" x="41" y="16" width="157" height="16"/>
+                                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                                                    <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="VIA-Uf-9gR">
+                                                                        <font key="font" usesAppearanceFont="YES"/>
+                                                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                                    </textFieldCell>
+                                                                </textField>
+                                                            </subviews>
+                                                            <connections>
+                                                                <outlet property="imageView" destination="uLZ-xQ-a7s" id="Qa7-Yp-PJn"/>
+                                                                <outlet property="textField" destination="N0J-hm-uFo" id="LRS-1i-1z1"/>
+                                                            </connections>
+                                                        </tableCellView>
+                                                    </prototypeCellViews>
+                                                </tableColumn>
+                                            </tableColumns>
+                                            <connections>
+                                                <outlet property="sidebarViewController" destination="W61-1Q-cxU" id="2Z9-U2-kdq"/>
+                                            </connections>
+                                        </outlineView>
+                                    </subviews>
+                                </clipView>
+                                <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="1dt-a6-HPI">
+                                    <rect key="frame" x="1" y="282" width="147" height="17"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </scroller>
+                                <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="Ri6-XK-hWO">
+                                    <rect key="frame" x="224" y="17" width="15" height="102"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </scroller>
+                            </scrollView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="uwS-IV-73t"/>
                         <viewLayoutGuide key="layoutMargins" id="l7j-mV-req"/>
                     </view>
+                    <connections>
+                        <outlet property="outlineView" destination="GMQ-1A-kqo" id="2A1-0o-wQt"/>
+                    </connections>
                 </viewController>
                 <customObject id="Ee9-we-ktS" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1310" y="90"/>
+            <point key="canvasLocation" x="1352" y="90"/>
         </scene>
         <!--General Preferences View Controller-->
         <scene sceneID="dgO-Es-CbK">
@@ -783,4 +857,7 @@
             <point key="canvasLocation" x="1386" y="462"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="floppy_35_dd" width="257" height="258"/>
+    </resources>
 </document>

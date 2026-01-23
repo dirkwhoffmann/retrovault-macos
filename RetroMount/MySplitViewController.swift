@@ -17,6 +17,8 @@ class MySplitViewController: NSSplitViewController {
         return main.instantiateController(withIdentifier: "GeneralPreferencesViewController") as! GeneralPreferencesViewController
     }()
 
+    var current: SettingsViewController?
+
     private var sidebarVC: MySidebarViewController? {
         return splitViewItems.first?.viewController as? MySidebarViewController
     }
@@ -30,20 +32,23 @@ class MySplitViewController: NSSplitViewController {
     }
 
     private func showContent(for item: SidebarItem) {
-        let newVC: NSViewController
 
-        switch item.identifier.rawValue {
-        case "general":
-            newVC = generalVC
+        showContent(title: item.title)
+    }
+
+    func showContent(title: String) {
+
+        switch title {
+        case "General": current = generalVC
         default:
-            newVC = NSViewController()
+            current = generalVC // fatalError()
         }
 
         // Remove the old content pane
         removeSplitViewItem(splitViewItems[1])
 
         // Create a new split view item for the new content
-        let newItem = NSSplitViewItem(viewController: newVC)
+        let newItem = NSSplitViewItem(viewController: current!)
         addSplitViewItem(newItem)
     }
 }
