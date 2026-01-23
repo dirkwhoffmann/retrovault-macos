@@ -9,7 +9,7 @@
 
 import Cocoa
 
-class GeneralPreferencesViewController: SettingsViewController {
+class LaunchInfoViewController: SettingsViewController {
 
     override func viewDidLoad() {
 

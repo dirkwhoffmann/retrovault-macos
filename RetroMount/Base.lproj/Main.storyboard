@@ -741,19 +741,19 @@
         <scene sceneID="eWr-9a-TKu">
             <objects>
                 <viewController id="W61-1Q-cxU" customClass="MySidebarViewController" customModule="RetroMount" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" id="1Ak-P6-jg5">
-                        <rect key="frame" x="0.0" y="0.0" width="234" height="300"/>
+                    <view key="view" misplaced="YES" id="1Ak-P6-jg5">
+                        <rect key="frame" x="0.0" y="0.0" width="234" height="335"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView fixedFrame="YES" autohidesScrollers="YES" horizontalLineScroll="32" horizontalPageScroll="10" verticalLineScroll="32" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zhY-qm-vSR">
-                                <rect key="frame" x="0.0" y="0.0" width="234" height="300"/>
+                                <rect key="frame" x="0.0" y="0.0" width="234" height="335"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <clipView key="contentView" id="Ucq-m6-TbC">
-                                    <rect key="frame" x="1" y="1" width="232" height="298"/>
+                                    <rect key="frame" x="1" y="1" width="232" height="333"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnReordering="NO" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowHeight="32" viewBased="YES" indentationPerLevel="13" outlineTableColumn="JyQ-Cx-3OV" id="GMQ-1A-kqo" customClass="MyOutlineView" customModule="RetroMount" customModuleProvider="target">
-                                            <rect key="frame" x="0.0" y="0.0" width="232" height="298"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="232" height="333"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <size key="intercellSpacing" width="17" height="0.0"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -805,7 +805,7 @@
                                     </subviews>
                                 </clipView>
                                 <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="1dt-a6-HPI">
-                                    <rect key="frame" x="1" y="282" width="232" height="17"/>
+                                    <rect key="frame" x="1" y="317" width="232" height="17"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="Ri6-XK-hWO">
@@ -830,11 +830,11 @@
             <objects>
                 <viewController storyboardIdentifier="GeneralPreferencesViewController" id="Wj9-ru-zix" customClass="GeneralPreferencesViewController" customModule="RetroMount" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="qoj-h7-T7m">
-                        <rect key="frame" x="0.0" y="0.0" width="302" height="300"/>
+                        <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="a3X-zz-Ibd">
-                                <rect key="frame" x="104" y="174" width="65" height="24"/>
+                                <rect key="frame" x="12" y="428" width="65" height="24"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <buttonCell key="cell" type="push" title="Button" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="d7P-lH-N4o">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -848,10 +848,57 @@
                 </viewController>
                 <customObject id="ARd-Sc-qld" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1386" y="462"/>
+            <point key="canvasLocation" x="1371" y="535"/>
+        </scene>
+        <!--Launch Info View Controller-->
+        <scene sceneID="7hk-ZI-Pck">
+            <objects>
+                <viewController storyboardIdentifier="LaunchInfoViewController" id="G84-qm-biE" customClass="LaunchInfoViewController" customModule="RetroMount" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="OVe-nN-jcf">
+                        <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fCu-nk-XHN">
+                                <rect key="frame" x="0.0" y="283" width="480" height="197"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
+                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="axesIndependently" image="stop" id="2y6-YI-rUX"/>
+                            </imageView>
+                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2bC-uV-Te0">
+                                <rect key="frame" x="205" y="205" width="70" height="70"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="FUSEicon" id="7g8-Rn-H9N"/>
+                            </imageView>
+                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YDZ-88-C2y">
+                                <rect key="frame" x="105" y="169" width="270" height="16"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="This application requires macFUSE to run" id="mJx-Ub-WWk">
+                                    <font key="font" metaFont="systemBold"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="g24-na-nH3">
+                                <rect key="frame" x="162" y="148" width="156" height="16"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="https://macfuse.github.io" id="Pjb-bR-npc">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="ojR-7n-QQo"/>
+                        <viewLayoutGuide key="layoutMargins" id="kZn-ma-Wza"/>
+                    </view>
+                </viewController>
+                <customObject id="pAt-xF-GyA" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1888" y="535"/>
         </scene>
     </scenes>
     <resources>
+        <image name="FUSEicon" width="280" height="280"/>
         <image name="floppy_35_dd" width="257" height="258"/>
+        <image name="stop" width="928" height="509"/>
     </resources>
 </document>

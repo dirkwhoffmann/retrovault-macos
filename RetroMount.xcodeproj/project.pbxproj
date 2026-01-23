@@ -116,6 +116,7 @@
 		50900C382F1E729A00A4A81B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50900C242F1E729A00A4A81B /* AppDelegate.swift */; };
 		50900C3A2F1E729A00A4A81B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50900C2C2F1E729A00A4A81B /* Main.storyboard */; };
 		50900C3B2F1E729A00A4A81B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 50900C252F1E729A00A4A81B /* Assets.xcassets */; };
+		50AB50B82F23E1F900BFBA99 /* LaunchInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50AB50B72F23E1F300BFBA99 /* LaunchInfoViewController.swift */; };
 		50BCBDFA2EEBF79B000C53CF /* FuseDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50BCBDF92EEBF798000C53CF /* FuseDevice.cpp */; };
 		50D89C512F1E775100ECC73D /* debug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50D89C502F1E775100ECC73D /* debug.cpp */; };
 		50D89C752F1E7C7B00ECC73D /* pfile.c in Sources */ = {isa = PBXBuildFile; fileRef = 50D89C5C2F1E7C7B00ECC73D /* pfile.c */; };
@@ -136,7 +137,7 @@
 /* Begin PBXCopyFilesBuildPhase section */
 		504EAD3F2ECF14AA008CF9FC /* Embed Libraries */ = {
 			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 12;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
@@ -399,6 +400,7 @@
 		50900C2B2F1E729A00A4A81B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		50900C2D2F1E729A00A4A81B /* MyWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyWindowController.swift; sourceTree = "<group>"; };
 		50900C2E2F1E729A00A4A81B /* Volume.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Volume.swift; sourceTree = "<group>"; };
+		50AB50B72F23E1F300BFBA99 /* LaunchInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchInfoViewController.swift; sourceTree = "<group>"; };
 		50BCBDC22EE866B0000C53CF /* config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
 		50BCBDF82EEBF791000C53CF /* FuseDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FuseDevice.h; sourceTree = "<group>"; };
 		50BCBDF92EEBF798000C53CF /* FuseDevice.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FuseDevice.cpp; sourceTree = "<group>"; };
@@ -1039,6 +1041,7 @@
 				50900C2D2F1E729A00A4A81B /* MyWindowController.swift */,
 				5045033A2F21608D007A7268 /* MySplitViewController.swift */,
 				5045033C2F21614D007A7268 /* MySidebarViewController.swift */,
+				50AB50B72F23E1F300BFBA99 /* LaunchInfoViewController.swift */,
 				5045033E2F21619E007A7268 /* GeneralPreferencesViewController.swift */,
 				504503422F216BAC007A7268 /* MySettingsViewController.swift */,
 				504503402F21685E007A7268 /* MyOutlineView.swift */,
@@ -1264,6 +1267,7 @@
 				50900BF72F1E727400A4A81B /* DiskDecoder.cpp in Sources */,
 				50900BF82F1E727400A4A81B /* FileSystemLayer2.cpp in Sources */,
 				50900BF92F1E727400A4A81B /* Volume.cpp in Sources */,
+				50AB50B82F23E1F900BFBA99 /* LaunchInfoViewController.swift in Sources */,
 				50900BFA2F1E727400A4A81B /* C64Decoder.cpp in Sources */,
 				50900BFB2F1E727400A4A81B /* FileSystem.cpp in Sources */,
 				50900BFC2F1E727400A4A81B /* HardDiskImage.cpp in Sources */,

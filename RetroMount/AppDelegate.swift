@@ -16,7 +16,11 @@ var app: AppDelegate { NSApp.delegate as! AppDelegate }
 class AppDelegate: NSObject, NSApplicationDelegate {
 
     // Indicates if FUSE is installed
-    var hasFUSE = false
+    static var hasFUSE: Bool {
+
+        let RTLD_DEFAULT = UnsafeMutableRawPointer(bitPattern: -2)!
+        return dlsym(RTLD_DEFAULT, "fuse_mount") != nil
+    }
 
     // Device manager
     var manager = DeviceManager()
@@ -41,7 +45,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
 
-        hasFUSE = loadFUSE()
+        print("hasFUSE: \(AppDelegate.hasFUSE)")
         showVolumeWindow()
     }
 
@@ -66,36 +70,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         urls.forEach { manager.mount(url: $0) }
 
         vc?.outlineView.reloadData()
-    }
-
-    func loadFUSE() -> Bool {
-
-        let libraryPaths = [
-
-            "/usr/lib/libfuse.2.dylib",
-            "/usr/local/lib/libfuse.2.dylib"
-        ]
-
-        var handle: UnsafeMutableRawPointer?
-
-        for path in libraryPaths {
-
-            if FileManager.default.fileExists(atPath: path) {
-
-                handle = dlopen(path, RTLD_LAZY | RTLD_LOCAL)
-
-                if handle != nil {
-
-                    print("macFUSE loaded from \(path)")
-                    return true
-
-                } else if let err = dlerror() {
-
-                    print("Failed to load \(path): \(String(cString: err))")
-                }
-            }
-        }
-        return false
     }
 
     func showVolumeWindow() {

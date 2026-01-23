@@ -18,6 +18,7 @@ class MyWindowController: NSWindowController {
 
     private let proposedSidebarWidth = CGFloat(250)
     private let proposedCanvasWidth = CGFloat(480)
+    private let proposedCanvasHeight = CGFloat(480)
 
     private var proposedWidth: CGFloat {
 
@@ -29,10 +30,15 @@ class MyWindowController: NSWindowController {
         return result
     }
 
+    private var proposedSize: CGSize {
+
+        return CGSize(width: proposedWidth, height: proposedCanvasHeight)
+    }
+
     func resize(animate: Bool = false) {
 
         var newFrame = window!.frame
-        newFrame.size.width = proposedWidth
+        newFrame.size = proposedSize
         window!.setFrame(newFrame, display: true, animate: animate)
     }
 

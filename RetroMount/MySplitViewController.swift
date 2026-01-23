@@ -13,6 +13,9 @@ class MySplitViewController: NSSplitViewController {
 
     let main = NSStoryboard(name: "Main", bundle: nil)
 
+    private lazy var launchInfoVC: LaunchInfoViewController = {
+        return main.instantiateController(withIdentifier: "LaunchInfoViewController") as! LaunchInfoViewController
+    }()
     private lazy var generalVC: GeneralPreferencesViewController = {
         return main.instantiateController(withIdentifier: "GeneralPreferencesViewController") as! GeneralPreferencesViewController
     }()
@@ -41,7 +44,7 @@ class MySplitViewController: NSSplitViewController {
         switch title {
         case "General": current = generalVC
         default:
-            current = generalVC // fatalError()
+            current = launchInfoVC // fatalError()
         }
 
         // Remove the old content pane
