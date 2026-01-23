@@ -46,8 +46,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
 
-        print("hasFUSE: \(AppDelegate.hasFUSE)")
-        showVolumeWindow()
+        if AppDelegate.hasFUSE {
+            showVolumeWindow()
+        } else {
+            showLaunchErrorWindow()
+        }
     }
 
     /*
@@ -73,38 +76,27 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         vc?.outlineView.reloadData()
     }
 
-    func showVolumeWindow() {
+    func showLaunchErrorWindow() {
 
         let storyboard = NSStoryboard(name: "Main", bundle: nil)
 
         if let wc = storyboard.instantiateController(withIdentifier: "LaunchInfoWindowController") as? NSWindowController {
-
-            // wc.window!.setContentSize(NSSize(width: 480, height: 480))
 
             wc.window!.center()
             wc.showWindow(self)
 
             NSApp.activate(ignoringOtherApps: true)
         }
+    }
 
-        else if let _ = storyboard.instantiateController(withIdentifier: "MyWindowController") as? NSWindowController {
+    func showVolumeWindow() {
+
+        let storyboard = NSStoryboard(name: "Main", bundle: nil)
+
+        if let _ = storyboard.instantiateController(withIdentifier: "MyWindowController") as? NSWindowController {
 
             NSApp.activate(ignoringOtherApps: true)
         }
-
-        /*
-        print("showVolumeWindow")
-        let sb = NSStoryboard(name: "Main", bundle: nil)
-        if let wc = sb.instantiateController(withIdentifier: "Volumes") as? NSWindowController {
-
-            vc = wc.contentViewController as? DevicesViewController
-
-            wc.window?.setContentSize(NSSize(width: 800, height: 600))
-            wc.window?.center()
-            wc.showWindow(self)
-        }
-        */
     }
-
 }
 
