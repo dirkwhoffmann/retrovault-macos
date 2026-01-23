@@ -89,7 +89,8 @@ class IconBarViewController: NSTitlebarAccessoryViewController {
             NSLayoutConstraint.activate([
                 button.widthAnchor.constraint(equalToConstant: icon.size.width),
                 button.heightAnchor.constraint(equalToConstant: icon.size.height),
-                button.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
+                button.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16)
+                    // button.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
             ])
 
             if let prev = prev {

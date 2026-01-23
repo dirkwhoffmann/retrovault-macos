@@ -33,7 +33,7 @@ class MyWindowController: NSWindowController {
 
         var newFrame = window!.frame
         newFrame.size.width = proposedWidth
-        window!.setFrame(newFrame, display: true, animate: false)
+        window!.setFrame(newFrame, display: true, animate: animate)
     }
 
     // Indicates if the main canvas is visible
@@ -44,7 +44,7 @@ class MyWindowController: NSWindowController {
             // Make sure that at least one element is visible
             if (!canvas) { sidebar = true }
 
-            resize()
+            resize(animate: true)
         }
     }
 
@@ -58,7 +58,7 @@ class MyWindowController: NSWindowController {
 
             guard let sidebarItem = vc?.splitViewItems.first else { return }
             sidebarItem.isCollapsed = !sidebar
-            resize()
+            resize(animate: true)
         }
     }
 

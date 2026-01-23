@@ -686,7 +686,7 @@
         <scene sceneID="0jt-Nq-Kgm">
             <objects>
                 <windowController storyboardIdentifier="MyWindowController" id="d5P-RV-lOQ" customClass="MyWindowController" customModule="RetroMount" customModuleProvider="target" sceneMemberID="viewController">
-                    <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" id="aZG-eu-cP4">
+                    <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" titlebarAppearsTransparent="YES" titleVisibility="hidden" id="aZG-eu-cP4">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" fullSizeContentView="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
                         <rect key="contentRect" x="255" y="326" width="480" height="270"/>
@@ -695,19 +695,13 @@
                             <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </view>
-                        <toolbar key="toolbar" implicitIdentifier="09D11707-F4A3-4FD5-970E-AC5832E91C2B" autosavesConfiguration="NO" showsBaselineSeparator="NO" displayMode="iconAndLabel" sizeMode="regular" id="uNl-6Y-pE6">
+                        <toolbar key="toolbar" implicitIdentifier="09D11707-F4A3-4FD5-970E-AC5832E91C2B" autosavesConfiguration="NO" allowsUserCustomization="NO" showsBaselineSeparator="NO" displayMode="iconOnly" sizeMode="regular" id="uNl-6Y-pE6">
                             <allowedToolbarItems>
-                                <toolbarItem implicitItemIdentifier="NSToolbarShowColorsItem" id="f5W-TH-aDX"/>
-                                <toolbarItem implicitItemIdentifier="NSToolbarShowFontsItem" id="FE7-gh-ANL"/>
-                                <toolbarItem implicitItemIdentifier="NSToolbarPrintItem" id="19p-xJ-a6j"/>
                                 <toolbarItem implicitItemIdentifier="NSToolbarSpaceItem" id="6EJ-XG-I3p"/>
                                 <toolbarItem implicitItemIdentifier="NSToolbarFlexibleSpaceItem" id="ISl-xI-H9X"/>
                             </allowedToolbarItems>
                             <defaultToolbarItems>
-                                <toolbarItem reference="f5W-TH-aDX"/>
-                                <toolbarItem reference="FE7-gh-ANL"/>
                                 <toolbarItem reference="ISl-xI-H9X"/>
-                                <toolbarItem reference="19p-xJ-a6j"/>
                             </defaultToolbarItems>
                         </toolbar>
                         <connections>
@@ -749,11 +743,11 @@
                 <viewController id="W61-1Q-cxU" customClass="MySidebarViewController" customModule="RetroMount" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="1Ak-P6-jg5">
                         <rect key="frame" x="0.0" y="0.0" width="234" height="300"/>
-                        <autoresizingMask key="autoresizingMask"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView fixedFrame="YES" autohidesScrollers="YES" horizontalLineScroll="32" horizontalPageScroll="10" verticalLineScroll="32" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zhY-qm-vSR">
                                 <rect key="frame" x="0.0" y="0.0" width="234" height="300"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <clipView key="contentView" id="Ucq-m6-TbC">
                                     <rect key="frame" x="1" y="1" width="232" height="298"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -811,7 +805,7 @@
                                     </subviews>
                                 </clipView>
                                 <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="1dt-a6-HPI">
-                                    <rect key="frame" x="1" y="282" width="147" height="17"/>
+                                    <rect key="frame" x="1" y="282" width="232" height="17"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="Ri6-XK-hWO">
