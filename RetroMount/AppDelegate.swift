@@ -19,7 +19,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     static var hasFUSE: Bool {
 
         let RTLD_DEFAULT = UnsafeMutableRawPointer(bitPattern: -2)!
-        return dlsym(RTLD_DEFAULT, "fuse_mount") != nil
+        // return dlsym(RTLD_DEFAULT, "fuse_mount") != nil
+        return dlsym(RTLD_DEFAULT, "fuse_mount") == nil // REMOVE ASAP
     }
 
     // Device manager
@@ -75,7 +76,18 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func showVolumeWindow() {
 
         let storyboard = NSStoryboard(name: "Main", bundle: nil)
-        if let _ = storyboard.instantiateController(withIdentifier: "MyWindowController") as? NSWindowController {
+
+        if let wc = storyboard.instantiateController(withIdentifier: "LaunchInfoWindowController") as? NSWindowController {
+
+            // wc.window!.setContentSize(NSSize(width: 480, height: 480))
+
+            wc.window!.center()
+            wc.showWindow(self)
+
+            NSApp.activate(ignoringOtherApps: true)
+        }
+
+        else if let _ = storyboard.instantiateController(withIdentifier: "MyWindowController") as? NSWindowController {
 
             NSApp.activate(ignoringOtherApps: true)
         }

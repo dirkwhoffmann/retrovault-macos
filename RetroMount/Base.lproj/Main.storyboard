@@ -716,6 +716,95 @@
             </objects>
             <point key="canvasLocation" x="98" y="272"/>
         </scene>
+        <!--Window Controller-->
+        <scene sceneID="dpG-Hn-Lu4">
+            <objects>
+                <windowController storyboardIdentifier="LaunchInfoWindowController" id="yTd-lZ-oTA" sceneMemberID="viewController">
+                    <window key="window" title="Window" separatorStyle="none" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" restorable="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" frameAutosaveName="" animationBehavior="default" titlebarAppearsTransparent="YES" titleVisibility="hidden" id="FQF-hb-eTa">
+                        <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
+                        <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+                        <rect key="contentRect" x="255" y="326" width="480" height="270"/>
+                        <rect key="screenRect" x="0.0" y="0.0" width="1728" height="1084"/>
+                        <view key="contentView" id="R7L-05-a6b">
+                            <rect key="frame" x="0.0" y="0.0" width="480" height="270"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                        </view>
+                        <connections>
+                            <outlet property="delegate" destination="yTd-lZ-oTA" id="xXr-79-Ehj"/>
+                        </connections>
+                    </window>
+                    <connections>
+                        <segue destination="ChF-rz-SWs" kind="relationship" relationship="window.shadowedContentViewController" id="WHD-ty-nJ5"/>
+                    </connections>
+                </windowController>
+                <customObject id="Arz-pD-ULf" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="98" y="828"/>
+        </scene>
+        <!--Launch Info View Controller-->
+        <scene sceneID="fRR-7C-C9h">
+            <objects>
+                <viewController storyboardIdentifier="LaunchInfoViewController" id="ChF-rz-SWs" customClass="LaunchInfoViewController" customModule="RetroMount" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="n07-Sv-BcV">
+                        <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LWY-b3-97q">
+                                <rect key="frame" x="0.0" y="283" width="480" height="197"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
+                                <imageCell key="cell" alignment="left" animates="YES" imageScaling="axesIndependently" image="stop" id="thI-DL-CL9"/>
+                            </imageView>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qCz-I5-olK">
+                                <rect key="frame" x="200" y="64" width="80" height="24"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="push" title="Exit" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="VLb-p4-ced">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                    <string key="keyEquivalent" base64-UTF8="YES">
+DQ
+</string>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="exit:" target="ChF-rz-SWs" id="jii-pb-oOL"/>
+                                </connections>
+                            </button>
+                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5VD-1O-tBb">
+                                <rect key="frame" x="205" y="221" width="70" height="70"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="proportionallyDown" image="FUSEicon" id="oQJ-b6-2tE"/>
+                            </imageView>
+                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PYz-9Z-n8k">
+                                <rect key="frame" x="105" y="197" width="270" height="16"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="RetroMount requires macFUSE to run" id="lAG-2u-j7R">
+                                    <font key="font" metaFont="systemBold"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" contentType="url" translatesAutoresizingMaskIntoConstraints="NO" id="GRL-ma-wdP">
+                                <rect key="frame" x="117" y="176" width="246" height="16"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" selectable="YES" alignment="center" title="https://macfuse.github.io" allowsEditingTextAttributes="YES" id="OfI-4E-84x">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                                <connections>
+                                    <action selector="openMacFUSEWebsite:" target="ChF-rz-SWs" id="A2L-In-yhm"/>
+                                </connections>
+                            </textField>
+                        </subviews>
+                    </view>
+                    <connections>
+                        <outlet property="exitButton" destination="qCz-I5-olK" id="7Ax-H4-cpg"/>
+                        <outlet property="textField" destination="GRL-ma-wdP" id="6Fv-Wj-9LF"/>
+                    </connections>
+                </viewController>
+                <customObject id="dpd-HV-fGd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="782" y="905"/>
+        </scene>
         <!--My Split View Controller-->
         <scene sceneID="Dnn-DH-OLc">
             <objects>
@@ -823,7 +912,7 @@
                 </viewController>
                 <customObject id="Ee9-we-ktS" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1352" y="90"/>
+            <point key="canvasLocation" x="1248" y="35"/>
         </scene>
         <!--General Preferences View Controller-->
         <scene sceneID="dgO-Es-CbK">
@@ -850,10 +939,10 @@
             </objects>
             <point key="canvasLocation" x="1371" y="535"/>
         </scene>
-        <!--Launch Info View Controller-->
+        <!--View Controller-->
         <scene sceneID="7hk-ZI-Pck">
             <objects>
-                <viewController storyboardIdentifier="LaunchInfoViewController" id="G84-qm-biE" customClass="LaunchInfoViewController" customModule="RetroMount" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="G84-qm-biE" sceneMemberID="viewController">
                     <view key="view" id="OVe-nN-jcf">
                         <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -863,13 +952,24 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="axesIndependently" image="stop" id="2y6-YI-rUX"/>
                             </imageView>
+                            <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4nb-mM-ZMa">
+                                <rect key="frame" x="200" y="64" width="80" height="24"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <buttonCell key="cell" type="push" title="Exit" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Oyc-EN-Z7V">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                    <string key="keyEquivalent" base64-UTF8="YES">
+DQ
+</string>
+                                </buttonCell>
+                            </button>
                             <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2bC-uV-Te0">
-                                <rect key="frame" x="205" y="205" width="70" height="70"/>
+                                <rect key="frame" x="205" y="221" width="70" height="70"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="FUSEicon" id="7g8-Rn-H9N"/>
                             </imageView>
                             <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YDZ-88-C2y">
-                                <rect key="frame" x="105" y="169" width="270" height="16"/>
+                                <rect key="frame" x="105" y="197" width="270" height="16"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="This application requires macFUSE to run" id="mJx-Ub-WWk">
                                     <font key="font" metaFont="systemBold"/>
@@ -878,7 +978,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="g24-na-nH3">
-                                <rect key="frame" x="162" y="148" width="156" height="16"/>
+                                <rect key="frame" x="162" y="176" width="156" height="16"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="https://macfuse.github.io" id="Pjb-bR-npc">
                                     <font key="font" metaFont="system"/>
