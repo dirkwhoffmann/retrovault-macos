@@ -17,14 +17,16 @@ class DevicesViewController: NSViewController {
     
     override func viewDidLoad() {
 
+        app.vc = self
+        
         outlineView.delegate = self
         outlineView.dataSource = self
         outlineView.indentationPerLevel = 0
         outlineView.intercellSpacing = NSSize(width: 0, height: 2)
         outlineView.backgroundColor = .clear
         outlineView.usesAlternatingRowBackgroundColors = false
-        // outlineView.gridColor = .separatorColor // .controlBackgroundColor // windowBackgroundColor
-        // outlineView.gridStyleMask = [.solidHorizontalGridLineMask]
+        outlineView.gridColor = .separatorColor // .controlBackgroundColor // windowBackgroundColor
+        outlineView.gridStyleMask = [.solidHorizontalGridLineMask]
         outlineView.reloadData()
 
         expandAll()
@@ -32,11 +34,6 @@ class DevicesViewController: NSViewController {
 
     func expandAll() {
 
-        /*
-        for group in outlineView.devices {
-            outlineView.expandItem(group)
-        }
-        */
         for device in 0..<manager.count {
             outlineView.expandItem(device)
         }
@@ -86,15 +83,9 @@ extension DevicesViewController: NSOutlineViewDataSource {
         return manager.count
     }
 
-    /*
-    func outlineView(_ outlineView: NSOutlineView, objectValueFor tableColumn: NSTableColumn?, byItem item: Any?) -> Any? {
-
-    }
-    */
-
     func outlineView(_ outlineView: NSOutlineView, heightOfRowByItem item: Any) -> CGFloat {
 
-        return 84
+        return 48
     }
     func outlineView(_ outlineView: NSOutlineView, isItemExpandable item: Any) -> Bool {
 
@@ -119,20 +110,24 @@ extension DevicesViewController: NSOutlineViewDelegate {
 
             print("outlineView: \(device)")
 
-            let id = NSUserInterfaceItemIdentifier("GroupCell")
-            let cell = outlineView.makeView(withIdentifier: id, owner: self) as! TableDeviceView
-            cell.setup(device: device)
-            cell.updateIcon(expanded: outlineView.isItemExpanded(item))
+            let id = NSUserInterfaceItemIdentifier("SidebarCell")
+            let cell = outlineView.makeView(withIdentifier: id, owner: self) as! NSTableCellView
+            // cell.setup(device: device)
+            // cell.updateIcon(expanded: outlineView.isItemExpanded(item))
             // group.view = cell
+            cell.textField?.stringValue = "Device \(device)"
+            cell.imageView?.image = NSImage(named: "harddrive")
             return cell
 
         } else if let (device, volume) = item as? (Int, Int) {
 
             print("outlineView: \(device), \(volume)")
 
-            let id = NSUserInterfaceItemIdentifier(rawValue: "RowCell")
-            let cell = outlineView.makeView(withIdentifier: id, owner: self) as! TableVolumeView
-            cell.setup(device: device, partition: volume)
+            let id = NSUserInterfaceItemIdentifier(rawValue: "SidebarCell")
+            let cell = outlineView.makeView(withIdentifier: id, owner: self) as! NSTableCellView
+            cell.textField?.stringValue = "Volume \(volume)"
+            cell.imageView?.image = NSImage(named: "volume_amiga")
+            // cell.setup(device: device, partition: volume)
             return cell
 
         } else {

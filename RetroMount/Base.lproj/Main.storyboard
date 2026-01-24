@@ -826,23 +826,23 @@ DQ
             </objects>
             <point key="canvasLocation" x="790" y="276"/>
         </scene>
-        <!--My Sidebar View Controller-->
+        <!--Devices View Controller-->
         <scene sceneID="eWr-9a-TKu">
             <objects>
-                <viewController id="W61-1Q-cxU" customClass="MySidebarViewController" customModule="RetroMount" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="W61-1Q-cxU" customClass="DevicesViewController" customModule="RetroMount" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" misplaced="YES" id="1Ak-P6-jg5">
-                        <rect key="frame" x="0.0" y="0.0" width="234" height="335"/>
+                        <rect key="frame" x="0.0" y="0.0" width="234" height="370"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView fixedFrame="YES" autohidesScrollers="YES" horizontalLineScroll="32" horizontalPageScroll="10" verticalLineScroll="32" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zhY-qm-vSR">
-                                <rect key="frame" x="0.0" y="0.0" width="234" height="335"/>
+                                <rect key="frame" x="0.0" y="0.0" width="234" height="370"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <clipView key="contentView" id="Ucq-m6-TbC">
-                                    <rect key="frame" x="1" y="1" width="232" height="333"/>
+                                    <rect key="frame" x="1" y="1" width="232" height="368"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnReordering="NO" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowHeight="32" viewBased="YES" indentationPerLevel="13" outlineTableColumn="JyQ-Cx-3OV" id="GMQ-1A-kqo" customClass="MyOutlineView" customModule="RetroMount" customModuleProvider="target">
-                                            <rect key="frame" x="0.0" y="0.0" width="232" height="333"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="232" height="368"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <size key="intercellSpacing" width="17" height="0.0"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -870,7 +870,7 @@ DQ
                                                                     <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="floppy_35_dd" id="f97-Qu-L81"/>
                                                                 </imageView>
                                                                 <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="N0J-hm-uFo">
-                                                                    <rect key="frame" x="41" y="16" width="157" height="16"/>
+                                                                    <rect key="frame" x="41" y="16" width="173" height="16"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="VIA-Uf-9gR">
                                                                         <font key="font" usesAppearanceFont="YES"/>
@@ -912,7 +912,7 @@ DQ
                 </viewController>
                 <customObject id="Ee9-we-ktS" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1248" y="35"/>
+            <point key="canvasLocation" x="1248" y="34.5"/>
         </scene>
         <!--General Preferences View Controller-->
         <scene sceneID="dgO-Es-CbK">

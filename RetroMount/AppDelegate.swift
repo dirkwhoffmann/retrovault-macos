@@ -19,8 +19,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     static var hasFUSE: Bool {
 
         let RTLD_DEFAULT = UnsafeMutableRawPointer(bitPattern: -2)!
-        // return dlsym(RTLD_DEFAULT, "fuse_mount") != nil
-        return dlsym(RTLD_DEFAULT, "fuse_mount") == nil // REMOVE ASAP
+        return dlsym(RTLD_DEFAULT, "fuse_mount") != nil
     }
 
     // Device manager
@@ -73,7 +72,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         print("application open: urls = \(urls)")
         urls.forEach { manager.mount(url: $0) }
 
-        vc?.outlineView.reloadData()
+        vc?.outlineView.reloadAndSelectLast()
+        //  vc?.outlineView.reloadData()
     }
 
     func showLaunchErrorWindow() {

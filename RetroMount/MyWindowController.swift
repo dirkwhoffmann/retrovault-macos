@@ -54,7 +54,7 @@ class MyWindowController: NSWindowController {
         }
     }
 
-        // Indicates if the sidebar is visible
+    // Shows or hides the sidebar
     var sidebar: Bool = true {
 
         didSet {
@@ -68,13 +68,11 @@ class MyWindowController: NSWindowController {
         }
     }
 
-    // Set to true to display a REC icon in the upper right corner
-    var onAir: Bool = false {
+    // Shows or hides the sidebar icon next to the window controls
+    var sidebarIcon: Bool = false {
 
         didSet {
-            if onAir != oldValue {
-
-                print("onAir = \(onAir)")
+            if sidebarIcon != oldValue {
 
                 let icons = [
                     BarIcon(
@@ -84,55 +82,18 @@ class MyWindowController: NSWindowController {
                     ) {
                         print("Canvas")
                         self.canvas.toggle()
-                    },
-                    BarIcon(
-                        image: NSImage(systemSymbolName: "sidebar.left",
-                                       accessibilityDescription: "Shrink or expand")!,
-                        height: 20
-                    ) {
-                        print("Sidebar")
-                        self.sidebar.toggle()
                     }
                 ]
 
                 window?.removeAccessory(ofType: IconBarViewController.self)
-                let iconBar = IconBarViewController(icons: onAir ? icons : [])
-                window?.addTitlebarAccessoryViewController(iconBar)
+                if (sidebarIcon) {
+
+                    let iconBar = IconBarViewController(icons: sidebarIcon ? icons : [])
+                    window?.addTitlebarAccessoryViewController(iconBar)
+                }
             }
         }
     }
-
-    /*
-    func expandOrCollapsewindow() {
-
-        guard let window else { return }
-
-        if isCompact {
-
-                // Expand
-                var frame = window.frame
-                // let delta = expandedWidth - frame.width
-
-                // frame.origin.x -= delta
-                frame.size.width = expandedWidth
-                window.setFrame(frame, display: true, animate: true)
-
-            } else {
-
-                // Compact
-                expandedWidth = window.frame.width
-
-                var frame = window.frame
-                // let delta = frame.width - sidebarWidth
-                // frame.origin.x += delta
-                frame.size.width = sidebarWidth
-
-                window.setFrame(frame, display: true, animate: true)
-            }
-
-            isCompact.toggle()
-    }
-    */
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -140,23 +101,13 @@ class MyWindowController: NSWindowController {
 
     override func windowDidLoad() {
 
-        onAir = true
-
         window!.setContentSize(NSSize(width: 300, height: 600))
 
         canvas = true
         sidebar = true
+        sidebarIcon = true
 
         window!.center()
         showWindow(self)
     }
-
-    /*
-    func show() {
-
-        self.showWindow(nil)
-        self.window?.makeKeyAndOrderFront(nil)
-        NSApp.activate(ignoringOtherApps: true)
-    }
-    */
 }

@@ -25,4 +25,16 @@ class MyOutlineView: NSOutlineView {
 
         current?.flagsChanged(with: event)
     }
+
+    func reloadAndSelectLast() {
+
+        reloadData()
+
+        let lastRow = numberOfRows - 1
+        if lastRow >= 0 {
+
+            selectRowIndexes(IndexSet(integer: lastRow), byExtendingSelection: false)
+            scrollRowToVisible(lastRow)
+        }
+    }
 }
