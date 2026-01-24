@@ -13,6 +13,7 @@ class MyWindowController: NSWindowController {
 
     private var vc: MySplitViewController? { contentViewController as? MySplitViewController }
 
+    /*
     private var isCompact = false
     private var expandedWidth: CGFloat = 0
 
@@ -25,12 +26,12 @@ class MyWindowController: NSWindowController {
         var result = CGFloat(0.0)
 
         if sidebar, let sidebarWidth = vc?.splitViewItems.first?.viewController.view.frame.width {
-                result += sidebarWidth + 16.0 
-            }
-        // if sidebar { result += proposedSidebarWidth }
+            result += sidebarWidth + 16.0
+        }
 
         if canvas { result += proposedCanvasWidth }
 
+        print("proposedWidth: \(result) \(vc?.splitViewItems.first?.viewController.view.frame.width)")
         return result
     }
 
@@ -38,28 +39,58 @@ class MyWindowController: NSWindowController {
 
         return CGSize(width: proposedWidth, height: proposedCanvasHeight)
     }
-
+     */
+    /*
     func resize(animate: Bool = false) {
 
-        var newFrame = window!.frame
-        newFrame.size = proposedSize
-        window!.setFrame(newFrame, display: true, animate: animate)
+        var left = vc?.splitViewItems[0].viewController.view.frame.width ?? 0.0
+        var right = vc?.splitViewItems[1].viewController.view.frame.width ?? 0.0
+
+        print("canvas: \(canvas)")
+        if canvas {
+            vc?.splitViewItems[0].viewController.view.frame.size.width = 0
+            vc?.splitViewItems[1].viewController.view.frame.size.width = 400
+            var newFrame = window!.frame
+            newFrame.size = CGSize(width: 400,height: newFrame.height)
+            window!.setFrame(newFrame, display: true, animate: animate)
+        } else {
+            vc?.splitViewItems[0].viewController.view.frame.size.width = 200
+            vc?.splitViewItems[1].viewController.view.frame.size.width = 0
+            var newFrame = window!.frame
+            newFrame.size = CGSize(width: 200,height: newFrame.height)
+            window!.setFrame(newFrame, display: true, animate: animate)
+        }
     }
+    */
 
     // Indicates if the main canvas is visible
     var canvas: Bool = true {
 
         didSet {
 
-            // Make sure that at least one element is visible
-            if (!canvas) { sidebar = true }
+            /*
+            if canvas {
+                vc?.splitViewItems[1].isCollapsed = false
+            } else {
+                vc?.splitViewItems[1].isCollapsed = true
+            }
 
-            resize(animate: true)
+            if let contentView = window!.contentView {
+
+                // contentView.wantsLayer = true
+                let layer = contentView.layer!
+                layer.borderColor = NSColor.windowBackgroundColor.cgColor // systemBlue.cgColor
+                layer.borderWidth = 5
+                layer.cornerRadius = NSWindow.cornerRadius
+            }
+            */
+
+            // resize(animate: true)
         }
     }
 
     // Shows or hides the sidebar
-    var sidebar: Bool = true {
+    var sidebar: Bool = true /* {
 
         didSet {
 
@@ -71,6 +102,7 @@ class MyWindowController: NSWindowController {
             resize(animate: true)
         }
     }
+                              */
 
     // Shows or hides the sidebar icon next to the window controls
     var sidebarIcon: Bool = false {
@@ -105,13 +137,14 @@ class MyWindowController: NSWindowController {
 
     override func windowDidLoad() {
 
-        window!.setContentSize(NSSize(width: 300, height: 600))
+        // window!.setContentSize(NSSize(width: 300, height: 600))
 
         canvas = true
         sidebar = true
-        sidebarIcon = true
+        // sidebarIcon = true
 
         window!.center()
         showWindow(self)
     }
+
 }

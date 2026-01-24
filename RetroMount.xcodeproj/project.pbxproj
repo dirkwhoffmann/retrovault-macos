@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		5045033B2F216094007A7268 /* MySplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5045033A2F21608D007A7268 /* MySplitViewController.swift */; };
-		5045033D2F216157007A7268 /* MySidebarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5045033C2F21614D007A7268 /* MySidebarViewController.swift */; };
 		5045033F2F2161A4007A7268 /* DeviceCanvasViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5045033E2F21619E007A7268 /* DeviceCanvasViewController.swift */; };
 		504503412F216864007A7268 /* MyOutlineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504503402F21685E007A7268 /* MyOutlineView.swift */; };
 		504503432F216BC4007A7268 /* CanvasViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504503422F216BAC007A7268 /* CanvasViewController.swift */; };
@@ -105,7 +104,7 @@
 		50900C0D2F1E727400A4A81B /* EADFFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900B902F1E727400A4A81B /* EADFFile.cpp */; };
 		50900C0E2F1E727400A4A81B /* EXEFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900BA92F1E727400A4A81B /* EXEFile.cpp */; };
 		50900C0F2F1E727400A4A81B /* D64File.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900B882F1E727400A4A81B /* D64File.cpp */; };
-		50900C302F1E729A00A4A81B /* DevicesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50900C212F1E729A00A4A81B /* DevicesViewController.swift */; };
+		50900C302F1E729A00A4A81B /* SidebarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50900C212F1E729A00A4A81B /* SidebarViewController.swift */; };
 		50900C312F1E729A00A4A81B /* TableCellViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50900C222F1E729A00A4A81B /* TableCellViews.swift */; };
 		50900C322F1E729A00A4A81B /* Volume.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50900C2E2F1E729A00A4A81B /* Volume.swift */; };
 		50900C332F1E729A00A4A81B /* DeviceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50900C262F1E729A00A4A81B /* DeviceManager.swift */; };
@@ -152,7 +151,6 @@
 
 /* Begin PBXFileReference section */
 		5045033A2F21608D007A7268 /* MySplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MySplitViewController.swift; sourceTree = "<group>"; };
-		5045033C2F21614D007A7268 /* MySidebarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MySidebarViewController.swift; sourceTree = "<group>"; };
 		5045033E2F21619E007A7268 /* DeviceCanvasViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceCanvasViewController.swift; sourceTree = "<group>"; };
 		504503402F21685E007A7268 /* MyOutlineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyOutlineView.swift; sourceTree = "<group>"; };
 		504503422F216BAC007A7268 /* CanvasViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasViewController.swift; sourceTree = "<group>"; };
@@ -390,7 +388,7 @@
 		50900BCA2F1E727400A4A81B /* CMakeLists.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
 		50900BCB2F1E727400A4A81B /* Devices.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Devices.h; sourceTree = "<group>"; };
 		50900BCC2F1E727400A4A81B /* Images.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Images.h; sourceTree = "<group>"; };
-		50900C212F1E729A00A4A81B /* DevicesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevicesViewController.swift; sourceTree = "<group>"; };
+		50900C212F1E729A00A4A81B /* SidebarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarViewController.swift; sourceTree = "<group>"; };
 		50900C222F1E729A00A4A81B /* TableCellViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableCellViews.swift; sourceTree = "<group>"; };
 		50900C242F1E729A00A4A81B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		50900C252F1E729A00A4A81B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -1021,19 +1019,20 @@
 			path = RetroVault;
 			sourceTree = "<group>";
 		};
-		50900C232F1E729A00A4A81B /* VolumeBrowser */ = {
+		50900C232F1E729A00A4A81B /* Sidebar */ = {
 			isa = PBXGroup;
 			children = (
-				50900C212F1E729A00A4A81B /* DevicesViewController.swift */,
+				50900C212F1E729A00A4A81B /* SidebarViewController.swift */,
+				504503402F21685E007A7268 /* MyOutlineView.swift */,
 				50900C222F1E729A00A4A81B /* TableCellViews.swift */,
 			);
-			path = VolumeBrowser;
+			path = Sidebar;
 			sourceTree = "<group>";
 		};
 		50900C2F2F1E729A00A4A81B /* RetroMount */ = {
 			isa = PBXGroup;
 			children = (
-				50900C232F1E729A00A4A81B /* VolumeBrowser */,
+				50900C232F1E729A00A4A81B /* Sidebar */,
 				50900C242F1E729A00A4A81B /* AppDelegate.swift */,
 				50900C252F1E729A00A4A81B /* Assets.xcassets */,
 				50900C262F1E729A00A4A81B /* DeviceManager.swift */,
@@ -1044,10 +1043,8 @@
 				50900C2C2F1E729A00A4A81B /* Main.storyboard */,
 				50900C2D2F1E729A00A4A81B /* MyWindowController.swift */,
 				5045033A2F21608D007A7268 /* MySplitViewController.swift */,
-				5045033C2F21614D007A7268 /* MySidebarViewController.swift */,
 				50AB50B72F23E1F300BFBA99 /* LaunchInfoViewController.swift */,
 				5097DD912F24DC0C00738B5A /* CanvasControllers */,
-				504503402F21685E007A7268 /* MyOutlineView.swift */,
 				504503442F235D78007A7268 /* IconBar.swift */,
 				50900C2E2F1E729A00A4A81B /* Volume.swift */,
 			);
@@ -1191,7 +1188,7 @@
 				50900B132F1E726D00A4A81B /* Reflectable.cpp in Sources */,
 				50900B142F1E726D00A4A81B /* Hashable.cpp in Sources */,
 				504503452F235D7B007A7268 /* IconBar.swift in Sources */,
-				50900C302F1E729A00A4A81B /* DevicesViewController.swift in Sources */,
+				50900C302F1E729A00A4A81B /* SidebarViewController.swift in Sources */,
 				50900C312F1E729A00A4A81B /* TableCellViews.swift in Sources */,
 				50900C322F1E729A00A4A81B /* Volume.swift in Sources */,
 				50900C332F1E729A00A4A81B /* DeviceManager.swift in Sources */,
@@ -1245,7 +1242,6 @@
 				5097DD952F24DC2900738B5A /* VolumeCanvasViewController.swift in Sources */,
 				50900BD52F1E727400A4A81B /* HDFFile.cpp in Sources */,
 				50900BD62F1E727400A4A81B /* FSDescriptor.cpp in Sources */,
-				5045033D2F216157007A7268 /* MySidebarViewController.swift in Sources */,
 				50900BD72F1E727400A4A81B /* FileSystemLayer3.cpp in Sources */,
 				50900BD82F1E727400A4A81B /* ImageError.cpp in Sources */,
 				50900BD92F1E727400A4A81B /* FloppyDiskImage.cpp in Sources */,

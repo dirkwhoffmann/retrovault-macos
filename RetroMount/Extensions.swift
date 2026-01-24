@@ -107,7 +107,7 @@ extension NSWindow {
     static var cornerRadius: CGFloat {
 
         if #available(macOS 26, *) {
-            return 16
+            return 24 // 16
         } else {
             return 12
         }

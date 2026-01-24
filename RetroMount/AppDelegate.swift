@@ -26,7 +26,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     var manager = DeviceManager()
 
     // View controller of the devices window
-    var vc: DevicesViewController?
+    var vc: SidebarViewController?
 
     /*
     var windowController: WindowController? {
@@ -73,7 +73,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         urls.forEach { manager.mount(url: $0) }
 
         vc?.outlineView.reloadAndSelectLast()
-        //  vc?.outlineView.reloadData()
     }
 
     func showLaunchErrorWindow() {

@@ -10,7 +10,7 @@
 @MainActor
 class MyOutlineView: NSOutlineView {
 
-    @IBOutlet var sidebarViewController: DevicesViewController!
+    @IBOutlet var sidebarViewController: SidebarViewController!
 
     var manager: DeviceManager { app.manager }
 

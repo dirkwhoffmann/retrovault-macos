@@ -9,7 +9,7 @@
 
 import Cocoa
 
-class DevicesViewController: NSViewController {
+class SidebarViewController: NSViewController {
 
     @IBOutlet weak var svc: MySplitViewController!
     @IBOutlet weak var outlineView: MyOutlineView!
@@ -28,8 +28,8 @@ class DevicesViewController: NSViewController {
         outlineView.intercellSpacing = NSSize(width: 0, height: 2)
         outlineView.backgroundColor = .clear
         outlineView.usesAlternatingRowBackgroundColors = false
-        outlineView.gridColor = .separatorColor // .controlBackgroundColor // windowBackgroundColor
-        outlineView.gridStyleMask = [.solidHorizontalGridLineMask]
+        // outlineView.gridColor = .separatorColor // .controlBackgroundColor // windowBackgroundColor
+        // outlineView.gridStyleMask = [.solidHorizontalGridLineMask]
         outlineView.reloadData()
 
         expandAll()
@@ -73,7 +73,7 @@ class DevicesViewController: NSViewController {
     }
 }
 
-extension DevicesViewController: NSOutlineViewDataSource {
+extension SidebarViewController: NSOutlineViewDataSource {
 
     func outlineView(_ outlineView: NSOutlineView, numberOfChildrenOfItem item: Any?) -> Int {
 
@@ -105,7 +105,7 @@ extension DevicesViewController: NSOutlineViewDataSource {
     }
 }
 
-extension DevicesViewController: NSOutlineViewDelegate {
+extension SidebarViewController: NSOutlineViewDelegate {
 
     func outlineView(_ outlineView: NSOutlineView, viewFor tableColumn: NSTableColumn?, item: Any) -> NSView? {
 

@@ -11,7 +11,7 @@ import Cocoa
 
 class TableCellView: NSTableCellView {
 
-    @IBOutlet weak var controller: DevicesViewController!
+    @IBOutlet weak var controller: SidebarViewController!
 
     var outlineView: MyOutlineView { controller.outlineView }
 

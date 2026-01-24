@@ -826,10 +826,10 @@ DQ
             </objects>
             <point key="canvasLocation" x="790" y="276"/>
         </scene>
-        <!--Devices View Controller-->
+        <!--Sidebar View Controller-->
         <scene sceneID="eWr-9a-TKu">
             <objects>
-                <viewController id="W61-1Q-cxU" customClass="DevicesViewController" customModule="RetroMount" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="SidebarViewController" id="W61-1Q-cxU" customClass="SidebarViewController" customModule="RetroMount" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" misplaced="YES" id="1Ak-P6-jg5">
                         <rect key="frame" x="0.0" y="0.0" width="234" height="370"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -919,7 +919,7 @@ DQ
                                     </subviews>
                                 </clipView>
                                 <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="1dt-a6-HPI">
-                                    <rect key="frame" x="1" y="352" width="232" height="17"/>
+                                    <rect key="frame" x="1" y="352" width="224" height="17"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="Ri6-XK-hWO">
