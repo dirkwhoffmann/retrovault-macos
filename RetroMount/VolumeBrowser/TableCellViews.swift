@@ -20,13 +20,13 @@ class TableCellView: NSTableCellView {
     }
 }
 
-class TableDeviceView: TableCellView {
+class DeviceCell: TableCellView {
 
-    @IBOutlet weak var disclosureButton: NSButton!
-    @IBOutlet weak var syncButton: NSButton!
-    @IBOutlet weak var label: NSTextField!
-    @IBOutlet weak var sublabel: NSTextField!
-    @IBOutlet weak var subsublabel: NSTextField!
+    // @IBOutlet weak var disclosureButton: NSButton!
+    // @IBOutlet weak var syncButton: NSButton!
+    // @IBOutlet weak var label: NSTextField!
+    // @IBOutlet weak var sublabel: NSTextField!
+    // @IBOutlet weak var subsublabel: NSTextField!
 
     var device = 0
 
@@ -40,18 +40,23 @@ class TableDeviceView: TableCellView {
     func update() {
 
         let info = app.manager.info(device: device)
-        let volumes = info.numPartitions
+        // let volumes = info.numPartitions
 
         imageView?.image = info.icon()
+        textField?.stringValue = info.name
+        /*
         label.stringValue = info.name
         sublabel.stringValue = info.description
         subsublabel.stringValue = "\(volumes) " + (volumes == 1 ? "volume" : "volumes")
+        */
     }
 
     override func updateIcon(expanded: Bool) {
 
+        /*
         disclosureButton.state = expanded ? .on : .off
         disclosureButton.image = expanded ? .chevronDown() : .chevronRight()
+        */
     }
 
     /*
@@ -83,11 +88,11 @@ class TableDeviceView: TableCellView {
     }
 }
 
-class TableVolumeView: TableCellView {
+class VolumeCell: TableCellView {
 
-    @IBOutlet weak var label: NSTextField!
-    @IBOutlet weak var sublabel: NSTextField!
-    @IBOutlet weak var unmountButton: NSButton!
+    // @IBOutlet weak var label: NSTextField!
+    // @IBOutlet weak var sublabel: NSTextField!
+    // @IBOutlet weak var unmountButton: NSButton!
 
     var device = 0
     var volume = 0
@@ -116,8 +121,8 @@ class TableVolumeView: TableCellView {
 
         imageView?.image = info.icon()
         textField?.stringValue = info.mountPoint
-        label.stringValue = info.capacityString
-        sublabel.stringValue = info.fillString + " full"
+        // label.stringValue = info.capacityString
+        // sublabel.stringValue = info.fillString + " full"
     }
 
     @IBAction func unmountAction(_ sender: NSButton) {

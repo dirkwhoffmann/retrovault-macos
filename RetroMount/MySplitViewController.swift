@@ -13,35 +13,52 @@ class MySplitViewController: NSSplitViewController {
 
     let main = NSStoryboard(name: "Main", bundle: nil)
 
-    private lazy var generalVC: GeneralPreferencesViewController = {
-        return main.instantiateController(withIdentifier: "GeneralPreferencesViewController") as! GeneralPreferencesViewController
+    private lazy var infoVC: InfoCanvasViewController = {
+        return main.instantiateController(withIdentifier: "InfoCanvasViewController") as! InfoCanvasViewController
+    }()
+    private lazy var deviceVC: DeviceCanvasViewController = {
+        return main.instantiateController(withIdentifier: "DeviceCanvasViewController") as! DeviceCanvasViewController
+    }()
+    private lazy var volumeVC: VolumeCanvasViewController = {
+        return main.instantiateController(withIdentifier: "VolumeCanvasViewController") as! VolumeCanvasViewController
     }()
 
-    var current: SettingsViewController?
+    var current: CanvasViewController?
 
-    private var sidebarVC: MySidebarViewController? {
-        return splitViewItems.first?.viewController as? MySidebarViewController
+    private var sidebarVC: DevicesViewController? {
+        return splitViewItems.first?.viewController as? DevicesViewController
     }
 
     override func viewDidLoad() {
 
         super.viewDidLoad()
-        sidebarVC?.selectionHandler = { [weak self] item in
-            self?.showContent(for: item)
+        sidebarVC?.selectionHandler = { [weak self] (i1,i2) in
+            self?.showContent(cell: (i1,i2))
         }
     }
 
-    private func showContent(for item: SidebarItem) {
+    private func showContent(for item: TableCellView) {
 
-        showContent(title: item.title)
+        showContent(title: "Volume")
     }
 
+    func showContent(cell: (Int?, Int?)) {
+
+        if let _ = cell.0, let _ = cell.1 {
+            showContent(title: "Device")
+        } else if let _ = cell.0 {
+            showContent(title: "Volume")
+        } else {
+            showContent(title: "Info")
+        }
+    }
+    
     func showContent(title: String) {
 
         switch title {
-        case "General": current = generalVC
-        default:
-            current = generalVC // fatalError()
+        case "Device": current = deviceVC
+        case "Volume": current = volumeVC
+        default: current = infoVC
         }
 
         // Remove the old content pane

@@ -7,9 +7,16 @@
 // See https://www.gnu.org for license information
 // -----------------------------------------------------------------------------
 
-class SettingsViewController: NSViewController {
+import Cocoa
 
-    func activate() {
+class VolumeCanvasViewController: CanvasViewController {
+
+    override func viewDidLoad() {
+
+        refresh()
+    }
+
+    func refresh() {
 
     }
 }

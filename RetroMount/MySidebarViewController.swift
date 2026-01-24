@@ -9,6 +9,7 @@
 
 import Cocoa
 
+/*
 class SidebarItem {
 
     let title: String
@@ -141,3 +142,4 @@ extension MySidebarViewController: NSOutlineViewDelegate {
         }
     }
 }
+*/

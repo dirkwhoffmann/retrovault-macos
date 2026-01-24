@@ -9,7 +9,7 @@
 
 import Cocoa
 
-class GeneralPreferencesViewController: SettingsViewController {
+class InfoCanvasViewController: CanvasViewController {
 
     override func viewDidLoad() {
 

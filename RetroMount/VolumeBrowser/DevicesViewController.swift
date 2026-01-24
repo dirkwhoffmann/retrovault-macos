@@ -11,10 +11,13 @@ import Cocoa
 
 class DevicesViewController: NSViewController {
 
+    @IBOutlet weak var svc: MySplitViewController!
     @IBOutlet weak var outlineView: MyOutlineView!
 
     var manager: DeviceManager { app.manager }
-    
+
+    var selectionHandler: ((Int?, Int?) -> Void)?
+
     override func viewDidLoad() {
 
         app.vc = self
@@ -110,24 +113,18 @@ extension DevicesViewController: NSOutlineViewDelegate {
 
             print("outlineView: \(device)")
 
-            let id = NSUserInterfaceItemIdentifier("SidebarCell")
-            let cell = outlineView.makeView(withIdentifier: id, owner: self) as! NSTableCellView
-            // cell.setup(device: device)
-            // cell.updateIcon(expanded: outlineView.isItemExpanded(item))
-            // group.view = cell
-            cell.textField?.stringValue = "Device \(device)"
-            cell.imageView?.image = NSImage(named: "harddrive")
+            let id = NSUserInterfaceItemIdentifier("DeviceCell")
+            let cell = outlineView.makeView(withIdentifier: id, owner: self) as! DeviceCell
+            cell.setup(device: device)
             return cell
 
         } else if let (device, volume) = item as? (Int, Int) {
 
             print("outlineView: \(device), \(volume)")
 
-            let id = NSUserInterfaceItemIdentifier(rawValue: "SidebarCell")
-            let cell = outlineView.makeView(withIdentifier: id, owner: self) as! NSTableCellView
-            cell.textField?.stringValue = "Volume \(volume)"
-            cell.imageView?.image = NSImage(named: "volume_amiga")
-            // cell.setup(device: device, partition: volume)
+            let id = NSUserInterfaceItemIdentifier(rawValue: "VolumeCell")
+            let cell = outlineView.makeView(withIdentifier: id, owner: self) as! VolumeCell
+            cell.setup(device: device, partition: volume)
             return cell
 
         } else {
@@ -149,6 +146,32 @@ extension DevicesViewController: NSOutlineViewDelegate {
         guard let item = notification.userInfo?["NSObject"] else { return }
         if let cell = item as? Device {
             cell.view?.updateIcon(expanded: false)
+        }
+    }
+
+    func outlineViewSelectionDidChange(_ notification: Notification) {
+
+        /*
+        guard let outlineView = notification.object as? NSOutlineView else { return }
+
+        print("\(outlineView.selectedRow) \(outlineView.selectedColumn)")
+         */
+
+        let selectedRow = outlineView.selectedRow
+        if selectedRow != -1 {
+            let item = outlineView.item(atRow: selectedRow)
+
+            if let device = item as? Int {
+                print("Device")
+                selectionHandler?(device, nil)
+            }
+            else if let (device, volume) = item as? (Int, Int) {
+                print("Volume")
+                selectionHandler?(device, volume)
+            } else {
+                print("No selection")
+                selectionHandler?(nil, nil)
+            }
         }
     }
 }

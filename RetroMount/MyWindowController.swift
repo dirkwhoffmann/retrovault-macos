@@ -24,7 +24,11 @@ class MyWindowController: NSWindowController {
 
         var result = CGFloat(0.0)
 
-        if sidebar { result += proposedSidebarWidth }
+        if sidebar, let sidebarWidth = vc?.splitViewItems.first?.viewController.view.frame.width {
+                result += sidebarWidth + 16.0 
+            }
+        // if sidebar { result += proposedSidebarWidth }
+
         if canvas { result += proposedCanvasWidth }
 
         return result

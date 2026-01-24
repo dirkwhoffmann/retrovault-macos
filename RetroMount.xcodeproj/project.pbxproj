@@ -9,9 +9,9 @@
 /* Begin PBXBuildFile section */
 		5045033B2F216094007A7268 /* MySplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5045033A2F21608D007A7268 /* MySplitViewController.swift */; };
 		5045033D2F216157007A7268 /* MySidebarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5045033C2F21614D007A7268 /* MySidebarViewController.swift */; };
-		5045033F2F2161A4007A7268 /* GeneralPreferencesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5045033E2F21619E007A7268 /* GeneralPreferencesViewController.swift */; };
+		5045033F2F2161A4007A7268 /* DeviceCanvasViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5045033E2F21619E007A7268 /* DeviceCanvasViewController.swift */; };
 		504503412F216864007A7268 /* MyOutlineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504503402F21685E007A7268 /* MyOutlineView.swift */; };
-		504503432F216BC4007A7268 /* MySettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504503422F216BAC007A7268 /* MySettingsViewController.swift */; };
+		504503432F216BC4007A7268 /* CanvasViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504503422F216BAC007A7268 /* CanvasViewController.swift */; };
 		504503452F235D7B007A7268 /* IconBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504503442F235D78007A7268 /* IconBar.swift */; };
 		504EAD252ECF00CE008CF9FC /* EmulatorProxy.mm in Sources */ = {isa = PBXBuildFile; fileRef = 504EAD212ECF00CE008CF9FC /* EmulatorProxy.mm */; };
 		504EAD262ECF00CE008CF9FC /* TypeExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504EAD232ECF00CE008CF9FC /* TypeExtensions.swift */; };
@@ -116,6 +116,8 @@
 		50900C382F1E729A00A4A81B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50900C242F1E729A00A4A81B /* AppDelegate.swift */; };
 		50900C3A2F1E729A00A4A81B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50900C2C2F1E729A00A4A81B /* Main.storyboard */; };
 		50900C3B2F1E729A00A4A81B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 50900C252F1E729A00A4A81B /* Assets.xcassets */; };
+		5097DD932F24DC1D00738B5A /* InfoCanvasViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5097DD922F24DC1500738B5A /* InfoCanvasViewController.swift */; };
+		5097DD952F24DC2900738B5A /* VolumeCanvasViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5097DD942F24DC2900738B5A /* VolumeCanvasViewController.swift */; };
 		50AB50B82F23E1F900BFBA99 /* LaunchInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50AB50B72F23E1F300BFBA99 /* LaunchInfoViewController.swift */; };
 		50BCBDFA2EEBF79B000C53CF /* FuseDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50BCBDF92EEBF798000C53CF /* FuseDevice.cpp */; };
 		50D89C512F1E775100ECC73D /* debug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50D89C502F1E775100ECC73D /* debug.cpp */; };
@@ -151,9 +153,9 @@
 /* Begin PBXFileReference section */
 		5045033A2F21608D007A7268 /* MySplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MySplitViewController.swift; sourceTree = "<group>"; };
 		5045033C2F21614D007A7268 /* MySidebarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MySidebarViewController.swift; sourceTree = "<group>"; };
-		5045033E2F21619E007A7268 /* GeneralPreferencesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralPreferencesViewController.swift; sourceTree = "<group>"; };
+		5045033E2F21619E007A7268 /* DeviceCanvasViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceCanvasViewController.swift; sourceTree = "<group>"; };
 		504503402F21685E007A7268 /* MyOutlineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyOutlineView.swift; sourceTree = "<group>"; };
-		504503422F216BAC007A7268 /* MySettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MySettingsViewController.swift; sourceTree = "<group>"; };
+		504503422F216BAC007A7268 /* CanvasViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasViewController.swift; sourceTree = "<group>"; };
 		504503442F235D78007A7268 /* IconBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconBar.swift; sourceTree = "<group>"; };
 		504EA7BD2ECE39E8008CF9FC /* RetroMount.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RetroMount.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		504EAD1F2ECF00CE008CF9FC /* Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
@@ -400,6 +402,8 @@
 		50900C2B2F1E729A00A4A81B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		50900C2D2F1E729A00A4A81B /* MyWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyWindowController.swift; sourceTree = "<group>"; };
 		50900C2E2F1E729A00A4A81B /* Volume.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Volume.swift; sourceTree = "<group>"; };
+		5097DD922F24DC1500738B5A /* InfoCanvasViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoCanvasViewController.swift; sourceTree = "<group>"; };
+		5097DD942F24DC2900738B5A /* VolumeCanvasViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VolumeCanvasViewController.swift; sourceTree = "<group>"; };
 		50AB50B72F23E1F300BFBA99 /* LaunchInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchInfoViewController.swift; sourceTree = "<group>"; };
 		50BCBDC22EE866B0000C53CF /* config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
 		50BCBDF82EEBF791000C53CF /* FuseDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FuseDevice.h; sourceTree = "<group>"; };
@@ -1042,13 +1046,23 @@
 				5045033A2F21608D007A7268 /* MySplitViewController.swift */,
 				5045033C2F21614D007A7268 /* MySidebarViewController.swift */,
 				50AB50B72F23E1F300BFBA99 /* LaunchInfoViewController.swift */,
-				5045033E2F21619E007A7268 /* GeneralPreferencesViewController.swift */,
-				504503422F216BAC007A7268 /* MySettingsViewController.swift */,
+				5097DD912F24DC0C00738B5A /* CanvasControllers */,
 				504503402F21685E007A7268 /* MyOutlineView.swift */,
 				504503442F235D78007A7268 /* IconBar.swift */,
 				50900C2E2F1E729A00A4A81B /* Volume.swift */,
 			);
 			path = RetroMount;
+			sourceTree = "<group>";
+		};
+		5097DD912F24DC0C00738B5A /* CanvasControllers */ = {
+			isa = PBXGroup;
+			children = (
+				5097DD922F24DC1500738B5A /* InfoCanvasViewController.swift */,
+				5097DD942F24DC2900738B5A /* VolumeCanvasViewController.swift */,
+				5045033E2F21619E007A7268 /* DeviceCanvasViewController.swift */,
+				504503422F216BAC007A7268 /* CanvasViewController.swift */,
+			);
+			path = CanvasControllers;
 			sourceTree = "<group>";
 		};
 		50D89C6D2F1E7C7B00ECC73D /* xdms */ = {
@@ -1201,7 +1215,7 @@
 				50D89C7E2F1E7C7B00ECC73D /* maketbl.c in Sources */,
 				50D89C7F2F1E7C7B00ECC73D /* getbits.c in Sources */,
 				50D89C802F1E7C7B00ECC73D /* u_quick.c in Sources */,
-				5045033F2F2161A4007A7268 /* GeneralPreferencesViewController.swift in Sources */,
+				5045033F2F2161A4007A7268 /* DeviceCanvasViewController.swift in Sources */,
 				50D89C812F1E7C7B00ECC73D /* xdms.c in Sources */,
 				50900B182F1E726D00A4A81B /* Formatter.cpp in Sources */,
 				50900B192F1E726D00A4A81B /* Loggable.cpp in Sources */,
@@ -1227,6 +1241,8 @@
 				50900BD22F1E727400A4A81B /* ADZFile.cpp in Sources */,
 				50900BD32F1E727400A4A81B /* FSImporter.cpp in Sources */,
 				50900BD42F1E727400A4A81B /* DeviceError.cpp in Sources */,
+				5097DD932F24DC1D00738B5A /* InfoCanvasViewController.swift in Sources */,
+				5097DD952F24DC2900738B5A /* VolumeCanvasViewController.swift in Sources */,
 				50900BD52F1E727400A4A81B /* HDFFile.cpp in Sources */,
 				50900BD62F1E727400A4A81B /* FSDescriptor.cpp in Sources */,
 				5045033D2F216157007A7268 /* MySidebarViewController.swift in Sources */,
@@ -1278,7 +1294,7 @@
 				50900C012F1E727400A4A81B /* FSError.cpp in Sources */,
 				50900C022F1E727400A4A81B /* PosixAdapter.cpp in Sources */,
 				50900C032F1E727400A4A81B /* FSExporter.cpp in Sources */,
-				504503432F216BC4007A7268 /* MySettingsViewController.swift in Sources */,
+				504503432F216BC4007A7268 /* CanvasViewController.swift in Sources */,
 				50900C042F1E727400A4A81B /* FSBootBlockImage.cpp in Sources */,
 				50900C052F1E727400A4A81B /* FSService.cpp in Sources */,
 				50900C062F1E727400A4A81B /* STFile.cpp in Sources */,
