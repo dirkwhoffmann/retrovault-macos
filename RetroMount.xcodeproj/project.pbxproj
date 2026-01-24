@@ -118,6 +118,7 @@
 		5097DD952F24DC2900738B5A /* VolumeCanvasViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5097DD942F24DC2900738B5A /* VolumeCanvasViewController.swift */; };
 		50AB50B82F23E1F900BFBA99 /* LaunchInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50AB50B72F23E1F300BFBA99 /* LaunchInfoViewController.swift */; };
 		50BCBDFA2EEBF79B000C53CF /* FuseDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50BCBDF92EEBF798000C53CF /* FuseDevice.cpp */; };
+		50CD7A1F2F2571B6007E5803 /* MySplitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CD7A1E2F2571B1007E5803 /* MySplitView.swift */; };
 		50D89C512F1E775100ECC73D /* debug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50D89C502F1E775100ECC73D /* debug.cpp */; };
 		50D89C752F1E7C7B00ECC73D /* pfile.c in Sources */ = {isa = PBXBuildFile; fileRef = 50D89C5C2F1E7C7B00ECC73D /* pfile.c */; };
 		50D89C762F1E7C7B00ECC73D /* u_init.c in Sources */ = {isa = PBXBuildFile; fileRef = 50D89C642F1E7C7B00ECC73D /* u_init.c */; };
@@ -404,6 +405,7 @@
 		50BCBDC22EE866B0000C53CF /* config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
 		50BCBDF82EEBF791000C53CF /* FuseDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FuseDevice.h; sourceTree = "<group>"; };
 		50BCBDF92EEBF798000C53CF /* FuseDevice.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FuseDevice.cpp; sourceTree = "<group>"; };
+		50CD7A1E2F2571B1007E5803 /* MySplitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MySplitView.swift; sourceTree = "<group>"; };
 		50D89C4F2F1E774900ECC73D /* debug.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = debug.h; sourceTree = "<group>"; };
 		50D89C502F1E775100ECC73D /* debug.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = debug.cpp; sourceTree = "<group>"; };
 		50D89C522F1E7C7B00ECC73D /* _old_pfile.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = _old_pfile.c; sourceTree = "<group>"; };
@@ -1040,6 +1042,7 @@
 				50900C2A2F1E729A00A4A81B /* Loggable.swift */,
 				50900C2C2F1E729A00A4A81B /* Main.storyboard */,
 				50900C2D2F1E729A00A4A81B /* MyWindowController.swift */,
+				50CD7A1E2F2571B1007E5803 /* MySplitView.swift */,
 				5045033A2F21608D007A7268 /* MySplitViewController.swift */,
 				50AB50B72F23E1F300BFBA99 /* LaunchInfoViewController.swift */,
 				5097DD912F24DC0C00738B5A /* CanvasControllers */,
@@ -1206,6 +1209,7 @@
 				50D89C7C2F1E7C7B00ECC73D /* u_heavy.c in Sources */,
 				50D89C7D2F1E7C7B00ECC73D /* tables.c in Sources */,
 				50D89C7E2F1E7C7B00ECC73D /* maketbl.c in Sources */,
+				50CD7A1F2F2571B6007E5803 /* MySplitView.swift in Sources */,
 				50D89C7F2F1E7C7B00ECC73D /* getbits.c in Sources */,
 				50D89C802F1E7C7B00ECC73D /* u_quick.c in Sources */,
 				5045033F2F2161A4007A7268 /* DeviceCanvasViewController.swift in Sources */,

@@ -813,9 +813,12 @@ DQ
                         <splitViewItem canCollapse="YES" holdingPriority="260" behavior="sidebar" id="Ijz-eB-BRC"/>
                         <splitViewItem id="ETF-Sk-678"/>
                     </splitViewItems>
-                    <splitView key="splitView" dividerStyle="thin" vertical="YES" id="dNt-i6-eL4">
+                    <splitView key="splitView" dividerStyle="thin" vertical="YES" id="dNt-i6-eL4" customClass="MySplitView" customModule="RetroMount" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <connections>
+                            <outlet property="svc" destination="d7S-oV-fac" id="S7I-DB-Xsc"/>
+                        </connections>
                     </splitView>
                     <connections>
                         <segue destination="W61-1Q-cxU" kind="relationship" relationship="splitItems" id="Eyu-GT-WP6"/>

@@ -25,7 +25,7 @@ class MySplitViewController: NSSplitViewController {
 
     var current: CanvasViewController?
 
-    private var sidebarVC: SidebarViewController? {
+    var sidebarVC: SidebarViewController? {
         return splitViewItems.first?.viewController as? SidebarViewController
     }
 
@@ -43,7 +43,7 @@ class MySplitViewController: NSSplitViewController {
         // Canvas yields to resizing
         canvas.holdingPriority = .defaultLow
          */
-        
+
         // Assign the selection handler
         sidebarVC?.selectionHandler = { [weak self] (i1,i2) in
             self?.showContent(cell: (i1,i2))
