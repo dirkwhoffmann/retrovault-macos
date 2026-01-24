@@ -13,21 +13,6 @@ class MyOutlineView: NSOutlineView {
     @IBOutlet var sidebarViewController: SidebarViewController!
 
     var manager: DeviceManager { app.manager }
-
-    /*
-    var svc: MySplitViewController? { sidebarViewController.splitViewController }
-    var current: NSViewController? { svc?.current }
-
-    override func keyDown(with event: NSEvent) {
-
-        current?.keyDown(with: event)
-    }
-
-    override func flagsChanged(with event: NSEvent) {
-
-        current?.flagsChanged(with: event)
-    }
-     */
     
     func reloadAndSelectLast() {
 

@@ -28,8 +28,6 @@ class SidebarViewController: NSViewController {
         outlineView.intercellSpacing = NSSize(width: 0, height: 2)
         outlineView.backgroundColor = .clear
         outlineView.usesAlternatingRowBackgroundColors = false
-        // outlineView.gridColor = .separatorColor // .controlBackgroundColor // windowBackgroundColor
-        // outlineView.gridStyleMask = [.solidHorizontalGridLineMask]
         outlineView.reloadData()
 
         expandAll()
@@ -150,12 +148,6 @@ extension SidebarViewController: NSOutlineViewDelegate {
     }
 
     func outlineViewSelectionDidChange(_ notification: Notification) {
-
-        /*
-        guard let outlineView = notification.object as? NSOutlineView else { return }
-
-        print("\(outlineView.selectedRow) \(outlineView.selectedColumn)")
-         */
 
         let selectedRow = outlineView.selectedRow
         if selectedRow != -1 {
