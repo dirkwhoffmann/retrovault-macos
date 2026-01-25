@@ -310,6 +310,36 @@ using namespace utl;
     return [self adapter]->count();
 }
 
+-(NSInteger)b2t:(NSInteger)b
+{
+    return [self adapter]->image->b2ts(b).track;
+}
+
+-(NSInteger)b2c:(NSInteger)b
+{
+    return [self adapter]->image->b2chs(b).cylinder;
+}
+
+-(NSInteger)b2h:(NSInteger)b
+{
+    return [self adapter]->image->b2chs(b).head;
+}
+
+-(NSInteger)b2s:(NSInteger)b
+{
+    return [self adapter]->image->b2chs(b).sector;
+}
+
+-(NSInteger)ts2b:(NSInteger)t s:(NSInteger)s
+{
+    return [self adapter]->image->bindex(TrackDevice::TS(t,s));
+}
+
+-(NSInteger)chs2b:(NSInteger)c h:(NSInteger)h s:(NSInteger)s
+{
+    return [self adapter]->image->bindex(TrackDevice::CHS(c,h,s));
+}
+
 - (void)mount:(NSURL *)mountpoint exception:(ExceptionWrapper *)ex
 {
     try { [self adapter]->mount([mountpoint fileSystemRepresentation]); }

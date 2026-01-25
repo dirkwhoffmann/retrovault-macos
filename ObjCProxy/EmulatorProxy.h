@@ -124,6 +124,12 @@ inline const char *c_str(const std::string &s)
 @property (readonly) NSInteger numBytes;
 @property (readonly) NSInteger numVolumes;
 
+-(NSInteger)b2t:(NSInteger)b;
+-(NSInteger)b2c:(NSInteger)b;
+-(NSInteger)b2h:(NSInteger)b;
+-(NSInteger)b2s:(NSInteger)b;
+-(NSInteger)ts2b:(NSInteger)t s:(NSInteger)s;
+-(NSInteger)chs2b:(NSInteger)c h:(NSInteger)h s:(NSInteger)s;
 
 - (void)mount:(NSURL *)url exception:(ExceptionWrapper *)ex;
 - (void)unmount;

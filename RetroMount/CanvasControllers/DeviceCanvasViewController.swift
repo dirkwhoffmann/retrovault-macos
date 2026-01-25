@@ -62,6 +62,11 @@ class DeviceCanvasViewController: CanvasViewController {
 
     override func viewDidLoad() {
 
+        cylinderStepper.maxValue = .greatestFiniteMagnitude
+        headStepper.maxValue = .greatestFiniteMagnitude
+        trackStepper.maxValue = .greatestFiniteMagnitude
+        sectorStepper.maxValue = .greatestFiniteMagnitude
+        blockStepper.maxValue = .greatestFiniteMagnitude
     }
 
     override func refresh() {
@@ -74,5 +79,154 @@ class DeviceCanvasViewController: CanvasViewController {
         mainTitle.stringValue = info.name
         subTitle1.stringValue = info.description
         subTitle2.stringValue = info.capacityString
+
+        refreshSelection()
+    }
+
+    func refreshSelection() {
+
+        cylinderField.stringValue      = String(format: "%d", currentCyl)
+        cylinderStepper.integerValue   = currentCyl
+        headField.stringValue          = String(format: "%d", currentHead)
+        headStepper.integerValue       = currentHead
+        trackField.stringValue         = String(format: "%d", currentTrack)
+        trackStepper.integerValue      = currentTrack
+        sectorField.stringValue        = String(format: "%d", currentSector)
+        sectorStepper.integerValue     = currentSector
+        blockField.stringValue         = String(format: "%d", currentBlock)
+        blockStepper.integerValue      = currentBlock
+    }
+
+    //
+    // Helper methods
+    //
+
+    func setCylinder(_ newValue: Int) {
+
+        if newValue != currentCyl {
+
+            let value = max(0, min(newValue, upperCyl))
+
+            currentCyl      = value
+            currentTrack    = 2 * currentCyl + currentHead
+            currentSector   = max(0, min(newValue, numSectors(track: currentTrack)))
+            currentBlock    = proxy?.chs2b(currentCyl, h: currentHead, s: currentSector) ?? 0
+
+            refreshSelection()
+        }
+    }
+
+    func setHead(_ newValue: Int) {
+
+        if newValue != currentHead {
+
+            let value = max(0, min(newValue, upperHead))
+
+            currentHead     = value
+            currentTrack    = 2 * currentCyl + currentHead
+            currentSector   = max(0, min(newValue, numSectors(track: currentTrack)))
+            currentBlock    = proxy?.chs2b(currentCyl, h: currentHead, s: currentSector) ?? 0
+
+            refreshSelection()
+        }
+    }
+
+    func setTrack(_ newValue: Int) {
+
+        if newValue != currentTrack {
+
+            let value = max(0, min(newValue, upperTrack))
+
+            currentTrack    = value
+            currentSector   = max(0, min(newValue, numSectors(track: currentTrack)))
+            currentCyl      = currentTrack / 2
+            currentHead     = currentTrack % 2
+            currentBlock    = proxy?.chs2b(currentCyl, h: currentHead, s: currentSector) ?? 0
+
+            refreshSelection()
+        }
+    }
+
+    func setSector(_ newValue: Int) {
+
+        if newValue != currentSector {
+
+            let value = max(0, min(newValue, upperSector(track: currentTrack)))
+
+            currentSector   = value
+            currentBlock    = proxy?.chs2b(currentCyl, h: currentHead, s: currentSector) ?? 0
+
+            refreshSelection()
+        }
+    }
+
+    func setBlock(_ newValue: Int) {
+
+        if newValue != currentBlock {
+
+            let value = max(0, min(newValue, upperBlock))
+
+            currentBlock    = value
+            currentTrack    = proxy?.b2t(currentBlock) ?? 0
+            currentCyl      = proxy?.b2c(currentBlock) ?? 0
+            currentHead     = proxy?.b2h(currentBlock) ?? 0
+            currentSector   = proxy?.b2s(currentBlock) ?? 0
+
+            refreshSelection()
+        }
+    }
+
+    //
+    // Action methods
+    //
+
+    @IBAction func cylinderAction(_ sender: NSTextField!) {
+
+        setCylinder(sender.integerValue)
+    }
+
+    @IBAction func cylinderStepperAction(_ sender: NSStepper!) {
+
+        setCylinder(sender.integerValue)
+    }
+
+    @IBAction func headAction(_ sender: NSTextField!) {
+
+        setHead(sender.integerValue)
+    }
+
+    @IBAction func headStepperAction(_ sender: NSStepper!) {
+
+        setHead(sender.integerValue)
+    }
+
+    @IBAction func trackAction(_ sender: NSTextField!) {
+
+        setTrack(sender.integerValue)
+    }
+
+    @IBAction func trackStepperAction(_ sender: NSStepper!) {
+
+        setTrack(sender.integerValue)
+    }
+
+    @IBAction func sectorAction(_ sender: NSTextField!) {
+
+        setSector(sender.integerValue)
+    }
+
+    @IBAction func sectorStepperAction(_ sender: NSStepper!) {
+
+        setSector(sender.integerValue)
+    }
+
+    @IBAction func blockAction(_ sender: NSTextField!) {
+
+        setBlock(sender.integerValue)
+    }
+
+    @IBAction func blockStepperAction(_ sender: NSStepper!) {
+
+        setBlock(sender.integerValue)
     }
 }

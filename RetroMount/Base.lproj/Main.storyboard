@@ -1438,11 +1438,17 @@ DQ
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
+                                            <connections>
+                                                <action selector="trackAction:" target="sng-Qs-DgF" id="G5a-V1-jyL"/>
+                                            </connections>
                                         </textField>
                                         <stepper horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="e2b-UZ-OEn">
                                             <rect key="frame" x="388" y="11" width="19" height="27"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <stepperCell key="cell" controlSize="mini" continuous="YES" refusesFirstResponder="YES" alignment="left" maxValue="999999" id="reH-fZ-7Eh"/>
+                                            <connections>
+                                                <action selector="trackStepperAction:" target="sng-Qs-DgF" id="a8q-lU-yzi"/>
+                                            </connections>
                                         </stepper>
                                         <textField focusRingType="none" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="V9b-j5-LYu">
                                             <rect key="frame" x="438" y="15" width="54" height="19"/>
@@ -1461,11 +1467,17 @@ DQ
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
+                                            <connections>
+                                                <action selector="sectorAction:" target="sng-Qs-DgF" id="von-Sb-cGl"/>
+                                            </connections>
                                         </textField>
                                         <stepper horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kW8-W0-bzR">
                                             <rect key="frame" x="518" y="11" width="19" height="27"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <stepperCell key="cell" controlSize="mini" continuous="YES" refusesFirstResponder="YES" alignment="left" maxValue="999999" id="3Y1-fv-7Vc"/>
+                                            <connections>
+                                                <action selector="sectorStepperAction:" target="sng-Qs-DgF" id="9Si-Sw-Gmj"/>
+                                            </connections>
                                         </stepper>
                                         <textField focusRingType="none" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lbh-ws-uHP">
                                             <rect key="frame" x="551" y="15" width="41" height="19"/>
@@ -1484,11 +1496,17 @@ DQ
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
+                                            <connections>
+                                                <action selector="blockAction:" target="sng-Qs-DgF" id="VXV-Vf-FgG"/>
+                                            </connections>
                                         </textField>
                                         <stepper horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8Nu-Oq-cz6">
                                             <rect key="frame" x="651" y="11" width="19" height="27"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <stepperCell key="cell" controlSize="mini" continuous="YES" refusesFirstResponder="YES" alignment="left" maxValue="999999" id="8UY-fh-VsA"/>
+                                            <connections>
+                                                <action selector="blockStepperAction:" target="sng-Qs-DgF" id="lP9-TS-C3h"/>
+                                            </connections>
                                         </stepper>
                                         <textField focusRingType="none" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aBl-6m-g1C">
                                             <rect key="frame" x="168" y="15" width="42" height="19"/>
@@ -1507,11 +1525,17 @@ DQ
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
+                                            <connections>
+                                                <action selector="headAction:" target="sng-Qs-DgF" id="iwM-wZ-hby"/>
+                                            </connections>
                                         </textField>
                                         <stepper horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lXu-9x-LvN">
                                             <rect key="frame" x="237" y="11" width="19" height="27"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <stepperCell key="cell" controlSize="mini" continuous="YES" refusesFirstResponder="YES" alignment="left" maxValue="999999" id="JXK-pJ-yW4"/>
+                                            <connections>
+                                                <action selector="headStepperAction:" target="sng-Qs-DgF" id="mrB-c1-EYn"/>
+                                            </connections>
                                         </stepper>
                                         <textField focusRingType="none" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rsn-wT-ewR">
                                             <rect key="frame" x="18" y="15" width="56" height="19"/>
@@ -1530,11 +1554,17 @@ DQ
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
+                                            <connections>
+                                                <action selector="cylinderAction:" target="sng-Qs-DgF" id="K1Y-XB-nS5"/>
+                                            </connections>
                                         </textField>
                                         <stepper horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="y9c-50-RYK">
                                             <rect key="frame" x="133" y="11" width="19" height="27"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                             <stepperCell key="cell" controlSize="mini" continuous="YES" refusesFirstResponder="YES" alignment="left" maxValue="999999" id="bSP-Ye-zGo"/>
+                                            <connections>
+                                                <action selector="cylinderStepperAction:" target="sng-Qs-DgF" id="hhT-am-1K0"/>
+                                            </connections>
                                         </stepper>
                                     </subviews>
                                 </view>
@@ -1546,22 +1576,27 @@ DQ
                     <connections>
                         <outlet property="blockField" destination="5kc-5X-ki0" id="ebL-ek-g60"/>
                         <outlet property="blockScrollView" destination="HNt-1b-HXU" id="acw-qf-coT"/>
+                        <outlet property="blockStepper" destination="8Nu-Oq-cz6" id="gc7-hV-4Hz"/>
                         <outlet property="blockView" destination="5XS-Kv-ArT" id="Azz-Cb-Bpd"/>
                         <outlet property="blocksInfo" destination="glQ-YV-Tne" id="IJT-P6-07u"/>
                         <outlet property="bsizeInfo" destination="XO8-TT-kCE" id="Pl5-k4-qIM"/>
                         <outlet property="capacityInfo" destination="mHi-jd-55O" id="B7Y-pn-p8s"/>
                         <outlet property="cylinderField" destination="aai-k5-ZSM" id="Paq-rn-lzz"/>
+                        <outlet property="cylinderStepper" destination="y9c-50-RYK" id="aI0-8n-ThV"/>
                         <outlet property="cylindersInfo" destination="5Rh-l4-GAG" id="WBy-6w-YVc"/>
                         <outlet property="headField" destination="JrN-57-u5G" id="1Z0-V9-Qjj"/>
+                        <outlet property="headStepper" destination="lXu-9x-LvN" id="PzA-Pw-oPQ"/>
                         <outlet property="headsInfo" destination="jWw-eO-iWM" id="8wZ-i7-Fah"/>
                         <outlet property="icon" destination="Jmt-IY-2RX" id="I8s-Yb-CYI"/>
                         <outlet property="mainTitle" destination="Pbj-CP-V6s" id="ezd-uF-7wF"/>
                         <outlet property="sectorField" destination="NgK-e5-eLS" id="9pK-TP-GPM"/>
+                        <outlet property="sectorStepper" destination="kW8-W0-bzR" id="nmV-Tp-Ky6"/>
                         <outlet property="sectorsInfo" destination="vwT-rQ-IXp" id="RG1-as-u58"/>
                         <outlet property="subTitle1" destination="EIQ-c8-nza" id="kiQ-wI-ghJ"/>
                         <outlet property="subTitle2" destination="BA1-p1-p1T" id="bZh-oP-x84"/>
                         <outlet property="subTitle3" destination="MsT-7W-Aob" id="pH4-Ht-DNt"/>
                         <outlet property="trackField" destination="4TR-uo-Zcr" id="dKQ-Mg-xNt"/>
+                        <outlet property="trackStepper" destination="e2b-UZ-OEn" id="eAJ-UO-oKb"/>
                     </connections>
                 </viewController>
                 <customObject id="Mv0-gt-NKB" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
