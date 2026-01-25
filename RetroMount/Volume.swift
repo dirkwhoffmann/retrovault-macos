@@ -58,7 +58,7 @@ class Volume {
 class Device : Volume {
 
     // The cell view associated with this group
-    var view: TableCellView?
+    var view: TableCell?
     
     // The settings in this group
     var children: [Volume]

@@ -23,11 +23,15 @@ class MySplitViewController: NSSplitViewController {
         return main.instantiateController(withIdentifier: "VolumeCanvasViewController") as! VolumeCanvasViewController
     }()
 
-    var current: CanvasViewController?
-
     var sidebarVC: SidebarViewController? {
         return splitViewItems.first?.viewController as? SidebarViewController
     }
+
+    // The currently selected sidebar item (device or volume)
+    var selection: (Int?, Int?) = (nil, nil)
+
+    // The currently active canvas controller
+    var current: CanvasViewController?
 
     override func viewDidLoad() {
 
@@ -46,7 +50,11 @@ class MySplitViewController: NSSplitViewController {
 
         // Assign the selection handler
         sidebarVC?.selectionHandler = { [weak self] (i1,i2) in
-            self?.showContent(cell: (i1,i2))
+
+            print("Selected: (\(i1 ?? -1),\(i2 ?? -1))")
+            self?.selection = (i1,i2)
+            self?.showContent()
+            self?.current?.refresh(selection: self!.selection)
         }
     }
 
@@ -72,22 +80,27 @@ class MySplitViewController: NSSplitViewController {
         }
     }
 
-    private func showContent(for item: TableCellView) {
+    private func showContent() {
 
-        showContent(title: "Volume")
+        showContent(cell: selection)
     }
 
     func showContent(cell: (Int?, Int?)) {
 
-        if let _ = cell.0, let _ = cell.1 {
-            showContent(title: "Device")
-        } else if let _ = cell.0 {
-            showContent(title: "Volume")
-        } else {
-            showContent(title: "Info")
-        }
+        let isDevice = cell.0 != nil && cell.1 == nil
+        let isVolume = cell.0 != nil && cell.1 != nil
+
+        current = isDevice ? deviceVC : isVolume ? volumeVC : infoVC
+
+        // Remove the old content pane
+        removeSplitViewItem(splitViewItems[1])
+
+        // Create a new split view item for the new content
+        let newItem = NSSplitViewItem(viewController: current!)
+        addSplitViewItem(newItem)
     }
-    
+
+    /*
     func showContent(title: String) {
 
         switch title {
@@ -103,6 +116,7 @@ class MySplitViewController: NSSplitViewController {
         let newItem = NSSplitViewItem(viewController: current!)
         addSplitViewItem(newItem)
     }
+    */
 
     override func splitViewDidResizeSubviews(_ notification: Notification) {
 

@@ -12,4 +12,8 @@ class CanvasViewController: NSViewController {
     func activate() {
 
     }
+
+    func refresh(selection: (Int?, Int?)) {
+
+    }
 }

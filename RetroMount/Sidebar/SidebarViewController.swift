@@ -15,7 +15,6 @@ class SidebarViewController: NSViewController {
     @IBOutlet weak var outlineView: MyOutlineView!
 
     var manager: DeviceManager { app.manager }
-
     var selectionHandler: ((Int?, Int?) -> Void)?
 
     override func viewDidLoad() {
@@ -45,6 +44,7 @@ class SidebarViewController: NSViewController {
         outlineView.reloadData()
     }
 
+    /*
     @IBAction func shaderSelectAction(_ sender: NSPopUpButton) {
 
         refresh()
@@ -59,6 +59,7 @@ class SidebarViewController: NSViewController {
     @IBAction func infoAction(_ sender: Any!) {
 
     }
+    */
 
     @IBAction func cancelAction(_ sender: NSButton) {
 

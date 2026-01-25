@@ -9,7 +9,7 @@
 
 import Cocoa
 
-class TableCellView: NSTableCellView {
+class TableCell: NSTableCellView {
 
     @IBOutlet weak var controller: SidebarViewController!
 
@@ -17,116 +17,5 @@ class TableCellView: NSTableCellView {
 
     func updateIcon(expanded: Bool) {
 
-    }
-}
-
-class DeviceCell: TableCellView {
-
-    // @IBOutlet weak var disclosureButton: NSButton!
-    // @IBOutlet weak var syncButton: NSButton!
-    // @IBOutlet weak var label: NSTextField!
-    // @IBOutlet weak var sublabel: NSTextField!
-    // @IBOutlet weak var subsublabel: NSTextField!
-
-    var device = 0
-
-    func setup(device: Int) {
-
-        self.device = device
-
-        update()
-    }
-
-    func update() {
-
-        let info = app.manager.info(device: device)
-        // let volumes = info.numPartitions
-
-        imageView?.image = info.icon()
-        textField?.stringValue = info.name
-        /*
-        label.stringValue = info.name
-        sublabel.stringValue = info.description
-        subsublabel.stringValue = "\(volumes) " + (volumes == 1 ? "volume" : "volumes")
-        */
-    }
-
-    override func updateIcon(expanded: Bool) {
-
-        /*
-        disclosureButton.state = expanded ? .on : .off
-        disclosureButton.image = expanded ? .chevronDown() : .chevronRight()
-        */
-    }
-
-    /*
-    override func draw(_ dirtyRect: NSRect) {
-
-        // NSColor.controlAccentColor.withAlphaComponent(0.25).setFill()
-        NSColor.separatorColor.setFill()
-        dirtyRect.fill()
-        super.draw(dirtyRect)
-    }
-    */
-
-    @IBAction func disclosureAction(_ sender: NSButton) {
-
-        print("disclosureAction")
-
-        if sender.state == .on {
-            outlineView.expandItem(device)
-        } else {
-            outlineView.collapseItem(device)
-        }
-
-        outlineView.reloadData()
-    }
-
-    @IBAction func syncAction(_ sender: NSButton) {
-
-        print("syncAction")
-    }
-}
-
-class VolumeCell: TableCellView {
-
-    // @IBOutlet weak var label: NSTextField!
-    // @IBOutlet weak var sublabel: NSTextField!
-    // @IBOutlet weak var unmountButton: NSButton!
-
-    var device = 0
-    var volume = 0
-
-    func setup(device: Int, partition: Int) {
-
-        self.device = device
-        self.volume = partition
-
-        update()
-    }
-
-    var shaderSetting: Volume! {
-
-        didSet {
-
-            update()
-        }
-    }
-
-    var value: Float! { didSet { update() } }
-
-    func update() {
-
-        let info = app.manager.info(device: device, volume: volume)
-
-        imageView?.image = info.icon()
-        textField?.stringValue = info.mountPoint
-        // label.stringValue = info.capacityString
-        // sublabel.stringValue = info.fillString + " full"
-    }
-
-    @IBAction func unmountAction(_ sender: NSButton) {
-
-        print("unmountAction")
     }
 }

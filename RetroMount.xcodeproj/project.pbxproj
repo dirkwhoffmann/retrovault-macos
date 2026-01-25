@@ -119,6 +119,8 @@
 		50AB50B82F23E1F900BFBA99 /* LaunchInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50AB50B72F23E1F300BFBA99 /* LaunchInfoViewController.swift */; };
 		50BCBDFA2EEBF79B000C53CF /* FuseDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50BCBDF92EEBF798000C53CF /* FuseDevice.cpp */; };
 		50CD7A1F2F2571B6007E5803 /* MySplitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CD7A1E2F2571B1007E5803 /* MySplitView.swift */; };
+		50CD7A212F2605CC007E5803 /* VolumeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CD7A202F2605CA007E5803 /* VolumeCell.swift */; };
+		50CD7A232F2605DB007E5803 /* DeviceCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CD7A222F2605D7007E5803 /* DeviceCell.swift */; };
 		50D89C512F1E775100ECC73D /* debug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50D89C502F1E775100ECC73D /* debug.cpp */; };
 		50D89C752F1E7C7B00ECC73D /* pfile.c in Sources */ = {isa = PBXBuildFile; fileRef = 50D89C5C2F1E7C7B00ECC73D /* pfile.c */; };
 		50D89C762F1E7C7B00ECC73D /* u_init.c in Sources */ = {isa = PBXBuildFile; fileRef = 50D89C642F1E7C7B00ECC73D /* u_init.c */; };
@@ -406,6 +408,8 @@
 		50BCBDF82EEBF791000C53CF /* FuseDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FuseDevice.h; sourceTree = "<group>"; };
 		50BCBDF92EEBF798000C53CF /* FuseDevice.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FuseDevice.cpp; sourceTree = "<group>"; };
 		50CD7A1E2F2571B1007E5803 /* MySplitView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MySplitView.swift; sourceTree = "<group>"; };
+		50CD7A202F2605CA007E5803 /* VolumeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VolumeCell.swift; sourceTree = "<group>"; };
+		50CD7A222F2605D7007E5803 /* DeviceCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceCell.swift; sourceTree = "<group>"; };
 		50D89C4F2F1E774900ECC73D /* debug.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = debug.h; sourceTree = "<group>"; };
 		50D89C502F1E775100ECC73D /* debug.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = debug.cpp; sourceTree = "<group>"; };
 		50D89C522F1E7C7B00ECC73D /* _old_pfile.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = _old_pfile.c; sourceTree = "<group>"; };
@@ -1025,6 +1029,8 @@
 				50900C212F1E729A00A4A81B /* SidebarViewController.swift */,
 				504503402F21685E007A7268 /* MyOutlineView.swift */,
 				50900C222F1E729A00A4A81B /* TableCellViews.swift */,
+				50CD7A222F2605D7007E5803 /* DeviceCell.swift */,
+				50CD7A202F2605CA007E5803 /* VolumeCell.swift */,
 			);
 			path = Sidebar;
 			sourceTree = "<group>";
@@ -1054,10 +1060,10 @@
 		5097DD912F24DC0C00738B5A /* CanvasControllers */ = {
 			isa = PBXGroup;
 			children = (
-				5097DD922F24DC1500738B5A /* InfoCanvasViewController.swift */,
-				5097DD942F24DC2900738B5A /* VolumeCanvasViewController.swift */,
-				5045033E2F21619E007A7268 /* DeviceCanvasViewController.swift */,
 				504503422F216BAC007A7268 /* CanvasViewController.swift */,
+				5097DD922F24DC1500738B5A /* InfoCanvasViewController.swift */,
+				5045033E2F21619E007A7268 /* DeviceCanvasViewController.swift */,
+				5097DD942F24DC2900738B5A /* VolumeCanvasViewController.swift */,
 			);
 			path = CanvasControllers;
 			sourceTree = "<group>";
@@ -1200,6 +1206,7 @@
 				50900B162F1E726D00A4A81B /* Wakeable.cpp in Sources */,
 				50900B172F1E726D00A4A81B /* Files.cpp in Sources */,
 				50D89C752F1E7C7B00ECC73D /* pfile.c in Sources */,
+				50CD7A212F2605CC007E5803 /* VolumeCell.swift in Sources */,
 				50D89C762F1E7C7B00ECC73D /* u_init.c in Sources */,
 				50D89C772F1E7C7B00ECC73D /* u_deep.c in Sources */,
 				50D89C782F1E7C7B00ECC73D /* u_medium.c in Sources */,
@@ -1277,6 +1284,7 @@
 				50900BF52F1E727400A4A81B /* HDZFile.cpp in Sources */,
 				50900BF62F1E727400A4A81B /* FSDirEntry.cpp in Sources */,
 				50900BF72F1E727400A4A81B /* DiskDecoder.cpp in Sources */,
+				50CD7A232F2605DB007E5803 /* DeviceCell.swift in Sources */,
 				50900BF82F1E727400A4A81B /* FileSystemLayer2.cpp in Sources */,
 				50900BF92F1E727400A4A81B /* Volume.cpp in Sources */,
 				50AB50B82F23E1F900BFBA99 /* LaunchInfoViewController.swift in Sources */,
