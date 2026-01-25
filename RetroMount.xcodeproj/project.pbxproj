@@ -1038,21 +1038,20 @@
 		50900C2F2F1E729A00A4A81B /* RetroMount */ = {
 			isa = PBXGroup;
 			children = (
-				50900C232F1E729A00A4A81B /* Sidebar */,
 				50900C242F1E729A00A4A81B /* AppDelegate.swift */,
-				50900C252F1E729A00A4A81B /* Assets.xcassets */,
-				50900C262F1E729A00A4A81B /* DeviceManager.swift */,
-				50900C272F1E729A00A4A81B /* Errors.swift */,
 				50900C282F1E729A00A4A81B /* Extensions.swift */,
-				50900C292F1E729A00A4A81B /* Info.plist */,
+				50900C272F1E729A00A4A81B /* Errors.swift */,
+				50900C262F1E729A00A4A81B /* DeviceManager.swift */,
 				50900C2A2F1E729A00A4A81B /* Loggable.swift */,
-				50900C2C2F1E729A00A4A81B /* Main.storyboard */,
 				50900C2D2F1E729A00A4A81B /* MyWindowController.swift */,
-				50CD7A1E2F2571B1007E5803 /* MySplitView.swift */,
 				5045033A2F21608D007A7268 /* MySplitViewController.swift */,
-				50AB50B72F23E1F300BFBA99 /* LaunchInfoViewController.swift */,
+				50CD7A1E2F2571B1007E5803 /* MySplitView.swift */,
+				50900C232F1E729A00A4A81B /* Sidebar */,
 				5097DD912F24DC0C00738B5A /* CanvasControllers */,
 				50900C2E2F1E729A00A4A81B /* Volume.swift */,
+				50900C292F1E729A00A4A81B /* Info.plist */,
+				50900C2C2F1E729A00A4A81B /* Main.storyboard */,
+				50900C252F1E729A00A4A81B /* Assets.xcassets */,
 			);
 			path = RetroMount;
 			sourceTree = "<group>";
@@ -1060,6 +1059,7 @@
 		5097DD912F24DC0C00738B5A /* CanvasControllers */ = {
 			isa = PBXGroup;
 			children = (
+				50AB50B72F23E1F300BFBA99 /* LaunchInfoViewController.swift */,
 				504503422F216BAC007A7268 /* CanvasViewController.swift */,
 				5097DD922F24DC1500738B5A /* InfoCanvasViewController.swift */,
 				5045033E2F21619E007A7268 /* DeviceCanvasViewController.swift */,

@@ -22,17 +22,19 @@ class VolumeCanvasViewController: CanvasViewController {
     @IBOutlet weak var blocksInfo: NSTextField!
     @IBOutlet weak var bsizeInfo: NSTextField!
     @IBOutlet weak var capacityInfo: NSTextField!
-    
+
+    var info: VolumeInfo?
+
     override func viewDidLoad() {
 
     }
 
-    override func refresh(selection: (Int?, Int?)) {
+    override func refresh() {
 
-        guard let device = selection.0 else { return }
-        guard let volume = selection.1 else { return }
-
-        let info = app.manager.info(device: device, volume: volume)
+        guard let device = device else { return }
+        guard let volume = volume else { return }
+        info = app.manager.info(device: device, volume: volume)
+        guard let info = info else { return }
 
         icon.image = info.icon()
         mainTitle.stringValue = info.mountPoint

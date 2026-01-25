@@ -18,6 +18,8 @@ using namespace retro::vault;
 
 class FuseDevice {
 
+public:
+    
     // Image file
     std::unique_ptr<DiskImage> image;
 

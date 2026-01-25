@@ -153,6 +153,12 @@ class DeviceManager {
 
     var count: Int { devices.count }
 
+    func proxy(device: Int?) -> FuseDeviceProxy? {
+
+        guard let device = device else { return nil }
+        return devices[device]
+    }
+
     func info(device: Int) -> DeviceInfo {
 
         let result = DeviceInfo.init()
@@ -202,7 +208,6 @@ class DeviceManager {
 
         return result
     }
-
 
     func process(message msg: Int) {
 

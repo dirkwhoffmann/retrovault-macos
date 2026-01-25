@@ -16,7 +16,7 @@ class InfoCanvasViewController: CanvasViewController {
         refresh()
     }
 
-    func refresh() {
+    override func refresh() {
 
     }
 }

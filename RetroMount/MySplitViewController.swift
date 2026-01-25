@@ -54,7 +54,7 @@ class MySplitViewController: NSSplitViewController {
             print("Selected: (\(i1 ?? -1),\(i2 ?? -1))")
             self?.selection = (i1,i2)
             self?.showContent()
-            self?.current?.refresh(selection: self!.selection)
+            self?.current?.set(device: i1, volume: i2)
         }
     }
 

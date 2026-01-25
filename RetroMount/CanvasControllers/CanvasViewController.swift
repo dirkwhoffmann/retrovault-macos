@@ -9,11 +9,25 @@
 
 class CanvasViewController: NSViewController {
 
+    // Displayed device and volume
+    var device: Int?
+    var volume: Int?
+
     func activate() {
 
     }
 
-    func refresh(selection: (Int?, Int?)) {
+    func set(device: Int?, volume: Int?) {
 
+        self.device = device
+        self.volume = volume
+        refresh()
     }
+
+    /*
+    func setDevice(_ device: Int?) { self.device = device }
+    func setVolume(_ volume: Int?) { self.volume = volume }
+    */
+
+    func refresh() { }
 }

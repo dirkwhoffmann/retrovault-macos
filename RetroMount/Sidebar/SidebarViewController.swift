@@ -44,23 +44,6 @@ class SidebarViewController: NSViewController {
         outlineView.reloadData()
     }
 
-    /*
-    @IBAction func shaderSelectAction(_ sender: NSPopUpButton) {
-
-        refresh()
-        expandAll()
-    }
-
-    @IBAction func presetAction(_ sender: NSPopUpButton) {
-
-        refresh()
-    }
-
-    @IBAction func infoAction(_ sender: Any!) {
-
-    }
-    */
-
     @IBAction func cancelAction(_ sender: NSButton) {
 
         view.window?.close()
@@ -87,7 +70,7 @@ extension SidebarViewController: NSOutlineViewDataSource {
 
     func outlineView(_ outlineView: NSOutlineView, heightOfRowByItem item: Any) -> CGFloat {
 
-        return 48
+        return 42
     }
     func outlineView(_ outlineView: NSOutlineView, isItemExpandable item: Any) -> Bool {
 

@@ -114,9 +114,16 @@ inline const char *c_str(const std::string &s)
 + (instancetype)make:(NSURL *)url exception:(ExceptionWrapper *)ex;
 
 @property (readonly, strong) NSURL *url;
+@property (readonly) ImageInfo info;
+@property (readonly) NSInteger numCyls;
+@property (readonly) NSInteger numHeads;
+-(NSInteger)numSectors:(NSInteger)t;
+-(NSInteger)numSectors:(NSInteger)c head:(NSInteger)h;
+@property (readonly) NSInteger numTracks;
+@property (readonly) NSInteger numBlocks;
 @property (readonly) NSInteger numBytes;
 @property (readonly) NSInteger numVolumes;
-@property (readonly) ImageInfo info;
+
 
 - (void)mount:(NSURL *)url exception:(ExceptionWrapper *)ex;
 - (void)unmount;

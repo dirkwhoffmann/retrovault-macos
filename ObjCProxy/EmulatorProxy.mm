@@ -265,19 +265,49 @@ using namespace utl;
     return url;
 }
 
+- (ImageInfo)info
+{
+    return [self adapter]->imageInfo();
+}
+
+- (NSInteger)numCyls
+{
+    return [self adapter]->image->numCyls();
+}
+
+- (NSInteger)numHeads
+{
+    return [self adapter]->image->numHeads();
+}
+
+- (NSInteger)numSectors:(NSInteger)t
+{
+    return [self adapter]->image->numSectors(t);
+}
+
+- (NSInteger)numSectors:(NSInteger)c head:(NSInteger)h
+{
+    return [self adapter]->image->numSectors(c, h);
+}
+
+- (NSInteger)numTracks
+{
+    return [self adapter]->image->numTracks();
+}
+
+- (NSInteger)numBlocks
+{
+    return [self adapter]->image->numBlocks();
+}
+
 - (NSInteger)numBytes
 {
-    return [self adapter]->imageSize();
+    return [self adapter]->image->numBytes();
 }
 
 - (NSInteger)numVolumes
 {
     return [self adapter]->count();
-}
-
-- (ImageInfo)info
-{
-    return [self adapter]->imageInfo();
 }
 
 - (void)mount:(NSURL *)mountpoint exception:(ExceptionWrapper *)ex
