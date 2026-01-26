@@ -95,6 +95,8 @@ class DeviceCanvasViewController: CanvasViewController {
         sectorStepper.integerValue     = currentSector
         blockField.stringValue         = String(format: "%d", currentBlock)
         blockStepper.integerValue      = currentBlock
+
+        blockView.reloadData()
     }
 
     //
@@ -106,11 +108,16 @@ class DeviceCanvasViewController: CanvasViewController {
         return max(range.lowerBound, min(value, range.upperBound - 1))
     }
 
+    func clamp(_ value: Int, to range: ClosedRange<Int>) -> Int {
+
+        return max(range.lowerBound, min(value, range.upperBound))
+    }
+
     func setCylinder(_ newValue: Int) {
 
         if newValue != currentCyl {
 
-            let value = clamp(newValue, to: 0..<upperCyl)
+            let value = clamp(newValue, to: 0...upperCyl)
 
             currentCyl      = value
             currentTrack    = 2 * currentCyl + currentHead
@@ -125,7 +132,7 @@ class DeviceCanvasViewController: CanvasViewController {
 
         if newValue != currentHead {
 
-            let value = clamp(newValue, to: 0..<upperHead)
+            let value = clamp(newValue, to: 0...upperHead)
 
             currentHead     = value
             currentTrack    = 2 * currentCyl + currentHead
@@ -140,7 +147,7 @@ class DeviceCanvasViewController: CanvasViewController {
 
         if newValue != currentTrack {
 
-            let value = clamp(newValue, to: 0..<upperTrack)
+            let value = clamp(newValue, to: 0...upperTrack)
 
             currentTrack    = value
             currentSector   = clamp(currentSector, to: 0..<upperSector(track: currentTrack))
@@ -156,7 +163,7 @@ class DeviceCanvasViewController: CanvasViewController {
 
         if newValue != currentSector {
 
-            let value = clamp(newValue, to: 0..<upperSector(track: currentTrack))
+            let value = clamp(newValue, to: 0...upperSector(track: currentTrack))
 
             currentSector   = value
             currentBlock    = proxy?.chs2b(currentCyl, h: currentHead, s: currentSector) ?? 0
@@ -169,7 +176,7 @@ class DeviceCanvasViewController: CanvasViewController {
 
         if newValue != currentBlock {
 
-            let value = clamp(newValue, to: 0..<upperBlock)
+            let value = clamp(newValue, to: 0...upperBlock)
 
             currentBlock    = value
             currentTrack    = proxy?.b2t(currentBlock) ?? 0
@@ -262,11 +269,11 @@ extension DeviceCanvasViewController: NSTableViewDataSource {
             return String(format: "%X", row)
 
         case "Ascii":
-            return "Holla, die Waldfee" // decoder?.asciidump(currentBlock, offset: row * 16, len: 16) ?? ""
+            return proxy?.readASCII(row * 16, from: currentBlock, length: 16) ?? ""
 
         default:
-            let col = columnNr(tableColumn)!
-            if let byte = proxy?.readByte(col, from: currentBlock) {
+            let offset = row * 16 + columnNr(tableColumn)!
+            if let byte = proxy?.readByte(offset, from: currentBlock) {
                 return String(format: "%02X", byte)
             } else {
                 return "--"

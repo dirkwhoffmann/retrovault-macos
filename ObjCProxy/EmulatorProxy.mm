@@ -353,6 +353,33 @@ using namespace utl;
     return [self readByte: block * bsize + offset];
 }
 
+-(NSString *)readASCII:(NSInteger)offset length:(NSInteger)len
+{
+    NSMutableString *result = [NSMutableString stringWithCapacity:len];
+
+    for (NSInteger i = 0; i < len; i++) {
+
+        unsigned char byte = (unsigned char)[self readByte:offset + i];
+
+        if (isprint(byte)) {
+            [result appendFormat:@"%c", byte];
+        } else {
+            [result appendString:@"."];
+        }
+    }
+
+    return result;
+}
+
+-(NSString *)readASCII:(NSInteger)offset from:(NSInteger)block length:(NSInteger)len
+{
+    auto bsize = [self adapter]->image->bsize();
+    assert(offset >= 0 && offset < bsize);
+
+    return [self readASCII: block * bsize + offset length: len];
+
+}
+
 - (void)mount:(NSURL *)mountpoint exception:(ExceptionWrapper *)ex
 {
     try { [self adapter]->mount([mountpoint fileSystemRepresentation]); }
