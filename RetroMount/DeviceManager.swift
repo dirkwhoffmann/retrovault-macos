@@ -138,9 +138,14 @@ class VolumeInfo {
 
     var fillString: String {
 
+        (fill * 100).formatted(.number.precision(.fractionLength(0))) + "%"
+    }
+    /*
+    var fillString: String {
+
         return String(format: "%.0f%%", fill * 100.0)
     }
-    
+    */
     func icon() -> NSImage? {
 
         var name = "volume"

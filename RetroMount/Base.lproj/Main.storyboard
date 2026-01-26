@@ -1660,46 +1660,73 @@ DQ
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="proportionallyDown" imageFrameStyle="grayBezel" image="dd_adf" id="XMn-Qf-OBb"/>
                             </imageView>
-                            <box fixedFrame="YES" title="Box" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="8Rh-pP-E6h">
-                                <rect key="frame" x="446" y="187" width="264" height="130"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <view key="contentView" id="QyU-Xx-hZ7">
-                                    <rect key="frame" x="0.0" y="0.0" width="264" height="130"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                    <subviews>
-                                        <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eHo-6t-LPd" customClass="ReadPanel" customModule="RetroMount" customModuleProvider="target">
-                                            <rect key="frame" x="0.0" y="0.0" width="264" height="130"/>
-                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                        </customView>
-                                    </subviews>
-                                </view>
-                            </box>
-                            <box fixedFrame="YES" title="Box" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="saI-c3-wrx">
-                                <rect key="frame" x="152" y="182" width="263" height="135"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <view key="contentView" id="ucf-oh-zEg">
-                                    <rect key="frame" x="0.0" y="0.0" width="263" height="135"/>
-                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                    <subviews>
-                                        <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zho-pa-lPq" customClass="ReadPanel" customModule="RetroMount" customModuleProvider="target">
-                                            <rect key="frame" x="0.0" y="0.0" width="263" height="135"/>
-                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                        </customView>
-                                    </subviews>
-                                </view>
-                            </box>
+                            <textField focusRingType="none" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Plu-sU-YZ8">
+                                <rect key="frame" x="561" y="412" width="67" height="14"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" controlSize="small" sendsActionOnEndEditing="YES" alignment="left" title="Read:" id="aqU-KL-jXm">
+                                    <font key="font" metaFont="smallSystem"/>
+                                    <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField focusRingType="none" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ee7-gS-a5Q">
+                                <rect key="frame" x="624" y="412" width="88" height="14"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" controlSize="small" sendsActionOnEndEditing="YES" alignment="left" title="Lorem" id="HdG-bK-3Dt">
+                                    <font key="font" metaFont="smallSystem"/>
+                                    <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField focusRingType="none" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EnO-P5-wpC">
+                                <rect key="frame" x="561" y="394" width="67" height="14"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" controlSize="small" sendsActionOnEndEditing="YES" alignment="left" title="Write:" id="EAL-Cf-ju7">
+                                    <font key="font" metaFont="smallSystem"/>
+                                    <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField focusRingType="none" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="85e-5W-WeL">
+                                <rect key="frame" x="561" y="376" width="67" height="14"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" controlSize="small" sendsActionOnEndEditing="YES" alignment="left" title="Fill:" id="nl1-Cg-q1Z">
+                                    <font key="font" metaFont="smallSystem"/>
+                                    <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField focusRingType="none" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xtl-1O-3u8">
+                                <rect key="frame" x="624" y="394" width="88" height="14"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" controlSize="small" sendsActionOnEndEditing="YES" alignment="left" title="Lorem" id="7aV-fm-Qco">
+                                    <font key="font" metaFont="smallSystem"/>
+                                    <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField focusRingType="none" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="um0-up-0AB">
+                                <rect key="frame" x="624" y="376" width="88" height="14"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" controlSize="small" sendsActionOnEndEditing="YES" alignment="left" title="Lorem" id="kDz-AY-WNu">
+                                    <font key="font" metaFont="smallSystem"/>
+                                    <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="ad6-cN-UvM"/>
                         <viewLayoutGuide key="layoutMargins" id="K8H-lV-S9f"/>
                     </view>
                     <connections>
+                        <outlet property="fillInfo" destination="um0-up-0AB" id="d3m-0c-aMR"/>
                         <outlet property="icon" destination="8VF-gr-QdA" id="GND-Ml-Cex"/>
                         <outlet property="mainTitle" destination="96M-1g-UT3" id="enX-rk-3f6"/>
-                        <outlet property="readPanel" destination="zho-pa-lPq" id="mET-pf-Hkn"/>
+                        <outlet property="readInfo" destination="Ee7-gS-a5Q" id="OLf-UJ-nvc"/>
                         <outlet property="subTitle1" destination="flJ-a0-4w2" id="neu-hl-aDb"/>
                         <outlet property="subTitle2" destination="UUY-HU-dfm" id="Pls-77-Kqb"/>
                         <outlet property="subTitle3" destination="CX0-DG-jTA" id="K2b-IG-ni8"/>
-                        <outlet property="writePanel" destination="eHo-6t-LPd" id="ObW-OM-5YB"/>
+                        <outlet property="writeInfo" destination="xtl-1O-3u8" id="3tE-ek-IlS"/>
                     </connections>
                 </viewController>
                 <customObject id="nrx-Bi-cFe" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>

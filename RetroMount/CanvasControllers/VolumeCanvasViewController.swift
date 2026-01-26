@@ -17,15 +17,9 @@ class VolumeCanvasViewController: CanvasViewController {
     @IBOutlet weak var subTitle1: NSTextField!
     @IBOutlet weak var subTitle2: NSTextField!
     @IBOutlet weak var subTitle3: NSTextField!
-    @IBOutlet weak var cylindersInfo: NSTextField!
-    @IBOutlet weak var headsInfo: NSTextField!
-    @IBOutlet weak var sectorsInfo: NSTextField!
-    @IBOutlet weak var blocksInfo: NSTextField!
-    @IBOutlet weak var bsizeInfo: NSTextField!
-    @IBOutlet weak var capacityInfo: NSTextField!
-
-    @IBOutlet weak var readPanel: DashboardPanel!
-    @IBOutlet weak var writePanel: DashboardPanel!
+    @IBOutlet weak var readInfo: NSTextField!
+    @IBOutlet weak var writeInfo: NSTextField!
+    @IBOutlet weak var fillInfo: NSTextField!
 
     var info: VolumeInfo?
 
@@ -57,35 +51,12 @@ class VolumeCanvasViewController: CanvasViewController {
         guard timer == nil else { return }
 
         timer = Timer.scheduledTimer(
-            withTimeInterval: 0.1,
+            withTimeInterval: 0.25,
             repeats: true
         ) { [weak self] _ in
 
             guard let self else { return }
-            guard let volume else { return }
-
-
-            Task { @MainActor in
-
-                let r = app.manager.proxy(device: self.device)?.bytesRead(volume) ?? 0
-                let w = app.manager.proxy(device: self.device)?.bytesWritten(volume) ?? 0
-
-                // if r != self.oldReads || w != self.oldWrites {
-
-                print("r = \(r) w = \(w)")
-                let rkb = Int(Double(r) / 1024.0)
-                let wkb = Int(Double(w) / 1024.0)
-
-                self.readPanel.heading = "\(rkb) KB"
-                self.readPanel.subHeading = "Read"
-                self.writePanel.heading = "\(wkb) KB"
-                self.writePanel.subHeading = "Written"
-                let dr = r - self.oldReads; self.oldReads = r
-                let dw = w - self.oldWrites; self.oldWrites = w
-
-                self.readPanel.model.add(dr > 0 ? 1.0 : 0.0, nil)
-                self.writePanel.model.add(dw > 0 ? 1.0 : 0.0, nil)
-            }
+            Task { @MainActor in self.refresh() }
         }
     }
 
@@ -102,9 +73,19 @@ class VolumeCanvasViewController: CanvasViewController {
         info = app.manager.info(device: device, volume: volume)
         guard let info = info else { return }
 
+        let r = app.manager.proxy(device: self.device)?.bytesRead(volume) ?? 0
+        let w = app.manager.proxy(device: self.device)?.bytesWritten(volume) ?? 0
+        let rkb = Int(Double(r) / 1024.0)
+        let wkb = Int(Double(w) / 1024.0)
+
         icon.image = info.icon()
         mainTitle.stringValue = info.mountPoint
-        subTitle1.stringValue = "\(info.blocks) block"
-        subTitle2.stringValue = "\(info.fill)% full"
+        subTitle1.stringValue = info.capacityString
+        subTitle2.stringValue = ""
+        subTitle3.stringValue = ""
+
+        readInfo.stringValue = "\(rkb) KB"
+        writeInfo.stringValue = "\(wkb) KB"
+        fillInfo.stringValue = info.fillString
     }
 }
