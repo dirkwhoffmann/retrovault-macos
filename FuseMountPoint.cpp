@@ -63,7 +63,7 @@ FuseMountPoint::mount(const fs::path &mp)
 
             printf("mp.c_str() = %s\n", mountPoint.c_str());
 
-            channel = fuse_mount(mountPoint.c_str(), &args);
+            fuse_chan *channel = fuse_mount(mountPoint.c_str(), &args);
             if (!channel) {
 
                 printf("Channel is null\n");
@@ -81,7 +81,6 @@ FuseMountPoint::mount(const fs::path &mp)
             printf("Launching fuse loop...\n");
             fuse_loop(gateway);
 
-
             // Remove the mount point
             printf("Unmouting %s\n", mountPoint.c_str());
             fuse_unmount(mountPoint.c_str(), channel);
@@ -98,6 +97,8 @@ FuseMountPoint::mount(const fs::path &mp)
         }
     });
 
+    // fuseThread.detach();
+    
     /*
      std::vector<std::string> params = {
 
@@ -132,13 +133,15 @@ FuseMountPoint::unmount()
         fuse_exit(gateway);
     }
 
+    /*
     printf("Waiting for the thread to terminate...\n");
     if (fuseThread.joinable()) {
 
         // Wait for clean shutdown
         fuseThread.join();
     }
-
+    */
+    
     printf("Done.\n");
 }
 

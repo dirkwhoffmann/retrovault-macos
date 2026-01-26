@@ -391,7 +391,12 @@ using namespace utl;
     catch (Error &error) { [ex save:error]; }
 }
 
-- (void)unmount
+- (void)unmount:(NSInteger)volume
+{
+    [self adapter]->unmount(volume);
+}
+
+- (void)unmountAll
 {
     [self adapter]->unmount();
 }

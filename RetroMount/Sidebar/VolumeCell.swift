@@ -24,6 +24,7 @@ class VolumeCell: TableCell {
         update()
     }
 
+    /*
     var shaderSetting: Volume! {
 
         didSet {
@@ -33,7 +34,8 @@ class VolumeCell: TableCell {
     }
 
     var value: Float! { didSet { update() } }
-
+    */
+    
     func update() {
 
         let info = app.manager.info(device: device, volume: volume)
@@ -45,5 +47,9 @@ class VolumeCell: TableCell {
     @IBAction func unmountAction(_ sender: NSButton) {
 
         print("unmountAction")
+        app.manager.unmount(device: device, volume: volume)
+        print("Unmounted")
+        
+        outlineView.reloadData()
     }
 }

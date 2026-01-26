@@ -18,7 +18,6 @@ class FuseMountPoint {
 
     std::thread fuseThread;
     struct fuse *gateway = nullptr;
-    fuse_chan *channel = nullptr;
 
     fs::path mountPoint;
 

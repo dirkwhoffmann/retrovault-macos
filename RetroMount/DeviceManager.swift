@@ -276,16 +276,22 @@ class DeviceManager {
         } catch { print("Error launching DeviceManager: \(error)") }
     }
 
+    /*
     func unmount(proxy: FuseDeviceProxy) {
 
         proxy.unmount()
         devices.removeAll { $0 === proxy }
     }
-
+    */
+    func unmount(device: Int, volume: Int) {
+     
+        devices[device].unmount(volume)
+    }
+    
     func unmountAll() {
 
-        print("Unmounting all...")
-        devices.forEach { unmount(proxy: $0) }
+        print("Unmounting all devices...")
+        for device in devices { device.unmountAll() }
         devices.removeAll()
     }
 }

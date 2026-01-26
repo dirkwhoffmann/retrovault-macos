@@ -894,6 +894,7 @@ DQ
                                                                 </button>
                                                             </subviews>
                                                             <connections>
+                                                                <outlet property="controller" destination="W61-1Q-cxU" id="QoF-u2-3RO"/>
                                                                 <outlet property="imageView" destination="uLZ-xQ-a7s" id="Qa7-Yp-PJn"/>
                                                                 <outlet property="syncButton" destination="G7J-yd-lnH" id="luO-n5-3IE"/>
                                                                 <outlet property="textField" destination="N0J-hm-uFo" id="LRS-1i-1z1"/>
@@ -930,6 +931,7 @@ DQ
                                                                 </button>
                                                             </subviews>
                                                             <connections>
+                                                                <outlet property="controller" destination="W61-1Q-cxU" id="qn3-JY-HIB"/>
                                                                 <outlet property="imageView" destination="VNA-Kf-rft" id="442-Tk-GZC"/>
                                                                 <outlet property="textField" destination="Mal-dO-y8C" id="pkg-8a-bjI"/>
                                                                 <outlet property="unmountButton" destination="5cl-cs-cfE" id="WnG-X4-9tE"/>

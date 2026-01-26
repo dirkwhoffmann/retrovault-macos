@@ -98,14 +98,18 @@ void
 FuseDevice::unmount(isize partition)
 {
     assert(partition >= 0 && partition < volumes.size());
+
+    // Unmount the volume
     volumes[partition]->unmount();
+
+    // Remove it from the vector
+    volumes.erase(volumes.begin() + partition);
 }
 
 void
 FuseDevice::unmount()
 {
-    for (isize i = 0; i < volumes.size(); i++)
-        unmount(i);
+    while (!volumes.empty()) { unmount(0); }
 }
 
 FSPosixStat
