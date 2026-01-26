@@ -300,6 +300,11 @@ using namespace utl;
     return [self adapter]->image->numBlocks();
 }
 
+- (NSInteger)bsize
+{
+    return [self adapter]->image->bsize();
+}
+
 - (NSInteger)numBytes
 {
     return [self adapter]->image->numBytes();

@@ -79,6 +79,17 @@ class DeviceCanvasViewController: CanvasViewController {
         mainTitle.stringValue = info.name
         subTitle1.stringValue = info.description
         subTitle2.stringValue = info.capacityString
+        subTitle3.stringValue = ""
+
+        cylindersInfo.stringValue = String(format: "%d", info.numCyls)
+        headsInfo.stringValue = String(format: "%d", info.numHeads)
+        sectorsInfo.stringValue = String(format: "%d", info.minSectors)
+        if info.minSectors != info.maxSectors {
+            sectorsInfo.stringValue += String(format: " - %d", info.maxSectors)
+        }
+        blocksInfo.stringValue = String(format: "%d", info.numBlocks)
+        bsizeInfo.stringValue = String(format: "%d", info.bsize)
+        capacityInfo.stringValue = info.capacityString
 
         refreshSelection()
     }

@@ -9,11 +9,27 @@
 
 class DeviceInfo {
 
+    // Name
     var name = ""
-    var numBytes = 0
+
+    // Capacity information
+    var numBlocks = 0
+    var bsize = 0
+
+    // Layout
+    var numCyls = 0
+    var numHeads = 0
+    var minSectors = 0
+    var maxSectors = 0
+
+    // Volumes
     var numPartitions = 0
+
+    // Image
     var info = ImageInfo.init()
 
+    var numTracks: Int { return numCyls * numHeads }
+    var numBytes: Int { return numBlocks * bsize }
     var kb: Double { return Double(numBytes) / Double(1024); }
     var mb: Double { return kb / Double(1024); }
     var gb: Double { return mb / Double(1024); }
@@ -34,7 +50,7 @@ class DeviceInfo {
             return ""
         }
 
-        return name + " (" + capacityString + ")"
+        return name // + " (" + capacityString + ")"
     }
 
     var capacityString: String {
@@ -162,11 +178,19 @@ class DeviceManager {
     func info(device: Int) -> DeviceInfo {
 
         let result = DeviceInfo.init()
+        let dev = devices[device]
 
-        result.name = devices[device].url?.lastPathComponent ?? ""
-        result.numBytes = devices[device].numBytes
-        result.numPartitions = devices[device].numVolumes
-        result.info = devices[device].info
+        result.name = dev.url?.lastPathComponent ?? ""
+
+        result.numBlocks = dev.numBlocks
+        result.bsize = dev.bsize
+
+        result.numCyls = dev.numCyls
+        result.numHeads = dev.numHeads
+        result.minSectors = dev.numSectors(0)
+        result.maxSectors = dev.numSectors(dev.numTracks - 1)
+        result.numPartitions = dev.numVolumes
+        result.info = dev.info
 
         return result
     }

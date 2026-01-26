@@ -121,6 +121,7 @@ inline const char *c_str(const std::string &s)
 -(NSInteger)numSectors:(NSInteger)c head:(NSInteger)h;
 @property (readonly) NSInteger numTracks;
 @property (readonly) NSInteger numBlocks;
+@property (readonly) NSInteger bsize;
 @property (readonly) NSInteger numBytes;
 @property (readonly) NSInteger numVolumes;
 
