@@ -70,10 +70,21 @@ class VolumeCanvasViewController: CanvasViewController {
                 let r = app.manager.proxy(device: self.device)?.bytesRead(volume) ?? 0
                 let w = app.manager.proxy(device: self.device)?.bytesWritten(volume) ?? 0
 
+                // if r != self.oldReads || w != self.oldWrites {
+
+                print("r = \(r) w = \(w)")
+                let rkb = Int(Double(r) / 1024.0)
+                let wkb = Int(Double(w) / 1024.0)
+
+                self.readPanel.heading = "\(rkb) KB"
+                self.readPanel.subHeading = "Read"
+                self.writePanel.heading = "\(wkb) KB"
+                self.writePanel.subHeading = "Written"
                 let dr = r - self.oldReads; self.oldReads = r
                 let dw = w - self.oldWrites; self.oldWrites = w
 
                 self.readPanel.model.add(dr > 0 ? 1.0 : 0.0, nil)
+                self.writePanel.model.add(dw > 0 ? 1.0 : 0.0, nil)
             }
         }
     }

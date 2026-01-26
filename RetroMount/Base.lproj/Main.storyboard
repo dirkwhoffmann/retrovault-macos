@@ -1616,12 +1616,12 @@ DQ
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="LvM-BF-7Zm">
-                                <rect key="frame" x="33" y="269" width="677" height="5"/>
+                                <rect key="frame" x="152" y="435" width="558" height="5"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                             </box>
                             <textField focusRingType="none" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="96M-1g-UT3">
-                                <rect key="frame" x="31" y="278" width="431" height="16"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <rect key="frame" x="150" y="444" width="562" height="16"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Lorem ipsum" id="13N-NC-ZEq">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -1629,7 +1629,7 @@ DQ
                                 </textFieldCell>
                             </textField>
                             <textField focusRingType="none" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UUY-HU-dfm">
-                                <rect key="frame" x="31" y="228" width="436" height="14"/>
+                                <rect key="frame" x="150" y="394" width="436" height="14"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" controlSize="small" sendsActionOnEndEditing="YES" alignment="left" title="Lorem ipsum" id="F35-Lh-6tM">
                                     <font key="font" metaFont="smallSystem"/>
@@ -1638,7 +1638,7 @@ DQ
                                 </textFieldCell>
                             </textField>
                             <textField focusRingType="none" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CX0-DG-jTA">
-                                <rect key="frame" x="31" y="210" width="436" height="14"/>
+                                <rect key="frame" x="150" y="376" width="436" height="14"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" controlSize="small" sendsActionOnEndEditing="YES" alignment="left" title="Lorem ipsum" id="kqy-TU-uk6">
                                     <font key="font" metaFont="smallSystem"/>
@@ -1647,7 +1647,7 @@ DQ
                                 </textFieldCell>
                             </textField>
                             <textField focusRingType="none" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="flJ-a0-4w2">
-                                <rect key="frame" x="31" y="246" width="436" height="14"/>
+                                <rect key="frame" x="150" y="412" width="436" height="14"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <textFieldCell key="cell" controlSize="small" sendsActionOnEndEditing="YES" alignment="left" title="Lorem ipsum" id="RMz-t1-AnT">
                                     <font key="font" metaFont="smallSystem"/>
@@ -1656,20 +1656,34 @@ DQ
                                 </textFieldCell>
                             </textField>
                             <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8VF-gr-QdA" userLabel="Icon">
-                                <rect key="frame" x="269" y="299" width="112" height="112"/>
+                                <rect key="frame" x="17" y="351" width="112" height="112"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="proportionallyDown" imageFrameStyle="grayBezel" image="dd_adf" id="XMn-Qf-OBb"/>
                             </imageView>
-                            <box fixedFrame="YES" title="Box" translatesAutoresizingMaskIntoConstraints="NO" id="saI-c3-wrx">
-                                <rect key="frame" x="78" y="61" width="294" height="135"/>
+                            <box fixedFrame="YES" title="Box" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="8Rh-pP-E6h">
+                                <rect key="frame" x="446" y="187" width="264" height="130"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <view key="contentView" id="QyU-Xx-hZ7">
+                                    <rect key="frame" x="0.0" y="0.0" width="264" height="130"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eHo-6t-LPd" customClass="ReadPanel" customModule="RetroMount" customModuleProvider="target">
+                                            <rect key="frame" x="0.0" y="0.0" width="264" height="130"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                        </customView>
+                                    </subviews>
+                                </view>
+                            </box>
+                            <box fixedFrame="YES" title="Box" titlePosition="noTitle" translatesAutoresizingMaskIntoConstraints="NO" id="saI-c3-wrx">
+                                <rect key="frame" x="152" y="182" width="263" height="135"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <view key="contentView" id="ucf-oh-zEg">
-                                    <rect key="frame" x="0.0" y="0.0" width="294" height="123"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="263" height="135"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zho-pa-lPq" customClass="ReadPanel" customModule="RetroMount" customModuleProvider="target">
-                                            <rect key="frame" x="20" y="14" width="254" height="96"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="263" height="135"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         </customView>
                                     </subviews>
                                 </view>
@@ -1681,10 +1695,11 @@ DQ
                     <connections>
                         <outlet property="icon" destination="8VF-gr-QdA" id="GND-Ml-Cex"/>
                         <outlet property="mainTitle" destination="96M-1g-UT3" id="enX-rk-3f6"/>
-                        <outlet property="readPanel" destination="zho-pa-lPq" id="UfA-gl-o1e"/>
+                        <outlet property="readPanel" destination="zho-pa-lPq" id="mET-pf-Hkn"/>
                         <outlet property="subTitle1" destination="flJ-a0-4w2" id="neu-hl-aDb"/>
                         <outlet property="subTitle2" destination="UUY-HU-dfm" id="Pls-77-Kqb"/>
                         <outlet property="subTitle3" destination="CX0-DG-jTA" id="K2b-IG-ni8"/>
+                        <outlet property="writePanel" destination="eHo-6t-LPd" id="ObW-OM-5YB"/>
                     </connections>
                 </viewController>
                 <customObject id="nrx-Bi-cFe" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
