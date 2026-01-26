@@ -117,6 +117,8 @@
 		5097DD932F24DC1D00738B5A /* InfoCanvasViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5097DD922F24DC1500738B5A /* InfoCanvasViewController.swift */; };
 		5097DD952F24DC2900738B5A /* VolumeCanvasViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5097DD942F24DC2900738B5A /* VolumeCanvasViewController.swift */; };
 		50AB50B82F23E1F900BFBA99 /* LaunchInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50AB50B72F23E1F300BFBA99 /* LaunchInfoViewController.swift */; };
+		50BA779E2F27A5610033788D /* DashboardPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BA779D2F27A55A0033788D /* DashboardPanel.swift */; };
+		50BA77A02F27A5790033788D /* DashboardDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BA779F2F27A5740033788D /* DashboardDataProvider.swift */; };
 		50BCBDFA2EEBF79B000C53CF /* FuseDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50BCBDF92EEBF798000C53CF /* FuseDevice.cpp */; };
 		50CD7A1F2F2571B6007E5803 /* MySplitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CD7A1E2F2571B1007E5803 /* MySplitView.swift */; };
 		50CD7A212F2605CC007E5803 /* VolumeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CD7A202F2605CA007E5803 /* VolumeCell.swift */; };
@@ -404,6 +406,8 @@
 		5097DD922F24DC1500738B5A /* InfoCanvasViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoCanvasViewController.swift; sourceTree = "<group>"; };
 		5097DD942F24DC2900738B5A /* VolumeCanvasViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VolumeCanvasViewController.swift; sourceTree = "<group>"; };
 		50AB50B72F23E1F300BFBA99 /* LaunchInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchInfoViewController.swift; sourceTree = "<group>"; };
+		50BA779D2F27A55A0033788D /* DashboardPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardPanel.swift; sourceTree = "<group>"; };
+		50BA779F2F27A5740033788D /* DashboardDataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardDataProvider.swift; sourceTree = "<group>"; };
 		50BCBDC22EE866B0000C53CF /* config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
 		50BCBDF82EEBF791000C53CF /* FuseDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FuseDevice.h; sourceTree = "<group>"; };
 		50BCBDF92EEBF798000C53CF /* FuseDevice.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FuseDevice.cpp; sourceTree = "<group>"; };
@@ -1048,6 +1052,7 @@
 				50CD7A1E2F2571B1007E5803 /* MySplitView.swift */,
 				50900C232F1E729A00A4A81B /* Sidebar */,
 				5097DD912F24DC0C00738B5A /* CanvasControllers */,
+				50BA77A12F27AD7A0033788D /* Dashboard */,
 				50900C2E2F1E729A00A4A81B /* Volume.swift */,
 				50900C292F1E729A00A4A81B /* Info.plist */,
 				50900C2C2F1E729A00A4A81B /* Main.storyboard */,
@@ -1066,6 +1071,15 @@
 				5097DD942F24DC2900738B5A /* VolumeCanvasViewController.swift */,
 			);
 			path = CanvasControllers;
+			sourceTree = "<group>";
+		};
+		50BA77A12F27AD7A0033788D /* Dashboard */ = {
+			isa = PBXGroup;
+			children = (
+				50BA779F2F27A5740033788D /* DashboardDataProvider.swift */,
+				50BA779D2F27A55A0033788D /* DashboardPanel.swift */,
+			);
+			path = Dashboard;
 			sourceTree = "<group>";
 		};
 		50D89C6D2F1E7C7B00ECC73D /* xdms */ = {
@@ -1214,6 +1228,7 @@
 				50D89C7A2F1E7C7B00ECC73D /* crc_csum.c in Sources */,
 				50D89C7B2F1E7C7B00ECC73D /* _old_pfile.c in Sources */,
 				50D89C7C2F1E7C7B00ECC73D /* u_heavy.c in Sources */,
+				50BA779E2F27A5610033788D /* DashboardPanel.swift in Sources */,
 				50D89C7D2F1E7C7B00ECC73D /* tables.c in Sources */,
 				50D89C7E2F1E7C7B00ECC73D /* maketbl.c in Sources */,
 				50CD7A1F2F2571B6007E5803 /* MySplitView.swift in Sources */,
@@ -1232,6 +1247,7 @@
 				50900B202F1E726D00A4A81B /* Strings.cpp in Sources */,
 				50900B212F1E726D00A4A81B /* Streams.cpp in Sources */,
 				504EAD2D2ECF0266008CF9FC /* FuseMountPoint.cpp in Sources */,
+				50BA77A02F27A5790033788D /* DashboardDataProvider.swift in Sources */,
 				5077249F2ECFA78E00DB04C5 /* FuseDebug.cpp in Sources */,
 				50BCBDFA2EEBF79B000C53CF /* FuseDevice.cpp in Sources */,
 				507724A62ED0843800DB04C5 /* FuseVolume.cpp in Sources */,

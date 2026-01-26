@@ -1,5 +1,5 @@
 // -----------------------------------------------------------------------------
-// This file is part of vMount
+// This file is part of RetroMount
 //
 // Copyright (C) Dirk W. Hoffmann. www.dirkwhoffmann.de
 // Licensed under the Mozilla Public License v2
@@ -65,6 +65,9 @@ public:
     FUSE_UTIMENS  override;
 
     FSPosixStat stat();
+
+    i64 reads() const { return vol->reads; }
+    i64 writes() const { return vol->writes; }
 
 private:
 

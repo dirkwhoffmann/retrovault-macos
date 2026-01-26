@@ -1660,6 +1660,20 @@ DQ
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="proportionallyDown" imageFrameStyle="grayBezel" image="dd_adf" id="XMn-Qf-OBb"/>
                             </imageView>
+                            <box fixedFrame="YES" title="Box" translatesAutoresizingMaskIntoConstraints="NO" id="saI-c3-wrx">
+                                <rect key="frame" x="78" y="61" width="294" height="135"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <view key="contentView" id="ucf-oh-zEg">
+                                    <rect key="frame" x="0.0" y="0.0" width="294" height="123"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <customView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zho-pa-lPq" customClass="ReadPanel" customModule="RetroMount" customModuleProvider="target">
+                                            <rect key="frame" x="20" y="14" width="254" height="96"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        </customView>
+                                    </subviews>
+                                </view>
+                            </box>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="ad6-cN-UvM"/>
                         <viewLayoutGuide key="layoutMargins" id="K8H-lV-S9f"/>
@@ -1667,6 +1681,7 @@ DQ
                     <connections>
                         <outlet property="icon" destination="8VF-gr-QdA" id="GND-Ml-Cex"/>
                         <outlet property="mainTitle" destination="96M-1g-UT3" id="enX-rk-3f6"/>
+                        <outlet property="readPanel" destination="zho-pa-lPq" id="UfA-gl-o1e"/>
                         <outlet property="subTitle1" destination="flJ-a0-4w2" id="neu-hl-aDb"/>
                         <outlet property="subTitle2" destination="UUY-HU-dfm" id="Pls-77-Kqb"/>
                         <outlet property="subTitle3" destination="CX0-DG-jTA" id="K2b-IG-ni8"/>

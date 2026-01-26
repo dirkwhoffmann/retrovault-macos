@@ -1,5 +1,5 @@
 // -----------------------------------------------------------------------------
-// This file is part of RetroVisor
+// This file is part of RetroMount
 //
 // Copyright (C) Dirk W. Hoffmann. www.dirkwhoffmann.de
 // Licensed under the GNU General Public License v3
@@ -94,6 +94,17 @@ extension NSFont {
         } else {
             return NSFont.systemFont(ofSize: fontSize)
         }
+    }
+}
+
+extension NSColor {
+
+    convenience init(r: Int, g: Int, b: Int, a: Int = 255) {
+
+        self.init(red: CGFloat(r) / 255,
+                  green: CGFloat(g) / 255,
+                  blue: CGFloat(b) / 255,
+                  alpha: CGFloat(a) / 255)
     }
 }
 

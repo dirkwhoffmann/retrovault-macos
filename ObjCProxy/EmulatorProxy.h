@@ -1,5 +1,5 @@
 // -----------------------------------------------------------------------------
-// This file is part of vAmiga
+// This file is part of RetroMount
 //
 // Copyright (C) Dirk W. Hoffmann. www.dirkwhoffmann.de
 // Licensed under the GNU General Public License v3
@@ -144,5 +144,8 @@ inline const char *c_str(const std::string &s)
 
 - (NSString *)mountPoint:(NSInteger)volume;
 - (FSPosixStat)stat:(NSInteger)volume;
+
+- (NSInteger)bytesRead:(NSInteger)volume;
+- (NSInteger)bytesWritten:(NSInteger)volume;
 
 @end

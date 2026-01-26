@@ -25,6 +25,17 @@ class Volume : public BlockDevice {
 
 public:
 
+    // Access statistics (transferred bytes)
+    mutable i64 reads = 0;
+    mutable i64 writes = 0;
+
+
+    //
+    // Methods
+    //
+
+public:
+
     Volume(BlockDevice &d);
     Volume(BlockDevice &d, Range<isize> partition);
     virtual ~Volume() = default;

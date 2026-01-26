@@ -1,5 +1,5 @@
 // -----------------------------------------------------------------------------
-// This file is part of vAmiga
+// This file is part of RetroMount
 //
 // Copyright (C) Dirk W. Hoffmann. www.dirkwhoffmann.de
 // Licensed under the GNU General Public License v3
@@ -409,6 +409,16 @@ using namespace utl;
 - (FSPosixStat)stat:(NSInteger)volume
 {
     return [self adapter]->stat(volume);
+}
+
+- (NSInteger)bytesRead:(NSInteger)volume
+{
+    return [self adapter]->getVolume(volume).reads();
+}
+
+- (NSInteger)bytesWritten:(NSInteger)volume
+{
+    return [self adapter]->getVolume(volume).writes();
 }
 
 @end
