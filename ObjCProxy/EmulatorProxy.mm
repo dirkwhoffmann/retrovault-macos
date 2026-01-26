@@ -340,6 +340,19 @@ using namespace utl;
     return [self adapter]->image->bindex(TrackDevice::CHS(c,h,s));
 }
 
+-(NSInteger)readByte:(NSInteger)offset
+{
+    return [self adapter]->image->readByte(offset);
+}
+
+-(NSInteger)readByte:(NSInteger)offset from:(NSInteger)block
+{
+    auto bsize = [self adapter]->image->bsize();
+    assert(offset >= 0 && offset < bsize);
+
+    return [self readByte: block * bsize + offset];
+}
+
 - (void)mount:(NSURL *)mountpoint exception:(ExceptionWrapper *)ex
 {
     try { [self adapter]->mount([mountpoint fileSystemRepresentation]); }

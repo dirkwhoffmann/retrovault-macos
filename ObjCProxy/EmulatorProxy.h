@@ -131,6 +131,9 @@ inline const char *c_str(const std::string &s)
 -(NSInteger)ts2b:(NSInteger)t s:(NSInteger)s;
 -(NSInteger)chs2b:(NSInteger)c h:(NSInteger)h s:(NSInteger)s;
 
+-(NSInteger)readByte:(NSInteger)offset;
+-(NSInteger)readByte:(NSInteger)offset from:(NSInteger)block;
+
 - (void)mount:(NSURL *)url exception:(ExceptionWrapper *)ex;
 - (void)unmount;
 - (void)setListener:(const void *)listener function:(AdapterCallback *)func;

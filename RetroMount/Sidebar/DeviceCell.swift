@@ -34,21 +34,6 @@ class DeviceCell: TableCell {
 
     }
 
-    /*
-    @IBAction func disclosureAction(_ sender: NSButton) {
-
-        print("disclosureAction")
-
-        if sender.state == .on {
-            outlineView.expandItem(device)
-        } else {
-            outlineView.collapseItem(device)
-        }
-
-        outlineView.reloadData()
-    }
-    */
-
     @IBAction func syncAction(_ sender: NSButton) {
 
         print("syncAction")

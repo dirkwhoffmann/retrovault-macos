@@ -27,6 +27,7 @@ class SidebarViewController: NSViewController {
         outlineView.intercellSpacing = NSSize(width: 0, height: 2)
         outlineView.backgroundColor = .clear
         outlineView.usesAlternatingRowBackgroundColors = false
+        outlineView.doubleAction = #selector(doubleClicked(_:))
         outlineView.reloadData()
 
         expandAll()
@@ -52,6 +53,19 @@ class SidebarViewController: NSViewController {
     @IBAction func okAction(_ sender: NSButton) {
 
         view.window?.close()
+    }
+
+    @objc private func doubleClicked(_ sender: Any?) {
+
+        let row = outlineView.clickedRow
+        guard row >= 0 else { return }
+
+        if let (dev, vol) = outlineView.item(atRow: row) as? (Int, Int) {
+
+            let info = app.manager.info(device: dev, volume: vol)
+            let url = URL(fileURLWithPath: info.mountPoint)
+            NSWorkspace.shared.open(url)
+        }
     }
 }
 

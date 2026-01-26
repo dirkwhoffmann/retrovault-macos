@@ -101,15 +101,20 @@ class DeviceCanvasViewController: CanvasViewController {
     // Helper methods
     //
 
+    func clamp(_ value: Int, to range: Range<Int>) -> Int {
+
+        return max(range.lowerBound, min(value, range.upperBound - 1))
+    }
+
     func setCylinder(_ newValue: Int) {
 
         if newValue != currentCyl {
 
-            let value = max(0, min(newValue, upperCyl))
+            let value = clamp(newValue, to: 0..<upperCyl)
 
             currentCyl      = value
             currentTrack    = 2 * currentCyl + currentHead
-            currentSector   = max(0, min(newValue, numSectors(track: currentTrack)))
+            currentSector   = clamp(currentSector, to: 0..<upperSector(track: currentTrack))
             currentBlock    = proxy?.chs2b(currentCyl, h: currentHead, s: currentSector) ?? 0
 
             refreshSelection()
@@ -120,11 +125,11 @@ class DeviceCanvasViewController: CanvasViewController {
 
         if newValue != currentHead {
 
-            let value = max(0, min(newValue, upperHead))
+            let value = clamp(newValue, to: 0..<upperHead)
 
             currentHead     = value
             currentTrack    = 2 * currentCyl + currentHead
-            currentSector   = max(0, min(newValue, numSectors(track: currentTrack)))
+            currentSector   = clamp(currentSector, to: 0..<upperSector(track: currentTrack))
             currentBlock    = proxy?.chs2b(currentCyl, h: currentHead, s: currentSector) ?? 0
 
             refreshSelection()
@@ -135,10 +140,10 @@ class DeviceCanvasViewController: CanvasViewController {
 
         if newValue != currentTrack {
 
-            let value = max(0, min(newValue, upperTrack))
+            let value = clamp(newValue, to: 0..<upperTrack)
 
             currentTrack    = value
-            currentSector   = max(0, min(newValue, numSectors(track: currentTrack)))
+            currentSector   = clamp(currentSector, to: 0..<upperSector(track: currentTrack))
             currentCyl      = currentTrack / 2
             currentHead     = currentTrack % 2
             currentBlock    = proxy?.chs2b(currentCyl, h: currentHead, s: currentSector) ?? 0
@@ -151,7 +156,7 @@ class DeviceCanvasViewController: CanvasViewController {
 
         if newValue != currentSector {
 
-            let value = max(0, min(newValue, upperSector(track: currentTrack)))
+            let value = clamp(newValue, to: 0..<upperSector(track: currentTrack))
 
             currentSector   = value
             currentBlock    = proxy?.chs2b(currentCyl, h: currentHead, s: currentSector) ?? 0
@@ -164,7 +169,7 @@ class DeviceCanvasViewController: CanvasViewController {
 
         if newValue != currentBlock {
 
-            let value = max(0, min(newValue, upperBlock))
+            let value = clamp(newValue, to: 0..<upperBlock)
 
             currentBlock    = value
             currentTrack    = proxy?.b2t(currentBlock) ?? 0
@@ -228,5 +233,52 @@ class DeviceCanvasViewController: CanvasViewController {
     @IBAction func blockStepperAction(_ sender: NSStepper!) {
 
         setBlock(sender.integerValue)
+    }
+}
+
+//
+// Extensions
+//
+
+@MainActor
+extension DeviceCanvasViewController: NSTableViewDataSource {
+
+    func columnNr(_ column: NSTableColumn?) -> Int? {
+
+        return column == nil ? nil : Int(column!.identifier.rawValue)
+    }
+
+    func numberOfRows(in tableView: NSTableView) -> Int {
+
+        return 512 / 16
+    }
+
+    func tableView(_ tableView: NSTableView,
+                   objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
+
+        switch tableColumn?.identifier.rawValue {
+
+        case "Offset":
+            return String(format: "%X", row)
+
+        case "Ascii":
+            return "Holla, die Waldfee" // decoder?.asciidump(currentBlock, offset: row * 16, len: 16) ?? ""
+
+        default:
+            let col = columnNr(tableColumn)!
+            if let byte = proxy?.readByte(col, from: currentBlock) {
+                return String(format: "%02X", byte)
+            } else {
+                return "--"
+            }
+        }
+    }
+}
+
+@MainActor
+extension DeviceCanvasViewController: NSTableViewDelegate {
+
+    func tableView(_ tableView: NSTableView, shouldSelectRow row: Int) -> Bool {
+        return false
     }
 }

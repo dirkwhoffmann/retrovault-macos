@@ -1290,6 +1290,10 @@ DQ
                                                     <tableColumnResizingMask key="resizingMask" userResizable="YES"/>
                                                 </tableColumn>
                                             </tableColumns>
+                                            <connections>
+                                                <outlet property="dataSource" destination="sng-Qs-DgF" id="ECj-V7-MUp"/>
+                                                <outlet property="delegate" destination="sng-Qs-DgF" id="muu-zD-vbg"/>
+                                            </connections>
                                         </tableView>
                                     </subviews>
                                 </clipView>
