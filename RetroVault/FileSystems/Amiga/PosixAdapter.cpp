@@ -140,7 +140,7 @@ PosixAdapter::open(const fs::path &path, u32 flags)
     auto node = fs.seek(path);
 
     // Create a unique identifier
-    auto ref = HandleRef { isize(nextHandle) + 1 };
+    auto ref = HandleRef { ++nextHandle };
 
     // Create a new file handle
     handles[ref] = Handle {

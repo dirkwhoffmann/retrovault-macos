@@ -454,6 +454,7 @@ FileSystem::replace(BlockNr fhb,
     // Start with a clean reference area
     fhbNode.setNextListBlockRef(0);
     fhbNode.setNextDataBlockRef(0);
+    fhbNode.setNumDataBlockRefs(0);
     for (isize i = 0; i < numRefs; i++) fhbNode.setDataBlockRef(i, 0);
 
     // Set file size
