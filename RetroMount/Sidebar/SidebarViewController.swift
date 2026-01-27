@@ -71,44 +71,26 @@ class SidebarViewController: NSViewController {
         }
     }
         
-    func unmount(device: Int, volume: Int) {
+    func unmount(item: TableItem) {
         
-        /*
-        print("unmountAction: \(device) \(volume)")
-        
-        // Remember the current selection (if any)
-        let (selDev, selVol) = deviceAndVolume()
-        print("selDev = \(selDev) selVol = \(selVol)")
-
         // Remove the device from the model
-        app.manager.unmount(device: device, volume: volume)
-        print("Unmounted")
+        app.manager.unmount(item: item)
 
         // Update the outline view
         outlineView.reloadData()
 
-        // Check if the previously selected item is still there
+        // Select another device
+        // selectionHandler!(app.manager.count > 0 ? 0 : nil, nil)
         
-        let row = outlineView.row(forItem: newDevice)
-        
-        
-        let newDevice = min(device, app.manager.count - 1)
-        print("newDevice = \(newDevice)")
-        if newDevice >= 0 {
-            selectionHandler!(newDevice, nil)
+        if outlineView.numberOfRows > 0 {
+            
+            outlineView.selectRowIndexes(IndexSet(integer: 0), byExtendingSelection: false)
+            outlineView.scrollRowToVisible(0)
+
         } else {
+            
             selectionHandler!(nil, nil)
         }
-        
-        // Find item in the outline view
-        let row = outlineView.row(forItem: newDevice)
-        print("New row in outline view: \(row)")
-        
-        // Select new row
-        outlineView.selectRowIndexes(IndexSet(integer: row),
-                                     byExtendingSelection: false)
-        outlineView.scrollRowToVisible(row)
-        */
     }
 }
 
@@ -116,7 +98,6 @@ extension SidebarViewController: NSOutlineViewDataSource {
 
     func outlineView(_ outlineView: NSOutlineView, numberOfChildrenOfItem item: Any?) -> Int {
 
-        print("item = \(item)")
         if let item = item as? TableItem {
             return item.isDevice ? manager.info(device: item.device).numPartitions : 0
         }
@@ -154,14 +135,14 @@ extension SidebarViewController: NSOutlineViewDelegate {
 
             let id = NSUserInterfaceItemIdentifier("DeviceCell")
             let cell = outlineView.makeView(withIdentifier: id, owner: self) as! DeviceCell
-            cell.setup(device: item.device)
+            cell.setup(item: item)
             return cell
 
         } else {
 
             let id = NSUserInterfaceItemIdentifier(rawValue: "VolumeCell")
             let cell = outlineView.makeView(withIdentifier: id, owner: self) as! VolumeCell
-            cell.setup(device: item.device, partition: item.volume!)
+            cell.setup(item: item)
             return cell
         }
     }

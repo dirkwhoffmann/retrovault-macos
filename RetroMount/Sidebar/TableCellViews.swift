@@ -11,11 +11,18 @@ import Cocoa
 
 class TableCell: NSTableCellView {
 
+    var item: TableItem?
+    
+    func setup(item: TableItem) {
+
+        self.item = item
+        update()
+    }
+
     @IBOutlet weak var controller: SidebarViewController!
 
     var outlineView: MyOutlineView { controller.outlineView }
 
-    func updateIcon(expanded: Bool) {
-
-    }
+    func update() { }
+    func updateIcon(expanded: Bool) { }
 }

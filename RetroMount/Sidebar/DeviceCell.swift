@@ -12,19 +12,11 @@ import Cocoa
 class DeviceCell: TableCell {
 
     @IBOutlet weak var syncButton: NSButton!
+    
+    override func update() {
 
-    var device = 0
-
-    func setup(device: Int) {
-
-        self.device = device
-
-        update()
-    }
-
-    func update() {
-
-        let info = app.manager.info(device: device)
+        guard let item = item else { return }
+        let info = app.manager.info(device: item.device)
 
         imageView?.image = info.icon()
         textField?.stringValue = info.name

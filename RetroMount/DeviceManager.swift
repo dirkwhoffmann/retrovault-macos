@@ -276,13 +276,14 @@ class DeviceManager {
         } catch { print("Error launching DeviceManager: \(error)") }
     }
 
-    /*
-    func unmount(proxy: FuseDeviceProxy) {
-
-        proxy.unmount()
-        devices.removeAll { $0 === proxy }
+    func unmount(item: TableItem) {
+        
+        if let volume = item.volume {
+         
+            unmount(device: item.device, volume: volume)
+        }
     }
-    */
+    
     func unmount(device: Int, volume: Int) {
         
         guard devices.indices.contains(device) else { return }

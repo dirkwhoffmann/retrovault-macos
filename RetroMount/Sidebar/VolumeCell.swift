@@ -13,32 +13,26 @@ class VolumeCell: TableCell {
 
     @IBOutlet weak var unmountButton: NSButton!
 
-    var device = 0
-    var volume = 0
+   
+    
+    // var device = 0 // DEPRECATED
+    // var volume = 0 // DEPRECATED
 
+    /*
     func setup(device: Int, partition: Int) {
 
+        self.item = TableItem(device: device, volume: volume)
         self.device = device
         self.volume = partition
 
         update()
     }
-
-    /*
-    var shaderSetting: Volume! {
-
-        didSet {
-
-            update()
-        }
-    }
-
-    var value: Float! { didSet { update() } }
     */
     
-    func update() {
+    override func update() {
 
-        let info = app.manager.info(device: device, volume: volume)
+        guard let item = item else { return }
+        let info = app.manager.info(device: item.device, volume: item.volume!)
 
         imageView?.image = info.icon()
         textField?.stringValue = info.mountPoint
@@ -47,6 +41,6 @@ class VolumeCell: TableCell {
     @IBAction func unmountAction(_ sender: NSButton) {
 
         print("unmountAction")
-        controller.unmount(device: device, volume: volume)
+        if let item = item { controller.unmount(item: item) }
     }
 }
