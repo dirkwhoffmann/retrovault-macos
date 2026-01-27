@@ -56,7 +56,7 @@ FuseDevice::FuseDevice(const fs::path &filename)
 
 FuseDevice::~FuseDevice()
 {
-    printf("Destroying AmigaFileSystem\n");
+    printf("Destroying FuseDevice\n");
 }
 
 void
@@ -99,11 +99,16 @@ FuseDevice::unmount(isize partition)
 {
     assert(partition >= 0 && partition < volumes.size());
 
-    // Unmount the volume
-    volumes[partition]->unmount();
-
-    // Remove it from the vector
+    // Remove the volume from the vector
+    std::unique_ptr<FuseVolume> vol = std::move(volumes[partition]);
     volumes.erase(volumes.begin() + partition);
+    
+    // Unmount the volume asynchroneously
+    std::thread([vol = std::move(vol)]() mutable {
+        
+        vol->unmount();
+        
+    }).detach();
 }
 
 void

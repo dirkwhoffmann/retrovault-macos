@@ -56,6 +56,18 @@ class MySplitViewController: NSSplitViewController {
             self?.showContent()
             self?.current?.set(device: i1, volume: i2)
         }
+        
+        /*
+        sidebarVC?.deletionHandler = { [weak self] (i1,i2) in
+
+            print("Deletion: (\(i1 ?? -1),\(i2 ?? -1))")
+            if let oldRow = self?.sidebarVC?.outlineView.selectedRow {
+                
+            self?.selection = (i1,i2)
+            self?.showContent()
+            self?.current?.set(device: i1, volume: i2)
+        }
+        */
     }
 
     func setCanvasWidth(_ width: CGFloat, animated: Bool = true) {
@@ -99,24 +111,6 @@ class MySplitViewController: NSSplitViewController {
         let newItem = NSSplitViewItem(viewController: current!)
         addSplitViewItem(newItem)
     }
-
-    /*
-    func showContent(title: String) {
-
-        switch title {
-        case "Device": current = deviceVC
-        case "Volume": current = volumeVC
-        default: current = infoVC
-        }
-
-        // Remove the old content pane
-        removeSplitViewItem(splitViewItems[1])
-
-        // Create a new split view item for the new content
-        let newItem = NSSplitViewItem(viewController: current!)
-        addSplitViewItem(newItem)
-    }
-    */
 
     override func splitViewDidResizeSubviews(_ notification: Notification) {
 

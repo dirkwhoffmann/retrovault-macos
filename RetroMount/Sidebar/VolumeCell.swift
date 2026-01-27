@@ -47,9 +47,6 @@ class VolumeCell: TableCell {
     @IBAction func unmountAction(_ sender: NSButton) {
 
         print("unmountAction")
-        app.manager.unmount(device: device, volume: volume)
-        print("Unmounted")
-        
-        outlineView.reloadData()
+        controller.unmount(device: device, volume: volume)
     }
 }

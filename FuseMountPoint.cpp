@@ -127,20 +127,17 @@ FuseMountPoint::unmount()
     printf("FuseAdapter::unmount()\n");
 
     if (gateway) {
-
+        
         printf("Calling fuse_exit...\n");
-        // Signal fuse to exit
         fuse_exit(gateway);
     }
 
-    /*
     printf("Waiting for the thread to terminate...\n");
     if (fuseThread.joinable()) {
 
         // Wait for clean shutdown
         fuseThread.join();
     }
-    */
     
     printf("Done.\n");
 }

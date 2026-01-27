@@ -9,6 +9,15 @@
 
 import Cocoa
 
+struct TableItem {
+
+    var device: Int
+    var volume: Int?
+    
+    var isDevice: Bool { return volume == nil }
+    var isVolume: Bool { return volume != nil }
+}
+
 class SidebarViewController: NSViewController {
 
     @IBOutlet weak var svc: MySplitViewController!
@@ -16,6 +25,7 @@ class SidebarViewController: NSViewController {
 
     var manager: DeviceManager { app.manager }
     var selectionHandler: ((Int?, Int?) -> Void)?
+    var deletionHandler: ((Int?, Int?) -> Void)?
 
     override func viewDidLoad() {
 
@@ -44,28 +54,61 @@ class SidebarViewController: NSViewController {
 
         outlineView.reloadData()
     }
-
-    @IBAction func cancelAction(_ sender: NSButton) {
-
-        view.window?.close()
-    }
-
-    @IBAction func okAction(_ sender: NSButton) {
-
-        view.window?.close()
-    }
-
+    
     @objc private func doubleClicked(_ sender: Any?) {
 
         let row = outlineView.clickedRow
         guard row >= 0 else { return }
 
-        if let (dev, vol) = outlineView.item(atRow: row) as? (Int, Int) {
+        if let item = outlineView.item(atRow: row) as? TableItem {
 
-            let info = app.manager.info(device: dev, volume: vol)
-            let url = URL(fileURLWithPath: info.mountPoint)
-            NSWorkspace.shared.open(url)
+            if let volume = item.volume {
+                
+                let info = app.manager.info(device: item.device, volume: volume)
+                let url = URL(fileURLWithPath: info.mountPoint)
+                NSWorkspace.shared.open(url)
+            }
         }
+    }
+        
+    func unmount(device: Int, volume: Int) {
+        
+        /*
+        print("unmountAction: \(device) \(volume)")
+        
+        // Remember the current selection (if any)
+        let (selDev, selVol) = deviceAndVolume()
+        print("selDev = \(selDev) selVol = \(selVol)")
+
+        // Remove the device from the model
+        app.manager.unmount(device: device, volume: volume)
+        print("Unmounted")
+
+        // Update the outline view
+        outlineView.reloadData()
+
+        // Check if the previously selected item is still there
+        
+        let row = outlineView.row(forItem: newDevice)
+        
+        
+        let newDevice = min(device, app.manager.count - 1)
+        print("newDevice = \(newDevice)")
+        if newDevice >= 0 {
+            selectionHandler!(newDevice, nil)
+        } else {
+            selectionHandler!(nil, nil)
+        }
+        
+        // Find item in the outline view
+        let row = outlineView.row(forItem: newDevice)
+        print("New row in outline view: \(row)")
+        
+        // Select new row
+        outlineView.selectRowIndexes(IndexSet(integer: row),
+                                     byExtendingSelection: false)
+        outlineView.scrollRowToVisible(row)
+        */
     }
 }
 
@@ -73,10 +116,9 @@ extension SidebarViewController: NSOutlineViewDataSource {
 
     func outlineView(_ outlineView: NSOutlineView, numberOfChildrenOfItem item: Any?) -> Int {
 
-        if let item = item as? Int {
-            return manager.info(device: item).numPartitions
-        } else if let _ = item as? (Int, Int) {
-            return 0
+        print("item = \(item)")
+        if let item = item as? TableItem {
+            return item.isDevice ? manager.info(device: item.device).numPartitions : 0
         }
 
         return manager.count
@@ -88,15 +130,16 @@ extension SidebarViewController: NSOutlineViewDataSource {
     }
     func outlineView(_ outlineView: NSOutlineView, isItemExpandable item: Any) -> Bool {
 
-        return item is Int
+        guard let tableItem = item as? TableItem else { return false }
+        return tableItem.isDevice
     }
 
     func outlineView(_ outlineView: NSOutlineView, child index: Int, ofItem item: Any?) -> Any {
 
-        if let dev = item as? Int {
-            return (dev, index)
+        if let item = item as? TableItem {
+            return TableItem(device: item.device, volume: index)
         } else {
-            return index
+            return TableItem(device: index)
         }
     }
 }
@@ -105,30 +148,25 @@ extension SidebarViewController: NSOutlineViewDelegate {
 
     func outlineView(_ outlineView: NSOutlineView, viewFor tableColumn: NSTableColumn?, item: Any) -> NSView? {
 
-        if let device = item as? Int {
-
-            print("outlineView: \(device)")
+        guard let item = item as? TableItem else { return nil }
+        
+        if item.isDevice {
 
             let id = NSUserInterfaceItemIdentifier("DeviceCell")
             let cell = outlineView.makeView(withIdentifier: id, owner: self) as! DeviceCell
-            cell.setup(device: device)
-            return cell
-
-        } else if let (device, volume) = item as? (Int, Int) {
-
-            print("outlineView: \(device), \(volume)")
-
-            let id = NSUserInterfaceItemIdentifier(rawValue: "VolumeCell")
-            let cell = outlineView.makeView(withIdentifier: id, owner: self) as! VolumeCell
-            cell.setup(device: device, partition: volume)
+            cell.setup(device: item.device)
             return cell
 
         } else {
 
-            return nil
+            let id = NSUserInterfaceItemIdentifier(rawValue: "VolumeCell")
+            let cell = outlineView.makeView(withIdentifier: id, owner: self) as! VolumeCell
+            cell.setup(device: item.device, partition: item.volume!)
+            return cell
         }
     }
 
+    
     func outlineViewItemDidExpand(_ notification: Notification) {
 
         guard let item = notification.userInfo?["NSObject"] else { return }
@@ -144,22 +182,17 @@ extension SidebarViewController: NSOutlineViewDelegate {
             cell.view?.updateIcon(expanded: false)
         }
     }
-
+    
+    
     func outlineViewSelectionDidChange(_ notification: Notification) {
 
         let selectedRow = outlineView.selectedRow
-        if selectedRow != -1 {
-            let item = outlineView.item(atRow: selectedRow)
-
-            if let device = item as? Int {
-                print("Device")
-                selectionHandler?(device, nil)
-            }
-            else if let (device, volume) = item as? (Int, Int) {
-                print("Volume")
-                selectionHandler?(device, volume)
+        
+        if selectedRow >= 0 {
+        
+            if let item = outlineView.item(atRow: selectedRow) as? TableItem {
+                selectionHandler?(item.device, item.volume)
             } else {
-                print("No selection")
                 selectionHandler?(nil, nil)
             }
         }

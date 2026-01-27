@@ -284,8 +284,14 @@ class DeviceManager {
     }
     */
     func unmount(device: Int, volume: Int) {
-     
+        
+        guard devices.indices.contains(device) else { return }
+        
         devices[device].unmount(volume)
+        
+        if devices[device].numVolumes == 0 {
+            devices.remove(at: device)
+        }
     }
     
     func unmountAll() {
