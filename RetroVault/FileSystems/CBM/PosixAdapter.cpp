@@ -348,4 +348,10 @@ PosixAdapter::write(HandleRef ref, std::span<const u8> buffer)
     return isize(count);
 }
 
+void
+PosixAdapter::flush()
+{
+    fs.flush();
+}
+
 }

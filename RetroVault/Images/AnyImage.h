@@ -131,6 +131,9 @@ public:
 
 public:
 
+    // Saves the current contents to the stored URL
+    void save() const;
+    
     isize writeToStream(std::ostream &stream) const;
     isize writeToFile(const fs::path &path) const;
 

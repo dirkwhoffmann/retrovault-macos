@@ -117,6 +117,16 @@ FuseDevice::unmount()
     while (!volumes.empty()) { unmount(0); }
 }
 
+void
+FuseDevice::save()
+{
+    // Flush all volumes
+    for (auto &volume: volumes) { volume->flush(); }
+    
+    // Save image
+    image->save();
+}
+
 FSPosixStat
 FuseDevice::stat(isize partition)
 {

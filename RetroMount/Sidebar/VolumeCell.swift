@@ -31,7 +31,6 @@ class VolumeCell: TableCell {
     
     override func update() {
 
-        guard let item = item else { return }
         let info = app.manager.info(device: item.device, volume: item.volume!)
 
         imageView?.image = info.icon()
@@ -41,6 +40,6 @@ class VolumeCell: TableCell {
     @IBAction func unmountAction(_ sender: NSButton) {
 
         print("unmountAction")
-        if let item = item { controller.unmount(item: item) }
+        controller.unmount(item: item)
     }
 }

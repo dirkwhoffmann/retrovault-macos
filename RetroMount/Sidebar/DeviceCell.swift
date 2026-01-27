@@ -15,7 +15,6 @@ class DeviceCell: TableCell {
     
     override func update() {
 
-        guard let item = item else { return }
         let info = app.manager.info(device: item.device)
 
         imageView?.image = info.icon()
@@ -29,5 +28,8 @@ class DeviceCell: TableCell {
     @IBAction func syncAction(_ sender: NSButton) {
 
         print("syncAction")
+        
+        // TODO: Handle error
+        try? proxy?.save()
     }
 }

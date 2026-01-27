@@ -104,7 +104,7 @@
 		50900C0E2F1E727400A4A81B /* EXEFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900BA92F1E727400A4A81B /* EXEFile.cpp */; };
 		50900C0F2F1E727400A4A81B /* D64File.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900B882F1E727400A4A81B /* D64File.cpp */; };
 		50900C302F1E729A00A4A81B /* SidebarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50900C212F1E729A00A4A81B /* SidebarViewController.swift */; };
-		50900C312F1E729A00A4A81B /* TableCellViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50900C222F1E729A00A4A81B /* TableCellViews.swift */; };
+		50900C312F1E729A00A4A81B /* TableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50900C222F1E729A00A4A81B /* TableCell.swift */; };
 		50900C322F1E729A00A4A81B /* Volume.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50900C2E2F1E729A00A4A81B /* Volume.swift */; };
 		50900C332F1E729A00A4A81B /* DeviceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50900C262F1E729A00A4A81B /* DeviceManager.swift */; };
 		50900C342F1E729A00A4A81B /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50900C282F1E729A00A4A81B /* Extensions.swift */; };
@@ -390,7 +390,7 @@
 		50900BCB2F1E727400A4A81B /* Devices.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Devices.h; sourceTree = "<group>"; };
 		50900BCC2F1E727400A4A81B /* Images.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Images.h; sourceTree = "<group>"; };
 		50900C212F1E729A00A4A81B /* SidebarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarViewController.swift; sourceTree = "<group>"; };
-		50900C222F1E729A00A4A81B /* TableCellViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableCellViews.swift; sourceTree = "<group>"; };
+		50900C222F1E729A00A4A81B /* TableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableCell.swift; sourceTree = "<group>"; };
 		50900C242F1E729A00A4A81B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		50900C252F1E729A00A4A81B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		50900C262F1E729A00A4A81B /* DeviceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceManager.swift; sourceTree = "<group>"; };
@@ -1028,7 +1028,7 @@
 			children = (
 				50900C212F1E729A00A4A81B /* SidebarViewController.swift */,
 				504503402F21685E007A7268 /* MyOutlineView.swift */,
-				50900C222F1E729A00A4A81B /* TableCellViews.swift */,
+				50900C222F1E729A00A4A81B /* TableCell.swift */,
 				50CD7A222F2605D7007E5803 /* DeviceCell.swift */,
 				50CD7A202F2605CA007E5803 /* VolumeCell.swift */,
 			);
@@ -1194,7 +1194,7 @@
 				50900B132F1E726D00A4A81B /* Reflectable.cpp in Sources */,
 				50900B142F1E726D00A4A81B /* Hashable.cpp in Sources */,
 				50900C302F1E729A00A4A81B /* SidebarViewController.swift in Sources */,
-				50900C312F1E729A00A4A81B /* TableCellViews.swift in Sources */,
+				50900C312F1E729A00A4A81B /* TableCell.swift in Sources */,
 				50900C322F1E729A00A4A81B /* Volume.swift in Sources */,
 				50900C332F1E729A00A4A81B /* DeviceManager.swift in Sources */,
 				50900C342F1E729A00A4A81B /* Extensions.swift in Sources */,

@@ -69,6 +69,8 @@ public:
     i64 reads() const { return vol->reads; }
     i64 writes() const { return vol->writes; }
 
+    void flush() { dos->flush(); }
+    
 private:
 
     template <typename Fn> int fsexec(Fn &&fn) {

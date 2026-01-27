@@ -137,6 +137,17 @@ AnyImage::copy(u8 *buf, isize offset) const
     copy (buf, offset, data.size);
 }
 
+void
+AnyImage::save() const
+{
+    if (path.empty())
+        throw IOError(IOError::FILE_NOT_FOUND, "");
+    
+    printf("Writing to file %s\n", path.string().c_str());
+    writeToFile(path);
+    printf("Done.\n");
+}
+
 isize
 AnyImage::writeToStream(std::ostream &stream, isize offset, isize len) const
 {

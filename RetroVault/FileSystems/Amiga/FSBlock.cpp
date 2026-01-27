@@ -1831,9 +1831,7 @@ FSBlock::getDataBlockRefs() const
 
 void
 FSBlock::addDataBlockRef(BlockNr first, BlockNr ref)
-{
-    printf("addDataBlockRef: %d %d %ld %ld\n", first, ref, getNumDataBlockRefs(), getMaxDataBlockRefs());
-    
+{    
     assert(getNumDataBlockRefs() < getMaxDataBlockRefs());
     
     switch (type) {

@@ -272,42 +272,42 @@ using namespace utl;
 
 - (NSInteger)numCyls
 {
-    return [self adapter]->image->numCyls();
+    return [self adapter]->getImage()->numCyls();
 }
 
 - (NSInteger)numHeads
 {
-    return [self adapter]->image->numHeads();
+    return [self adapter]->getImage()->numHeads();
 }
 
 - (NSInteger)numSectors:(NSInteger)t
 {
-    return [self adapter]->image->numSectors(t);
+    return [self adapter]->getImage()->numSectors(t);
 }
 
 - (NSInteger)numSectors:(NSInteger)c head:(NSInteger)h
 {
-    return [self adapter]->image->numSectors(c, h);
+    return [self adapter]->getImage()->numSectors(c, h);
 }
 
 - (NSInteger)numTracks
 {
-    return [self adapter]->image->numTracks();
+    return [self adapter]->getImage()->numTracks();
 }
 
 - (NSInteger)numBlocks
 {
-    return [self adapter]->image->numBlocks();
+    return [self adapter]->getImage()->numBlocks();
 }
 
 - (NSInteger)bsize
 {
-    return [self adapter]->image->bsize();
+    return [self adapter]->getImage()->bsize();
 }
 
 - (NSInteger)numBytes
 {
-    return [self adapter]->image->numBytes();
+    return [self adapter]->getImage()->numBytes();
 }
 
 - (NSInteger)numVolumes
@@ -317,42 +317,42 @@ using namespace utl;
 
 -(NSInteger)b2t:(NSInteger)b
 {
-    return [self adapter]->image->b2ts(b).track;
+    return [self adapter]->getImage()->b2ts(b).track;
 }
 
 -(NSInteger)b2c:(NSInteger)b
 {
-    return [self adapter]->image->b2chs(b).cylinder;
+    return [self adapter]->getImage()->b2chs(b).cylinder;
 }
 
 -(NSInteger)b2h:(NSInteger)b
 {
-    return [self adapter]->image->b2chs(b).head;
+    return [self adapter]->getImage()->b2chs(b).head;
 }
 
 -(NSInteger)b2s:(NSInteger)b
 {
-    return [self adapter]->image->b2chs(b).sector;
+    return [self adapter]->getImage()->b2chs(b).sector;
 }
 
 -(NSInteger)ts2b:(NSInteger)t s:(NSInteger)s
 {
-    return [self adapter]->image->bindex(TrackDevice::TS(t,s));
+    return [self adapter]->getImage()->bindex(TrackDevice::TS(t,s));
 }
 
 -(NSInteger)chs2b:(NSInteger)c h:(NSInteger)h s:(NSInteger)s
 {
-    return [self adapter]->image->bindex(TrackDevice::CHS(c,h,s));
+    return [self adapter]->getImage()->bindex(TrackDevice::CHS(c,h,s));
 }
 
 -(NSInteger)readByte:(NSInteger)offset
 {
-    return [self adapter]->image->readByte(offset);
+    return [self adapter]->getImage()->readByte(offset);
 }
 
 -(NSInteger)readByte:(NSInteger)offset from:(NSInteger)block
 {
-    auto bsize = [self adapter]->image->bsize();
+    auto bsize = [self adapter]->getImage()->bsize();
     assert(offset >= 0 && offset < bsize);
 
     return [self readByte: block * bsize + offset];
@@ -378,11 +378,17 @@ using namespace utl;
 
 -(NSString *)readASCII:(NSInteger)offset from:(NSInteger)block length:(NSInteger)len
 {
-    auto bsize = [self adapter]->image->bsize();
+    auto bsize = [self adapter]->getImage()->bsize();
     assert(offset >= 0 && offset < bsize);
 
     return [self readASCII: block * bsize + offset length: len];
 
+}
+
+- (void)save:(ExceptionWrapper *)ex
+{
+    try { [self adapter]->save(); }
+    catch (Error &error) { [ex save:error]; }
 }
 
 - (void)mount:(NSURL *)mountpoint exception:(ExceptionWrapper *)ex

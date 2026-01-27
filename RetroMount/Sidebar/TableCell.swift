@@ -10,18 +10,24 @@
 import Cocoa
 
 class TableCell: NSTableCellView {
-
-    var item: TableItem?
+    
+    /*
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    */
+    
+    @IBOutlet weak var controller: SidebarViewController!
+    var outlineView: MyOutlineView { controller.outlineView }
+    var proxy: FuseDeviceProxy? { app.manager.proxy(device: item.device) }
+    
+    var item: TableItem = TableItem.init(device: 0)
     
     func setup(item: TableItem) {
 
         self.item = item
         update()
     }
-
-    @IBOutlet weak var controller: SidebarViewController!
-
-    var outlineView: MyOutlineView { controller.outlineView }
 
     func update() { }
     func updateIcon(expanded: Bool) { }

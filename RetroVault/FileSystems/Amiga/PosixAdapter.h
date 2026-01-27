@@ -133,7 +133,6 @@ public:
     // Changes file permissions
     void chmod(const fs::path &path, u32 mode) override;
 
-
 private:
 
     void tryReclaim(BlockNr block);
@@ -143,6 +142,15 @@ private:
     BlockNr ensureFile(const fs::path &path);
     BlockNr ensureFileOrDirectory(const fs::path &path);
     BlockNr ensureDirectory(const fs::path &path);
+    
+    
+    //
+    // Working with caches
+    //
+
+public:
+    
+    void flush() override;
 };
 
 }

@@ -138,6 +138,8 @@ inline const char *c_str(const std::string &s)
 -(NSString *)readASCII:(NSInteger)offset length:(NSInteger)len;
 -(NSString *)readASCII:(NSInteger)offset from:(NSInteger)block length:(NSInteger)len;
 
+- (void)save:(ExceptionWrapper *)ex;
+
 - (void)mount:(NSURL *)url exception:(ExceptionWrapper *)ex;
 - (void)unmount:(NSInteger)volume;
 - (void)unmountAll;

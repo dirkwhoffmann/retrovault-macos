@@ -32,4 +32,11 @@ extension FuseDeviceProxy {
         try mount(at: mountpoint)
         setListener(listener, function: callback)
     }
+    
+    func save() throws {
+
+        let exception = ExceptionWrapper()
+        save(exception)
+        if exception.fault != 0 { throw AppError(exception) }
+    }
 }
