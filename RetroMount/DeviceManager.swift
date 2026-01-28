@@ -249,7 +249,6 @@ class DeviceManager {
 
         do {
 
-            print("Creating device proxy for \(url)...")
             let proxy = try FuseDeviceProxy.make(with: url)
 
             let traits = proxy.stat(0)

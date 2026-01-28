@@ -43,6 +43,7 @@ private:
 
     // Static FUSE hooks
     struct hooks {
+        
         static FUSE_GETATTR;
         static FUSE_MKDIR;
         static FUSE_UNLINK;

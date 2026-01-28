@@ -268,7 +268,7 @@ extension DeviceCanvasViewController: NSTableViewDataSource {
 
     func numberOfRows(in tableView: NSTableView) -> Int {
 
-        return 512 / 16
+        return (proxy?.bsize ?? 0) / 16
     }
 
     func tableView(_ tableView: NSTableView,

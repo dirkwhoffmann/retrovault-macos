@@ -37,7 +37,8 @@ FileSystem::FileSystem(Volume &vol) : cache(*this, vol)
     loginfo(FS_DEBUG, "Creating file system...\n");
 
     auto layout = FSDescriptor(vol.capacity());
-
+    layout.bsize = vol.bsize();
+    
     // Check consistency (may throw)
     layout.checkCompatibility();
 

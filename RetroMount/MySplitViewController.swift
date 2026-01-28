@@ -117,8 +117,5 @@ class MySplitViewController: NSSplitViewController {
         // User dragged the divider
         let left = splitViewItems[0].viewController.view.frame
         let right = splitViewItems[1].viewController.view.frame
-
-        print("Left width:", left.width)
-        print("Right width:", right.width)
     }
 }
