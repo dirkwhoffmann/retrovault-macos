@@ -28,6 +28,8 @@ class PosixFileSystem;
 
 class FuseVolume : public FuseMountPoint {
 
+protected:
+    
     // Logical volume
     unique_ptr<Volume> vol;
 
@@ -71,7 +73,7 @@ public:
 
     void flush() { dos->flush(); }
     
-private:
+protected:
 
     template <typename Fn> int fsexec(Fn &&fn) {
 
@@ -102,4 +104,15 @@ private:
             return -EIO;
         }
     }
+};
+
+
+class FuseAmigaVolume : public FuseVolume {
+    
+    // Raw file system on top of the volume
+    unique_ptr<amiga::FileSystem> fs;
+  
+public:
+    
+    FuseAmigaVolume(unique_ptr<Volume> vol);
 };

@@ -17,7 +17,12 @@ using namespace retro::vault;
 
 FuseVolume::FuseVolume(unique_ptr<Volume> v) : vol(std::move(v))
 {
-    mylog("Creating file system...\n");
+    
+}
+
+FuseAmigaVolume::FuseAmigaVolume(unique_ptr<Volume> v) : FuseVolume(std::move(v))
+{
+    mylog("Creating file system...\n");    
     fs = std::make_unique<amiga::FileSystem>(*vol);
 
     std::stringstream ss;
@@ -30,7 +35,7 @@ FuseVolume::FuseVolume(unique_ptr<Volume> v) : vol(std::move(v))
 
 FuseVolume::~FuseVolume()
 {
-    printf("Destroying AmigaFileSystem\n");
+    printf("Destroying FuseVolume\n");
 }
 
 int

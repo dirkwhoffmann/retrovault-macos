@@ -41,7 +41,7 @@ FuseDevice::FuseDevice(const fs::path &filename)
     unique_ptr<Volume> vol = make_unique<Volume>(*image);
 
     mylog("Creating FuseVolume...\n");
-    volumes.push_back(make_unique<FuseVolume>(std::move(vol)));
+    volumes.push_back(make_unique<FuseAmigaVolume>(std::move(vol)));
 
     mylog("Installed volumes: %zu\n", volumes.size());
 }
