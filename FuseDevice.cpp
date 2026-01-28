@@ -9,14 +9,31 @@
 
 #include "FuseDevice.h"
 
-// #include "FileSystemFactory.h"
 #include "ADFFile.h"
+#include "D64File.h"
 
 using retro::vault::image::ADFFile;
+using retro::vault::image::D64File;
 
 FuseDevice::FuseDevice(const fs::path &filename)
 {
-    mylog("Trying to load %s...\n", filename.string().c_str());
+    mylog("Scanning image %s...\n", filename.string().c_str());
+
+    ImageFormat format = ImageFormat::UNKNOWN;
+    if (auto info = DiskImage::about(filename))
+        format = info->format;
+
+    mylog("Format: %s\n", ImageFormatEnum::key(format));
+
+    switch (format) {
+            
+        case ImageFormat::ADF: makeVolumeFor<ADFFile,FuseAmigaVolume>(filename); break;
+        case ImageFormat::D64: makeVolumeFor<D64File,FuseCBMVolume>(filename); break;
+
+        default:
+            throw IOError(IOError::FILE_TYPE_UNSUPPORTED);
+    }
+    
     // image = std::make_unique<MediaFile>(filename);
 
     /*
@@ -33,17 +50,24 @@ FuseDevice::FuseDevice(const fs::path &filename)
     // image = std::move(adf);
 
     // Create the block device
-    mylog("Creating block device...\n");
-    image = make_unique<ADFFile>(filename); // std::move(adf);
+    // mylog("Creating block device...\n");
+    // image = make_unique<ADFFile>(filename); // std::move(adf);
 
     // Create a logical volume
-    mylog("Creating volume...\n");
-    unique_ptr<Volume> vol = make_unique<Volume>(*image);
+    // mylog("Creating volume...\n");
+    // unique_ptr<Volume> vol = make_unique<Volume>(*image);
 
-    mylog("Creating FuseVolume...\n");
-    volumes.push_back(make_unique<FuseAmigaVolume>(std::move(vol)));
+    // mylog("Creating FuseVolume...\n");
+    // volumes.push_back(make_unique<FuseAmigaVolume>(std::move(vol)));
 
     mylog("Installed volumes: %zu\n", volumes.size());
+}
+
+template<typename I, typename V> void
+FuseDevice::makeVolumeFor(const fs::path& filename)
+{
+    image = make_unique<I>(filename);
+    volumes.push_back(make_unique<V>(make_unique<Volume>(*image)));
 }
 
 FuseDevice::~FuseDevice()

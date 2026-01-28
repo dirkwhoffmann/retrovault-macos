@@ -10,8 +10,8 @@
 #include "config.h"
 #include "FuseVolume.h"
 #include "FuseDebug.h"
-#include "FileSystems/Amiga/FSError.h"
 #include "FileSystems/Amiga/PosixAdapter.h"
+#include "FileSystems/CBM/PosixAdapter.h"
 
 using namespace retro::vault;
 
@@ -22,16 +22,30 @@ FuseVolume::FuseVolume(unique_ptr<Volume> v) : vol(std::move(v))
 
 FuseAmigaVolume::FuseAmigaVolume(unique_ptr<Volume> v) : FuseVolume(std::move(v))
 {
-    mylog("Creating file system...\n");    
+    mylog("Creating Amiga file system...\n");
     fs = std::make_unique<amiga::FileSystem>(*vol);
 
     std::stringstream ss;
     fs->dumpInfo(ss);
     std::cout << ss.str();
 
-    mylog("Wrapping into DOS layer...\n");
+    mylog("Wrapping into API layer...\n");
     dos = std::make_unique<amiga::PosixAdapter>(*this->fs);
 }
+
+FuseCBMVolume::FuseCBMVolume(unique_ptr<Volume> v) : FuseVolume(std::move(v))
+{
+    mylog("Creating CBM file system...\n");
+    fs = std::make_unique<cbm::FileSystem>(*vol);
+
+    std::stringstream ss;
+    fs->dumpStatfs(ss);
+    std::cout << ss.str();
+
+    mylog("Wrapping into API layer...\n");
+    dos = std::make_unique<cbm::PosixAdapter>(*this->fs);
+}
+
 
 FuseVolume::~FuseVolume()
 {

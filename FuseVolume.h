@@ -12,19 +12,22 @@
 #include "FuseMountPoint.h"
 #include "FuseDebug.h"
 #include "BlockDevice.h"
-#include "FileSystem.h"
-#include "PosixView.h"
+#include "FileSystems/PosixView.h"
+#include "FileSystems/Amiga/FileSystem.h"
 #include "FileSystems/Amiga/FSError.h"
+#include "FileSystems/CBM/FileSystem.h"
 #include "FileSystems/CBM/FSError.h"
 
 using namespace retro::vault;
 
+/*
 namespace vamiga {
 
-class FileSystem;
-class PosixFileSystem;
+// class FileSystem;
+// class PosixFileSystem;
 
 }
+*/
 
 class FuseVolume : public FuseMountPoint {
 
@@ -115,4 +118,15 @@ class FuseAmigaVolume : public FuseVolume {
 public:
     
     FuseAmigaVolume(unique_ptr<Volume> vol);
+};
+
+
+class FuseCBMVolume : public FuseVolume {
+    
+    // Raw file system on top of the volume
+    unique_ptr<cbm::FileSystem> fs;
+  
+public:
+    
+    FuseCBMVolume(unique_ptr<Volume> vol);
 };

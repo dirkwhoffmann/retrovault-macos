@@ -67,10 +67,16 @@ public:
     const FuseVolume &getVolume(isize volume);
     const DiskImage *getImage() { return image.get(); }
 
+private:
+    
+    template<typename I, typename V> void makeVolumeFor(const fs::path& filename);
+ 
     
     //
     // Mounting and unmounting volumes
     //
+    
+public:
     
     void mount(isize volume, const fs::path &mountPoint);
     void mount(const fs::path &mountPoint);
