@@ -131,7 +131,7 @@ class DeviceCanvasViewController: CanvasViewController {
             let value = clamp(newValue, to: 0...upperCyl)
 
             currentCyl      = value
-            currentTrack    = 2 * currentCyl + currentHead
+            currentTrack    = numHeads * currentCyl + currentHead
             currentSector   = clamp(currentSector, to: 0..<upperSector(track: currentTrack))
             currentBlock    = proxy?.chs2b(currentCyl, h: currentHead, s: currentSector) ?? 0
 
@@ -146,7 +146,7 @@ class DeviceCanvasViewController: CanvasViewController {
             let value = clamp(newValue, to: 0...upperHead)
 
             currentHead     = value
-            currentTrack    = 2 * currentCyl + currentHead
+            currentTrack    = numHeads * currentCyl + currentHead
             currentSector   = clamp(currentSector, to: 0..<upperSector(track: currentTrack))
             currentBlock    = proxy?.chs2b(currentCyl, h: currentHead, s: currentSector) ?? 0
 
@@ -162,8 +162,8 @@ class DeviceCanvasViewController: CanvasViewController {
 
             currentTrack    = value
             currentSector   = clamp(currentSector, to: 0..<upperSector(track: currentTrack))
-            currentCyl      = currentTrack / 2
-            currentHead     = currentTrack % 2
+            currentCyl      = currentTrack / numHeads
+            currentHead     = currentTrack % numHeads
             currentBlock    = proxy?.chs2b(currentCyl, h: currentHead, s: currentSector) ?? 0
 
             refreshSelection()

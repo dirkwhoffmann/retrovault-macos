@@ -24,10 +24,5 @@ class CanvasViewController: NSViewController {
         refresh()
     }
 
-    /*
-    func setDevice(_ device: Int?) { self.device = device }
-    func setVolume(_ volume: Int?) { self.volume = volume }
-    */
-
     func refresh() { }
 }
