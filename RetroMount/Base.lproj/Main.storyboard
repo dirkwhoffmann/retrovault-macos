@@ -1792,7 +1792,7 @@ DQ
         <image name="dd_adf" width="257" height="258"/>
         <image name="eject.fill" catalog="system" width="16" height="14"/>
         <image name="floppy_35_dd" width="257" height="258"/>
-        <image name="pictogram" width="841" height="841"/>
+        <image name="pictogram" width="1024" height="1024"/>
         <image name="stop" width="928" height="509"/>
         <image name="volume_amiga" width="256" height="256"/>
     </resources>
