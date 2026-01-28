@@ -152,7 +152,7 @@ FileSystem::attr(const FSDirEntry &entry) const
         numBytes = (numBlocks - 1) * 254;
 
         // Add the byte count of the last block (encoded in the sector field)
-        numBytes += fetch(*blocks.end()).data()[1];
+        numBytes += fetch(blocks.back()).data()[1];
     }
 
     return FSAttr {
@@ -180,13 +180,13 @@ FileSystem::attr(const fs::path &path) const
         
         return FSAttr {
             
-            .size   = 1024,
-            .blocks = 4,
+            .size   = 0,
+            .blocks = 0,
             .isDir  = true
         };
     }
     
-    return attr(PETName<16>(path.string()));
+    return attr(PETName<16>(path));
 }
 
 }

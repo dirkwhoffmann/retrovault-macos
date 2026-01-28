@@ -258,7 +258,7 @@ BlockNr
 FileSystem::createFile(const PETName<16> &name, const u8 *buf, isize size)
 {
     // Allocate required blocks
-    auto blocks = allocator.allocate(std::min(isize(1), (size + 253) / 254));
+    auto blocks = allocator.allocate(std::max(isize(1), (size + 253) / 254));
     auto first  = traits.tsLink(blocks[0]);
 
     // Add data

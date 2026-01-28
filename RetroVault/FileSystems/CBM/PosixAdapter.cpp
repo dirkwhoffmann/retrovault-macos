@@ -231,8 +231,9 @@ PosixAdapter::ensureDirectory(const fs::path &path)
 void
 PosixAdapter::create(const fs::path &path)
 {
-    auto parent = path.parent_path();
-    auto name   = path.filename();
+    auto rel    = path.relative_path();
+    auto parent = rel.parent_path();
+    auto name   = rel.filename();
 
     // Reject nested paths (CBM is flat)
     if (!parent.empty() && parent != ".")
