@@ -158,7 +158,8 @@ FileSystem::attr(const FSDirEntry &entry) const
     return FSAttr {
 
         .size   = numBytes,
-        .blocks = numBlocks
+        .blocks = numBlocks,
+        .isDir  = false
     };
 }
 
@@ -175,6 +176,16 @@ FileSystem::attr(const PETName<16> &name) const
 optional<FSAttr>
 FileSystem::attr(const fs::path &path) const
 {
+    if (path == "/") {
+        
+        return FSAttr {
+            
+            .size   = 1024,
+            .blocks = 4,
+            .isDir  = true
+        };
+    }
+    
     return attr(PETName<16>(path.string()));
 }
 

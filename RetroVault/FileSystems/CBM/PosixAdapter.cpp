@@ -63,12 +63,14 @@ PosixAdapter::attr(const fs::path &path) const
 {
     if (auto stat = fs.attr(path)) {
 
+        u32 prot = 0777 | (stat->isDir ? S_IFDIR : S_IFREG);
+                
         return FSPosixAttr {
 
             .size           = stat->size,
             .blocks         = stat->blocks,
-            .prot           = u32{0},
-            .isDir          = false,
+            .prot           = prot,
+            .isDir          = stat->isDir,
 
             .btime          = time_t{0},
             .atime          = time_t{0},

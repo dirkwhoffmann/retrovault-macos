@@ -33,14 +33,20 @@ using namespace retro::vault;
  *     Represents a single FUSE file system. It acts as a thin wrapper around
  *     the FUSE C API, connecting application-level code with the FUSE backend.
  *
- *                                         ----------------
- *                                        | FuseMountPoint |
- *                                         ----------------
- *                                                ^
- *                                                |
- *               ----------------  1    n  ----------------
- *              |   FuseDevice   |<>------|   FuseVolume   |
- *               ----------------          ----------------
+ *    ------------------          ------------------
+ *   |    FuseDevice    |        |  FuseMountPoint  |
+ *    ------------------          ------------------
+ *           < >                          ^
+ *            |                           |
+ *            |                n  ------------------
+ *            -------------------|    FuseVolume    |
+ *                                ------------------
+ *                                        ^
+ *              --------------------------|-------------------------
+ *             |                          |                         |
+ *    ------------------          ------------------       ------------------
+ *   | FuseAmigaVolume  |        |  FuseCBMVolume   |     |        ...       |
+ *    ------------------          ------------------       ------------------
  */
 
 class FuseDevice {

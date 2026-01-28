@@ -240,9 +240,10 @@ struct FSBlockErrorEnum : Reflectable<FSBlockErrorEnum, FSBlockError>
 //
 
 struct FSAttr {
-
+    
     isize size;         // File size in bytes
     isize blocks;       // Number of occupied blocks
+    bool isDir;         // Is it a directory?
 };
 
 struct FSStat {
