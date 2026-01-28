@@ -9,7 +9,6 @@
 
 #pragma once
 
-#include "FileSystems/FileSystemError.h"
 #include "FileSystems/PosixView.h"
 #include "FileSystems/Amiga/FileSystem.h"
 #include <fcntl.h>
