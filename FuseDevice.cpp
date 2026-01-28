@@ -10,17 +10,9 @@
 #include "FuseDevice.h"
 
 // #include "FileSystemFactory.h"
+#include "ADFFile.h"
 
 using retro::vault::image::ADFFile;
-
-/*
-namespace vamiga {
-
-class FileSystem;
-class PosixFileSystem;
-
-}
-*/
 
 FuseDevice::FuseDevice(const fs::path &filename)
 {
@@ -36,13 +28,13 @@ FuseDevice::FuseDevice(const fs::path &filename)
     */
 
     // Get the ADF
-    unique_ptr<ADFFile> adf = make_unique<ADFFile>(filename);
+    // unique_ptr<ADFFile> adf = make_unique<ADFFile>(filename);
 
     // image = std::move(adf);
 
     // Create the block device
     mylog("Creating block device...\n");
-    image = std::move(adf);
+    image = make_unique<ADFFile>(filename); // std::move(adf);
 
     // Create a logical volume
     mylog("Creating volume...\n");

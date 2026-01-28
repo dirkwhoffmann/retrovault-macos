@@ -53,12 +53,12 @@ struct FSError : public Error {
     static constexpr long FS_CANNOT_CREATE_FILE     = 42;
 
     const char *errstr() const noexcept override {
-
+        
         switch (payload) {
-
+                
             case FS_OK:                         return "FS_OK";
             case FS_UNKNOWN:                    return "FS_UNKNOWN";
-
+                
             case FS_OUT_OF_RANGE:               return "FS_OUT_OF_RANGE";
             case FS_INVALID_PATH:               return "FS_INVALID_PATH";
             case FS_INVALID_REGEX:              return "FS_INVALID_REGEX";
@@ -77,20 +77,59 @@ struct FSError : public Error {
             case FS_WRONG_BLOCK_TYPE:           return "FS_WRONG_BLOCK_TYPE";
             case FS_HAS_CYCLES:                 return "FS_HAS_CYCLES";
             case FS_CORRUPTED:                  return "FS_CORRUPTED";
-
+                
             case FS_INVALID_HANDLE:             return "FS_INVALID_HANDLE";
-
+                
             case FS_OUT_OF_SPACE:               return "FS_OUT_OF_SPACE";
-
+                
             case FS_DIR_NOT_EMPTY:              return "FS_DIR_NOT_EMPTY";
             case FS_CANNOT_CREATE_DIR:          return "FS_CANNOT_CREATE_DIR";
             case FS_CANNOT_CREATE_FILE:         return "FS_CANNOT_CREATE_FILE";
-
+                
             default:
                 return "UNKNOWN";
         }
     }
 
+    int posixErrno() const noexcept {
+        
+        switch (payload) {
+                
+            case FS_OK:                         return 0;
+            case FS_UNKNOWN:                    return EIO;
+                
+            case FS_OUT_OF_RANGE:               return EIO;
+            case FS_INVALID_PATH:               return EINVAL;
+            case FS_INVALID_REGEX:              return EINVAL;
+            case FS_NOT_A_DIRECTORY:            return ENOTDIR;
+            case FS_NOT_A_FILE:                 return EISDIR;
+            case FS_NOT_A_FILE_OR_DIRECTORY:    return EIO;
+            case FS_NOT_FOUND:                  return ENOENT;
+            case FS_EXISTS:                     return EEXIST;
+            case FS_CANNOT_OPEN:                return EACCES;
+            case FS_UNFORMATTED:                return EIO;
+            case FS_UNSUPPORTED:                return EINVAL;
+            case FS_READ_ONLY:                  return EROFS;
+            case FS_WRONG_BSIZE:                return EINVAL;
+            case FS_WRONG_CAPACITY:             return EINVAL;
+            case FS_WRONG_DOS_TYPE:             return EINVAL;
+            case FS_WRONG_BLOCK_TYPE:           return EINVAL;
+            case FS_HAS_CYCLES:                 return EINVAL;
+            case FS_CORRUPTED:                  return EIO;
+                
+            case FS_INVALID_HANDLE:             return EINVAL;
+                
+            case FS_OUT_OF_SPACE:               return ENOSPC;
+                
+            case FS_DIR_NOT_EMPTY:              return ENOTEMPTY;
+            case FS_CANNOT_CREATE_DIR:          return EIO;
+            case FS_CANNOT_CREATE_FILE:         return EIO;
+                
+            default:
+                return EIO;
+        }
+    }
+        
     explicit FSError(long fault, const std::string &msg = "");
     explicit FSError(long fault, const char *str) : FSError(fault, string(str)) { }
     explicit FSError(long fault, const fs::path &path) : FSError(fault, path.string()) { }

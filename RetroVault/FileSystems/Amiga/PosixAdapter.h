@@ -9,6 +9,7 @@
 
 #pragma once
 
+#include "FileSystems/FileSystemError.h"
 #include "FileSystems/PosixView.h"
 #include "FileSystems/Amiga/FileSystem.h"
 #include <fcntl.h>
@@ -39,7 +40,6 @@ class PosixAdapter : public PosixView {
 
     // Contracts
     FSRequire require = FSRequire(fs);
-    // FSEnsure ensure = FSEnsure(fs);
 
     // Metadata for nodes indexed by block number
     std::unordered_map<BlockNr, NodeMeta> meta;

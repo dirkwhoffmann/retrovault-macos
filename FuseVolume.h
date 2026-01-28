@@ -14,6 +14,8 @@
 #include "BlockDevice.h"
 #include "FileSystem.h"
 #include "PosixView.h"
+#include "FileSystems/Amiga/FSError.h"
+#include "FileSystems/CBM/FSError.h"
 
 using namespace retro::vault;
 
@@ -39,8 +41,6 @@ class FuseVolume : public FuseMountPoint {
     std::mutex mtx;
 
 public:
-
-    static int posixErrno(const Error &err);
 
     FuseVolume(unique_ptr<Volume> vol);
     ~FuseVolume();
@@ -78,11 +78,26 @@ private:
         std::lock_guard<std::mutex> guard(mtx);
 
         try {
+
             return fn();
+
+        } catch (const amiga::FSError &err) {
+
+            mylog("           FSError (Amiga): %ld (%s)\n", err.payload, err.what());
+            return -err.posixErrno();
+            
+        } catch (const cbm::FSError &err) {
+
+            mylog("           FSError (CBM): %ld (%s)\n", err.payload, err.what());
+            return -err.posixErrno();
+
         } catch (const Error &err) {
-            mylog("           Error: %d (%s)\n", posixErrno(err), err.what());
-            return -posixErrno(err);
+            
+            mylog("           Error: %ld (%s)\n", err.payload, err.what());
+            return -EIO;
+            
         } catch (...) {
+            
             mylog("           Exception: %d\n", EIO);
             return -EIO;
         }

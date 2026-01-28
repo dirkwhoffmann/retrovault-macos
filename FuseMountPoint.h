@@ -16,16 +16,25 @@
 
 class FuseMountPoint {
 
+    // Background thread
     std::thread fuseThread;
+    
+    // Gateway to the FUSE backend
     struct fuse *gateway = nullptr;
 
+    // Mount point in the host file system ("/Volumes/...")
     fs::path mountPoint;
 
 public:
 
+    // Set to true to enable debug messages
     bool debug = true;
-    const void *listener = nullptr;
+        
+    // Delegate (message receiver)
     AdapterCallback *callback = nullptr;
+
+    // Payload send to message receiver
+    const void *listener = nullptr;
 
     // Registers a listener together with it's callback function
     void setListener(const void *listener, AdapterCallback *func);
@@ -85,6 +94,9 @@ public:
 
     const fs::path &getMountPoint() const { return mountPoint; }
 
+    // Mounts a file system at the provides mount point
     void mount(const fs::path &mountpoint);
+
+    // Unmounts the file system
     void unmount();
 };

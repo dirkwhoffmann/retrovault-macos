@@ -10,8 +10,7 @@
 #pragma once
 
 #include "FuseVolume.h"
-#include "ADFFile.h"
-#include "FileSystems/Amiga/FSTypes.h"
+#include "DiskImage.h"
 #include "BlockDevice.h"
 
 using namespace retro::vault;
