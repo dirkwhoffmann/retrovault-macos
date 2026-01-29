@@ -11,17 +11,17 @@ import Cocoa
 
 class MyWindowController: NSWindowController {
 
-    private var vc: MySplitViewController? { contentViewController as? MySplitViewController }
+    var vc: MySplitViewController? { contentViewController as? MySplitViewController }
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
 
     override func windowDidLoad() {
-
+        
         // Create toolbar
-        window!.toolbar = MyToolbar(controller: self)
         window!.toolbarStyle = .unified
+        window!.toolbar = MyToolbar(controller: self)
         
         // Show window
         window!.center()

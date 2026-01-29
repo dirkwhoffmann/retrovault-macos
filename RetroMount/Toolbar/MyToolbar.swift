@@ -9,14 +9,9 @@
 
 extension NSToolbarItem.Identifier {
     
-    static let inspectors = NSToolbarItem.Identifier("Inspectors")
-    static let snapshots = NSToolbarItem.Identifier("Snapshots")
-    static let port1 = NSToolbarItem.Identifier("Port1")
-    static let port2 = NSToolbarItem.Identifier("Port2")
-    static let keyboard = NSToolbarItem.Identifier("Keyboard")
-    static let settings = NSToolbarItem.Identifier("Settings")
-    static let preferences = NSToolbarItem.Identifier("Preferences")
-    static let controls = NSToolbarItem.Identifier("Controls")
+    static let sync = NSToolbarItem.Identifier("Sync")
+    static let lock = NSToolbarItem.Identifier("Lock")
+    static let github = NSToolbarItem.Identifier("GitHub")
 }
 
 @MainActor
@@ -24,15 +19,10 @@ class MyToolbar: NSToolbar, NSToolbarDelegate {
     
     var controller: MyWindowController!
 
-//    var emu: EmulatorProxy! { return controller.emu! }
-    var inspectors: MyToolbarItemGroup!
-    var snapshots: MyToolbarItemGroup!
-    var port1: MyToolbarMenuItem!
-    var port2: MyToolbarMenuItem!
-    var keyboard: MyToolbarItemGroup!
-    var settings: MyToolbarItemGroup!
-    var controls: MyToolbarItemGroup!
-    
+    var sync: MyToolbarItemGroup!
+    var lock: MyToolbarItemGroup!
+    var github: MyToolbarItemGroup!
+
     // Set to true to gray out all toolbar items
     var globalDisable = false
     
@@ -41,15 +31,15 @@ class MyToolbar: NSToolbar, NSToolbarDelegate {
         super.init(identifier: "MyToolbar")
         self.delegate = self
         self.allowsUserCustomization = true
-        self.displayMode = .iconAndLabel
+        self.displayMode = .iconOnly
     }
     
     override init(identifier: NSToolbar.Identifier) {
         
         super.init(identifier: identifier)
         self.delegate = self
-        self.allowsUserCustomization = true
-        self.displayMode = .iconAndLabel
+        self.allowsUserCustomization = false
+        self.displayMode = .iconOnly
     }
     
     convenience init(controller: MyWindowController) {
@@ -61,169 +51,58 @@ class MyToolbar: NSToolbar, NSToolbarDelegate {
     func toolbarAllowedItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
         
         return [ .toggleSidebar,
-                 // .sidebarTrackingSeparator,
-                 .inspectors,
-                 .snapshots,
-                 .port1,
-                 .port2,
-                 .keyboard,
-                 .settings,
-                 .controls,
+                 .sidebarTrackingSeparator,
+                 .sync,
+                 .lock,
+                 .github,
+                 .space,
                  .flexibleSpace ]
     }
     
     func toolbarDefaultItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
         
-        return [ .toggleSidebar,
+        return [ .flexibleSpace,
+                 .toggleSidebar,
                  .sidebarTrackingSeparator,
-                 .settings,
-                 .inspectors,
                  .flexibleSpace,
-                 .snapshots,
-                 .flexibleSpace,
-                 // .port1,
-                 // .port2,
-                 // .flexibleSpace,
-                 .keyboard,
-                 .flexibleSpace,
-                 .controls ]
+                 .sync,
+                 .lock,
+                 .space,
+                 .github ]
     }
     
     func toolbar(_ toolbar: NSToolbar,
                  itemForItemIdentifier id: NSToolbarItem.Identifier,
                  willBeInsertedIntoToolbar flag: Bool) -> NSToolbarItem? {
-        
-        print(type(of: controller.window?.contentViewController))
-        
-        let portItems = [ (SFSymbol.nosign, "None", -1),
-                          (SFSymbol.mouse, "Mouse", 0),
-                          (SFSymbol.arrowkeys, "Keyset 1", 1),
-                          (SFSymbol.arrowkeys, "Keyset 2", 2),
-                          (SFSymbol.gamecontroller, "Gamepad 1", 3),
-                          (SFSymbol.gamecontroller, "Gamepad 2", 4),
-                          (SFSymbol.gamecontroller, "Gamepad 3", 5),
-                          (SFSymbol.gamecontroller, "Gamepad 4", 6) ]
-        
+                
         switch id {
+                        
+        case .sync:
             
-        case .sidebarTrackingSeparator:
-            
-            guard let split = controller.window?.contentViewController as? NSSplitViewController else {
-                return nil
-            }
-            
-            return NSTrackingSeparatorToolbarItem(
-                identifier: id,
-                splitView: split.splitView,
-                dividerIndex: 0
-            )
-            
-        case .settings:
-
-            settings = MyToolbarItemGroup(identifier: .settings,
-                                          images: [.gear],
-                                          actions: [#selector(settingsAction)],
-                                          target: self,
-                                          label: "Settings")
-            return settings
-
-        case .inspectors:
-
-            let images: [SFSymbol] = [
-                
-                .magnifyingglass,
-                .gauge,
-                .console
-            ]
-            
-            let actions: [Selector] = [
-                
-                #selector(inspectorAction),
-                #selector(dashboardAction),
-                #selector(consoleAction)
-            ]
-            
-            inspectors = MyToolbarItemGroup(identifier: .inspectors,
-                                            images: images,
-                                            actions: actions,
-                                            target: self,
-                                            label: "Inspectors")
-            return inspectors
-            
-        case .snapshots:
-            
-            let images: [SFSymbol] = [
-                
-                .arrowDown,
-                .arrowUp,
-                .arrowClock
-            ]
-            
-            let actions: [Selector] = [
-                
-                #selector(takeSnapshotAction),
-                #selector(restoreSnapshotAction),
-                #selector(browseSnapshotAction)
-            ]
-            
-            snapshots = MyToolbarItemGroup(identifier: .snapshots,
-                                           images: images,
-                                           actions: actions,
-                                           target: self,
-                                           label: "Snapshots")
-            return snapshots
-            
-        case .port1:
-            
-            port1 = MyToolbarMenuItem(identifier: .port1,
-                                      menuItems: portItems,
-                                      image: .gear,
-                                      action: #selector(port1Action(_:)),
+            sync = MyToolbarItemGroup(identifier: .sync,
+                                      images: [.gear],
+                                      actions: [#selector(settingsAction)],
                                       target: self,
-                                      label: "Port 1")
-            return port1
+                                      label: "Sync")
+            return sync
             
-        case .port2:
+        case .lock:
             
-            port2 = MyToolbarMenuItem(identifier: .port2,
-                                      menuItems: portItems,
-                                      image: .gear,
-                                      action: #selector(port2Action(_:)),
+            lock = MyToolbarItemGroup(identifier: .lock,
+                                      images: [.keyboard],
+                                      actions: [#selector(keyboardAction)],
                                       target: self,
-                                      label: "Port 2")
-            return port2
+                                      label: "Lock")
+            return lock
+ 
+        case .github:
             
-        case .keyboard:
-            
-            keyboard = MyToolbarItemGroup(identifier: .keyboard,
-                                          images: [.keyboard],
-                                          actions: [#selector(keyboardAction)],
-                                          target: self,
-                                          label: "Keyboard")
-            return keyboard
-            
-         case .controls:
-            
-            let images: [SFSymbol] = [
-                
-                .pause,
-                .reset,
-                .power
-            ]
-            
-            let actions: [Selector] = [
-                
-                #selector(runAction),
-                #selector(resetAction),
-                #selector(powerAction)
-            ]
-            
-            controls = MyToolbarItemGroup(identifier: .controls,
-                                          images: images,
-                                          actions: actions,
-                                          target: self,
-                                          label: "Controls")
-            return controls
+            lock = MyToolbarItemGroup(identifier: .github,
+                                      images: [.keyboard],
+                                      actions: [#selector(keyboardAction)],
+                                      target: self,
+                                      label: "GitHub")
+            return lock
             
         default:
             return nil
@@ -254,9 +133,8 @@ class MyToolbar: NSToolbar, NSToolbarDelegate {
         port1.menuFormRepresentation = nil
         port2.menuFormRepresentation = nil
         */
-        keyboard.menuFormRepresentation = nil
-        settings.menuFormRepresentation = nil
-        controls.menuFormRepresentation = nil
+        sync.menuFormRepresentation = nil
+        lock.menuFormRepresentation = nil
     }
     
     func updateToolbar() {
