@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		503846192F2B47E600945B2B /* MyToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503846182F2B47E300945B2B /* MyToolbar.swift */; };
+		5038461B2F2B489E00945B2B /* Symbols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5038461A2F2B489C00945B2B /* Symbols.swift */; };
+		5038461D2F2B490900945B2B /* MyToolbarItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5038461C2F2B490400945B2B /* MyToolbarItems.swift */; };
 		5045033B2F216094007A7268 /* MySplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5045033A2F21608D007A7268 /* MySplitViewController.swift */; };
 		5045033F2F2161A4007A7268 /* DeviceCanvasViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5045033E2F21619E007A7268 /* DeviceCanvasViewController.swift */; };
 		504503412F216864007A7268 /* MyOutlineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504503402F21685E007A7268 /* MyOutlineView.swift */; };
@@ -152,6 +155,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		503846182F2B47E300945B2B /* MyToolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyToolbar.swift; sourceTree = "<group>"; };
+		5038461A2F2B489C00945B2B /* Symbols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Symbols.swift; sourceTree = "<group>"; };
+		5038461C2F2B490400945B2B /* MyToolbarItems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyToolbarItems.swift; sourceTree = "<group>"; };
 		5045033A2F21608D007A7268 /* MySplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MySplitViewController.swift; sourceTree = "<group>"; };
 		5045033E2F21619E007A7268 /* DeviceCanvasViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceCanvasViewController.swift; sourceTree = "<group>"; };
 		504503402F21685E007A7268 /* MyOutlineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyOutlineView.swift; sourceTree = "<group>"; };
@@ -457,6 +463,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5038461E2F2B491400945B2B /* Toolbar */ = {
+			isa = PBXGroup;
+			children = (
+				503846182F2B47E300945B2B /* MyToolbar.swift */,
+				5038461C2F2B490400945B2B /* MyToolbarItems.swift */,
+			);
+			path = Toolbar;
+			sourceTree = "<group>";
+		};
 		504EA7B42ECE39E8008CF9FC = {
 			isa = PBXGroup;
 			children = (
@@ -1038,6 +1053,7 @@
 		50900C2F2F1E729A00A4A81B /* RetroMount */ = {
 			isa = PBXGroup;
 			children = (
+				5038461A2F2B489C00945B2B /* Symbols.swift */,
 				50900C242F1E729A00A4A81B /* AppDelegate.swift */,
 				50900C282F1E729A00A4A81B /* Extensions.swift */,
 				50900C272F1E729A00A4A81B /* Errors.swift */,
@@ -1046,6 +1062,7 @@
 				50900C2D2F1E729A00A4A81B /* MyWindowController.swift */,
 				5045033A2F21608D007A7268 /* MySplitViewController.swift */,
 				50CD7A1E2F2571B1007E5803 /* MySplitView.swift */,
+				5038461E2F2B491400945B2B /* Toolbar */,
 				50900C232F1E729A00A4A81B /* Sidebar */,
 				5097DD912F24DC0C00738B5A /* CanvasControllers */,
 				50900C2E2F1E729A00A4A81B /* Volume.swift */,
@@ -1200,6 +1217,8 @@
 				50900C342F1E729A00A4A81B /* Extensions.swift in Sources */,
 				50900C352F1E729A00A4A81B /* Errors.swift in Sources */,
 				50900C362F1E729A00A4A81B /* MyWindowController.swift in Sources */,
+				503846192F2B47E600945B2B /* MyToolbar.swift in Sources */,
+				5038461D2F2B490900945B2B /* MyToolbarItems.swift in Sources */,
 				50900C372F1E729A00A4A81B /* Loggable.swift in Sources */,
 				50900C382F1E729A00A4A81B /* AppDelegate.swift in Sources */,
 				50900B152F1E726D00A4A81B /* Reportable.cpp in Sources */,
@@ -1218,6 +1237,7 @@
 				50D89C7E2F1E7C7B00ECC73D /* maketbl.c in Sources */,
 				50CD7A1F2F2571B6007E5803 /* MySplitView.swift in Sources */,
 				50D89C7F2F1E7C7B00ECC73D /* getbits.c in Sources */,
+				5038461B2F2B489E00945B2B /* Symbols.swift in Sources */,
 				50D89C802F1E7C7B00ECC73D /* u_quick.c in Sources */,
 				5045033F2F2161A4007A7268 /* DeviceCanvasViewController.swift in Sources */,
 				50D89C812F1E7C7B00ECC73D /* xdms.c in Sources */,

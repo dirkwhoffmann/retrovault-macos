@@ -115,7 +115,7 @@ class MySplitViewController: NSSplitViewController {
     override func splitViewDidResizeSubviews(_ notification: Notification) {
 
         // User dragged the divider
-        let left = splitViewItems[0].viewController.view.frame
-        let right = splitViewItems[1].viewController.view.frame
+        // let left = splitViewItems[0].viewController.view.frame
+        // let right = splitViewItems[1].viewController.view.frame
     }
 }

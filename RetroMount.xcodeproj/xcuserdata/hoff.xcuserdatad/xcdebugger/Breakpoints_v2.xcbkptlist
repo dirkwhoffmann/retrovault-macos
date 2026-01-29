@@ -20,5 +20,97 @@
             landmarkType = "0">
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "163E83F9-7F69-429C-8540-B4F37600315A"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RetroMount/Toolbar/MyToolbar.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "111"
+            endingLineNumber = "111"
+            landmarkName = "toolbar(_:itemForItemIdentifier:willBeInsertedIntoToolbar:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "163E83F9-7F69-429C-8540-B4F37600315A - 2e38b34dc36506fc"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "RetroMount.MyToolbar.toolbar(_: __C.NSToolbar, itemForItemIdentifier: __C.NSToolbarItemIdentifier, willBeInsertedIntoToolbar: Swift.Bool) -&gt; Swift.Optional&lt;__C.NSToolbarItem&gt;"
+                  moduleName = "RetroMount.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/hoff/Retro/RetroMount/RetroMount/Toolbar/MyToolbar.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "109"
+                  endingLineNumber = "109">
+               </Location>
+               <Location
+                  uuid = "163E83F9-7F69-429C-8540-B4F37600315A - 2e38b34dc36506ba"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "RetroMount.MyToolbar.toolbar(_: __C.NSToolbar, itemForItemIdentifier: __C.NSToolbarItemIdentifier, willBeInsertedIntoToolbar: Swift.Bool) -&gt; Swift.Optional&lt;__C.NSToolbarItem&gt;"
+                  moduleName = "RetroMount.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/hoff/Retro/RetroMount/RetroMount/Toolbar/MyToolbar.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "111"
+                  endingLineNumber = "111">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "587B46CB-3339-4AAC-BADC-C2EA219316F9"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "RetroMount/Toolbar/MyToolbar.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "115"
+            endingLineNumber = "115"
+            landmarkName = "toolbar(_:itemForItemIdentifier:willBeInsertedIntoToolbar:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "587B46CB-3339-4AAC-BADC-C2EA219316F9 - 2e38b34dc3650678"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "RetroMount.MyToolbar.toolbar(_: __C.NSToolbar, itemForItemIdentifier: __C.NSToolbarItemIdentifier, willBeInsertedIntoToolbar: Swift.Bool) -&gt; Swift.Optional&lt;__C.NSToolbarItem&gt;"
+                  moduleName = "RetroMount.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/hoff/Retro/RetroMount/RetroMount/Toolbar/MyToolbar.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "113"
+                  endingLineNumber = "113">
+               </Location>
+               <Location
+                  uuid = "587B46CB-3339-4AAC-BADC-C2EA219316F9 - 2e38b34dc3650606"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "RetroMount.MyToolbar.toolbar(_: __C.NSToolbar, itemForItemIdentifier: __C.NSToolbarItemIdentifier, willBeInsertedIntoToolbar: Swift.Bool) -&gt; Swift.Optional&lt;__C.NSToolbarItem&gt;"
+                  moduleName = "RetroMount.debug.dylib"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/hoff/Retro/RetroMount/RetroMount/Toolbar/MyToolbar.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "115"
+                  endingLineNumber = "115">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>

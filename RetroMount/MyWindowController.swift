@@ -19,8 +19,12 @@ class MyWindowController: NSWindowController {
 
     override func windowDidLoad() {
 
+        // Create toolbar
+        window!.toolbar = MyToolbar(controller: self)
+        window!.toolbarStyle = .unified
+        
+        // Show window
         window!.center()
         showWindow(self)
     }
-
 }
