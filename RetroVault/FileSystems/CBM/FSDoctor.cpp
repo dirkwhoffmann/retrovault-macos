@@ -369,9 +369,6 @@ FSDoctor::xray(BlockNr ref, bool strict, std::ostream &os) const
 void
 FSDoctor::rectify(bool strict)
 {
-    auto *mfs = dynamic_cast<FileSystem *>(&fs);
-    if (!mfs) throw FSError(FSError::FS_READ_ONLY);
-
     xray(strict);
 
     // Rectify all erroneous blocks

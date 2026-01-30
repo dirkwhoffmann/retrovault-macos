@@ -286,11 +286,11 @@ PosixAdapter::lseek(HandleRef ref, isize offset, u16 whence)
         case SEEK_END:  newOffset = fileSize + offset; break;
 
         default:
-            throw FSError(FSError::FS_UNKNOWN); // TODO: Throw, e.g., FS_INVALID_FLAG
+            throw FSError(FSError::FS_INVALID_ARG, "whence: " + std::to_string(whence));
     }
 
     // Ensure that the offset is not negative
-    newOffset = std::max(newOffset, (isize)0);
+    if (newOffset < 0) throw FSError(FSError::FS_OUT_OF_RANGE);
 
     // Update the file handle and return
     handle.offset = newOffset;

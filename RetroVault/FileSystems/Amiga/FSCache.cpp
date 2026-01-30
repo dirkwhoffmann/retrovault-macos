@@ -214,7 +214,7 @@ FSCache::modify(BlockNr nr)
 {
     if (isize(nr) >= capacity()) throw FSError(FSError::FS_OUT_OF_RANGE);
     if (auto *result = tryModify(nr)) return *result;
-    throw FSError(FSError::FS_UNKNOWN);
+    throw FSError(FSError::FS_READ_ERROR);
 }
 
 FSBlock &

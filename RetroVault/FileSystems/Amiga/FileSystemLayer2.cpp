@@ -581,10 +581,8 @@ FileSystem::reclaim(BlockNr fhb)
 
         // Remove user directory block
         cache.erase(node.nr); allocator.markAsFree(node.nr);
-        return;
-    }
 
-    if (node.isFile()) {
+    } else if (node.isFile()) {
 
         // Collect all blocks occupied by this file
         auto dataBlocks = collectDataBlocks(node.nr);
@@ -594,10 +592,7 @@ FileSystem::reclaim(BlockNr fhb)
         cache.erase(node.nr); allocator.markAsFree(node.nr);
         for (auto &it : dataBlocks) { cache.erase(it); allocator.markAsFree(it); }
         for (auto &it : listBlocks) { cache.erase(it); allocator.markAsFree(it); }
-        return;
     }
-
-    throw FSError(FSError::FS_NOT_A_FILE_OR_DIRECTORY, node.absName());
 }
 
 std::vector<const FSBlock *>

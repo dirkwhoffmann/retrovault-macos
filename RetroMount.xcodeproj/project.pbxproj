@@ -91,7 +91,6 @@
 		50900BFE2F1E727400A4A81B /* FSImporter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900B4C2F1E727400A4A81B /* FSImporter.cpp */; };
 		50900BFF2F1E727400A4A81B /* FSObjects.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900B4E2F1E727400A4A81B /* FSObjects.cpp */; };
 		50900C002F1E727400A4A81B /* AnyImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900BBC2F1E727400A4A81B /* AnyImage.cpp */; };
-		50900C012F1E727400A4A81B /* _FSError.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900B6A2F1E727400A4A81B /* _FSError.cpp */; };
 		50900C022F1E727400A4A81B /* PosixAdapter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900B772F1E727400A4A81B /* PosixAdapter.cpp */; };
 		50900C032F1E727400A4A81B /* FSExporter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900B6C2F1E727400A4A81B /* FSExporter.cpp */; };
 		50900C042F1E727400A4A81B /* FSBootBlockImage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900B3E2F1E727400A4A81B /* FSBootBlockImage.cpp */; };
@@ -309,8 +308,6 @@
 		50900B662F1E727400A4A81B /* FSDirEntry.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FSDirEntry.cpp; sourceTree = "<group>"; };
 		50900B672F1E727400A4A81B /* FSDoctor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSDoctor.h; sourceTree = "<group>"; };
 		50900B682F1E727400A4A81B /* FSDoctor.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FSDoctor.cpp; sourceTree = "<group>"; };
-		50900B692F1E727400A4A81B /* _FSError.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = _FSError.h; sourceTree = "<group>"; };
-		50900B6A2F1E727400A4A81B /* _FSError.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = _FSError.cpp; sourceTree = "<group>"; };
 		50900B6B2F1E727400A4A81B /* FSExporter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSExporter.h; sourceTree = "<group>"; };
 		50900B6C2F1E727400A4A81B /* FSExporter.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FSExporter.cpp; sourceTree = "<group>"; };
 		50900B6D2F1E727400A4A81B /* FSImporter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FSImporter.h; sourceTree = "<group>"; };
@@ -832,8 +829,6 @@
 				50900B662F1E727400A4A81B /* FSDirEntry.cpp */,
 				50900B672F1E727400A4A81B /* FSDoctor.h */,
 				50900B682F1E727400A4A81B /* FSDoctor.cpp */,
-				50900B692F1E727400A4A81B /* _FSError.h */,
-				50900B6A2F1E727400A4A81B /* _FSError.cpp */,
 				50900B6B2F1E727400A4A81B /* FSExporter.h */,
 				50900B6C2F1E727400A4A81B /* FSExporter.cpp */,
 				50900B6D2F1E727400A4A81B /* FSImporter.h */,
@@ -1315,7 +1310,6 @@
 				50900BFE2F1E727400A4A81B /* FSImporter.cpp in Sources */,
 				50900BFF2F1E727400A4A81B /* FSObjects.cpp in Sources */,
 				50900C002F1E727400A4A81B /* AnyImage.cpp in Sources */,
-				50900C012F1E727400A4A81B /* _FSError.cpp in Sources */,
 				50900C022F1E727400A4A81B /* PosixAdapter.cpp in Sources */,
 				50900C032F1E727400A4A81B /* FSExporter.cpp in Sources */,
 				504503432F216BC4007A7268 /* CanvasViewController.swift in Sources */,

@@ -20,72 +20,71 @@ using FSFault = long;
 struct FSError : public Error {
 
     static constexpr long FS_OK                     = 0;
-    static constexpr long FS_UNKNOWN                = 1;
+    static constexpr long FS_CUSTOM                 = 1;
 
     // General
-    static constexpr long FS_OUT_OF_RANGE           = 2;
-    static constexpr long FS_INVALID_PATH           = 3;
-    static constexpr long FS_INVALID_REGEX          = 4;
-    static constexpr long FS_NOT_A_DIRECTORY        = 5;
-    static constexpr long FS_NOT_A_FILE             = 6;
-    static constexpr long FS_NOT_A_FILE_OR_DIRECTORY= 7;
-    static constexpr long FS_NOT_FOUND              = 8;
-    static constexpr long FS_EXISTS                 = 9;
-    static constexpr long FS_CANNOT_OPEN            = 10;
-    static constexpr long FS_UNFORMATTED            = 11;
-    static constexpr long FS_UNSUPPORTED            = 12;
-    static constexpr long FS_READ_ONLY              = 13;
-    static constexpr long FS_WRONG_BSIZE            = 14;
-    static constexpr long FS_WRONG_CAPACITY         = 15;
-    static constexpr long FS_WRONG_DOS_TYPE         = 16;
-    static constexpr long FS_WRONG_BLOCK_TYPE       = 17;
-    static constexpr long FS_HAS_CYCLES             = 18;
-    static constexpr long FS_CORRUPTED              = 19;
+    static constexpr long FS_INVALID_ARG            = 10;
+    static constexpr long FS_INVALID_PATH           = 11;
+    static constexpr long FS_EXISTS                 = 12;
+    static constexpr long FS_NOT_A_DIRECTORY        = 13;
+    static constexpr long FS_NOT_A_FILE             = 14;
+    static constexpr long FS_NOT_FOUND              = 15;
+    static constexpr long FS_NOT_EMPTY              = 16;
+    static constexpr long FS_UNFORMATTED            = 17;
+    static constexpr long FS_UNSUPPORTED            = 18;
+    
+    // IO
+    static constexpr long FS_READ_ERROR             = 20;
+    static constexpr long FS_WRITE_ERROR            = 21;
+    static constexpr long FS_OUT_OF_SPACE           = 22;
+
+    // Integrity
+    static constexpr long FS_OUT_OF_RANGE           = 30;
+    static constexpr long FS_CORRUPTED              = 31;
+    static constexpr long FS_WRONG_BSIZE            = 32;
+    static constexpr long FS_WRONG_CAPACITY         = 33;
+    static constexpr long FS_WRONG_DOS_TYPE         = 34;
+    static constexpr long FS_WRONG_BLOCK_TYPE       = 35;
 
     // Posix layer
-    static constexpr long FS_INVALID_HANDLE         = 20;
-
-    // Import
-    static constexpr long FS_OUT_OF_SPACE           = 30;
-
+    static constexpr long FS_INVALID_HANDLE         = 40;
+    static constexpr long FS_PERMISSION_DENIED      = 41;
+    
     // Export
-    static constexpr long FS_DIR_NOT_EMPTY          = 40;
-    static constexpr long FS_CANNOT_CREATE_DIR      = 41;
-    static constexpr long FS_CANNOT_CREATE_FILE     = 42;
+    static constexpr long FS_EXPORT_ERROR           = 50;
 
     const char *errstr() const noexcept override {
         
         switch (payload) {
                 
             case FS_OK:                         return "FS_OK";
-            case FS_UNKNOWN:                    return "FS_UNKNOWN";
+            case FS_CUSTOM:                     return "FS_CUSTOM";
                 
-            case FS_OUT_OF_RANGE:               return "FS_OUT_OF_RANGE";
+            case FS_INVALID_ARG:                return "FS_INVALID_ARG";
             case FS_INVALID_PATH:               return "FS_INVALID_PATH";
-            case FS_INVALID_REGEX:              return "FS_INVALID_REGEX";
+            case FS_EXISTS:                     return "FS_EXISTS";
             case FS_NOT_A_DIRECTORY:            return "FS_NOT_A_DIRECTORY";
             case FS_NOT_A_FILE:                 return "FS_NOT_A_FILE";
-            case FS_NOT_A_FILE_OR_DIRECTORY:    return "FS_NOT_A_FILE_OR_DIRECTORY";
             case FS_NOT_FOUND:                  return "FS_NOT_FOUND";
-            case FS_EXISTS:                     return "FS_EXISTS";
-            case FS_CANNOT_OPEN:                return "FS_CANNOT_OPEN";
+            case FS_NOT_EMPTY:                  return "FS_NOT_EMPTY";
             case FS_UNFORMATTED:                return "FS_UNFORMATTED";
             case FS_UNSUPPORTED:                return "FS_UNSUPPORTED";
-            case FS_READ_ONLY:                  return "FS_READ_ONLY";
+                
+            case FS_READ_ERROR:                 return "FS_READ_ERROR";
+            case FS_WRITE_ERROR:                return "FS_WRITE_ERROR";
+            case FS_OUT_OF_SPACE:               return "FS_OUT_OF_SPACE";
+
+            case FS_OUT_OF_RANGE:               return "FS_OUT_OF_RANGE";
+            case FS_CORRUPTED:                  return "FS_CORRUPTED";
             case FS_WRONG_BSIZE:                return "FS_WRONG_BSIZE";
             case FS_WRONG_CAPACITY:             return "FS_WRONG_CAPACITY";
             case FS_WRONG_DOS_TYPE:             return "FS_WRONG_DOS_TYPE";
             case FS_WRONG_BLOCK_TYPE:           return "FS_WRONG_BLOCK_TYPE";
-            case FS_HAS_CYCLES:                 return "FS_HAS_CYCLES";
-            case FS_CORRUPTED:                  return "FS_CORRUPTED";
                 
             case FS_INVALID_HANDLE:             return "FS_INVALID_HANDLE";
+            case FS_PERMISSION_DENIED:          return "FS_PERMISSION_DENIED";
                 
-            case FS_OUT_OF_SPACE:               return "FS_OUT_OF_SPACE";
-                
-            case FS_DIR_NOT_EMPTY:              return "FS_DIR_NOT_EMPTY";
-            case FS_CANNOT_CREATE_DIR:          return "FS_CANNOT_CREATE_DIR";
-            case FS_CANNOT_CREATE_FILE:         return "FS_CANNOT_CREATE_FILE";
+            case FS_EXPORT_ERROR:               return "FS_EXPORT_ERROR";
                 
             default:
                 return "UNKNOWN";
@@ -97,34 +96,33 @@ struct FSError : public Error {
         switch (payload) {
                 
             case FS_OK:                         return 0;
-            case FS_UNKNOWN:                    return EIO;
+            case FS_CUSTOM:                    return EIO;
                 
-            case FS_OUT_OF_RANGE:               return EIO;
+            case FS_INVALID_ARG:                return EINVAL;
             case FS_INVALID_PATH:               return EINVAL;
-            case FS_INVALID_REGEX:              return EINVAL;
+            case FS_EXISTS:                     return EEXIST;
             case FS_NOT_A_DIRECTORY:            return ENOTDIR;
             case FS_NOT_A_FILE:                 return EISDIR;
-            case FS_NOT_A_FILE_OR_DIRECTORY:    return EIO;
             case FS_NOT_FOUND:                  return ENOENT;
-            case FS_EXISTS:                     return EEXIST;
-            case FS_CANNOT_OPEN:                return EACCES;
+            case FS_NOT_EMPTY:                  return EEXIST;
             case FS_UNFORMATTED:                return EIO;
             case FS_UNSUPPORTED:                return EINVAL;
-            case FS_READ_ONLY:                  return EROFS;
+
+            case FS_READ_ERROR:                 return EROFS;
+            case FS_WRITE_ERROR:                return EROFS;
+            case FS_OUT_OF_SPACE:               return ENOSPC;
+
+            case FS_OUT_OF_RANGE:               return EIO;
+            case FS_CORRUPTED:                  return EIO;
             case FS_WRONG_BSIZE:                return EINVAL;
             case FS_WRONG_CAPACITY:             return EINVAL;
             case FS_WRONG_DOS_TYPE:             return EINVAL;
             case FS_WRONG_BLOCK_TYPE:           return EINVAL;
-            case FS_HAS_CYCLES:                 return EINVAL;
-            case FS_CORRUPTED:                  return EIO;
                 
             case FS_INVALID_HANDLE:             return EINVAL;
-                
-            case FS_OUT_OF_SPACE:               return ENOSPC;
-                
-            case FS_DIR_NOT_EMPTY:              return ENOTEMPTY;
-            case FS_CANNOT_CREATE_DIR:          return EIO;
-            case FS_CANNOT_CREATE_FILE:         return EIO;
+            case FS_PERMISSION_DENIED:          return EPERM;
+
+            case FS_EXPORT_ERROR:               return EIO;
                 
             default:
                 return EIO;
