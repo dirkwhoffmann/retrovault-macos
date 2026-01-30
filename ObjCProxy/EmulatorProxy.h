@@ -59,50 +59,6 @@ inline const char *c_str(const std::string &s)
 
 
 //
-// MediaFile
-//
-
-/*
-@interface MediaFileProxy : Proxy
-{
-    NSImage *preview;
-}
-
-+ (FileType) typeOfUrl:(NSURL *)url;
-
-+ (instancetype)make:(void *)file;
-+ (instancetype)makeWithFile:(NSString *)path exception:(ExceptionWrapper *)ex;
-+ (instancetype)makeWithFile:(NSString *)path type:(FileType)t exception:(ExceptionWrapper *)ex;
-+ (instancetype)makeWithBuffer:(const void *)buf length:(NSInteger)len type:(FileType)t exception:(ExceptionWrapper *)ex;
-
-@property (readonly) FileType type;
-@property (readonly) NSInteger size;
-@property (readonly) u64 fnv;
-@property (readonly) Compressor compressor;
-@property (readonly) BOOL compressed;
-
-@property (readonly) u8 *data;
-
-- (void)writeToFile:(NSString *)path exception:(ExceptionWrapper *)ex;
-- (void)writeToFile:(NSString *)path partition:(NSInteger)part exception:(ExceptionWrapper *)ex;
-
-@property (readonly, strong) NSImage *previewImage;
-@property (readonly) time_t timeStamp;
-@property (readonly) DiskInfo diskInfo;
-@property (readonly) HDFInfo hdfInfo;
-@property (readonly) NSString *describeCapacity;
-
-- (NSInteger)readByte:(NSInteger)b offset:(NSInteger)offset;
-- (void)readSector:(NSInteger)b destination:(unsigned char *)buf;
-
-- (NSString *)hexdump:(NSInteger)b offset:(NSInteger)offset len:(NSInteger)len;
-- (NSString *)asciidump:(NSInteger)b offset:(NSInteger)offset len:(NSInteger)len;
-
-@end
-*/
-
-
-//
 // FuseDeviceProxy
 //
 
@@ -139,6 +95,8 @@ inline const char *c_str(const std::string &s)
 -(NSString *)readASCII:(NSInteger)offset from:(NSInteger)block length:(NSInteger)len;
 
 - (void)save:(ExceptionWrapper *)ex;
+- (BOOL)iswriteProtected:(NSInteger)volume;
+- (void)writeProtect:(BOOL)wp volume:(NSInteger)volume;
 
 - (void)mount:(NSURL *)url exception:(ExceptionWrapper *)ex;
 - (void)unmount:(NSInteger)volume;

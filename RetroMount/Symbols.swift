@@ -95,7 +95,7 @@ enum Symbol {
         case .locked:           return [ "lock.fill" ]
         case .serverListening:  return [ "point.3.connected.trianglepath.dotted" ]
         case .serverConnected:  return [ "point.3.filled.connected.trianglepath.dotted" ]
-        case .unlocked:         return [ "lock.fill.open" ]
+        case .unlocked:         return [ "lock.open.fill" ]
         case .warpAutoOn:       return [ "hourglass3Template" ]
         case .warpAutoOff:      return [ "hourglass1Template" ]
         case .warpOn:           return [ "warpOnTemplate" ]

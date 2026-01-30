@@ -34,12 +34,12 @@ struct NodeMeta {
 
 class PosixAdapter : public PosixView {
     
+    // Write protection flag
+    bool wp = false;
+    
     // The wrapped file system
     FileSystem &fs;
-    
-    // Contracts
-    // FSRequire require = FSRequire(fs);
-    
+        
     // Metadata for nodes indexed by block number
     std::unordered_map<BlockNr, NodeMeta> meta;
     
@@ -54,6 +54,16 @@ public:
     explicit PosixAdapter(FileSystem &fs);
     
     
+    //
+    // Configuring
+    //
+ 
+public:
+    
+    bool isWriteProtected() const noexcept override { return wp; }
+    void writeProtect(bool yesno) noexcept override { wp = yesno; }
+
+        
     //
     // Querying statistics and properties
     //

@@ -23,7 +23,7 @@ struct FSError : public Error {
     static constexpr long FS_CUSTOM                 = 1;
 
     // General
-    static constexpr long FS_INVALID_ARG            = 10;
+    static constexpr long FS_INVALID_ARGUMENT       = 10;
     static constexpr long FS_INVALID_PATH           = 11;
     static constexpr long FS_EXISTS                 = 12;
     static constexpr long FS_NOT_A_DIRECTORY        = 13;
@@ -34,9 +34,11 @@ struct FSError : public Error {
     static constexpr long FS_UNSUPPORTED            = 18;
     
     // IO
-    static constexpr long FS_READ_ERROR             = 20;
-    static constexpr long FS_WRITE_ERROR            = 21;
-    static constexpr long FS_OUT_OF_SPACE           = 22;
+    static constexpr long FS_BUSY                   = 20;
+    static constexpr long FS_READ_ONLY              = 21;
+    static constexpr long FS_READ_ERROR             = 22;
+    static constexpr long FS_WRITE_ERROR            = 23;
+    static constexpr long FS_OUT_OF_SPACE           = 24;
 
     // Integrity
     static constexpr long FS_OUT_OF_RANGE           = 30;
@@ -60,7 +62,7 @@ struct FSError : public Error {
             case FS_OK:                         return "FS_OK";
             case FS_CUSTOM:                     return "FS_CUSTOM";
                 
-            case FS_INVALID_ARG:                return "FS_INVALID_ARG";
+            case FS_INVALID_ARGUMENT:           return "FS_INVALID_ARG";
             case FS_INVALID_PATH:               return "FS_INVALID_PATH";
             case FS_EXISTS:                     return "FS_EXISTS";
             case FS_NOT_A_DIRECTORY:            return "FS_NOT_A_DIRECTORY";
@@ -70,6 +72,8 @@ struct FSError : public Error {
             case FS_UNFORMATTED:                return "FS_UNFORMATTED";
             case FS_UNSUPPORTED:                return "FS_UNSUPPORTED";
                 
+            case FS_BUSY:                       return "FS_BUSY";
+            case FS_READ_ONLY:                  return "FS_READ_ONLY";
             case FS_READ_ERROR:                 return "FS_READ_ERROR";
             case FS_WRITE_ERROR:                return "FS_WRITE_ERROR";
             case FS_OUT_OF_SPACE:               return "FS_OUT_OF_SPACE";
@@ -87,7 +91,7 @@ struct FSError : public Error {
             case FS_EXPORT_ERROR:               return "FS_EXPORT_ERROR";
                 
             default:
-                return "UNKNOWN";
+                return "UNKNOWN_FAULT";
         }
     }
     
@@ -96,23 +100,25 @@ struct FSError : public Error {
         switch (payload) {
                 
             case FS_OK:                         return 0;
-            case FS_CUSTOM:                    return EIO;
+            case FS_CUSTOM:                     return EIO;
                 
-            case FS_INVALID_ARG:                return EINVAL;
+            case FS_INVALID_ARGUMENT:           return EINVAL;
             case FS_INVALID_PATH:               return EINVAL;
             case FS_EXISTS:                     return EEXIST;
             case FS_NOT_A_DIRECTORY:            return ENOTDIR;
             case FS_NOT_A_FILE:                 return EISDIR;
             case FS_NOT_FOUND:                  return ENOENT;
-            case FS_NOT_EMPTY:                  return EEXIST;
+            case FS_NOT_EMPTY:                  return ENOTEMPTY;
             case FS_UNFORMATTED:                return EIO;
             case FS_UNSUPPORTED:                return EINVAL;
 
-            case FS_READ_ERROR:                 return EROFS;
-            case FS_WRITE_ERROR:                return EROFS;
+            case FS_BUSY:                       return EBUSY;
+            case FS_READ_ONLY:                  return EROFS;
+            case FS_READ_ERROR:                 return EIO;
+            case FS_WRITE_ERROR:                return EIO;
             case FS_OUT_OF_SPACE:               return ENOSPC;
 
-            case FS_OUT_OF_RANGE:               return EIO;
+            case FS_OUT_OF_RANGE:               return EINVAL;
             case FS_CORRUPTED:                  return EIO;
             case FS_WRONG_BSIZE:                return EINVAL;
             case FS_WRONG_CAPACITY:             return EINVAL;
@@ -120,7 +126,7 @@ struct FSError : public Error {
             case FS_WRONG_BLOCK_TYPE:           return EINVAL;
                 
             case FS_INVALID_HANDLE:             return EINVAL;
-            case FS_PERMISSION_DENIED:          return EPERM;
+            case FS_PERMISSION_DENIED:          return EACCES;
 
             case FS_EXPORT_ERROR:               return EIO;
                 

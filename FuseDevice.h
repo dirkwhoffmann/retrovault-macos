@@ -19,19 +19,19 @@ using namespace retro::vault;
  *
  * Three classes participate in binding the file system to the FUSE backend.
  *
- * FuseDevice:
+ * FuseMountPoint:
  *
- *     Wraps a disk image and manages a collection of FuseVolume instances.
+ *     Represents a single FUSE file system. It acts as a thin wrapper around
+ *     the FUSE C API, connecting application-level code with the FUSE backend.
  *
  * FuseVolume:
  *
  *     A specialized FuseMountPoint that wraps a logical volume and hosts a
  *     file system mounted on that volume.
  *
- * FuseMountPoint:
+ * FuseDevice:
  *
- *     Represents a single FUSE file system. It acts as a thin wrapper around
- *     the FUSE C API, connecting application-level code with the FUSE backend.
+ *     Wraps a disk image and manages a collection of FuseVolume instances.
  *
  *    ------------------          ------------------
  *   |    FuseDevice    |        |  FuseMountPoint  |
@@ -89,6 +89,12 @@ public:
     void unmount(isize volume);
     void unmount();
 
+    // Returns true if the specified volume is mounted read-only
+    bool isWriteProtected(isize volume);
+
+    // Changes the write protection status for the specified volume
+    void writeProtect(bool yesno, isize volume);
+    
     // Writes all changes back to the image file
     void save();
     

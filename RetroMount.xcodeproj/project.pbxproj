@@ -849,14 +849,14 @@
 		50900B7D2F1E727400A4A81B /* FileSystems */ = {
 			isa = PBXGroup;
 			children = (
+				50900B792F1E727400A4A81B /* CMakeLists.txt */,
 				50900B472F1E727400A4A81B /* FSError.h */,
 				50900B482F1E727400A4A81B /* FSError.cpp */,
-				50900B562F1E727400A4A81B /* Amiga */,
-				50900B782F1E727400A4A81B /* CBM */,
-				50900B792F1E727400A4A81B /* CMakeLists.txt */,
+				50900B7C2F1E727400A4A81B /* PosixViewTypes.h */,
 				50900B7A2F1E727400A4A81B /* PosixView.h */,
 				50900B7B2F1E727400A4A81B /* PosixView.cpp */,
-				50900B7C2F1E727400A4A81B /* PosixViewTypes.h */,
+				50900B562F1E727400A4A81B /* Amiga */,
+				50900B782F1E727400A4A81B /* CBM */,
 			);
 			path = FileSystems;
 			sourceTree = "<group>";

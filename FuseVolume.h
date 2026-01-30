@@ -35,9 +35,6 @@ protected:
     // Logical volume
     unique_ptr<Volume> vol;
 
-    // Raw file system on top of the volume
-    unique_ptr<amiga::FileSystem> fs;
-
     // POSIX layer on top of the raw file system
     unique_ptr<PosixView> dos;
 
@@ -73,6 +70,8 @@ public:
     i64 reads() const { return vol->reads; }
     i64 writes() const { return vol->writes; }
 
+    bool isWriteProtected() { return dos->isWriteProtected(); }
+    void writeProtect(bool yesno) { dos->writeProtect(yesno); }
     void flush() { dos->flush(); }
     
 protected:

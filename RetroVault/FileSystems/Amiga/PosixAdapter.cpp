@@ -85,6 +85,8 @@ PosixAdapter::attr(const fs::path &path) const
 void
 PosixAdapter::mkdir(const fs::path &path)
 {
+    if (wp) throw FSError(FSError::FS_READ_ONLY);
+    
     auto parent = path.parent_path();
     auto name = path.filename();
 
@@ -102,6 +104,8 @@ PosixAdapter::mkdir(const fs::path &path)
 void
 PosixAdapter::rmdir(const fs::path &path)
 {
+    if (wp) throw FSError(FSError::FS_READ_ONLY);
+
     // Lookup directory
     auto node = fs.seek(path);
 
@@ -186,6 +190,8 @@ PosixAdapter::close(HandleRef ref)
 void
 PosixAdapter::unlink(const fs::path &path)
 {
+    if (wp) throw FSError(FSError::FS_READ_ONLY);
+
     auto node = fs.seek(path);
 
     if (auto *info = getMeta(node); info) {
@@ -256,6 +262,8 @@ PosixAdapter::ensureDirectory(const fs::path &path)
 void
 PosixAdapter::create(const fs::path &path)
 {
+    if (wp) throw FSError(FSError::FS_READ_ONLY);
+
     auto parent = path.parent_path();
     auto name   = path.filename();
 
@@ -286,7 +294,7 @@ PosixAdapter::lseek(HandleRef ref, isize offset, u16 whence)
         case SEEK_END:  newOffset = fileSize + offset; break;
 
         default:
-            throw FSError(FSError::FS_INVALID_ARG, "whence: " + std::to_string(whence));
+            throw FSError(FSError::FS_INVALID_ARGUMENT, "whence: " + std::to_string(whence));
     }
 
     // Ensure that the offset is not negative
@@ -300,6 +308,8 @@ PosixAdapter::lseek(HandleRef ref, isize offset, u16 whence)
 void
 PosixAdapter::move(const fs::path &oldPath, const fs::path &newPath)
 {
+    if (wp) throw FSError(FSError::FS_READ_ONLY);
+
     auto newDir  = newPath.parent_path();
     auto newName = newPath.filename();
     auto src     = fs.seek(oldPath);
@@ -311,6 +321,8 @@ PosixAdapter::move(const fs::path &oldPath, const fs::path &newPath)
 void
 PosixAdapter::chmod(const fs::path &path, u32 mode)
 {
+    if (wp) throw FSError(FSError::FS_READ_ONLY);
+
     auto &node = fs.fetch(ensureFile(path)).mutate();
 
     u32 prot = node.getProtectionBits();
@@ -325,6 +337,8 @@ PosixAdapter::chmod(const fs::path &path, u32 mode)
 void
 PosixAdapter::resize(const fs::path &path, isize size)
 {
+    if (wp) throw FSError(FSError::FS_READ_ONLY);
+
     fs.resize(ensureFile(path), size);
 }
 
@@ -356,6 +370,8 @@ PosixAdapter::read(HandleRef ref, std::span<u8> buffer)
 isize
 PosixAdapter::write(HandleRef ref, std::span<const u8> buffer)
 {
+    if (wp) throw FSError(FSError::FS_READ_ONLY);
+
     auto &handle = getHandle(ref);
     auto &meta   = ensureMeta(handle.node);
 

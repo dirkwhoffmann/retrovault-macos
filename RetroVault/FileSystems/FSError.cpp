@@ -20,7 +20,7 @@ FSError::FSError(FSFault fault, const string &s) : utl::Error(fault)
             set_msg("Invalid path: " + s);
             break;
 
-        case FS_INVALID_ARG:
+        case FS_INVALID_ARGUMENT:
             set_msg("Invalid argument: " + s);
             break;
 

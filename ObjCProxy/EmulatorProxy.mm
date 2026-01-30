@@ -391,6 +391,16 @@ using namespace utl;
     catch (Error &error) { [ex save:error]; }
 }
 
+- (BOOL)iswriteProtected:(NSInteger)volume
+{
+    return [self adapter]->isWriteProtected(volume);
+}
+
+- (void)writeProtect:(BOOL)wp volume:(NSInteger)volume
+{
+    [self adapter]->writeProtect(wp, volume);
+}
+
 - (void)mount:(NSURL *)mountpoint exception:(ExceptionWrapper *)ex
 {
     try { [self adapter]->mount([mountpoint fileSystemRepresentation]); }

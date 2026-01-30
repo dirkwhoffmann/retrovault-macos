@@ -111,13 +111,13 @@ FuseDevice::mount(const fs::path &mountPoint)
 }
 
 void
-FuseDevice::unmount(isize partition)
+FuseDevice::unmount(isize volume)
 {
-    assert(partition >= 0 && partition < volumes.size());
+    assert(volume >= 0 && volume < volumes.size());
 
     // Remove the volume from the vector
-    std::unique_ptr<FuseVolume> vol = std::move(volumes[partition]);
-    volumes.erase(volumes.begin() + partition);
+    std::unique_ptr<FuseVolume> vol = std::move(volumes[volume]);
+    volumes.erase(volumes.begin() + volume);
     
     // Unmount the volume asynchroneously
     std::thread([vol = std::move(vol)]() mutable {
@@ -131,6 +131,20 @@ void
 FuseDevice::unmount()
 {
     while (!volumes.empty()) { unmount(0); }
+}
+
+bool
+FuseDevice::isWriteProtected(isize volume)
+{
+    assert(volume >= 0 && volume < volumes.size());
+    return volumes[volume]->isWriteProtected();
+}
+
+void
+FuseDevice::writeProtect(bool yesno, isize volume)
+{
+    assert(volume >= 0 && volume < volumes.size());
+    volumes[volume]->writeProtect(yesno);
 }
 
 void

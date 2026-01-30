@@ -26,6 +26,9 @@ class MyToolbar: NSToolbar, NSToolbarDelegate {
     // Set to true to gray out all toolbar items
     var globalDisable = false
     
+    var svc: MySplitViewController { controller.vc! }
+    var proxy: FuseDeviceProxy? { app.manager.proxy(device: svc.selectedDevice) }
+
     init() {
         
         super.init(identifier: "MyToolbar")
@@ -134,12 +137,17 @@ class MyToolbar: NSToolbar, NSToolbarDelegate {
         // Take care of the global disable flag
         for item in items { item.isEnabled = !globalDisable }
         
+        // guard let vc = controller.vc else { return }
+        // guard let proxy = app.manager.proxy(device: vc.selectedDevice) else { return }
+                
         // Sync button
-        sync.isEnabled = controller.vc?.selectedVolume == nil
+        sync.isEnabled = svc.selectedVolume == nil
 
         // Write-protection button
-        lock.isEnabled = controller.vc?.selectedVolume != nil
-
+        lock.isHidden = svc.selectedVolume == nil
+        if let vol = svc.selectedVolume, let proxy = proxy {
+            lock.setImage(Symbol.get(proxy.iswriteProtected(vol) ? .unlocked : .locked), forSegment: 0)
+        }
         
         /*
         if emu.poweredOn {
@@ -179,7 +187,15 @@ class MyToolbar: NSToolbar, NSToolbarDelegate {
     
     @objc private func lockAction() {
         
-        print("keyboardAction")
+        print("lockAction")
+                        
+        if let vol = svc.selectedVolume, let proxy = proxy {
+            proxy.writeProtect(!proxy.iswriteProtected(vol), volume: vol)
+        }
+        
+        updateToolbar()
+        
+        
         /*
         if controller.virtualKeyboard == nil {
             controller.virtualKeyboard = VirtualKeyboardController.make(parent: controller)
@@ -193,5 +209,7 @@ class MyToolbar: NSToolbar, NSToolbarDelegate {
     @objc private func gitHubAction() {
         
         print("gitHubAction")
+        
+        // TODO: Open web browser with URL https://github.com/dirkwhoffmann/vAMIGA
     }
 }
