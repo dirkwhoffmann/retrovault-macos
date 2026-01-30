@@ -11,7 +11,7 @@
 
 #include "utl/abilities/Reflectable.h"
 
-namespace retro::vault::cbm {
+namespace retro::vault {
 
 using namespace utl;
 
@@ -44,6 +44,7 @@ struct FSError : public Error {
 
     // Posix layer
     static constexpr long FS_INVALID_HANDLE         = 20;
+
     // Import
     static constexpr long FS_OUT_OF_SPACE           = 30;
 
@@ -90,7 +91,7 @@ struct FSError : public Error {
                 return "UNKNOWN";
         }
     }
-
+    
     int posixErrno() const noexcept {
         
         switch (payload) {
@@ -129,7 +130,7 @@ struct FSError : public Error {
                 return EIO;
         }
     }
-        
+
     explicit FSError(long fault, const std::string &msg = "");
     explicit FSError(long fault, const char *str) : FSError(fault, string(str)) { }
     explicit FSError(long fault, const fs::path &path) : FSError(fault, path.string()) { }

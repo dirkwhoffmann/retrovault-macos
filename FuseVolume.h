@@ -12,11 +12,10 @@
 #include "FuseMountPoint.h"
 #include "FuseDebug.h"
 #include "BlockDevice.h"
+#include "FileSystems/FSError.h"
 #include "FileSystems/PosixView.h"
 #include "FileSystems/Amiga/FileSystem.h"
-#include "FileSystems/Amiga/FSError.h"
 #include "FileSystems/CBM/FileSystem.h"
-#include "FileSystems/CBM/FSError.h"
 
 using namespace retro::vault;
 
@@ -86,16 +85,11 @@ protected:
 
             return fn();
 
-        } catch (const amiga::FSError &err) {
+        } catch (const FSError &err) {
 
-            mylog("           FSError (Amiga): %ld (%s)\n", err.payload, err.what());
+            mylog("           FSError: %ld (%s)\n", err.payload, err.what());
             return -err.posixErrno();
             
-        } catch (const cbm::FSError &err) {
-
-            mylog("           FSError (CBM): %ld (%s)\n", err.payload, err.what());
-            return -err.posixErrno();
-
         } catch (const Error &err) {
             
             mylog("           Error: %ld (%s)\n", err.payload, err.what());

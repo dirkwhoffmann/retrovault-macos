@@ -88,7 +88,6 @@
 #pragma once
 
 #include "FileSystems/CBM/FSTypes.h"
-#include "FileSystems/CBM/FSError.h"
 #include "FileSystems/CBM/FSBlock.h"
 #include "FileSystems/CBM/FSContract.h"
 #include "FileSystems/CBM/FSObjects.h"
@@ -99,6 +98,7 @@
 #include "FileSystems/CBM/FSImporter.h"
 #include "FileSystems/CBM/FSExporter.h"
 #include "FileSystems/CBM/FSTraits.h"
+#include "FileSystems/FSError.h"
 #include "FileSystems/PosixViewTypes.h"
 #include "DeviceError.h"
 #include "Volume.h"

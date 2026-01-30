@@ -89,7 +89,6 @@
 #pragma once
 
 #include "FileSystems/Amiga/FSTypes.h"
-#include "FileSystems/Amiga/FSError.h"
 #include "FileSystems/Amiga/FSBlock.h"
 #include "FileSystems/Amiga/FSContract.h"
 #include "FileSystems/Amiga/FSDescriptor.h"
@@ -100,6 +99,7 @@
 #include "FileSystems/Amiga/FSImporter.h"
 #include "FileSystems/Amiga/FSExporter.h"
 #include "FileSystems/Amiga/FSTree.h"
+#include "FileSystems/FSError.h"
 #include "FileSystems/PosixViewTypes.h"
 #include "DeviceError.h"
 #include "Volume.h"

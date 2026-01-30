@@ -7,6 +7,8 @@
 // See https://mozilla.org/MPL/2.0 for license information
 // -----------------------------------------------------------------------------
 
+#if 0
+
 #include "FileSystems/CBM/FSError.h"
 #include "FileSystems/CBM/FileSystem.h"
 
@@ -107,3 +109,5 @@ FSError::FSError(FSFault fault, const string &s) : utl::Error(fault)
 }
 
 }
+
+#endif

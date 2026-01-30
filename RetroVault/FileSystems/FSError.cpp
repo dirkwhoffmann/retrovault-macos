@@ -7,10 +7,10 @@
 // See https://mozilla.org/MPL/2.0 for license information
 // -----------------------------------------------------------------------------
 
-#include "FileSystems/Amiga/FSError.h"
-#include "FileSystems/Amiga/FileSystem.h"
+#include "FileSystems/FSError.h"
+// #include "FileSystems/Amiga/FileSystem.h"
 
-namespace retro::vault::amiga {
+namespace retro::vault {
 
 FSError::FSError(FSFault fault, const string &s) : utl::Error(fault)
 {
