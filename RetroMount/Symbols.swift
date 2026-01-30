@@ -13,6 +13,7 @@ import AppKit
 enum Symbol {
     
     // Actions
+    case eject
     case inspect
     case pause
     case play
@@ -78,6 +79,7 @@ enum Symbol {
         switch self {
 
             // Actions
+        case .eject:            return [ "eject.circle" ]
         case .inspect:          return [ "magnifyingglass" ]
         case .pause:            return [ "pause.circle" ]
         case .play:             return [ "play.circle" ]
@@ -88,14 +90,14 @@ enum Symbol {
         case .stepCycle:        return [ "stepCycleTemplate" ]
         case .stepLine:         return [ "stepLineTemplate" ]
         case .stepFrame:        return [ "stepFrameTemplate" ]
-        case .sync:             return [ "square.and.arrow.down", "arrow.trianglehead.2.clockwise.rotate.90" ]
+        case .sync:             return [ "arrow.trianglehead.2.clockwise.rotate.90.circle", "square.and.arrow.down", "arrow.trianglehead.2.clockwise.rotate.90" ]
         case .trash:            return [ "trash" ]
 
             // Status
-        case .locked:           return [ "lock.fill" ]
+        case .locked:           return [ "lock" ]
         case .serverListening:  return [ "point.3.connected.trianglepath.dotted" ]
         case .serverConnected:  return [ "point.3.filled.connected.trianglepath.dotted" ]
-        case .unlocked:         return [ "lock.open.fill" ]
+        case .unlocked:         return [ "lock.open" ]
         case .warpAutoOn:       return [ "hourglass3Template" ]
         case .warpAutoOff:      return [ "hourglass1Template" ]
         case .warpOn:           return [ "warpOnTemplate" ]

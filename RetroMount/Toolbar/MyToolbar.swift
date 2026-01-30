@@ -9,8 +9,9 @@
 
 extension NSToolbarItem.Identifier {
     
-    static let sync = NSToolbarItem.Identifier("Sync")
-    static let lock = NSToolbarItem.Identifier("Lock")
+    static let commit = NSToolbarItem.Identifier("Commit")
+    static let unmount = NSToolbarItem.Identifier("Unmount")
+    static let protect = NSToolbarItem.Identifier("Protect")
     static let github = NSToolbarItem.Identifier("GitHub")
 }
 
@@ -19,8 +20,9 @@ class MyToolbar: NSToolbar, NSToolbarDelegate {
     
     var controller: MyWindowController!
 
-    var sync: MyToolbarItemGroup!
-    var lock: MyToolbarItemGroup!
+    var commit: MyToolbarItemGroup!
+    var unmount: MyToolbarItemGroup!
+    var protect: MyToolbarItemGroup!
     var github: MyToolbarItemGroup!
 
     // Set to true to gray out all toolbar items
@@ -55,8 +57,9 @@ class MyToolbar: NSToolbar, NSToolbarDelegate {
         
         return [ .toggleSidebar,
                  .sidebarTrackingSeparator,
-                 .sync,
-                 .lock,
+                 .commit,
+                 .unmount,
+                 .protect,
                  .github,
                  .space,
                  .flexibleSpace ]
@@ -67,10 +70,11 @@ class MyToolbar: NSToolbar, NSToolbarDelegate {
         return [ .flexibleSpace,
                  .toggleSidebar,
                  .sidebarTrackingSeparator,
-                 .flexibleSpace,
-                 .sync,
-                 .lock,
+                 .commit,
+                 .unmount,
                  .space,
+                 .protect,
+                 .flexibleSpace,
                  .github ]
     }
     
@@ -80,23 +84,32 @@ class MyToolbar: NSToolbar, NSToolbarDelegate {
                 
         switch id {
                         
-        case .sync:
+        case .commit:
             
-            sync = MyToolbarItemGroup(identifier: .sync,
+            commit = MyToolbarItemGroup(identifier: .commit,
                                       images: [.sync],
-                                      actions: [#selector(syncAction)],
+                                      actions: [#selector(commitAction)],
                                       target: self,
-                                      label: "Sync")
-            return sync
+                                      label: "Commit")
+            return commit
+
+        case .unmount:
             
-        case .lock:
+            commit = MyToolbarItemGroup(identifier: .unmount,
+                                      images: [.eject],
+                                      actions: [#selector(unmountAction)],
+                                      target: self,
+                                      label: "Unmount")
+            return commit
+
+        case .protect:
             
-            lock = MyToolbarItemGroup(identifier: .lock,
+            protect = MyToolbarItemGroup(identifier: .protect,
                                       images: [.locked],
-                                      actions: [#selector(lockAction)],
+                                      actions: [#selector(protectAction)],
                                       target: self,
-                                      label: "Lock")
-            return lock
+                                      label: "Protect")
+            return protect
  
         case .github:
             
@@ -115,21 +128,6 @@ class MyToolbar: NSToolbar, NSToolbarDelegate {
     override func validateVisibleItems() {
         
         updateToolbar()
-        
-            /*
-        // Disable the snapshot revert button if no snapshots have been taken
-        snapshots.setEnabled(controller.snapshotCount > 0, forSegment: 1)
-        
-        // Update input devices
-        controller.gamePadManager.refresh(menu: port1.menu)
-        controller.gamePadManager.refresh(menu: port2.menu)
-        port1.selectItem(withTag: controller.config.gameDevice1)
-        port2.selectItem(withTag: controller.config.gameDevice2)
-        */
-        /*
-        port1.menuFormRepresentation = nil
-        port2.menuFormRepresentation = nil
-        */
     }
     
     func updateToolbar() {
@@ -137,73 +135,52 @@ class MyToolbar: NSToolbar, NSToolbarDelegate {
         // Take care of the global disable flag
         for item in items { item.isEnabled = !globalDisable }
         
-        // guard let vc = controller.vc else { return }
-        // guard let proxy = app.manager.proxy(device: vc.selectedDevice) else { return }
-                
-        // Sync button
-        sync.isEnabled = svc.selectedVolume == nil
+        // Commit button
+        // commit.isEnabled = svc.selectedVolume == nil
+
+        // Unmount button
 
         // Write-protection button
-        lock.isHidden = svc.selectedVolume == nil
+        protect.isHidden = svc.selectedVolume == nil
         if let vol = svc.selectedVolume, let proxy = proxy {
-            lock.setImage(Symbol.get(proxy.iswriteProtected(vol) ? .unlocked : .locked), forSegment: 0)
+            protect.setImage(Symbol.get(proxy.iswriteProtected(vol) ? .unlocked : .locked), forSegment: 0)
         }
-        
-        /*
-        if emu.poweredOn {
-            
-            controls.setEnabled(true, forSegment: 0) // Pause
-            controls.setEnabled(true, forSegment: 1) // Reset
-            controls.setToolTip("Power off", forSegment: 2) // Power
-            
-        } else {
-            
-            controls.setEnabled(false, forSegment: 0) // Pause
-            controls.setEnabled(false, forSegment: 1) // Reset
-            controls.setToolTip("Power on", forSegment: 2) // Power
-        }
-        
-        if emu.running {
-            
-            controls.setToolTip("Pause", forSegment: 0)
-            controls.setImage(SFSymbol.get(.pause), forSegment: 0)
-            
-        } else {
-            
-            controls.setToolTip("Run", forSegment: 0)
-            controls.setImage(SFSymbol.get(.play), forSegment: 0)
-        }
-        */
     }
     
     //
     // Action methods
     //
     
-    @objc private func syncAction() {
-        
-        print("syncAction")
+    @objc private func commitAction() {
+
+        if let volume = svc.selectedVolume {
+
+            print("TODO: commit \(volume)")
+        } else {
+            print("TODO: commit all")
+        }
     }
-    
-    @objc private func lockAction() {
+
+    @objc private func unmountAction() {
         
-        print("lockAction")
+        if let volume = svc.selectedVolume {
+
+            print("TODO: unmount \(volume)")
+        } else {
+            print("TODO: unmount all")
+        }
+        
+    }
+
+    @objc private func protectAction() {
+        
+        print("protectAction")
                         
         if let vol = svc.selectedVolume, let proxy = proxy {
             proxy.writeProtect(!proxy.iswriteProtected(vol), volume: vol)
         }
         
         updateToolbar()
-        
-        
-        /*
-        if controller.virtualKeyboard == nil {
-            controller.virtualKeyboard = VirtualKeyboardController.make(parent: controller)
-        }
-        if controller.virtualKeyboard?.window?.isVisible == false {
-            controller.virtualKeyboard?.showAsSheet()
-        }
-        */
     }
     
     @objc private func gitHubAction() {
