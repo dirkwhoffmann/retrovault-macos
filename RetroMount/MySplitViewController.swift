@@ -29,6 +29,8 @@ class MySplitViewController: NSSplitViewController {
 
     // The currently selected sidebar item (device or volume)
     var selection: (Int?, Int?) = (nil, nil)
+    var selectedDevice: Int? { selection.0 }
+    var selectedVolume: Int? { selection.1 }
 
     // The currently active canvas controller
     var current: CanvasViewController?

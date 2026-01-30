@@ -80,8 +80,8 @@ class MyToolbar: NSToolbar, NSToolbarDelegate {
         case .sync:
             
             sync = MyToolbarItemGroup(identifier: .sync,
-                                      images: [.gear],
-                                      actions: [#selector(settingsAction)],
+                                      images: [.sync],
+                                      actions: [#selector(syncAction)],
                                       target: self,
                                       label: "Sync")
             return sync
@@ -89,20 +89,20 @@ class MyToolbar: NSToolbar, NSToolbarDelegate {
         case .lock:
             
             lock = MyToolbarItemGroup(identifier: .lock,
-                                      images: [.keyboard],
-                                      actions: [#selector(keyboardAction)],
+                                      images: [.locked],
+                                      actions: [#selector(lockAction)],
                                       target: self,
                                       label: "Lock")
             return lock
  
         case .github:
             
-            lock = MyToolbarItemGroup(identifier: .github,
-                                      images: [.keyboard],
-                                      actions: [#selector(keyboardAction)],
-                                      target: self,
-                                      label: "GitHub")
-            return lock
+            github = MyToolbarItemGroup(identifier: .github,
+                                        images: [.github],
+                                        actions: [#selector(gitHubAction)],
+                                        target: self,
+                                        label: "GitHub")
+            return github
             
         default:
             return nil
@@ -111,15 +111,9 @@ class MyToolbar: NSToolbar, NSToolbarDelegate {
     
     override func validateVisibleItems() {
         
-        // Take care of the global disable flag
-        for item in items { item.isEnabled = !globalDisable }
+        updateToolbar()
         
-        /*
-        // Disable the keyboard button if the virtual keyboard is open
-        if  controller.virtualKeyboard?.window?.isVisible == true {
-            (keyboard.view as? NSButton)?.isEnabled = false
-        }
-        
+            /*
         // Disable the snapshot revert button if no snapshots have been taken
         snapshots.setEnabled(controller.snapshotCount > 0, forSegment: 1)
         
@@ -133,11 +127,19 @@ class MyToolbar: NSToolbar, NSToolbarDelegate {
         port1.menuFormRepresentation = nil
         port2.menuFormRepresentation = nil
         */
-        sync.menuFormRepresentation = nil
-        lock.menuFormRepresentation = nil
     }
     
     func updateToolbar() {
+        
+        // Take care of the global disable flag
+        for item in items { item.isEnabled = !globalDisable }
+        
+        // Sync button
+        sync.isEnabled = controller.vc?.selectedVolume == nil
+
+        // Write-protection button
+        lock.isEnabled = controller.vc?.selectedVolume != nil
+
         
         /*
         if emu.poweredOn {
@@ -170,55 +172,12 @@ class MyToolbar: NSToolbar, NSToolbarDelegate {
     // Action methods
     //
     
-    @objc private func inspectorAction() {
+    @objc private func syncAction() {
         
-        print("inspectorAction")
-        // controller.inspectorAction(self)
+        print("syncAction")
     }
     
-    @objc private func dashboardAction() {
-        
-        print("inspectorAction")
-        // controller.dashboardAction(self)
-    }
-    
-    @objc private func consoleAction() {
-        
-        print("consoleAction")
-        // controller.consoleAction(self)
-    }
-    
-    @objc private func takeSnapshotAction() {
-        
-        print("takeSnapshotAction")
-        // controller.takeSnapshotAction(self)
-    }
-    
-    @objc private func restoreSnapshotAction() {
-        
-        print("restoreSnapshotAction")
-        // controller.restoreSnapshotAction(self)
-    }
-    
-    @objc private func browseSnapshotAction() {
-        
-        print("browseSnapshotAction")
-        // controller.browseSnapshotsAction(self)
-    }
-    
-    @objc private func port1Action(_ sender: NSMenuItem) {
-        
-        print("port1Action")
-        //controller.config.gameDevice1 = sender.tag
-    }
-    
-    @objc private func port2Action(_ sender: NSMenuItem) {
-        
-        print("port2Action")
-        //controller.config.gameDevice2 = sender.tag
-    }
-    
-    @objc private func keyboardAction() {
+    @objc private func lockAction() {
         
         print("keyboardAction")
         /*
@@ -231,27 +190,8 @@ class MyToolbar: NSToolbar, NSToolbarDelegate {
         */
     }
     
-    @objc private func settingsAction() {
+    @objc private func gitHubAction() {
         
-        print("keyboardAction")
-        // controller.settingsAction(self)
-    }
-    
-    @objc private func runAction() {
-        
-        print("keyboardAction")
-        // controller.stopAndGoAction(self)
-    }
-    
-    @objc private func resetAction() {
-        
-        print("keyboardAction")
-        // controller.resetAction(self)
-    }
-    
-    @objc private func powerAction() {
-        
-        print("keyboardAction")
-        // controller.powerAction(self)
+        print("gitHubAction")
     }
 }

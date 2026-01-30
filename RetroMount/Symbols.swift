@@ -1,5 +1,5 @@
 // -----------------------------------------------------------------------------
-// This file is part of vAmiga
+// This file is part of RetroMount
 //
 // Copyright (C) Dirk W. Hoffmann. www.dirkwhoffmann.de
 // Licensed under the GNU General Public License v3
@@ -9,65 +9,161 @@
 
 import AppKit
 
-enum SFSymbol {
-
-    case alarm
-    case arrowClock
-    case arrowDown
-    case arrowkeys
-    case arrowUp
-    case console
-    case gamecontroller
-    case gauge
-    case gear
-    case keyboard
-    case magnifyingglass
-    case mouse
-    case serverListening
-    case serverConnected
-    case nosign
+@MainActor
+enum Symbol {
+    
+    // Actions
+    case inspect
     case pause
     case play
     case power
     case reset
+    case stepInto
+    case stepOver
+    case stepCycle
+    case stepLine
+    case stepFrame
+    case sync
     case trash
+
+    // Status
+    case locked
+    case serverListening
+    case serverConnected
+    case unlocked
+    case warpAutoOn
+    case warpAutoOff
+    case warpOn
+    case warpOff
+
+    // Pictograms
+    case biohazard
+    case exclamationmark
+    case gear
+    case magnifyingglass
+    case shell
+    case stearingwheel
     case wifi
 
+    // Logos
+    case github
+    
+    // Devices
+    case amigaKey
+    case cable
+    case cableLoop
+    case console
+    case floppy35
+    case floppy35wp
+    case floppy525
+    case floppy525wp
+    case gamecontroller
+    case harddrive
+    case keyboard
+    case midi
+    case mouse
+    case nosign
+
+    // Indicators
+    case arrowClock
+    case arrowUp
+    case arrowDown
+    case arrowLeft
+    case arrowRight
+    case arrowkeys
+    case gauge
+    
     var systemNames: [String] {
 
         switch self {
 
-        case .alarm:            return [ "alarm" ]
-        case .arrowClock:       return [ "clock.arrow.trianglehead.counterclockwise.rotate.90",
-                                         "clock.arrow.circlepath" ]
-        case .arrowDown:        return [ "arrow.down.circle" ]
-        case .arrowkeys:        return [ "arrowkeys" ]
-        case .arrowUp:          return [ "arrow.up.circle" ]
-        case .console:          return [ "fossil.shell", "text.justify.left", "text.rectangle", "apple.terminal", "text.alignleft" ]
-        case .gamecontroller:   return [ "gamecontroller" ]
-        case .gauge:            return [ "gauge.chart.lefthalf.righthalf", "gauge.with.needle" ]
-        case .gear:             return [ "gear" ]
-        case .keyboard:         return [ "keyboard" ]
-        case .magnifyingglass:  return [ "magnifyingglass" ]
-        case .mouse:            return [ "computermouse" ]
-        case .serverListening:  return [ "point.3.connected.trianglepath.dotted" ]
-        case .serverConnected:  return [ "point.3.filled.connected.trianglepath.dotted" ]
-        case .nosign:           return [ "nosign" ]
+            // Actions
+        case .inspect:          return [ "magnifyingglass" ]
         case .pause:            return [ "pause.circle" ]
         case .play:             return [ "play.circle" ]
         case .power:            return [ "power" ]
         case .reset:            return [ "arrow.counterclockwise.circle" ]
+        case .stepInto:         return [ "stepIntoTemplate" ]
+        case .stepOver:         return [ "stepOverTemplate" ]
+        case .stepCycle:        return [ "stepCycleTemplate" ]
+        case .stepLine:         return [ "stepLineTemplate" ]
+        case .stepFrame:        return [ "stepFrameTemplate" ]
+        case .sync:             return [ "square.and.arrow.down", "arrow.trianglehead.2.clockwise.rotate.90" ]
         case .trash:            return [ "trash" ]
+
+            // Status
+        case .locked:           return [ "lock.fill" ]
+        case .serverListening:  return [ "point.3.connected.trianglepath.dotted" ]
+        case .serverConnected:  return [ "point.3.filled.connected.trianglepath.dotted" ]
+        case .unlocked:         return [ "lock.fill.open" ]
+        case .warpAutoOn:       return [ "hourglass3Template" ]
+        case .warpAutoOff:      return [ "hourglass1Template" ]
+        case .warpOn:           return [ "warpOnTemplate" ]
+        case .warpOff:          return [ "warpOffTemplate" ]
+
+            // Pictograms
+        case .biohazard:        return [ "biohazardTemplate" ]
+        case .exclamationmark:  return [ "exclamationmark.octagon" ]
+        case .gear:             return [ "gear" ]
+        case .magnifyingglass:  return [ "magnifyingglass" ]
+        case .shell:            return [ "fossil.shell" ]
+        case .stearingwheel:    return [ "steeringwheel" ]
         case .wifi:             return [ "wifi.circle" ]
+        case .github:           return [ "github" ]
+            
+            // Devices
+        case .amigaKey:         return [ "amigaKey.template" ]
+        case .cable:            return [ "point.bottomleft.forward.to.point.topright.scurvepath" ]
+        case .cableLoop:        return [ "point.forward.to.point.capsulepath" ]
+        case .console:          return [ "fossil.shell", "text.justify.left", "text.rectangle", "apple.terminal", "text.alignleft" ]
+        case .floppy35:         return [ "floppy35Template" ]
+        case .floppy35wp:       return [ "floppy35wpTemplate" ]
+        case .floppy525:        return [ "floppy525Template" ]
+        case .floppy525wp:      return [ "floppy525wpTemplate" ]
+        case .gamecontroller:   return [ "gamecontroller" ]
+        case .harddrive:        return [ "hdrTemplate" ]
+        case .keyboard:         return [ "keyboard" ]
+        case .midi:             return [ "devMidiInterfaceTemplate" ]
+        case .mouse:            return [ "computermouse" ]
+        case .nosign:           return [ "nosign" ]
+
+            // Indicators
+        case .arrowClock:       return [ "clock.arrow.trianglehead.counterclockwise.rotate.90",
+                                         "clock.arrow.circlepath" ]
+        case .arrowUp:          return [ "arrowshape.up" ]
+        case .arrowDown:        return [ "arrowshape.down" ]
+        case .arrowLeft:        return [ "arrowshape.left" ]
+        case .arrowRight:       return [ "arrowshape.right" ]
+        case .arrowkeys:        return [ "arrowkeys" ]
+        case .gauge:            return [ "gauge.chart.lefthalf.righthalf", "gauge.with.needle" ]
         }
     }
 
-    static func get(_ symbol: SFSymbol, size: CGFloat = 25, description: String? = nil) -> NSImage {
+    private struct CacheKey: Hashable {
+     
+        let symbol: Symbol
+        let size: CGFloat
+    }
+
+    private static var imageCache = [CacheKey: NSImage]()
+
+    static func get(_ symbol: Symbol, size: CGFloat = 25, description: String? = nil) -> NSImage {
+
+        // Return cached image if available
+        if let cached = imageCache[CacheKey(symbol: symbol, size: size)] { return cached }
 
         let config = NSImage.SymbolConfiguration(pointSize: size, weight: .light, scale: .small)
+        let border = CGFloat(4)
 
         for name in symbol.systemNames {
 
+            // Look up the image in the assets folder (custom images)
+            if let img = get(name: name, size: size - border) {
+                img.isTemplate = true
+                return img
+            }
+            
+            // Look up the image in the system SF library
             if let img = NSImage(systemSymbolName: name, accessibilityDescription: description) {
                 if let result = img.withSymbolConfiguration(config) {
                     return result
@@ -75,7 +171,14 @@ enum SFSymbol {
             }
         }
 
+        // No image found
         return NSImage(systemSymbolName: "questionmark.circle", accessibilityDescription: description)!
+    }
+    
+    static func get(name: String, size: CGFloat = 25) -> NSImage? {
+
+        guard let img = NSImage(named: name) else { return nil }
+        return img.resize(size: CGSize(width: size, height: size))
     }
 }
 

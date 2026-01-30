@@ -151,6 +151,58 @@ extension NSImage {
 
         return sfSymbol(name: "chevron.right", size: size, weight: weight)
     }
+    
+    func resizeImage(width: CGFloat, height: CGFloat,
+                     cutout: NSRect,
+                     interpolation: NSImageInterpolation = .high) -> NSImage {
+
+        let img = NSImage(size: CGSize(width: width, height: height))
+
+        img.lockFocus()
+        let ctx = NSGraphicsContext.current
+        ctx?.imageInterpolation = interpolation
+        self.draw(in: cutout,
+                  from: NSRect(x: 0, y: 0, width: size.width, height: size.height),
+                  operation: .sourceOver,
+                  fraction: 1)
+        img.unlockFocus()
+
+        return img
+    }
+
+    func padImage(dx: CGFloat, dy: CGFloat,
+                  interpolation: NSImageInterpolation = .high) -> NSImage {
+
+        let cw = self.size.width
+        let ch = self.size.height
+        let nw = cw + 2 * dx
+        let nh = ch + 2 * dy
+
+        let img = NSImage(size: CGSize(width: nw, height: nh))
+
+        img.lockFocus()
+        let ctx = NSGraphicsContext.current
+        ctx?.imageInterpolation = interpolation
+        self.draw(in: NSRect(x: dx, y: dy, width: cw, height: ch),
+                  from: NSRect(x: 0, y: 0, width: cw, height: ch),
+                  operation: .sourceOver,
+                  fraction: 1)
+        img.unlockFocus()
+
+        return img
+    }
+
+    func resize(width: CGFloat, height: CGFloat) -> NSImage {
+
+        let cutout = NSRect(x: 0, y: 0, width: width, height: height)
+        return resizeImage(width: width, height: height,
+                           cutout: cutout)
+    }
+
+    func resize(size: CGSize) -> NSImage {
+
+        return resize(width: size.width, height: size.height)
+    }
 }
 
 extension Dictionary where Key == String {
