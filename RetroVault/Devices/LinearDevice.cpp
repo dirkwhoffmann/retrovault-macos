@@ -41,7 +41,7 @@ LinearDevice::exportBytes(const fs::path& path) const
 void
 LinearDevice::exportBytes(const fs::path& path, Range<isize> range) const
 {
-    assert(range.inside(0, size()));
+    assert(range.subset(Range<isize>(0,size())));
 
     // Read data
     auto buffer = Buffer<u8>(range.size());
