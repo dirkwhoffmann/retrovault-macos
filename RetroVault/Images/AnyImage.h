@@ -26,6 +26,9 @@ public:
 
     // The location of this file (may be empty)
     fs::path path;
+    
+    // File handle (if 'path' is provided)
+    std::fstream file;
 
     // The raw data of this file
     Buffer<u8> data;
@@ -56,7 +59,7 @@ public:
     void init(isize len);
     void init(const u8 *buf, isize len);
     void init(const Buffer<u8>& buffer);
-    void init(const string& str);
+    // void init(const string& str);
     void init(const fs::path& path);
 
     // Checks if the URL points to an image of the same type
@@ -131,7 +134,7 @@ public:
 
 public:
 
-    // Saves the current contents to the stored URL
+    // Update the image file on disk with the current contents
     void save() const;
     
     isize writeToStream(std::ostream &stream) const;

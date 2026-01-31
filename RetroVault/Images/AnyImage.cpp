@@ -55,27 +55,36 @@ AnyImage::init(const Buffer<u8> &buffer)
     init(buffer.ptr, buffer.size);
 }
 
+/*
 void
 AnyImage::init(const string &str)
 {
     init((const u8 *)str.c_str(), (isize)str.length());
 }
+*/
 
 void
 AnyImage::init(const fs::path &path)
 {
-    std::ifstream stream(path, std::ios::binary);
-
-    if (!stream.is_open()) {
-        throw IOError(IOError::FILE_NOT_FOUND, path);
-    }
-    if (!validateURL(path)) {
+    if (!validateURL(path))
         throw IOError(IOError::FILE_TYPE_MISMATCH, path);
-    }
-    std::ostringstream sstr(std::ios::binary);
-    sstr << stream.rdbuf();
-    init(sstr.str());
+
+    std::fstream stream(path, std::ios::binary | std::ios::in | std::ios::out);
+    
+    if (!stream)
+        throw IOError(IOError::FILE_NOT_FOUND, path);
+
+    // Read file into a vector
+    std::vector<u8> buffer((std::istreambuf_iterator<char>(stream)),
+                           std::istreambuf_iterator<char>());
+    
+    if (buffer.empty() && file.fail())
+        throw IOError(IOError::FILE_CANT_READ, path);
+    
+    // Initialize image with the vector contents
+    init(buffer.data(), isize(buffer.size()));
     this->path = path;
+    file = std::move(stream);
 }
 
 void

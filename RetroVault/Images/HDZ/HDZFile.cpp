@@ -24,6 +24,7 @@ HDZFile::about(const fs::path &path)
     return {{ ImageType::HARDDISK, ImageFormat::HDZ }};
 }
 
+/*
 void
 HDZFile::init(const class HDFFile &hdf)
 {
@@ -43,6 +44,7 @@ HDZFile::init(const class HDFFile &hdf)
     
     loginfo(HDF_DEBUG, "Compressed HDF size: %ld bytes.\n", data.size);
 }
+*/
 
 std::vector<string>
 HDZFile::describe() const noexcept

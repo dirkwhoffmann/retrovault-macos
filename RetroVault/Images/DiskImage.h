@@ -16,6 +16,8 @@ namespace retro::vault {
 
 class DiskImage : public AnyImage, public TrackDevice {
 
+    // bool writeThrough = true;
+    
 public:
 
     static optional<ImageInfo> about(const fs::path& url);
@@ -53,6 +55,18 @@ public:
     ByteView byteView(TrackNr t, SectorNr s) const;
     MutableByteView byteView(TrackNr t);
     MutableByteView byteView(TrackNr t, SectorNr s);
+    
+    
+    //
+    // Exporting
+    //
+
+public:
+
+    // Update portions of the image file on disk with the current contents
+    void save() const { AnyImage::save(); }
+    void save(const Range<BlockNr>);
+    void save(const std::vector<Range<BlockNr>>);
 };
 
 }

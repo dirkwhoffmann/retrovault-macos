@@ -143,7 +143,7 @@ public:
 
     void markAsDirty(BlockNr nr) { dirty.insert(nr); }
 
-    void flush(BlockNr nr);
+    [[deprecated]] void flush(BlockNr nr);
     void flush();
 };
 

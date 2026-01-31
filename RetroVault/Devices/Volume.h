@@ -40,7 +40,9 @@ public:
     Volume(BlockDevice &d, Range<isize> partition);
     virtual ~Volume() = default;
 
+    Range<isize> getRange() { return range; }
 
+    
     //
     // Methods from LinearDevice
     //

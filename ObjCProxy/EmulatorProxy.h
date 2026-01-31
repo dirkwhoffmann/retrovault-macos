@@ -103,6 +103,9 @@ inline const char *c_str(const std::string &s)
 - (void)unmountAll;
 - (void)setListener:(const void *)listener function:(AdapterCallback *)func;
 
+- (void)commit:(NSInteger)volume exception:(ExceptionWrapper *)ex;
+- (void)commit:(ExceptionWrapper *)ex;
+
 - (NSString *)mountPoint:(NSInteger)volume;
 - (FSPosixStat)stat:(NSInteger)volume;
 

@@ -15,6 +15,7 @@
 
 namespace retro::vault::image {
 
+/*
 void
 ADZFile::init(const class ADFFile &adf)
 {
@@ -34,6 +35,7 @@ ADZFile::init(const class ADFFile &adf)
     
     loginfo(HDF_DEBUG, "Compressed ADF size: %ld bytes.\n", data.size);
 }
+*/
 
 optional<ImageInfo>
 ADZFile::about(const fs::path &path)

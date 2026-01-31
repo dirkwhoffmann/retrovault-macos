@@ -148,6 +148,19 @@ FuseDevice::writeProtect(bool yesno, isize volume)
 }
 
 void
+FuseDevice::commit(isize volume)
+{
+    image->save(volumes[volume]->getRange());
+}
+
+void
+FuseDevice::commit()
+{
+    for (auto &volume : volumes)
+        image->save(volume->getRange());    
+}
+
+void
 FuseDevice::save()
 {
     // Flush all volumes

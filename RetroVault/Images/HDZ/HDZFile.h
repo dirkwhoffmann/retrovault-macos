@@ -29,7 +29,7 @@ public:
 public:
 
     explicit HDZFile(const fs::path& path) { init(path); }
-    explicit HDZFile(const class HDFFile &hdf) { init(hdf); }
+    // explicit HDZFile(const class HDFFile &hdf) { init(hdf); }
 
     using HardDiskImage::init;
     void init(const class HDFFile &hdf);

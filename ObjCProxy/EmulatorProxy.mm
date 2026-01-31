@@ -422,6 +422,18 @@ using namespace utl;
     [self adapter]->setListener(listener, func);
 }
 
+- (void)commit:(NSInteger)volume exception:(ExceptionWrapper *)ex
+{
+    try { [self adapter]->commit(volume); }
+    catch (Error &error) { [ex save:error]; }
+}
+
+- (void)commit:(ExceptionWrapper *)ex
+{
+    try { [self adapter]->commit(); }
+    catch (Error &error) { [ex save:error]; }
+}
+
 - (NSString *)mountPoint:(NSInteger)v
 {
     return @([self adapter]->getVolume(v).getMountPoint().string().c_str());

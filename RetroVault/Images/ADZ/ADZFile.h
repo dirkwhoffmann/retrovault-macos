@@ -29,10 +29,10 @@ public:
 public:
 
     explicit ADZFile(const fs::path& path) { init(path); }
-    explicit ADZFile(const class ADFFile &adf) { init(adf); }
+    // explicit ADZFile(const class ADFFile &adf) { init(adf); }
 
     using FloppyDiskImage::init;
-    void init(const class ADFFile &adf);
+    // void init(const class ADFFile &adf);
     
 
     //

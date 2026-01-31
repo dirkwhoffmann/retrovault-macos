@@ -155,9 +155,11 @@ class MyToolbar: NSToolbar, NSToolbarDelegate {
 
         if let volume = svc.selectedVolume {
 
-            print("TODO: commit \(volume)")
+            print("commit \(volume)")
+            try? proxy?.commit(volume: volume)
         } else {
-            print("TODO: commit all")
+            print("commit all")
+            try? proxy?.commit()
         }
     }
 

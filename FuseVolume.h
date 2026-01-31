@@ -66,7 +66,9 @@ public:
     FUSE_UTIMENS  override;
 
     FSPosixStat stat();
-
+    
+    Range<isize> getRange() const { return vol->getRange(); }
+    
     i64 reads() const { return vol->reads; }
     i64 writes() const { return vol->writes; }
 
