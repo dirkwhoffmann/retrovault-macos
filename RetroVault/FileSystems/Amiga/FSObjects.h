@@ -146,9 +146,8 @@ struct FSStat {
 
     // Usage information
     isize freeBlocks;
-    // isize freeBytes;
     isize usedBlocks;
-    // isize usedBytes;
+    isize dirtyBlocks;
     double fill;
     
     // Root block metadata

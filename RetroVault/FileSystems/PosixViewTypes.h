@@ -63,6 +63,7 @@ struct FSPosixStat {
 
     isize freeBlocks;   // Available blocks
     isize usedBlocks;   // Occupied blocks
+    isize dirtyBlocks;  // Unflushed blocks
 
     // Access times
 

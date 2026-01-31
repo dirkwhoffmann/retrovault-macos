@@ -114,6 +114,11 @@ class MySplitViewController: NSSplitViewController {
         addSplitViewItem(newItem)
     }
 
+    func refresh() {
+        
+        current?.refresh()
+    }
+    
     override func splitViewDidResizeSubviews(_ notification: Notification) {
 
         // User dragged the divider

@@ -150,6 +150,10 @@ FuseDevice::writeProtect(bool yesno, isize volume)
 void
 FuseDevice::commit(isize volume)
 {
+    // Write all dirty blocks back to the image
+    volumes[volume]->flush();
+    
+    // Write the image back to the image file
     image->save(volumes[volume]->getRange());
 }
 

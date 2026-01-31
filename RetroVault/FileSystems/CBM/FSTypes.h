@@ -258,7 +258,8 @@ struct FSStat {
 
     isize freeBlocks;   // Available blocks
     isize usedBlocks;   // Occupied blocks
-
+    isize dirtyBlocks;  // Cached, yet unflushed blocks
+    
     // Access statistics
 
     isize blockReads;   // Total number of read blocks

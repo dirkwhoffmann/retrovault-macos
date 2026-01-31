@@ -108,6 +108,7 @@ class VolumeInfo {
     var freeBytes = 0
     var usedBlocks = 0
     var usedBytes = 0
+    var dirtyBlocks = 0
     var fill = 0.0
 
     // Root block metadata
@@ -140,12 +141,7 @@ class VolumeInfo {
 
         (fill * 100).formatted(.number.precision(.fractionLength(0))) + "%"
     }
-    /*
-    var fillString: String {
 
-        return String(format: "%.0f%%", fill * 100.0)
-    }
-    */
     func icon() -> NSImage? {
 
         var name = "volume"
@@ -222,7 +218,8 @@ class DeviceManager {
         result.freeBytes = stat.freeBlocks * stat.bsize
         result.usedBlocks = stat.usedBlocks
         result.usedBytes = stat.usedBlocks * stat.bsize
-        result.fill = Double(stat.freeBlocks) / Double(stat.blocks)
+        result.dirtyBlocks = stat.dirtyBlocks
+        result.fill = Double(stat.usedBlocks) / Double(stat.blocks)
 
         // Root block metadata
         let bt = Date(timeIntervalSince1970: TimeInterval(stat.btime))

@@ -20,6 +20,9 @@ class VolumeCanvasViewController: CanvasViewController {
     @IBOutlet weak var readInfo: NSTextField!
     @IBOutlet weak var writeInfo: NSTextField!
     @IBOutlet weak var fillInfo: NSTextField!
+    @IBOutlet weak var numBlocksInfo: NSTextField!
+    @IBOutlet weak var usedBlocksInfo: NSTextField!
+    @IBOutlet weak var cachedBlocksInfo: NSTextField!
 
     var info: VolumeInfo?
 
@@ -34,14 +37,12 @@ class VolumeCanvasViewController: CanvasViewController {
 
     override func viewWillAppear() {
 
-        print("viewWillAppear")
         super.viewWillAppear()
         startPeriodicTask()
     }
 
     override func viewWillDisappear() {
 
-        print("viewWillDisappear")
         super.viewWillDisappear()
         stopPeriodicTask()
     }
@@ -77,7 +78,7 @@ class VolumeCanvasViewController: CanvasViewController {
         let w = app.manager.proxy(device: self.device)?.bytesWritten(volume) ?? 0
         let rkb = Int(Double(r) / 1024.0)
         let wkb = Int(Double(w) / 1024.0)
-
+        
         icon.image = info.icon()
         mainTitle.stringValue = info.mountPoint
         subTitle1.stringValue = info.capacityString
@@ -87,5 +88,8 @@ class VolumeCanvasViewController: CanvasViewController {
         readInfo.stringValue = "\(rkb) KB"
         writeInfo.stringValue = "\(wkb) KB"
         fillInfo.stringValue = info.fillString
+        numBlocksInfo.stringValue = "\(info.blocks) Blocks"
+        usedBlocksInfo.stringValue = "\(info.usedBlocks) Blocks"
+        cachedBlocksInfo.stringValue = "\(info.dirtyBlocks) Blocks"
     }
 }

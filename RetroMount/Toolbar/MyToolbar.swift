@@ -154,13 +154,13 @@ class MyToolbar: NSToolbar, NSToolbarDelegate {
     @objc private func commitAction() {
 
         if let volume = svc.selectedVolume {
-
             print("commit \(volume)")
             try? proxy?.commit(volume: volume)
         } else {
             print("commit all")
             try? proxy?.commit()
         }
+        svc.refresh()
     }
 
     @objc private func unmountAction() {

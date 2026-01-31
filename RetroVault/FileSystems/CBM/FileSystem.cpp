@@ -131,8 +131,9 @@ FileSystem::stat() const noexcept
         .blocks         = traits.blocks,
         .freeBlocks     = allocator.numUnallocated(),
         .usedBlocks     = allocator.numAllocated(),
-        .blockReads     = 0, // Not yet supported
-        .blockWrites    = 0, // Not yet supported
+        .dirtyBlocks    = cache.dirtyBlocks(),
+        .blockReads     = 0, // DEPRECATED
+        .blockWrites    = 0, // DEPRECATED
     };
 
     return result;

@@ -240,16 +240,6 @@ FSCache::erase(BlockNr nr)
 }
 
 void
-FSCache::flush(BlockNr nr)
-{
-    if (dirty.contains(nr)) {
-
-        modify(nr).flush();
-        dirty.erase(nr);
-    }
-}
-
-void
 FSCache::flush()
 {
     loginfo(FS_DEBUG, "Flushing %zd dirty blocks\n", dirty.size());

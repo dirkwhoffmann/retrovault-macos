@@ -242,18 +242,41 @@ FSCache::erase(BlockNr nr)
 }
 
 void
-FSCache::flush(BlockNr nr)
-{
-    if (dirty.contains(nr)) {
-
-        modify(nr).flush();
-        dirty.erase(nr);
-    }
-}
-
-void
 FSCache::flush()
 {
+    loginfo(FS_DEBUG, "Flushing %zd dirty blocks\n", dirty.size());
+    
+    std::vector<u8> buffer;
+    auto bs = bsize();
+
+    // Arrage dirty blocks in segments
+    auto segments = Range<BlockNr>::coalesce(dirty);
+    
+    for (auto seg: segments) {
+
+        // Resize the flushing buffer
+        buffer.resize(seg.size() * bs);
+        
+        // Gather block data
+        for (isize i = seg.lower; i < seg.upper; ++i) {
+            
+            auto it = blocks.find(i);
+            
+            if (it == blocks.end())
+                throw FSError(FSError::FS_CORRUPTED, "Cache mismatch: " + std::to_string(i));
+            
+            memcpy(buffer.data() + (i - seg.lower) * bs, it->second->data(), bs);
+        }
+        
+        // Write the buffer back to the device
+        dev.writeBlocks(buffer.data(), seg);
+        
+    }
+    
+    // Mark all blocks as up-to-date
+    dirty.clear();
+    
+    /*
     loginfo(FS_DEBUG, "Flushing %zd dirty blocks\n", dirty.size());
 
     // Copy 'dirty' as it will be modified during the for loop
@@ -261,6 +284,7 @@ FSCache::flush()
     
     // Flush all dirty blocks
     for (auto block: toFlush) { flush(block); }
+    */
 }
 
 }
