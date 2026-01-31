@@ -44,17 +44,27 @@ Volume::write(const u8 *src, isize offset, isize count)
 }
 
 void
-Volume::readBlock(u8 *dst, isize nr) const
+Volume::readBlocks(u8 *dst, Range<isize> r) const
 {
-    reads += bsize();
-    device.readBlock(dst, range.translate(nr));
+    auto mapped = Range<isize> { range.translate(r.lower), range.translate(r.upper) };
+    
+    if (auto size = mapped.size(); size > 0) {
+        
+        reads += size * bsize();
+        device.readBlocks(dst, mapped);
+    }
 }
 
 void
-Volume::writeBlock(const u8 *src, isize nr)
+Volume::writeBlocks(const u8 *src, Range<isize> r)
 {
-    writes += bsize();
-    device.writeBlock(src, range.translate(nr));
+    auto mapped = Range<isize> { range.translate(r.lower), range.translate(r.upper) };
+
+    if (auto size = mapped.size(); size > 0) {
+        
+        writes += size * bsize();
+        device.writeBlocks(src, mapped);
+    }
 }
 
 }

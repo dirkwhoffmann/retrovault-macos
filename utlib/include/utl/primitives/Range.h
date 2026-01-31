@@ -23,14 +23,18 @@ struct Range {
     T lower{}, upper{};
 
     constexpr bool valid() const noexcept {
-        return lower >= 0 && lower <= upper;
+        return lower <= upper;
     }
 
     constexpr bool inside(isize min, isize max) const noexcept {
         return lower >= min && lower <= upper && upper <= max;
     }
 
-    constexpr bool contains(T value) const noexcept {
+    constexpr bool subset(const Range<T> &other) const noexcept {
+        return lower >= other.lower && lower <= upper && upper <= other.upper;
+    }
+
+    [[deprecated]] constexpr bool contains(T value) const noexcept {
         return value >= lower && value < upper;
     }
 
@@ -58,7 +62,15 @@ struct ClosedRange {
         return lower <= upper;
     }
 
-    constexpr bool contains(T value) const noexcept {
+    constexpr bool inside(isize min, isize max) const noexcept {
+        return lower >= min && lower <= upper && upper <= max;
+    }
+
+    constexpr bool subset(const ClosedRange<T> &other) const noexcept {
+        return lower >= other.lower && lower <= upper && upper <= other.upper;
+    }
+    
+    [[deprecated]] constexpr bool contains(T value) const noexcept {
         return value >= lower && value <= upper;
     }
 
