@@ -200,11 +200,12 @@ class DeviceManager {
 
         let result = VolumeInfo.init()
 
-        let stat = devices[device].stat(volume)
-        let mp = devices[device].mountPoint(volume)
+        let proxy = devices[device].volume(volume)!
+        let stat = proxy.stat
+        let mp = proxy.mountPoint
 
         // Mount point
-        result.mountPoint = mp ?? ""
+        result.mountPoint = mp?.absoluteString ?? ""
 
         // Image info
         result.deviceInfo = info(device: device)
@@ -247,8 +248,9 @@ class DeviceManager {
         do {
 
             let proxy = try FuseDeviceProxy.make(with: url)
-
-            let traits = proxy.stat(0)
+            let volumeProxy = proxy.volume(0)!
+            
+            let traits = volumeProxy.stat
 
             print("Blocks: \(traits.blocks)")
             print("Bsize: \(traits.bsize)")

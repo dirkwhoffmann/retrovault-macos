@@ -9,18 +9,20 @@
 
 #include "config.h"
 #include "FuseVolume.h"
+#include "FuseDevice.h"
 #include "FuseDebug.h"
 #include "FileSystems/Amiga/PosixAdapter.h"
 #include "FileSystems/CBM/PosixAdapter.h"
 
 using namespace retro::vault;
 
-FuseVolume::FuseVolume(unique_ptr<Volume> v) : vol(std::move(v))
+FuseVolume::FuseVolume(class FuseDevice &d, unique_ptr<Volume> v) :
+device(d), vol(std::move(v))
 {
     
 }
 
-FuseAmigaVolume::FuseAmigaVolume(unique_ptr<Volume> v) : FuseVolume(std::move(v))
+FuseAmigaVolume::FuseAmigaVolume(FuseDevice &d, unique_ptr<Volume> v) : FuseVolume(d, std::move(v))
 {
     mylog("Creating Amiga file system...\n");
     fs = std::make_unique<amiga::FileSystem>(*vol);
@@ -33,7 +35,7 @@ FuseAmigaVolume::FuseAmigaVolume(unique_ptr<Volume> v) : FuseVolume(std::move(v)
     dos = std::make_unique<amiga::PosixAdapter>(*this->fs);
 }
 
-FuseCBMVolume::FuseCBMVolume(unique_ptr<Volume> v) : FuseVolume(std::move(v))
+FuseCBMVolume::FuseCBMVolume(class FuseDevice &d, unique_ptr<Volume> v) : FuseVolume(d, std::move(v))
 {
     mylog("Creating CBM file system...\n");
     fs = std::make_unique<cbm::FileSystem>(*vol);
@@ -260,3 +262,12 @@ FuseVolume::stat()
     return dos->stat();
 }
 
+void
+FuseVolume::commit()
+{
+    // Write all dirty blocks back to the image
+    flush();
+    
+    // Write the image back to the image file
+    device.image->save(getRange());
+}

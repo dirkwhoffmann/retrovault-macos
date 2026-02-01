@@ -13,6 +13,9 @@ class CanvasViewController: NSViewController {
     var device: Int?
     var volume: Int?
 
+//    var deviceProxy: FuseDeviceProxy? { return app.manager.proxy(device: device) }
+//    var volumeProxy: FuseVolumeProxy? { return deviceProxy?.volume(volume) }
+
     func activate() {
 
     }

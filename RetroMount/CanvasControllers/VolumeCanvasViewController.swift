@@ -58,9 +58,7 @@ class VolumeCanvasViewController: CanvasViewController {
     @IBOutlet weak var info2: NSTextField!
     
     var info: VolumeInfo?
-    var proxy: FuseDeviceProxy? { return app.manager.proxy(device: device) }
-    
-
+    var proxy: FuseVolumeProxy? { return app.manager.proxy(device: device)?.volume(volume!) }
     
     var oldReads: Int = 0
     var oldWrites: Int = 0

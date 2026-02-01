@@ -59,161 +59,103 @@ using namespace utl;
 
 
 //
-// MediaFile
+// FuseVolumeProxy
 //
 
-/*
-@implementation MediaFileProxy
+@implementation FuseVolumeProxy
 
-- (MediaFile *)file
+- (FuseVolume *)volume
 {
-    return (MediaFile *)obj;
+    return (FuseVolume *)obj;
 }
 
-+ (instancetype)make:(void *)file
++ (instancetype)make:(FuseVolume *)volume
 {
-    return file ? [[self alloc] initWith:file] : nil;
+    if (volume == nullptr) { return nil; }
+
+    FuseVolumeProxy *proxy = [[self alloc] initWith: volume];
+    return proxy;
 }
 
-+ (FileType)typeOfUrl:(NSURL *)url
+- (NSArray<NSString *> *)describe
 {
-    return MediaFile::type([url fileSystemRepresentation]);
-}
+    const auto vec = [self volume]->describe();
 
-+ (instancetype)makeWithFile:(NSString *)path
-                   exception:(ExceptionWrapper *)ex
-{
-    try { return [self make: MediaFile::make([path fileSystemRepresentation])]; }
-    catch(Error &error) { [ex save:error]; return nil; }
-}
+    NSMutableArray<NSString *> *result =
+        [NSMutableArray arrayWithCapacity:vec.size()];
 
-+ (instancetype)makeWithFile:(NSString *)path
-                        type:(FileType)type
-                   exception:(ExceptionWrapper *)ex
-{
-    try { return [self make: MediaFile::make([path fileSystemRepresentation], type)]; }
-    catch(Error &error) { [ex save:error]; return nil; }
-}
-
-+ (instancetype)makeWithBuffer:(const void *)buf length:(NSInteger)len
-                          type:(FileType)type
-                     exception:(ExceptionWrapper *)ex
-{
-    try { return [self make: MediaFile::make((u8 *)buf, len, type)]; }
-    catch(Error &error) { [ex save:error]; return nil; }
-}
-
-- (FileType)type
-{
-    return [self file]->type();
-}
-
-- (u64)fnv
-{
-    return [self file]->fnv64();
-}
-
-- (NSInteger)size
-{
-    return [self file]->getSize();
-}
-
-- (Compressor)compressor
-{
-    return [self file]->compressor();
-}
-
-- (BOOL)compressed
-{
-    return [self file]->isCompressed();
-}
-
-- (u8 *)data
-{
-    return [self file]->getData();
-}
-
-- (void)writeToFile:(NSString *)path exception:(ExceptionWrapper *)ex
-{
-    try { [self file]->writeToFile(string([path fileSystemRepresentation])); }
-    catch(Error &err) { [ex save:err]; }
-}
-
-- (void)writeToFile:(NSString *)path partition:(NSInteger)part exception:(ExceptionWrapper *)ex
-{
-    try { [self file]->writePartitionToFile(string([path fileSystemRepresentation]), part); }
-    catch(Error &err) { [ex save:err]; }
-}
-
-- (NSImage *)previewImage
-{
-    // Return cached image (if any)
-    if (preview) { return preview; }
-
-    // Get dimensions and data
-    auto size = [self file]->previewImageSize();
-    auto data = (unsigned char *)[self file]->previewImageData();
-
-    // Create preview image
-    if (data) {
-
-        NSBitmapImageRep *rep = [[NSBitmapImageRep alloc]
-                                 initWithBitmapDataPlanes: &data
-                                 pixelsWide:size.first
-                                 pixelsHigh:size.second
-                                 bitsPerSample:8
-                                 samplesPerPixel:4
-                                 hasAlpha:true
-                                 isPlanar:false
-                                 colorSpaceName:NSCalibratedRGBColorSpace
-                                 bytesPerRow:4*size.first
-                                 bitsPerPixel:32];
-
-        preview = [[NSImage alloc] initWithSize:[rep size]];
-        [preview addRepresentation:rep];
-
-        // image.makeGlossy()
+    for (const auto &s : vec) {
+        [result addObject:[NSString stringWithUTF8String:s.c_str()]];
     }
-    return preview;
+
+    return result;
 }
 
-- (time_t)timeStamp
+- (BOOL)iswriteProtected
 {
-    return [self file]->timestamp();
+    return [self volume]->isWriteProtected();
 }
 
-- (DiskInfo)diskInfo
+- (void)writeProtect:(BOOL)wp
 {
-    return [self file]->getDiskInfo();
+    [self volume]->writeProtect(wp);
 }
 
--(HDFInfo)hdfInfo
+- (NSURL *)mountPoint
 {
-    return [self file]->getHDFInfo();
+    auto nsPath = @([self volume]->getMountPoint().string().c_str());
+    return [NSURL fileURLWithPath:nsPath];
 }
 
-- (NSInteger)readByte:(NSInteger)b offset:(NSInteger)offset
+- (void)commit:(ExceptionWrapper *)ex
 {
-    return [self file]->readByte(b, offset);
+    try { [self volume]->commit(); }
+    catch (Error &error) { [ex save:error]; }
 }
 
-- (void)readSector:(NSInteger)b destination:(unsigned char *)buf
+- (FSPosixStat)stat:(NSInteger)volume
 {
-    [self file]->readSector(buf, b);
+    return [self volume]->stat();
 }
 
-- (NSString *)hexdump:(NSInteger)b offset:(NSInteger)offset len:(NSInteger)len
+- (NSInteger)bytesRead:(NSInteger)volume
 {
-    return @([self file]->hexdump(b, offset, len).c_str());
+    return [self volume]->reads();
 }
 
-- (NSString *)asciidump:(NSInteger)b offset:(NSInteger)offset len:(NSInteger)len
+- (NSInteger)bytesWritten:(NSInteger)volume
 {
-    return @([self file]->asciidump(b, offset, len).c_str());
+    return [self volume]->writes();
+}
+
+- (void)createUsageMap:(u8 *)buf length:(NSInteger)len
+{
+    // [self fs]->doctor.createUsageMap((u8 *)buf, len);
+}
+
+- (void)createAllocationMap:(u8 *)buf length:(NSInteger)len
+{
+    // [self fs]->doctor.createAllocationMap((u8 *)buf, len);
+}
+
+- (void)createHealthMap:(u8 *)buf length:(NSInteger)len
+{
+    // [self fs]->doctor.createHealthMap((u8 *)buf, len);
+}
+
+- (NSInteger)nextBlockOfType:(FSBlockType)type after:(NSInteger)after
+{
+    // return [self fs]->doctor.nextBlockOfType(type, BlockNr(after));
+    return 0;
+}
+
+- (void)rectifyAllocationMap
+{
+    // [self fs]->doctor.rectifyBitmap();
 }
 
 @end
-*/
+
 
 //
 // FuseDeviceProxy
@@ -224,6 +166,11 @@ using namespace utl;
 - (FuseDevice *)adapter
 {
     return (FuseDevice *)obj;
+}
+
+-(FuseVolumeProxy *)volume:(NSInteger)nr
+{
+    return [FuseVolumeProxy make: &[self adapter]->getVolume(nr)];
 }
 
 + (instancetype)make:(FuseDevice *)device
@@ -244,14 +191,6 @@ using namespace utl;
         device.release();
         proxy->url = url;
         return proxy;
-
-/*
-        auto device = new AmigaDevice([url fileSystemRepresentation]);
-
-        FuseDeviceProxy *proxy = [self make:device];
-        proxy->url = url;
-        return proxy;
-*/
 
     }  catch (Error &error) {
 
@@ -391,16 +330,6 @@ using namespace utl;
     catch (Error &error) { [ex save:error]; }
 }
 
-- (BOOL)iswriteProtected:(NSInteger)volume
-{
-    return [self adapter]->isWriteProtected(volume);
-}
-
-- (void)writeProtect:(BOOL)wp volume:(NSInteger)volume
-{
-    [self adapter]->writeProtect(wp, volume);
-}
-
 - (void)mount:(NSURL *)mountpoint exception:(ExceptionWrapper *)ex
 {
     try { [self adapter]->mount([mountpoint fileSystemRepresentation]); }
@@ -422,12 +351,6 @@ using namespace utl;
     [self adapter]->setListener(listener, func);
 }
 
-- (void)commit:(NSInteger)volume exception:(ExceptionWrapper *)ex
-{
-    try { [self adapter]->commit(volume); }
-    catch (Error &error) { [ex save:error]; }
-}
-
 - (void)commit:(ExceptionWrapper *)ex
 {
     try { [self adapter]->commit(); }
@@ -437,47 +360,6 @@ using namespace utl;
 - (NSString *)mountPoint:(NSInteger)v
 {
     return @([self adapter]->getVolume(v).getMountPoint().string().c_str());
-}
-
-- (FSPosixStat)stat:(NSInteger)volume
-{
-    return [self adapter]->stat(volume);
-}
-
-- (NSInteger)bytesRead:(NSInteger)volume
-{
-    return [self adapter]->getVolume(volume).reads();
-}
-
-- (NSInteger)bytesWritten:(NSInteger)volume
-{
-    return [self adapter]->getVolume(volume).writes();
-}
-
-- (void)createUsageMap:(u8 *)buf length:(NSInteger)len
-{
-    // [self fs]->doctor.createUsageMap((u8 *)buf, len);
-}
-
-- (void)createAllocationMap:(u8 *)buf length:(NSInteger)len
-{
-    // [self fs]->doctor.createAllocationMap((u8 *)buf, len);
-}
-
-- (void)createHealthMap:(u8 *)buf length:(NSInteger)len
-{
-    // [self fs]->doctor.createHealthMap((u8 *)buf, len);
-}
-
-- (NSInteger)nextBlockOfType:(FSBlockType)type after:(NSInteger)after
-{
-    // return [self fs]->doctor.nextBlockOfType(type, BlockNr(after));
-    return 0;
-}
-
-- (void)rectifyAllocationMap
-{
-    // [self fs]->doctor.rectifyBitmap();
 }
 
 @end

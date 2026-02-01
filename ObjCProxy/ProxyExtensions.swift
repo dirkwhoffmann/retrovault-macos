@@ -7,6 +7,16 @@
 // See https://www.gnu.org for license information
 // -----------------------------------------------------------------------------
 
+extension FuseVolumeProxy {
+    
+    func commit() throws {
+
+        let exception = ExceptionWrapper()
+        commit(exception)
+        if exception.fault != 0 { throw AppError(exception) }
+    }
+}
+
 extension FuseDeviceProxy {
     
     static func make(with url: URL) throws -> FuseDeviceProxy {
@@ -44,13 +54,6 @@ extension FuseDeviceProxy {
 
         let exception = ExceptionWrapper()
         commit(exception)
-        if exception.fault != 0 { throw AppError(exception) }
-    }
-
-    func commit(volume: Int) throws {
-
-        let exception = ExceptionWrapper()
-        commit(volume, exception: exception)
         if exception.fault != 0 { throw AppError(exception) }
     }
 }

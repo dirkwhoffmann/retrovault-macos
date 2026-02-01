@@ -50,6 +50,8 @@ using namespace retro::vault;
  */
 
 class FuseDevice {
+        
+    friend class FuseVolume;
     
     // Wrapped image file
     std::unique_ptr<DiskImage> image;
@@ -70,8 +72,8 @@ public:
     // Registers a listener together with it's callback function
     void setListener(const void *listener, AdapterCallback *func);
 
-    const FuseVolume &getVolume(isize volume);
-    const DiskImage *getImage() { return image.get(); }
+    FuseVolume &getVolume(isize volume);
+    DiskImage *getImage() { return image.get(); }
 
 private:
     
@@ -96,7 +98,6 @@ public:
     void writeProtect(bool yesno, isize volume);
     
     // Writes all changes back to the image file
-    void commit(isize volume);
     void commit();
     
     // Writes all changes back to the image file (DEPRECATED)

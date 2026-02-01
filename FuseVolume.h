@@ -28,9 +28,14 @@ namespace vamiga {
 }
 */
 
+class FuseDevice;
+
 class FuseVolume : public FuseMountPoint {
 
 protected:
+    
+    // The device this volume belongs to
+    class FuseDevice &device;
     
     // Logical volume
     unique_ptr<Volume> vol;
@@ -43,8 +48,8 @@ protected:
 
 public:
 
-    FuseVolume(unique_ptr<Volume> vol);
-    ~FuseVolume();
+    FuseVolume(FuseDevice &device, unique_ptr<Volume> vol);
+    virtual ~FuseVolume();
 
     FUSE_GETATTR  override;
     FUSE_MKDIR    override;
@@ -65,6 +70,8 @@ public:
     FUSE_CREATE   override;
     FUSE_UTIMENS  override;
 
+    virtual vector<string> describe() const noexcept = 0;
+
     FSPosixStat stat();
     
     Range<isize> getRange() const { return vol->getRange(); }
@@ -74,6 +81,10 @@ public:
 
     bool isWriteProtected() { return dos->isWriteProtected(); }
     void writeProtect(bool yesno) { dos->writeProtect(yesno); }
+
+    // Writes all changes back to the image file
+    void commit();
+    
     void flush() { dos->flush(); }
     
 protected:
@@ -109,10 +120,11 @@ class FuseAmigaVolume : public FuseVolume {
     
     // Raw file system on top of the volume
     unique_ptr<amiga::FileSystem> fs;
-  
+    
 public:
     
-    FuseAmigaVolume(unique_ptr<Volume> vol);
+    FuseAmigaVolume(FuseDevice &device, unique_ptr<Volume> vol);
+    vector<string> describe() const noexcept override { return fs->describe(); }
 };
 
 
@@ -123,5 +135,6 @@ class FuseCBMVolume : public FuseVolume {
   
 public:
     
-    FuseCBMVolume(unique_ptr<Volume> vol);
+    FuseCBMVolume(FuseDevice &device, unique_ptr<Volume> vol);
+    vector<string> describe() const noexcept override { return fs->describe(); }
 };

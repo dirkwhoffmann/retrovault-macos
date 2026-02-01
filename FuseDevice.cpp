@@ -67,7 +67,7 @@ template<typename I, typename V> void
 FuseDevice::makeVolumeFor(const fs::path& filename)
 {
     image = make_unique<I>(filename);
-    volumes.push_back(make_unique<V>(make_unique<Volume>(*image)));
+    volumes.push_back(make_unique<V>(*this, make_unique<Volume>(*image)));
 }
 
 FuseDevice::~FuseDevice()
@@ -81,7 +81,7 @@ FuseDevice::setListener(const void *listener, AdapterCallback *callback)
     for (auto &volume : volumes) volume->setListener(listener, callback);
 }
 
-const FuseVolume &
+FuseVolume &
 FuseDevice::getVolume(isize v)
 {
     return *volumes.at(v);
@@ -145,16 +145,6 @@ FuseDevice::writeProtect(bool yesno, isize volume)
 {
     assert(volume >= 0 && volume < volumes.size());
     volumes[volume]->writeProtect(yesno);
-}
-
-void
-FuseDevice::commit(isize volume)
-{
-    // Write all dirty blocks back to the image
-    volumes[volume]->flush();
-    
-    // Write the image back to the image file
-    image->save(volumes[volume]->getRange());
 }
 
 void

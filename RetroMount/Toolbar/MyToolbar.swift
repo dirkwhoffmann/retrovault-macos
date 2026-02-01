@@ -142,8 +142,8 @@ class MyToolbar: NSToolbar, NSToolbarDelegate {
 
         // Write-protection button
         protect.isHidden = svc.selectedVolume == nil
-        if let vol = svc.selectedVolume, let proxy = proxy {
-            protect.setImage(Symbol.get(proxy.iswriteProtected(vol) ? .unlocked : .locked), forSegment: 0)
+        if let vol = svc.selectedVolume, let proxy = proxy?.volume(vol) {
+            protect.setImage(Symbol.get(proxy.iswriteProtected ? .unlocked : .locked), forSegment: 0)
         }
     }
     
@@ -153,9 +153,9 @@ class MyToolbar: NSToolbar, NSToolbarDelegate {
     
     @objc private func commitAction() {
 
-        if let volume = svc.selectedVolume {
-            print("commit \(volume)")
-            try? proxy?.commit(volume: volume)
+        if let vol = svc.selectedVolume, let proxy = proxy?.volume(vol) {
+            print("commit \(vol)")
+            try? proxy.commit()
         } else {
             print("commit all")
             try? proxy?.commit()
@@ -178,8 +178,8 @@ class MyToolbar: NSToolbar, NSToolbarDelegate {
         
         print("protectAction")
                         
-        if let vol = svc.selectedVolume, let proxy = proxy {
-            proxy.writeProtect(!proxy.iswriteProtected(vol), volume: vol)
+        if let vol = svc.selectedVolume, let proxy = proxy?.volume(vol) {
+            proxy.writeProtect(!proxy.iswriteProtected)
         }
         
         updateToolbar()

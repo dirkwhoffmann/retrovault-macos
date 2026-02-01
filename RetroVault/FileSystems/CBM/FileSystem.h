@@ -181,6 +181,9 @@ public:
     isize bsize() const noexcept { return traits.bsize; }
     isize bytes() const noexcept { return blocks() * bsize(); }
 
+    // Returns a textual description of the file system
+    vector<string> describe() const noexcept { return { "CBM File System" }; }
+    
     // Checks whether the file system is formatted
     bool isFormatted() const noexcept;
 

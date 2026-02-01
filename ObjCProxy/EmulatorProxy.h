@@ -59,6 +59,32 @@ inline const char *c_str(const std::string &s)
 
 
 //
+// FuseVolumeProxy
+//
+
+@interface FuseVolumeProxy : Proxy { }
+
+- (NSArray<NSString *> *)describe;
+
+@property (readonly) NSURL *mountPoint;
+@property (readonly) BOOL iswriteProtected;
+- (void)writeProtect:(BOOL)wp;
+
+- (void)commit:(ExceptionWrapper *)ex;
+
+@property (readonly) FSPosixStat stat;
+@property (readonly) NSInteger bytesRead;
+@property (readonly) NSInteger bytesWritten;
+
+- (void)createUsageMap:(u8 *)buf length:(NSInteger)len;
+- (void)createAllocationMap:(u8 *)buf length:(NSInteger)len;
+- (void)createHealthMap:(u8 *)buf length:(NSInteger)len;
+- (void)rectifyAllocationMap;
+
+@end
+
+
+//
 // FuseDeviceProxy
 //
 
@@ -69,8 +95,12 @@ inline const char *c_str(const std::string &s)
 
 + (instancetype)make:(NSURL *)url exception:(ExceptionWrapper *)ex;
 
+-(FuseVolumeProxy *) volume:(NSInteger)nr;
+
 @property (readonly, strong) NSURL *url;
 @property (readonly) ImageInfo info;
+
+// Device properties
 @property (readonly) NSInteger numCyls;
 @property (readonly) NSInteger numHeads;
 -(NSInteger)numSectors:(NSInteger)t;
@@ -95,27 +125,12 @@ inline const char *c_str(const std::string &s)
 -(NSString *)readASCII:(NSInteger)offset from:(NSInteger)block length:(NSInteger)len;
 
 - (void)save:(ExceptionWrapper *)ex;
-- (BOOL)iswriteProtected:(NSInteger)volume;
-- (void)writeProtect:(BOOL)wp volume:(NSInteger)volume;
 
 - (void)mount:(NSURL *)url exception:(ExceptionWrapper *)ex;
 - (void)unmount:(NSInteger)volume;
 - (void)unmountAll;
 - (void)setListener:(const void *)listener function:(AdapterCallback *)func;
 
-- (void)commit:(NSInteger)volume exception:(ExceptionWrapper *)ex;
 - (void)commit:(ExceptionWrapper *)ex;
-
-- (NSString *)mountPoint:(NSInteger)volume;
-- (FSPosixStat)stat:(NSInteger)volume;
-
-- (NSInteger)bytesRead:(NSInteger)volume;
-- (NSInteger)bytesWritten:(NSInteger)volume;
-
-
-- (void)createUsageMap:(u8 *)buf length:(NSInteger)len;
-- (void)createAllocationMap:(u8 *)buf length:(NSInteger)len;
-- (void)createHealthMap:(u8 *)buf length:(NSInteger)len;
-- (void)rectifyAllocationMap;
 
 @end

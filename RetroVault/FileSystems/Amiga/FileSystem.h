@@ -197,6 +197,9 @@ public:
     isize bytes() const noexcept { return traits.bytes; }
     isize bsize() const noexcept { return traits.bsize; }
 
+    // Returns a textual description of the file system
+    vector<string> describe() const noexcept { return { "Amiga File System" }; }
+
     // Checks whether the file system is formatted
     bool isFormatted() const noexcept;
 
