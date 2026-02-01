@@ -454,4 +454,30 @@ using namespace utl;
     return [self adapter]->getVolume(volume).writes();
 }
 
+- (void)createUsageMap:(u8 *)buf length:(NSInteger)len
+{
+    // [self fs]->doctor.createUsageMap((u8 *)buf, len);
+}
+
+- (void)createAllocationMap:(u8 *)buf length:(NSInteger)len
+{
+    // [self fs]->doctor.createAllocationMap((u8 *)buf, len);
+}
+
+- (void)createHealthMap:(u8 *)buf length:(NSInteger)len
+{
+    // [self fs]->doctor.createHealthMap((u8 *)buf, len);
+}
+
+- (NSInteger)nextBlockOfType:(FSBlockType)type after:(NSInteger)after
+{
+    // return [self fs]->doctor.nextBlockOfType(type, BlockNr(after));
+    return 0;
+}
+
+- (void)rectifyAllocationMap
+{
+    // [self fs]->doctor.rectifyBitmap();
+}
+
 @end

@@ -132,6 +132,79 @@ extension NSWindow {
     }
 }
 
+extension CGImage {
+
+    static func defaultBitmapInfo() -> CGBitmapInfo {
+
+        let alpha = CGImageAlphaInfo.premultipliedLast.rawValue
+        let bigEn32 = CGBitmapInfo.byteOrder32Big.rawValue
+
+        return CGBitmapInfo(rawValue: alpha | bigEn32)
+    }
+
+    static func dataProvider(data: UnsafeMutableRawPointer, size: CGSize) -> CGDataProvider? {
+
+        let dealloc: CGDataProviderReleaseDataCallback = {
+
+            (info: UnsafeMutableRawPointer?, data: UnsafeRawPointer, size: Int) -> Void in
+
+            // Core Foundation objects are memory managed, aren't they?
+            return
+        }
+
+        return CGDataProvider(dataInfo: nil,
+                              data: data,
+                              size: 4 * Int(size.width) * Int(size.height),
+                              releaseData: dealloc)
+    }
+
+    // Creates a CGImage from a raw data stream
+    static func make(data: UnsafeMutableRawPointer, size: CGSize, bitmapInfo: CGBitmapInfo? = nil) -> CGImage? {
+
+
+        let w = Int(size.width)
+        let h = Int(size.height)
+
+        return CGImage(width: w, height: h,
+                       bitsPerComponent: 8,
+                       bitsPerPixel: 32,
+                       bytesPerRow: 4 * w,
+                       space: CGColorSpaceCreateDeviceRGB(),
+                       bitmapInfo: bitmapInfo ?? defaultBitmapInfo(),
+                       provider: dataProvider(data: data, size: size)!,
+                       decode: nil,
+                       shouldInterpolate: false,
+                       intent: CGColorRenderingIntent.defaultIntent)
+    }
+
+    static func make(texture: MTLTexture, region: MTLRegion, bitmapInfo: CGBitmapInfo? = nil) -> CGImage? {
+
+        let w = region.size.width
+        let h = region.size.height
+
+        // Get texture data as a byte stream
+        guard let data = malloc(4 * w * h) else { return nil; }
+        texture.getBytes(data,
+                         bytesPerRow: 4 * region.size.width,
+                         from: region, // MTLRegionMake2D(x, y, w, h),
+                         mipmapLevel: 0)
+
+        return make(data: data, size: CGSize(width: w, height: h), bitmapInfo: bitmapInfo)
+    }
+
+    // Creates a CGImage from a MTLTexture
+    static func make(texture: MTLTexture, rect: CGRect, bitmapInfo: CGBitmapInfo? = nil) -> CGImage? {
+
+        // Compute texture cutout
+        let x = Int(CGFloat(texture.width) * rect.minX)
+        let y = Int(CGFloat(texture.height) * rect.minY)
+        let w = Int(CGFloat(texture.width) * rect.width)
+        let h = Int(CGFloat(texture.height) * rect.height)
+
+        return make(texture: texture, region: MTLRegionMake2D(x, y, w, h), bitmapInfo: bitmapInfo)
+    }
+}
+
 extension NSImage {
 
     static func sfSymbol(name: String, size: CGFloat, weight: NSFont.Weight = .regular) -> NSImage? {
@@ -150,6 +223,47 @@ extension NSImage {
     static func chevronRight(size: CGFloat = 14, weight: NSFont.Weight = .regular) -> NSImage? {
 
         return sfSymbol(name: "chevron.right", size: size, weight: weight)
+    }
+    
+    convenience init(color: NSColor, size: NSSize) {
+
+        self.init(size: size)
+        lockFocus()
+        color.drawSwatch(in: NSRect(origin: .zero, size: size))
+        unlockFocus()
+    }
+
+    static func make(texture: MTLTexture, rect: CGRect = .unity, bitmapInfo: CGBitmapInfo? = nil) -> NSImage? {
+
+        guard let cgImage = CGImage.make(texture: texture, rect: rect, bitmapInfo: bitmapInfo) else {
+            warn("Failed to create CGImage.")
+            return nil
+        }
+
+        let size = NSSize(width: cgImage.width, height: cgImage.height)
+        return NSImage(cgImage: cgImage, size: size)
+    }
+
+    static func make(texture: MTLTexture, region: MTLRegion, bitmapInfo: CGBitmapInfo? = nil) -> NSImage? {
+
+        guard let cgImage = CGImage.make(texture: texture, region: region, bitmapInfo: bitmapInfo) else {
+            warn("Failed to create CGImage.")
+            return nil
+        }
+
+        let size = NSSize(width: cgImage.width, height: cgImage.height)
+        return NSImage(cgImage: cgImage, size: size)
+    }
+
+    static func make(data: UnsafeMutableRawPointer, rect: CGSize, bitmapInfo: CGBitmapInfo? = nil) -> NSImage? {
+
+        guard let cgImage = CGImage.make(data: data, size: rect, bitmapInfo: bitmapInfo) else {
+            warn("Failed to create CGImage")
+            return nil
+        }
+
+        let size = NSSize(width: cgImage.width, height: cgImage.height)
+        return NSImage(cgImage: cgImage, size: size)
     }
     
     func resizeImage(width: CGFloat, height: CGFloat,
@@ -202,6 +316,14 @@ extension NSImage {
     func resize(size: CGSize) -> NSImage {
 
         return resize(width: size.width, height: size.height)
+    }
+    
+    func resizeSharp(width: CGFloat, height: CGFloat) -> NSImage {
+
+        let cutout = NSRect(x: 0, y: 0, width: width, height: height)
+        return resizeImage(width: width, height: height,
+                           cutout: cutout,
+                           interpolation: .none)
     }
 }
 

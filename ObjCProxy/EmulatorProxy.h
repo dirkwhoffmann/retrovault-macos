@@ -112,4 +112,10 @@ inline const char *c_str(const std::string &s)
 - (NSInteger)bytesRead:(NSInteger)volume;
 - (NSInteger)bytesWritten:(NSInteger)volume;
 
+
+- (void)createUsageMap:(u8 *)buf length:(NSInteger)len;
+- (void)createAllocationMap:(u8 *)buf length:(NSInteger)len;
+- (void)createHealthMap:(u8 *)buf length:(NSInteger)len;
+- (void)rectifyAllocationMap;
+
 @end
