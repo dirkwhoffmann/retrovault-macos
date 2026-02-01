@@ -83,6 +83,10 @@ extension CGRect {
 extension NSSize {
 
     static let unity = NSSize(width: 1.0, height: 1.0)
+    
+    func scaled(x: Float = 1.0, y: Float = 1.0) -> NSSize {
+        return NSSize(width: self.width * CGFloat(x), height: self.height * CGFloat(y))
+    }
 }
 
 extension NSFont {

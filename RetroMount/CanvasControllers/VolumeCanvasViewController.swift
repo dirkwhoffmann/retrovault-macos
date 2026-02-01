@@ -25,7 +25,6 @@ class VolumeCanvasViewController: CanvasViewController {
     @IBOutlet weak var cachedBlocksInfo: NSTextField!
 
     @IBOutlet weak var blockImageButton: NSButton!
-    @IBOutlet weak var blockSlider: NSSlider!
     @IBOutlet weak var bootBlockButton: NSButton!
     @IBOutlet weak var rootBlockButton: NSButton!
     @IBOutlet weak var bmBlockButton: NSButton!
@@ -36,7 +35,6 @@ class VolumeCanvasViewController: CanvasViewController {
     @IBOutlet weak var dataBlockButton: NSButton!
 
     @IBOutlet weak var allocImageButton: NSButton!
-    @IBOutlet weak var allocSlider: NSSlider!
     @IBOutlet weak var allocInfo: NSTextField!
     @IBOutlet weak var allocGreenButton: NSButton!
     @IBOutlet weak var allocYellowButton: NSButton!
@@ -45,7 +43,6 @@ class VolumeCanvasViewController: CanvasViewController {
     @IBOutlet weak var allocRectifyButton: NSButton!
 
     @IBOutlet weak var diagnoseImageButton: NSButton!
-    @IBOutlet weak var diagnoseSlider: NSSlider!
     @IBOutlet weak var diagnoseInfo: NSTextField!
     @IBOutlet weak var diagnosePassButton: NSButton!
     @IBOutlet weak var diagnoseFailButton: NSButton!
@@ -63,6 +60,414 @@ class VolumeCanvasViewController: CanvasViewController {
     var info: VolumeInfo?
     var proxy: FuseDeviceProxy? { return app.manager.proxy(device: device) }
     
+
+    
+    var oldReads: Int = 0
+    var oldWrites: Int = 0
+
+    // Result of the consistency checker
+    var erroneousBlocks: [NSNumber] = []
+    var bitMapErrors: [NSNumber] = []
+
+    var selection: Int?
+    var selectedRow: Int? { return selection == nil ? nil : selection! / 16 }
+    var selectedCol: Int? { return selection == nil ? nil : selection! % 16 }
+    var strict: Bool { return strictButton.state == .on }
+    
+    // Displayed block in the table view
+    var blockNr = 0
+    
+    override func viewDidLoad() {
+
+        // Register to receive mouse click events
+        previewTable.action = #selector(clickAction(_:))
+        
+        let click = NSClickGestureRecognizer(target: self, action: #selector(buttonClicked(_:)))
+        blockImageButton.addGestureRecognizer(click)
+    }
+    
+    private var timer: Timer?
+
+    override func viewWillAppear() {
+
+        super.viewWillAppear()
+        startPeriodicTask()
+    }
+
+    override func viewWillDisappear() {
+
+        super.viewWillDisappear()
+        stopPeriodicTask()
+    }
+
+    private func startPeriodicTask() {
+
+        guard timer == nil else { return }
+
+        timer = Timer.scheduledTimer(
+            withTimeInterval: 0.25,
+            repeats: true
+        ) { [weak self] _ in
+
+            guard let self else { return }
+            Task { @MainActor in self.refresh() }
+        }
+    }
+
+    private func stopPeriodicTask() {
+
+        timer?.invalidate()
+        timer = nil
+    }
+
+    /*
+    override func refresh() {
+
+        guard let device = device else { return }
+        guard let volume = volume else { return }
+        info = app.manager.info(device: device, volume: volume)
+        guard let info = info else { return }
+
+        let r = app.manager.proxy(device: self.device)?.bytesRead(volume) ?? 0
+        let w = app.manager.proxy(device: self.device)?.bytesWritten(volume) ?? 0
+        let rkb = Int(Double(r) / 1024.0)
+        let wkb = Int(Double(w) / 1024.0)
+        
+        icon.image = info.icon()
+        mainTitle.stringValue = info.mountPoint
+        subTitle1.stringValue = info.capacityString
+        subTitle2.stringValue = ""
+        subTitle3.stringValue = ""
+
+        readInfo.stringValue = "\(rkb) KB"
+        writeInfo.stringValue = "\(wkb) KB"
+        fillInfo.stringValue = info.fillString
+        numBlocksInfo.stringValue = "\(info.blocks) Blocks"
+        usedBlocksInfo.stringValue = "\(info.usedBlocks) Blocks"
+        cachedBlocksInfo.stringValue = "\(info.dirtyBlocks) Blocks"
+    }
+    */
+    
+    //
+    // Updating
+    //
+    
+    override func refresh() {
+          
+        updateVolumeInfo()
+        updateAllocInfo()
+        updateHealthInfo()
+        
+        // Update elements
+        blockField.stringValue         = String(format: "%d", blockNr)
+        blockStepper.integerValue      = blockNr
+        
+        // Update the block view table
+        updateBlockInfo()
+        previewTable.reloadData()
+    }
+    
+    func updateUsageImage() {
+             
+        let palette = VolumeCanvasViewController.palette
+        
+        let size = NSSize(width: 16, height: 16)
+        bootBlockButton.image = NSImage(color: palette[2], size: size)
+        rootBlockButton.image = NSImage(color: palette[3], size: size)
+        bmBlockButton.image = NSImage(color: palette[4], size: size)
+        bmExtBlockButton.image = NSImage(color: palette[5], size: size)
+        fileListBlockButton.image = NSImage(color: palette[8], size: size)
+        fileHeaderBlockButton.image = NSImage(color: palette[7], size: size)
+        userDirBlockButton.image = NSImage(color: palette[6], size: size)
+        dataBlockButton.image = NSImage(color: palette[9], size: size)
+        blockImageButton.image = layoutImage(size: blockImageButton.bounds.size.scaled(x: 2.0))
+    }
+
+    func updateAllocImage() {
+            
+        let size = NSSize(width: 16, height: 16)
+        allocGreenButton.image = NSImage(color: Palette.green, size: size)
+        allocYellowButton.image = NSImage(color: Palette.yellow, size: size)
+        allocRedButton.image = NSImage(color: Palette.red, size: size)
+        allocImageButton.image = allocImage(size: allocImageButton.bounds.size)
+    }
+
+    func updateHealthImage() {
+            
+        let size = NSSize(width: 16, height: 16)
+        diagnosePassButton.image = NSImage(color: Palette.green, size: size)
+        diagnoseFailButton.image = NSImage(color: Palette.red, size: size)
+        diagnoseImageButton.image = diagnoseImage(size: diagnoseImageButton.bounds.size)
+    }
+    
+    func updateVolumeInfo() {
+                
+        guard let device = device else { return }
+        guard let volume = volume else { return }
+        info = app.manager.info(device: device, volume: volume)
+        guard let info = info else { return }
+        
+        mainTitle.stringValue = info.mountPoint
+        subTitle1.stringValue = info.capacityString
+        subTitle2.stringValue = ""
+        subTitle3.stringValue = ""
+
+        // TODO: ADD MISSING ITEMS
+    }
+        
+    func updateAllocInfo() {
+     
+        // let total = errorReport?.bitmapErrors ?? 0
+        let total = bitMapErrors.count
+
+        if total > 0 {
+            
+            let blocks = total == 1 ? "block" : "blocks"
+            diagnoseInfo.stringValue = "\(total) suspicious \(blocks) found"
+        }
+
+        allocInfo.isHidden = total == 0
+        allocRectifyInfo.isHidden = total == 0
+        allocRectifyButton.isHidden = total == 0
+    }
+    
+    func updateHealthInfo() {
+     
+        // let total = errorReport?.corruptedBlocks ?? 0
+        let total = erroneousBlocks.count
+
+        if total > 0 {
+            
+            let blocks = total == 1 ? "block" : "blocks"
+            diagnoseInfo.stringValue = "\(total) corrupted \(blocks) found"
+        }
+
+        diagnoseInfo.isHidden = total == 0
+        diagnoseNextInfo.isHidden = total == 0
+        diagnoseNextButton.isHidden = total == 0
+    }
+   
+    func updateBlockInfo() {
+                
+        if selection == nil {
+            updateBlockInfoUnselected()
+            updateErrorInfoUnselected()
+        } else {
+            updateBlockInfoSelected()
+            updateErrorInfoSelected()
+        }
+    }
+    
+    func updateBlockInfoUnselected() {
+        
+        // let type = vol.blockType(blockNr)
+        info1.stringValue = "???" // type.description
+    }
+    
+    func updateBlockInfoSelected() {
+        
+        // let usage = vol.itemType(blockNr, pos: selection!)
+        info1.stringValue = "???" // usage.description
+    }
+
+    func updateErrorInfoUnselected() {
+
+        info2.stringValue = ""
+    }
+
+    func updateErrorInfoSelected() {
+        
+        // var exp = UInt8(0)
+        // let error = vol.check(blockNr, pos: selection!, expected: &exp, strict: strict)
+        info2.stringValue = "???" // error.description(expected: Int(exp))
+    }
+    
+    //
+    // Helper methods
+    //
+        
+    func setBlock(_ newValue: Int) {
+        
+        if newValue != blockNr {
+                        
+            blockNr = 0 // newValue.clamped(0, vol.numBlocks - 1)
+            selection = nil
+            refresh()
+        }
+    }
+    
+    //
+    // Action methods
+    //
+
+    @objc func buttonClicked(_ sender: NSClickGestureRecognizer) {
+
+        let point = sender.location(in: sender.view)
+        let x = point.x / blockImageButton.bounds.width
+    
+        print("Clicked \(x)")
+        
+        setBlock(0) // x * numBlocks
+    }
+    
+    @IBAction func blockTypeAction(_ sender: NSButton!) {
+        
+        // var type = FSBlockType(rawValue: sender.tag)!
+
+        // Make sure we search the correct data block type
+        // if type == .DATA_OFS && vol.isFFS { type = .DATA_FFS }
+        // if type == .DATA_FFS && vol.isOFS { type = .DATA_OFS }
+
+        // Goto the next block of the requested type
+        // let nextBlock = vol.nextBlock(of: type, after: blockNr)
+        // if nextBlock != -1 { setBlock(nextBlock) }
+    }
+
+    @IBAction func blockAction(_ sender: NSTextField!) {
+        
+        setBlock(sender.integerValue)
+    }
+    
+    @IBAction func blockStepperAction(_ sender: NSStepper!) {
+        
+        setBlock(sender.integerValue)
+    }
+            
+    @IBAction func gotoNextCorruptedBlockAction(_ sender: NSButton!) {
+
+        var low = 0
+        var high = erroneousBlocks.count
+
+        while low < high {
+
+            let mid = (low + high) / 2
+            if erroneousBlocks[mid].intValue > blockNr {
+                high = mid
+            } else {
+                low = mid + 1
+            }
+        }
+
+        if low < erroneousBlocks.count {
+            setBlock(erroneousBlocks[low].intValue)
+        } else if erroneousBlocks.count > 0 {
+            setBlock(erroneousBlocks[0].intValue)
+        }
+    }
+
+    @IBAction func rectifyAction(_ sender: NSButton!) {
+        
+        // vol.rectifyAllocationMap()
+        updateAllocImage()
+        refresh()
+    }
+
+    @IBAction func strictAction(_ sender: NSButton!) {
+
+        // Examine all blocks
+        // vol.xrayBlocks(strict)
+        // erroneousBlocks = vol.xrayBlocks
+
+        // Examime the bitmap
+        // vol.xrayBitmap(strict)
+        // bitMapErrors = vol.xrayBitmap
+
+        updateHealthImage()
+        refresh()
+    }
+    
+    @IBAction func clickAction(_ sender: NSTableView!) {
+        
+        if sender.clickedColumn >= 1 && sender.clickedRow >= 0 {
+            
+            let newValue = 16 * sender.clickedRow + sender.clickedColumn - 1
+            selection = selection != newValue ? newValue : nil
+            refresh()
+        }
+    }
+}
+
+@MainActor
+extension VolumeCanvasViewController: NSTableViewDataSource {
+    
+    func columnNr(_ column: NSTableColumn?) -> Int? {
+        
+        return column == nil ? nil : Int(column!.identifier.rawValue)
+    }
+        
+    func numberOfRows(in tableView: NSTableView) -> Int {
+        
+        return 512 / 16
+    }
+    
+    func tableView(_ tableView: NSTableView,
+                   objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
+                
+        switch tableColumn?.identifier.rawValue {
+
+        case "Offset":
+            return String(format: "%X", row)
+            
+        case "Ascii":
+            return "?" // vol.ascii(blockNr, offset: 16 * row, length: 16)
+            
+        default:
+            if let col = columnNr(tableColumn) {
+
+                let byte = col // vol.readByte(blockNr, offset: 16 * row + col)
+                return String(format: "%02X", byte)
+            }
+        }
+        fatalError()
+    }
+}
+
+@MainActor
+extension VolumeCanvasViewController: NSTableViewDelegate {
+    
+    func tableView(_ tableView: NSTableView, willDisplayCell cell: Any, for tableColumn: NSTableColumn?, row: Int) {
+
+        // let exp = UInt8(0)
+        let cell = cell as? NSTextFieldCell
+
+        if let col = columnNr(tableColumn) {
+            
+            // let offset = 16 * row + col
+            let error = Int.random(in: 0..<6) // = vol.check(blockNr, pos: offset, expected: &exp, strict: strict)
+            
+            if row == selectedRow && col == selectedCol {
+                cell?.textColor = .white
+                cell?.backgroundColor = error == 0 ? .selectedContentBackgroundColor : .systemRed
+            } else {
+                cell?.textColor = error == 0 ? .textColor : .systemRed
+                cell?.backgroundColor = NSColor.alternatingContentBackgroundColors[row % 2]
+            }
+        } else {
+            cell?.backgroundColor = .windowBackgroundColor
+        }
+    }
+    
+    func tableView(_ tableView: NSTableView, shouldSelectRow row: Int) -> Bool {
+        return false
+    }
+}
+
+@MainActor
+extension VolumeCanvasViewController: NSTabViewDelegate {
+    
+    func tabView(_ tabView: NSTabView, didSelect tabViewItem: NSTabViewItem?) {
+        
+        refresh()
+    }
+}
+
+//
+// Image creation
+//
+    
+@MainActor
+extension VolumeCanvasViewController {
+    
     struct Palette {
         
         static let white = NSColor.white
@@ -79,7 +484,7 @@ class VolumeCanvasViewController: CanvasViewController {
         static let pink = NSColor(r: 0xff, g: 0x66, b: 0xff, a: 0xff)
     }
     
-    let palette: [ NSColor] = [
+    static let palette: [NSColor] = [
         
         Palette.white,
         Palette.gray,
@@ -94,18 +499,6 @@ class VolumeCanvasViewController: CanvasViewController {
         Palette.green
     ]
     
-    var oldReads: Int = 0
-    var oldWrites: Int = 0
-
-    // Result of the consistency checker
-    var erroneousBlocks: [NSNumber] = []
-    var bitMapErrors: [NSNumber] = []
-
-    var selection: Int?
-    var selectedRow: Int? { return selection == nil ? nil : selection! / 16 }
-    var selectedCol: Int? { return selection == nil ? nil : selection! % 16 }
-    var strict: Bool { return strictButton.state == .on }
-
     func layoutImage(size: NSSize) -> NSImage? {
         
         var data = Data(count: Int(size.width))
@@ -118,7 +511,7 @@ class VolumeCanvasViewController: CanvasViewController {
                 
         return createImage(data: data, size: size, colorize: { (x: UInt8) -> NSColor in
             
-            return palette[Int(x)]
+            return VolumeCanvasViewController.palette[Int(x)]
         })
     }
 
@@ -201,80 +594,5 @@ class VolumeCanvasViewController: CanvasViewController {
         let image = NSImage.make(data: mask, rect: size)
         let resizedImage = image?.resizeSharp(width: CGFloat(width), height: CGFloat(height))
         return resizedImage
-    }
-    
-    
-    override func viewDidLoad() {
-
-        let click = NSClickGestureRecognizer(target: self, action: #selector(buttonClicked(_:)))
-        blockImageButton.addGestureRecognizer(click)
-    }
-
-    @objc func buttonClicked(_ sender: NSClickGestureRecognizer) {
-
-        let point = sender.location(in: sender.view)
-        let x = point.x / blockImageButton.bounds.width
-    
-        print("Clicked \(x)")
-    }
-    
-    private var timer: Timer?
-
-    override func viewWillAppear() {
-
-        super.viewWillAppear()
-        startPeriodicTask()
-    }
-
-    override func viewWillDisappear() {
-
-        super.viewWillDisappear()
-        stopPeriodicTask()
-    }
-
-    private func startPeriodicTask() {
-
-        guard timer == nil else { return }
-
-        timer = Timer.scheduledTimer(
-            withTimeInterval: 0.25,
-            repeats: true
-        ) { [weak self] _ in
-
-            guard let self else { return }
-            Task { @MainActor in self.refresh() }
-        }
-    }
-
-    private func stopPeriodicTask() {
-
-        timer?.invalidate()
-        timer = nil
-    }
-
-    override func refresh() {
-
-        guard let device = device else { return }
-        guard let volume = volume else { return }
-        info = app.manager.info(device: device, volume: volume)
-        guard let info = info else { return }
-
-        let r = app.manager.proxy(device: self.device)?.bytesRead(volume) ?? 0
-        let w = app.manager.proxy(device: self.device)?.bytesWritten(volume) ?? 0
-        let rkb = Int(Double(r) / 1024.0)
-        let wkb = Int(Double(w) / 1024.0)
-        
-        icon.image = info.icon()
-        mainTitle.stringValue = info.mountPoint
-        subTitle1.stringValue = info.capacityString
-        subTitle2.stringValue = ""
-        subTitle3.stringValue = ""
-
-        readInfo.stringValue = "\(rkb) KB"
-        writeInfo.stringValue = "\(wkb) KB"
-        fillInfo.stringValue = info.fillString
-        numBlocksInfo.stringValue = "\(info.blocks) Blocks"
-        usedBlocksInfo.stringValue = "\(info.usedBlocks) Blocks"
-        cachedBlocksInfo.stringValue = "\(info.dirtyBlocks) Blocks"
     }
 }
