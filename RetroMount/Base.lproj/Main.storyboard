@@ -1859,7 +1859,7 @@ DQ
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <font key="font" metaFont="system"/>
                                 <tabViewItems>
-                                    <tabViewItem label="Block Map" identifier="" id="ih9-zS-cf0">
+                                    <tabViewItem label="Block Map" identifier="0" id="ih9-zS-cf0">
                                         <view key="view" id="N06-WF-NP9">
                                             <rect key="frame" x="10" y="33" width="684" height="84"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -2011,7 +2011,7 @@ DQ
                                             </subviews>
                                         </view>
                                     </tabViewItem>
-                                    <tabViewItem label="Allocation Map" identifier="" id="rJN-RL-ygo">
+                                    <tabViewItem label="Allocation Map" identifier="1" id="rJN-RL-ygo">
                                         <view key="view" id="slb-Nr-6xc">
                                             <rect key="frame" x="10" y="33" width="684" height="84"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -2104,7 +2104,7 @@ DQ
                                             </subviews>
                                         </view>
                                     </tabViewItem>
-                                    <tabViewItem label="Diagnose" identifier="" id="HUa-ow-BVm">
+                                    <tabViewItem label="Diagnose" identifier="2" id="HUa-ow-BVm">
                                         <view key="view" id="Kcx-Sh-v2F">
                                             <rect key="frame" x="10" y="33" width="684" height="84"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -2189,6 +2189,9 @@ DQ
                                         </view>
                                     </tabViewItem>
                                 </tabViewItems>
+                                <connections>
+                                    <outlet property="delegate" destination="nnP-dK-1pJ" id="Q8I-LL-6Wr"/>
+                                </connections>
                             </tabView>
                             <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0kO-xA-aZL">
                                 <rect key="frame" x="349" y="157" width="363" height="16"/>

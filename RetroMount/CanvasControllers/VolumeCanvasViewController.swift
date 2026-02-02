@@ -26,45 +26,11 @@ actor ImageRenderer {
         isRendering = true
 
         repeat {
+            
             needsAnotherPass = false
             async let image = renderer()
             await completion(image)
             
-        } while needsAnotherPass
-
-        isRendering = false
-    }
-}
-
-actor DeprecatedImageRenderer {
-
-    private var isRendering = false
-    private var needsAnotherPass = false
-
-    func render(usage: () async -> NSImage?,
-                alloc: () async -> NSImage?,
-                health: () async -> NSImage?,
-                completion: @MainActor @escaping (_ usage: NSImage?, _ alloc: NSImage?, _ health: NSImage?) -> Void) async {
-
-        if isRendering {
-            
-            needsAnotherPass = true;
-            return
-        }
-
-        isRendering = true
-
-        repeat {
-            needsAnotherPass = false
-
-            async let usageImage  = usage()
-            async let allocImage  = alloc()
-            async let healthImage = health()
-
-            let images = await (usageImage, allocImage, healthImage)
-            
-            await completion(images.0, images.1, images.2)
-
         } while needsAnotherPass
 
         isRendering = false
@@ -125,6 +91,9 @@ class VolumeCanvasViewController: CanvasViewController {
     // Generation counter (use inside the refresh logic)
     var generation: Int?
 
+    // Selected tab view panel
+    var selectedTab = 0
+    
     // Cached volume info
     var info = VolumeInfo()
 
@@ -201,7 +170,8 @@ class VolumeCanvasViewController: CanvasViewController {
 
         info = app.manager.info(device: device, volume: volume)
         if generation == info.generation { return }
-
+        generation = info.generation
+        
         refreshVolumeInfo()
         refreshUsageInfo()
         refreshAllocInfo()
@@ -209,17 +179,28 @@ class VolumeCanvasViewController: CanvasViewController {
         refredshBlockInfo()
         previewTable.reloadData()
         
-        Task {
-            await usageImageRenderer.render(renderer: { await self.renderUsageImage() })
-            { image in self.blockImageButton.image = image }
-        }
-        Task {
-            await allocImageRenderer.render(renderer: { await self.renderAllocImage() })
-            { image in self.allocImageButton.image = image }
-        }
-        Task {
-            await diagnoseImageRenderer.render(renderer: { await self.renderHealthImage() })
-            { image in self.diagnoseImageButton.image = image }
+        switch selectedTab {
+            
+        case 0:
+            print("Render usage image...")
+            Task {
+                await usageImageRenderer.render(renderer: { await self.renderUsageImage() })
+                { image in self.blockImageButton.image = image }
+            }
+        case 1:
+            print("Render alloc image...")
+            Task {
+                await allocImageRenderer.render(renderer: { await self.renderAllocImage() })
+                { image in self.allocImageButton.image = image }
+            }
+        case 2:
+            print("Render health image...")
+            Task {
+                await diagnoseImageRenderer.render(renderer: { await self.renderHealthImage() })
+                { image in self.diagnoseImageButton.image = image }
+            }
+        default:
+            break
         }
     }
     
@@ -576,7 +557,9 @@ extension VolumeCanvasViewController: NSTabViewDelegate {
     
     func tabView(_ tabView: NSTabView, didSelect tabViewItem: NSTabViewItem?) {
         
-        refresh()
+        let id = tabViewItem?.identifier as? String
+        selectedTab = Int(id ?? "") ?? 0
+        forceRefresh()
     }
 }
 
