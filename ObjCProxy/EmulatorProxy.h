@@ -97,6 +97,8 @@ inline const char *c_str(const std::string &s)
 
 -(FuseVolumeProxy *) volume:(NSInteger)nr;
 
+- (NSArray<NSString *> *)describe;
+
 @property (readonly, strong) NSURL *url;
 @property (readonly) ImageInfo info;
 

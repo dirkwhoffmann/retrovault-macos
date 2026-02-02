@@ -205,7 +205,7 @@ class DeviceManager {
         let mp = proxy.mountPoint
 
         // Mount point
-        result.mountPoint = mp?.absoluteString ?? ""
+        result.mountPoint = mp?.relativePath ?? ""
 
         // Image info
         result.deviceInfo = info(device: device)

@@ -70,16 +70,24 @@ class DeviceCanvasViewController: CanvasViewController {
     }
 
     override func refresh() {
+         
+        refreshDeviceInfo()
+        refreshSelection()
+    }
 
+    func refreshDeviceInfo() {
+                
+        guard let proxy = proxy else { return }
+        let description = proxy.describe()
         guard let device = device else { return }
         info = app.manager.info(device: device)
         guard let info = info else { return }
 
         icon.image = info.icon()
         mainTitle.stringValue = info.name
-        subTitle1.stringValue = info.description
-        subTitle2.stringValue = info.capacityString
-        subTitle3.stringValue = ""
+        subTitle1.stringValue = description?[safe: 0] ?? ""
+        subTitle2.stringValue = description?[safe: 1] ?? ""
+        subTitle3.stringValue = description?[safe: 2] ?? ""
 
         cylindersInfo.stringValue = String(format: "%d", info.numCyls)
         headsInfo.stringValue = String(format: "%d", info.numHeads)
@@ -90,10 +98,8 @@ class DeviceCanvasViewController: CanvasViewController {
         blocksInfo.stringValue = String(format: "%d", info.numBlocks)
         bsizeInfo.stringValue = String(format: "%d", info.bsize)
         capacityInfo.stringValue = info.capacityString
-
-        refreshSelection()
     }
-
+    
     func refreshSelection() {
 
         cylinderField.stringValue      = String(format: "%d", currentCyl)

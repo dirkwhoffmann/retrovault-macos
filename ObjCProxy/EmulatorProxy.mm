@@ -113,7 +113,7 @@ using namespace utl;
     catch (Error &error) { [ex save:error]; }
 }
 
-- (FSPosixStat)stat:(NSInteger)volume
+- (FSPosixStat)stat
 {
     return [self volume]->stat();
 }
@@ -197,6 +197,20 @@ using namespace utl;
         [ex save:error];
         return nil;
     }
+}
+
+- (NSArray<NSString *> *)describe
+{
+    const auto vec = [self adapter]->describe();
+
+    NSMutableArray<NSString *> *result =
+        [NSMutableArray arrayWithCapacity:vec.size()];
+
+    for (const auto &s : vec) {
+        [result addObject:[NSString stringWithUTF8String:s.c_str()]];
+    }
+
+    return result;
 }
 
 - (NSURL *)url

@@ -42,7 +42,7 @@ public:
 
     // Returns the predicted file system family of this image
     virtual FSFamily fsFamily() const noexcept = 0;
-
+    
 
     //
     // Obtaining views on tracks and sectors

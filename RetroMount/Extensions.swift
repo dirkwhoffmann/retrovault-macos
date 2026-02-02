@@ -73,6 +73,13 @@ extension Float {
     }
 }
 
+extension Collection {
+    
+    subscript(safe index: Index) -> Element? {
+        indices.contains(index) ? self[index] : nil
+    }
+}
+
 extension CGRect {
 
     static let unity = CGRect(x: 0.0, y: 0.0, width: 1.0, height: 1.0)

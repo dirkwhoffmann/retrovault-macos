@@ -154,6 +154,18 @@ FileSystem::dumpBlocks(std::ostream &os) const noexcept
     cache.dump(os);
 }
 
+vector<string>
+FileSystem::describe() const noexcept
+{
+    return {
+ 
+        "Amiga File System",
+        
+        traits.ofs() ? "Original File System (OFS)" :
+        traits.ffs() ? "Fast File System (FFS)" : "Unknown File System"
+    };
+}
+
 bool
 FileSystem::isFormatted() const noexcept
 {

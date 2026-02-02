@@ -68,12 +68,14 @@ public:
 
     FuseDevice(const fs::path &filename);
     ~FuseDevice();
-
+    
     // Registers a listener together with it's callback function
     void setListener(const void *listener, AdapterCallback *func);
 
     FuseVolume &getVolume(isize volume);
     DiskImage *getImage() { return image.get(); }
+
+    vector<string> describe() const noexcept { return image->LinearDevice::describe(); }
 
 private:
     

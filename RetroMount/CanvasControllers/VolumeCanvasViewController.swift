@@ -20,6 +20,7 @@ class VolumeCanvasViewController: CanvasViewController {
     @IBOutlet weak var readInfo: NSTextField!
     @IBOutlet weak var writeInfo: NSTextField!
     @IBOutlet weak var fillInfo: NSTextField!
+    @IBOutlet weak var fillIndicator: NSLevelIndicator!
     @IBOutlet weak var numBlocksInfo: NSTextField!
     @IBOutlet weak var usedBlocksInfo: NSTextField!
     @IBOutlet weak var cachedBlocksInfo: NSTextField!
@@ -57,7 +58,7 @@ class VolumeCanvasViewController: CanvasViewController {
     @IBOutlet weak var info1: NSTextField!
     @IBOutlet weak var info2: NSTextField!
     
-    var info: VolumeInfo?
+    // var info: VolumeInfo?
     var proxy: FuseVolumeProxy? { return app.manager.proxy(device: device)?.volume(volume!) }
     
     var oldReads: Int = 0
@@ -118,43 +119,15 @@ class VolumeCanvasViewController: CanvasViewController {
         timer = nil
     }
 
-    /*
-    override func refresh() {
-
-        guard let device = device else { return }
-        guard let volume = volume else { return }
-        info = app.manager.info(device: device, volume: volume)
-        guard let info = info else { return }
-
-        let r = app.manager.proxy(device: self.device)?.bytesRead(volume) ?? 0
-        let w = app.manager.proxy(device: self.device)?.bytesWritten(volume) ?? 0
-        let rkb = Int(Double(r) / 1024.0)
-        let wkb = Int(Double(w) / 1024.0)
-        
-        icon.image = info.icon()
-        mainTitle.stringValue = info.mountPoint
-        subTitle1.stringValue = info.capacityString
-        subTitle2.stringValue = ""
-        subTitle3.stringValue = ""
-
-        readInfo.stringValue = "\(rkb) KB"
-        writeInfo.stringValue = "\(wkb) KB"
-        fillInfo.stringValue = info.fillString
-        numBlocksInfo.stringValue = "\(info.blocks) Blocks"
-        usedBlocksInfo.stringValue = "\(info.usedBlocks) Blocks"
-        cachedBlocksInfo.stringValue = "\(info.dirtyBlocks) Blocks"
-    }
-    */
-    
     //
     // Updating
     //
     
     override func refresh() {
           
-        updateVolumeInfo()
-        updateAllocInfo()
-        updateHealthInfo()
+        refreshVolumeInfo()
+        refreshAllocInfo()
+        refreshHealthInfo()
         
         // Update elements
         blockField.stringValue         = String(format: "%d", blockNr)
@@ -163,6 +136,30 @@ class VolumeCanvasViewController: CanvasViewController {
         // Update the block view table
         updateBlockInfo()
         previewTable.reloadData()
+    }
+    
+    func refreshVolumeInfo() {
+            
+        guard let proxy = proxy else { return }
+        let description = proxy.describe()
+        guard let device = device else { return }
+        guard let volume = volume else { return }
+        let info = app.manager.info(device: device, volume: volume)
+                
+        mainTitle.stringValue = info.mountPoint
+        subTitle1.stringValue = description?[safe: 0] ?? ""
+        subTitle2.stringValue = description?[safe: 1] ?? ""
+        subTitle3.stringValue = description?[safe: 2] ?? ""
+        
+        let r = Int(Double(proxy.bytesRead) / 1024.0)
+        let w = Int(Double(proxy.bytesWritten) / 1024.0)
+        readInfo.stringValue = "\(r) KB"
+        writeInfo.stringValue = "\(w) KB"
+        fillInfo.stringValue = info.fillString
+        fillIndicator.doubleValue = (info.fill * 100.0).rounded()
+        numBlocksInfo.stringValue = "\(info.blocks) Blocks"
+        usedBlocksInfo.stringValue = "\(info.usedBlocks) Blocks"
+        cachedBlocksInfo.stringValue = "\(info.dirtyBlocks) Blocks"
     }
     
     func updateUsageImage() {
@@ -198,22 +195,7 @@ class VolumeCanvasViewController: CanvasViewController {
         diagnoseImageButton.image = diagnoseImage(size: diagnoseImageButton.bounds.size)
     }
     
-    func updateVolumeInfo() {
-                
-        guard let device = device else { return }
-        guard let volume = volume else { return }
-        info = app.manager.info(device: device, volume: volume)
-        guard let info = info else { return }
-        
-        mainTitle.stringValue = info.mountPoint
-        subTitle1.stringValue = info.capacityString
-        subTitle2.stringValue = ""
-        subTitle3.stringValue = ""
-
-        // TODO: ADD MISSING ITEMS
-    }
-        
-    func updateAllocInfo() {
+    func refreshAllocInfo() {
      
         // let total = errorReport?.bitmapErrors ?? 0
         let total = bitMapErrors.count
@@ -229,7 +211,7 @@ class VolumeCanvasViewController: CanvasViewController {
         allocRectifyButton.isHidden = total == 0
     }
     
-    func updateHealthInfo() {
+    func refreshHealthInfo() {
      
         // let total = errorReport?.corruptedBlocks ?? 0
         let total = erroneousBlocks.count
