@@ -242,6 +242,14 @@ FSCache::erase(BlockNr nr)
 }
 
 void
+FSCache::markAsDirty(BlockNr nr)
+
+{
+    dirty.insert(nr);
+    fs.stepGeneration();
+}
+
+void
 FSCache::flush()
 {
     loginfo(FS_DEBUG, "Flushing %zd dirty blocks\n", dirty.size());
@@ -275,16 +283,6 @@ FSCache::flush()
     
     // Mark all blocks as up-to-date
     dirty.clear();
-    
-    /*
-    loginfo(FS_DEBUG, "Flushing %zd dirty blocks\n", dirty.size());
-
-    // Copy 'dirty' as it will be modified during the for loop
-    auto toFlush = dirty;
-    
-    // Flush all dirty blocks
-    for (auto block: toFlush) { flush(block); }
-    */
 }
 
 }

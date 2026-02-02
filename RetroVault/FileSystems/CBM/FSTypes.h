@@ -74,7 +74,15 @@ struct FSBlockTypeEnum : Reflectable<FSBlockTypeEnum, FSBlockType>
     
     static const char *help(FSBlockType value)
     {
-        return "";
+        switch (value) {
+                
+            case FSBlockType::UNKNOWN:  return "Unknown";
+            case FSBlockType::EMPTY:    return "Empty block";
+            case FSBlockType::BAM:      return "Block Availability Map (BAM)";
+            case FSBlockType::DIR:      return "Directory block";
+            case FSBlockType::DATA:     return "Data block";
+        }
+        return "???";
     }
 };
 
@@ -262,8 +270,7 @@ struct FSStat {
     
     // Access statistics
 
-    isize blockReads;   // Total number of read blocks
-    isize blockWrites;  // Total number of written blocks
+    isize generation;   // File system generation counter
 };
 
 struct FSDiagnosis

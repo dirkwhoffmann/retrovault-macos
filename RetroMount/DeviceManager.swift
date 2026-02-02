@@ -119,7 +119,8 @@ class VolumeInfo {
     // Access statistics
     var reads = 0
     var writes = 0
-
+    var generation = 0
+    
     var bytes: Int { return blocks * bsize; }
     var kb: Double { return Double(bytes) / Double(1024); }
     var mb: Double { return kb / Double(1024); }
@@ -230,9 +231,10 @@ class DeviceManager {
         result.mDate = mt.formatted(date: .numeric, time: .standard)
 
         // Access statistics
-        result.reads = stat.blockReads
-        result.writes = stat.blockWrites
-
+        result.reads = proxy.bytesRead
+        result.writes = proxy.bytesWritten
+        result.generation = stat.generation
+        
         return result
     }
 

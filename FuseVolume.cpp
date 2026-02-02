@@ -12,7 +12,9 @@
 #include "FuseDevice.h"
 #include "FuseDebug.h"
 #include "FileSystems/Amiga/PosixAdapter.h"
+#include "FileSystems/Amiga/FileSystem.h"
 #include "FileSystems/CBM/PosixAdapter.h"
+#include "FileSystems/CBM/FileSystem.h"
 
 using namespace retro::vault;
 
@@ -270,4 +272,48 @@ FuseVolume::commit()
     
     // Write the image back to the image file
     device.image->save(getRange());
+}
+
+
+//
+// Amiga volume
+//
+
+string
+FuseAmigaVolume::blockType(isize blockNr) const {
+    return amiga::FSBlockTypeEnum::help(fs->typeOf(BlockNr(blockNr)));
+}
+void
+FuseAmigaVolume::createUsageMap(u8 *buf, isize len) const {
+    fs->doctor.createUsageMap(buf, len);
+}
+void
+FuseAmigaVolume::createAllocationMap(u8 *buf, isize len) const {
+    fs->doctor.createAllocationMap(buf, len);
+}
+void
+FuseAmigaVolume::createHealthMap(u8 *buf, isize len) const {
+    fs->doctor.createHealthMap(buf, len);
+}
+
+
+//
+// CBM volume
+//
+
+string
+FuseCBMVolume::blockType(isize blockNr) const {
+    return cbm::FSBlockTypeEnum::help(fs->typeOf(BlockNr(blockNr)));
+}
+void
+FuseCBMVolume::createUsageMap(u8 *buf, isize len) const {
+    fs->doctor.createUsageMap(buf, len);
+}
+void
+FuseCBMVolume::createAllocationMap(u8 *buf, isize len) const {
+    fs->doctor.createAllocationMap(buf, len);
+}
+void
+FuseCBMVolume::createHealthMap(u8 *buf, isize len) const {
+    fs->doctor.createHealthMap(buf, len);
 }

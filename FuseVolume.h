@@ -76,6 +76,12 @@ public:
     
     Range<isize> getRange() const { return vol->getRange(); }
     
+    virtual string blockType(isize blockNr) const = 0;
+    
+    virtual void createUsageMap(u8 *buf, isize len) const = 0;
+    virtual void createAllocationMap(u8 *buf, isize len) const = 0;
+    virtual void createHealthMap(u8 *buf, isize len) const = 0;
+    
     i64 reads() const { return vol->reads; }
     i64 writes() const { return vol->writes; }
 
@@ -124,17 +130,28 @@ class FuseAmigaVolume : public FuseVolume {
 public:
     
     FuseAmigaVolume(FuseDevice &device, unique_ptr<Volume> vol);
-    vector<string> describe() const noexcept override { return fs->describe(); }
+    vector<string> describe() const noexcept override {
+        return fs->describe();
+    }
+    string blockType(isize blockNr) const override;
+    
+    void createUsageMap(u8 *buf, isize len) const override;
+    void createAllocationMap(u8 *buf, isize len) const override;
+    void createHealthMap(u8 *buf, isize len) const override;
 };
-
 
 class FuseCBMVolume : public FuseVolume {
     
     // Raw file system on top of the volume
     unique_ptr<cbm::FileSystem> fs;
-  
+    
 public:
     
     FuseCBMVolume(FuseDevice &device, unique_ptr<Volume> vol);
     vector<string> describe() const noexcept override { return fs->describe(); }
+    string blockType(isize blockNr) const override;
+    
+    void createUsageMap(u8 *buf, isize len) const override;
+    void createAllocationMap(u8 *buf, isize len) const override;
+    void createHealthMap(u8 *buf, isize len) const override;
 };

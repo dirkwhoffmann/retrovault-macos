@@ -128,19 +128,24 @@ using namespace utl;
     return [self volume]->writes();
 }
 
+- (NSString *)blockType:(NSInteger)blockNr
+{
+    return @([self volume]->blockType(blockNr).c_str());
+}
+
 - (void)createUsageMap:(u8 *)buf length:(NSInteger)len
 {
-    // [self fs]->doctor.createUsageMap((u8 *)buf, len);
+    [self volume]->createUsageMap((u8 *)buf, len);
 }
 
 - (void)createAllocationMap:(u8 *)buf length:(NSInteger)len
 {
-    // [self fs]->doctor.createAllocationMap((u8 *)buf, len);
+    [self volume]->createAllocationMap((u8 *)buf, len);
 }
 
 - (void)createHealthMap:(u8 *)buf length:(NSInteger)len
 {
-    // [self fs]->doctor.createHealthMap((u8 *)buf, len);
+    [self volume]->createHealthMap((u8 *)buf, len);
 }
 
 - (NSInteger)nextBlockOfType:(FSBlockType)type after:(NSInteger)after

@@ -132,8 +132,7 @@ FileSystem::stat() const noexcept
         .freeBlocks     = allocator.numUnallocated(),
         .usedBlocks     = allocator.numAllocated(),
         .dirtyBlocks    = cache.dirtyBlocks(),
-        .blockReads     = 0, // DEPRECATED
-        .blockWrites    = 0, // DEPRECATED
+        .generation     = generation
     };
 
     return result;

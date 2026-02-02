@@ -1829,6 +1829,9 @@ DQ
                                 <rect key="frame" x="122" y="152" width="19" height="27"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <stepperCell key="cell" controlSize="mini" continuous="YES" refusesFirstResponder="YES" alignment="left" maxValue="999999" id="csF-Ss-Of6"/>
+                                <connections>
+                                    <action selector="blockStepperAction:" target="nnP-dK-1pJ" id="iSm-cv-Enf"/>
+                                </connections>
                             </stepper>
                             <textField focusRingType="none" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eFt-S9-8OW">
                                 <rect key="frame" x="65" y="155" width="58" height="22"/>
@@ -1838,6 +1841,9 @@ DQ
                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
+                                <connections>
+                                    <action selector="blockAction:" target="nnP-dK-1pJ" id="N44-gY-U5T"/>
+                                </connections>
                             </textField>
                             <textField focusRingType="none" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3rN-ym-ZAD">
                                 <rect key="frame" x="21" y="155" width="41" height="19"/>

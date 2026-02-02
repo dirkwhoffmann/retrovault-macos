@@ -240,6 +240,13 @@ FSCache::erase(BlockNr nr)
 }
 
 void
+FSCache::markAsDirty(BlockNr nr)
+{
+    dirty.insert(nr);
+    fs.stepGeneration();
+}
+
+void
 FSCache::flush()
 {
     loginfo(FS_DEBUG, "Flushing %zd dirty blocks\n", dirty.size());

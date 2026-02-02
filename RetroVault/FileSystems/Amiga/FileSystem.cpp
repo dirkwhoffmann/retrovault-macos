@@ -158,8 +158,6 @@ vector<string>
 FileSystem::describe() const noexcept
 {
     return {
- 
-        "Amiga File System",
         
         traits.ofs() ? "Original File System (OFS)" :
         traits.ffs() ? "Fast File System (FFS)" : "Unknown File System"
@@ -197,8 +195,7 @@ FileSystem::stat() const noexcept
         .bDate          = rb.getCreationDate(),
         .mDate          = rb.getModificationDate(),
 
-        .reads          = 0, // Not yet supported
-        .writes         = 0  // Not yet supported
+        .generation     = 0 // TODO
     };
 
     return result;

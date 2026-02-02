@@ -54,8 +54,7 @@ PosixAdapter::stat() const noexcept
         .btime          = stat.bDate.time(),
         .mtime          = stat.mDate.time(),
 
-        .blockReads     = stat.reads,
-        .blockWrites    = stat.writes
+        .generation     = stat.generation
     };
 }
 

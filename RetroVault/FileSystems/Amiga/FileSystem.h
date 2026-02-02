@@ -114,6 +114,9 @@ class FileSystem : public Loggable {
     // Immutable file system properties
     FSTraits traits;
 
+    // Generation counter (increased with every write access)
+    isize generation = 0;
+    
 
     // Block layer
 
@@ -172,6 +175,8 @@ public:
     FileSystem& operator=(const FileSystem &) = delete;
     FileSystem& operator=(FileSystem &&) = delete;
 
+    void stepGeneration() { ++generation; }
+    
 
     //
     // Printing debug information

@@ -58,11 +58,13 @@ class VolumeCanvasViewController: CanvasViewController {
     @IBOutlet weak var info1: NSTextField!
     @IBOutlet weak var info2: NSTextField!
     
-    // var info: VolumeInfo?
     var proxy: FuseVolumeProxy? { return app.manager.proxy(device: device)?.volume(volume!) }
     
-    var oldReads: Int = 0
-    var oldWrites: Int = 0
+    // Generation counter (use inside the refresh logic)
+    var generation: Int?
+
+    // Cached volume info
+    var info = VolumeInfo()
 
     // Result of the consistency checker
     var erroneousBlocks: [NSNumber] = []
@@ -76,11 +78,14 @@ class VolumeCanvasViewController: CanvasViewController {
     // Displayed block in the table view
     var blockNr = 0
     
+    // Cached volume properties
+    var numBlocks: Int { return proxy?.stat.blocks ?? 0 }
+    
     override func viewDidLoad() {
 
         // Register to receive mouse click events
         previewTable.action = #selector(clickAction(_:))
-        
+                
         let click = NSClickGestureRecognizer(target: self, action: #selector(buttonClicked(_:)))
         blockImageButton.addGestureRecognizer(click)
     }
@@ -125,26 +130,34 @@ class VolumeCanvasViewController: CanvasViewController {
     
     override func refresh() {
           
+        guard let device = device else { return }
+        guard let volume = volume else { return }
+        info = app.manager.info(device: device, volume: volume)
+        
+        if generation == info.generation { return }
+        
         refreshVolumeInfo()
+        refreshUsageImage()
         refreshAllocInfo()
         refreshHealthInfo()
+        refredshBlockInfo()
         
-        // Update elements
-        blockField.stringValue         = String(format: "%d", blockNr)
-        blockStepper.integerValue      = blockNr
-        
-        // Update the block view table
-        updateBlockInfo()
         previewTable.reloadData()
+    }
+    
+    func forceRefresh() {
+    
+        generation = nil
+        refresh();
     }
     
     func refreshVolumeInfo() {
             
         guard let proxy = proxy else { return }
         let description = proxy.describe()
-        guard let device = device else { return }
-        guard let volume = volume else { return }
-        let info = app.manager.info(device: device, volume: volume)
+        // guard let device = device else { return }
+        // guard let volume = volume else { return }
+        // let info = app.manager.info(device: device, volume: volume)
                 
         mainTitle.stringValue = info.mountPoint
         subTitle1.stringValue = description?[safe: 0] ?? ""
@@ -162,7 +175,7 @@ class VolumeCanvasViewController: CanvasViewController {
         cachedBlocksInfo.stringValue = "\(info.dirtyBlocks) Blocks"
     }
     
-    func updateUsageImage() {
+    func refreshUsageImage() {
              
         let palette = VolumeCanvasViewController.palette
         
@@ -227,8 +240,16 @@ class VolumeCanvasViewController: CanvasViewController {
         diagnoseNextButton.isHidden = total == 0
     }
    
-    func updateBlockInfo() {
+    func refredshBlockInfo() {
                 
+        guard let info = proxy?.stat else { return }
+        
+        print("blockNr \(blockNr)")
+        blockField.stringValue = String(format: "%d", blockNr)
+        blockStepper.minValue = Double(0)
+        blockStepper.maxValue = Double(info.blocks - 1)
+        blockStepper.integerValue = blockNr
+
         if selection == nil {
             updateBlockInfoUnselected()
             updateErrorInfoUnselected()
@@ -240,8 +261,8 @@ class VolumeCanvasViewController: CanvasViewController {
     
     func updateBlockInfoUnselected() {
         
-        // let type = vol.blockType(blockNr)
-        info1.stringValue = "???" // type.description
+        let type = proxy?.blockType(blockNr)
+        info1.stringValue = type ?? "?"
     }
     
     func updateBlockInfoSelected() {
@@ -268,9 +289,11 @@ class VolumeCanvasViewController: CanvasViewController {
         
     func setBlock(_ newValue: Int) {
         
+        print("setBlock \(newValue) \(numBlocks)")
         if newValue != blockNr {
                         
-            blockNr = 0 // newValue.clamped(0, vol.numBlocks - 1)
+            blockNr = max(0, min(newValue, numBlocks - 1))
+            print("blockNr set to \(blockNr)")
             selection = nil
             refresh()
         }
@@ -310,6 +333,7 @@ class VolumeCanvasViewController: CanvasViewController {
     
     @IBAction func blockStepperAction(_ sender: NSStepper!) {
         
+        print("Stepper: \(sender.integerValue)")
         setBlock(sender.integerValue)
     }
             

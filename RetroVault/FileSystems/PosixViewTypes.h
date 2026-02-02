@@ -72,8 +72,7 @@ struct FSPosixStat {
 
     // Access statistics
 
-    isize blockReads;   // Total number of read blocks
-    isize blockWrites;  // Total number of written blocks
+    isize generation;   // File system generation counter
 };
 
 enum class HandleRef : isize {};

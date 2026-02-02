@@ -156,8 +156,7 @@ struct FSStat {
     FSTime mDate;
 
     // Access statistics
-    isize reads;
-    isize writes;
+    isize generation;
 };
 
 struct FSBootStat {

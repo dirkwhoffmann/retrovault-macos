@@ -37,13 +37,6 @@ class Volume {
     // Mount point
     var mounter: DeviceManager?
 
-    // Parameters for numeric settings
-    // let range: ClosedRange<Double>?
-    // let step: Float
-
-    // Parameters for enum settings
-    // let items: [(String,Int)]?
-
     // Optional help string
     let help: String?
 

@@ -142,7 +142,7 @@ public:
     //
 
     isize dirtyBlocks() const { return (isize)dirty.size(); }
-    void markAsDirty(BlockNr nr) { dirty.insert(nr); }
+    void markAsDirty(BlockNr nr);
 
     void flush();
 };
