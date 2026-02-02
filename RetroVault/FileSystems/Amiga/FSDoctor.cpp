@@ -775,7 +775,7 @@ FSDoctor::createAllocationMap(u8 *buffer, isize len) const
     // Mark all used blocks
     for (isize i = 0; i < max; i++) {
 
-        if (auto type = fs.typeOf(BlockNr(i)); type != FSBlockType::EMPTY) {
+        if (auto type = allocator.isAllocated(i)) { // } typeOf(BlockNr(i)); type != FSBlockType::EMPTY) {
             buffer[i * (len - 1) / (max - 1)] = 1;
         }
     }

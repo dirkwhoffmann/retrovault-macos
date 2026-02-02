@@ -9,6 +9,68 @@
 
 import Cocoa
 
+actor ImageRenderer {
+
+    private var isRendering = false
+    private var needsAnotherPass = false
+
+    func render(renderer: () async -> NSImage?,
+                completion: @MainActor @escaping (_ image: NSImage?) -> Void) async {
+
+        if isRendering {
+            
+            needsAnotherPass = true;
+            return
+        }
+
+        isRendering = true
+
+        repeat {
+            needsAnotherPass = false
+            async let image = renderer()
+            await completion(image)
+            
+        } while needsAnotherPass
+
+        isRendering = false
+    }
+}
+
+actor DeprecatedImageRenderer {
+
+    private var isRendering = false
+    private var needsAnotherPass = false
+
+    func render(usage: () async -> NSImage?,
+                alloc: () async -> NSImage?,
+                health: () async -> NSImage?,
+                completion: @MainActor @escaping (_ usage: NSImage?, _ alloc: NSImage?, _ health: NSImage?) -> Void) async {
+
+        if isRendering {
+            
+            needsAnotherPass = true;
+            return
+        }
+
+        isRendering = true
+
+        repeat {
+            needsAnotherPass = false
+
+            async let usageImage  = usage()
+            async let allocImage  = alloc()
+            async let healthImage = health()
+
+            let images = await (usageImage, allocImage, healthImage)
+            
+            await completion(images.0, images.1, images.2)
+
+        } while needsAnotherPass
+
+        isRendering = false
+    }
+}
+
 @MainActor
 class VolumeCanvasViewController: CanvasViewController {
 
@@ -65,6 +127,10 @@ class VolumeCanvasViewController: CanvasViewController {
 
     // Cached volume info
     var info = VolumeInfo()
+
+    let usageImageRenderer = ImageRenderer()
+    let allocImageRenderer = ImageRenderer()
+    let diagnoseImageRenderer = ImageRenderer()
 
     // Result of the consistency checker
     var erroneousBlocks: [NSNumber] = []
@@ -129,20 +195,32 @@ class VolumeCanvasViewController: CanvasViewController {
     //
     
     override func refresh() {
-          
+
         guard let device = device else { return }
         guard let volume = volume else { return }
+
         info = app.manager.info(device: device, volume: volume)
-        
         if generation == info.generation { return }
-        
+
         refreshVolumeInfo()
-        refreshUsageImage()
+        refreshUsageInfo()
         refreshAllocInfo()
         refreshHealthInfo()
         refredshBlockInfo()
-        
         previewTable.reloadData()
+        
+        Task {
+            await usageImageRenderer.render(renderer: { await self.renderUsageImage() })
+            { image in self.blockImageButton.image = image }
+        }
+        Task {
+            await allocImageRenderer.render(renderer: { await self.renderAllocImage() })
+            { image in self.allocImageButton.image = image }
+        }
+        Task {
+            await diagnoseImageRenderer.render(renderer: { await self.renderHealthImage() })
+            { image in self.diagnoseImageButton.image = image }
+        }
     }
     
     func forceRefresh() {
@@ -174,38 +252,51 @@ class VolumeCanvasViewController: CanvasViewController {
         usedBlocksInfo.stringValue = "\(info.usedBlocks) Blocks"
         cachedBlocksInfo.stringValue = "\(info.dirtyBlocks) Blocks"
     }
-    
-    func refreshUsageImage() {
-             
-        let palette = VolumeCanvasViewController.palette
+
+    @MainActor
+    func renderUsageImage() async -> NSImage? {
         
-        let size = NSSize(width: 16, height: 16)
-        bootBlockButton.image = NSImage(color: palette[2], size: size)
-        rootBlockButton.image = NSImage(color: palette[3], size: size)
-        bmBlockButton.image = NSImage(color: palette[4], size: size)
-        bmExtBlockButton.image = NSImage(color: palette[5], size: size)
-        fileListBlockButton.image = NSImage(color: palette[8], size: size)
-        fileHeaderBlockButton.image = NSImage(color: palette[7], size: size)
-        userDirBlockButton.image = NSImage(color: palette[6], size: size)
-        dataBlockButton.image = NSImage(color: palette[9], size: size)
-        blockImageButton.image = layoutImage(size: blockImageButton.bounds.size.scaled(x: 2.0))
+        let size = await MainActor.run {
+            blockImageButton.bounds.size.scaled(x: 2.0)
+        }
+        return await Task(priority: .utility) {
+            layoutImage(size: size)
+        }.value
     }
 
-    func updateAllocImage() {
+    func refreshUsageInfo() {
+
+        let palette = VolumeCanvasViewController.palette
+        let size = NSSize(width: 16, height: 16)
+
+        // UI setup
+        bootBlockButton.image       = NSImage(color: palette[2], size: size)
+        rootBlockButton.image       = NSImage(color: palette[3], size: size)
+        bmBlockButton.image         = NSImage(color: palette[4], size: size)
+        bmExtBlockButton.image      = NSImage(color: palette[5], size: size)
+        fileListBlockButton.image   = NSImage(color: palette[8], size: size)
+        fileHeaderBlockButton.image = NSImage(color: palette[7], size: size)
+        userDirBlockButton.image    = NSImage(color: palette[6], size: size)
+        dataBlockButton.image       = NSImage(color: palette[9], size: size)
+    }
+    
+    @MainActor
+    func renderAllocImage() async -> NSImage? {
+        
+        let size = await MainActor.run {
+            allocImageButton.bounds.size
+        }
+        return await Task(priority: .utility) {
+            allocImage(size: size)
+        }.value
+    }
+    
+    func refreshAllocImage() {
             
         let size = NSSize(width: 16, height: 16)
         allocGreenButton.image = NSImage(color: Palette.green, size: size)
         allocYellowButton.image = NSImage(color: Palette.yellow, size: size)
         allocRedButton.image = NSImage(color: Palette.red, size: size)
-        allocImageButton.image = allocImage(size: allocImageButton.bounds.size)
-    }
-
-    func updateHealthImage() {
-            
-        let size = NSSize(width: 16, height: 16)
-        diagnosePassButton.image = NSImage(color: Palette.green, size: size)
-        diagnoseFailButton.image = NSImage(color: Palette.red, size: size)
-        diagnoseImageButton.image = diagnoseImage(size: diagnoseImageButton.bounds.size)
     }
     
     func refreshAllocInfo() {
@@ -224,8 +315,33 @@ class VolumeCanvasViewController: CanvasViewController {
         allocRectifyButton.isHidden = total == 0
     }
     
+    @MainActor
+    func renderHealthImage() async -> NSImage? {
+        
+        let size = await MainActor.run {
+            diagnoseImageButton.bounds.size
+        }
+        return await Task(priority: .utility) {
+            diagnoseImage(size: size)
+        }.value
+    }
+    
+    /*
+    func refreshHealthImage() {
+            
+        let size = NSSize(width: 16, height: 16)
+        diagnosePassButton.image = NSImage(color: Palette.green, size: size)
+        diagnoseFailButton.image = NSImage(color: Palette.red, size: size)
+    }
+    */
+    
     func refreshHealthInfo() {
-     
+
+        let size = NSSize(width: 16, height: 16)
+        diagnosePassButton.image = NSImage(color: Palette.green, size: size)
+        diagnoseFailButton.image = NSImage(color: Palette.red, size: size)
+
+        
         // let total = errorReport?.corruptedBlocks ?? 0
         let total = erroneousBlocks.count
 
@@ -362,7 +478,7 @@ class VolumeCanvasViewController: CanvasViewController {
     @IBAction func rectifyAction(_ sender: NSButton!) {
         
         // vol.rectifyAllocationMap()
-        updateAllocImage()
+        refreshAllocImage()
         refresh()
     }
 
@@ -376,8 +492,7 @@ class VolumeCanvasViewController: CanvasViewController {
         // vol.xrayBitmap(strict)
         // bitMapErrors = vol.xrayBitmap
 
-        updateHealthImage()
-        refresh()
+        forceRefresh()
     }
     
     @IBAction func clickAction(_ sender: NSTableView!) {
