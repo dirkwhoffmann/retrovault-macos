@@ -14,15 +14,25 @@ class MyOutlineView: NSOutlineView {
 
     var manager: DeviceManager { app.manager }
     
+    @MainActor
     func reloadAndSelectLast() {
 
         reloadData()
 
-        let lastRow = numberOfRows - 1
-        if lastRow >= 0 {
+        // Defer until the outline view has rebuilt its rows
+        DispatchQueue.main.async {
 
-            selectRowIndexes(IndexSet(integer: lastRow), byExtendingSelection: false)
-            scrollRowToVisible(lastRow)
+            let lastRow = self.numberOfRows - 1
+            guard lastRow >= 0 else { return }
+
+            /*
+            if let item = self.item(atRow: lastRow) {
+                self.expandItem(item)
+            }
+            */
+            
+            self.selectRowIndexes(IndexSet(integer: lastRow), byExtendingSelection: false)
+            self.scrollRowToVisible(lastRow)
         }
     }
 }

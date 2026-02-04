@@ -100,7 +100,7 @@ class VolumeCanvasViewController: CanvasViewController {
     @IBOutlet weak var info1: NSTextField!
     @IBOutlet weak var info2: NSTextField!
     
-    var proxy: FuseVolumeProxy? { return app.manager.proxy(device: device)?.volume(volume!) }
+    var proxy: FuseVolumeProxy? { volumeProxy }
     
     // Currently displayed items (used to trigger refresh actions)
     var displayedGeneration: Int?
@@ -113,17 +113,12 @@ class VolumeCanvasViewController: CanvasViewController {
     var selectedCell: Int?
     var selectedRow: Int? { return selectedCell == nil ? nil : selectedCell! / 16 }
     var selectedCol: Int? { return selectedCell == nil ? nil : selectedCell! % 16 }
-
-    
-    // Selected tab view panel
-    // var selectedTab = 0
     
     // Cached volume info
     var info = VolumeInfo()
 
+    // Renderer for the block usage image
     let usageImageRenderer = ImageRenderer()
-    let allocImageRenderer = ImageRenderer()
-    let diagnoseImageRenderer = ImageRenderer()
 
     // Result of the consistency checker
     var erroneousBlocks: [NSNumber]?
@@ -131,15 +126,10 @@ class VolumeCanvasViewController: CanvasViewController {
     var unusedButAllocated: [NSNumber]?
     
     var strict: Bool { return strictButton.state == .on }
-    
-    // Displayed block in the table view
-    // var blockNr = 0
-    
-    // Cached volume properties
-    var numBlocks: Int { return proxy?.stat.blocks ?? 0 }
+    var numBlocks: Int { return info.blocks }
     
     override func viewDidLoad() {
-
+        
         // Register to receive mouse click events
         previewTable.action = #selector(clickAction(_:))
                 
@@ -184,6 +174,46 @@ class VolumeCanvasViewController: CanvasViewController {
     //
     // Updating
     //
+
+    override func refreshAll() {
+       
+        /*
+        let indicatorColor = NSColor.systemGray
+        fillIndicator.fillColor = indicatorColor
+        fillIndicator.warningFillColor = indicatorColor
+        fillIndicator.criticalFillColor = indicatorColor
+        */
+        
+        if let types = proxy?.blockTypes {
+            
+            let count = types.count
+            
+            func updateBlockButton(_ nr: Int, label: NSTextField, button: NSButton) {
+                
+                label.stringValue = count <= nr ? "" : types[nr]
+                button.isHidden = count <= nr
+            }
+            
+            updateBlockButton(0, label: blockType1Label, button: blockType1Button)
+            updateBlockButton(1, label: blockType2Label, button: blockType2Button)
+            updateBlockButton(2, label: blockType3Label, button: blockType3Button)
+            updateBlockButton(3, label: blockType4Label, button: blockType4Button)
+            updateBlockButton(4, label: blockType5Label, button: blockType5Button)
+            updateBlockButton(5, label: blockType6Label, button: blockType6Button)
+            updateBlockButton(6, label: blockType7Label, button: blockType7Button)
+            updateBlockButton(7, label: blockType8Label, button: blockType8Button)
+        }
+
+        let size = NSSize(width: 16, height: 16)
+        allocGreenButton.image = NSImage(color: Palette.green, size: size)
+        allocYellowButton.image = NSImage(color: Palette.yellow, size: size)
+        allocRedButton.image = NSImage(color: Palette.red, size: size)
+
+        displayedBlock = nil
+        displayedTab = nil
+        displayedGeneration = nil
+        refresh()
+    }
     
     override func refresh() {
 
@@ -193,8 +223,6 @@ class VolumeCanvasViewController: CanvasViewController {
 
         // Determine dirty items
         let contentIsDirty = info.generation != displayedGeneration
-        let usageImageIsDirty = contentIsDirty
-        let allocImageIsDirty = contentIsDirty
         let tableViewIsDirty = displayedBlock != selectedBlock || contentIsDirty
         
         displayedGeneration = info.generation
@@ -204,7 +232,7 @@ class VolumeCanvasViewController: CanvasViewController {
         refreshVolumeInfo()
         refreshHealthInfo()
         
-        if usageImageIsDirty {
+        if info.generation != displayedGeneration || blockImageButton.image == nil {
             
             refreshUsageInfo()
             Task {
@@ -213,47 +241,11 @@ class VolumeCanvasViewController: CanvasViewController {
             }
         }
         
-        if allocImageIsDirty {
-            
-            refreshAllocInfo()
-            Task {
-                await allocImageRenderer.render(renderer: { await self.renderAllocImage() })
-                { image in self.allocImageButton.image = image }
-            }
-        }
-        
         if tableViewIsDirty {
             
             refreshTableViewInfo()
             previewTable.reloadData()
         }
-        
-        // refreshHealthInfo()
-        /*
-        switch selectedTab {
-            
-        case 0:
-            print("Render usage image...")
-            Task {
-                await usageImageRenderer.render(renderer: { await self.renderUsageImage() })
-                { image in self.blockImageButton.image = image }
-            }
-        case 1:
-            print("Render alloc image...")
-            Task {
-                await allocImageRenderer.render(renderer: { await self.renderAllocImage() })
-                { image in self.allocImageButton.image = image }
-            }
-        case 2:
-            print("Render health image...")
-            Task {
-                await diagnoseImageRenderer.render(renderer: { await self.renderHealthImage() })
-                { image in self.diagnoseImageButton.image = image }
-            }
-        default:
-            break
-        }
-        */
     }
         
     func refreshVolumeInfo() {
@@ -317,15 +309,7 @@ class VolumeCanvasViewController: CanvasViewController {
             allocImage(size: size)
         }.value
     }
-    
-    func refreshAllocImage() {
-            
-        let size = NSSize(width: 16, height: 16)
-        allocGreenButton.image = NSImage(color: Palette.green, size: size)
-        allocYellowButton.image = NSImage(color: Palette.yellow, size: size)
-        allocRedButton.image = NSImage(color: Palette.red, size: size)
-    }
-    
+        
     func refreshAllocInfo() {
      
         // let total = errorReport?.bitmapErrors ?? 0
@@ -441,7 +425,7 @@ class VolumeCanvasViewController: CanvasViewController {
     
         print("Clicked \(x)")
         
-        setBlock(0) // x * numBlocks
+        setBlock(Int(x * CGFloat(numBlocks)))
     }
     
     @IBAction func blockTypeAction(_ sender: NSButton!) {
@@ -494,9 +478,8 @@ class VolumeCanvasViewController: CanvasViewController {
 
     @IBAction func rectifyAction(_ sender: NSButton!) {
         
-        // vol.rectifyAllocationMap()
-        refreshAllocImage()
-        refresh()
+        proxy?.rectifyAllocationMap()
+        scanBitmapAction(sender)
     }
 
     @IBAction func scanBitmapAction(_ sender: NSButton!) {

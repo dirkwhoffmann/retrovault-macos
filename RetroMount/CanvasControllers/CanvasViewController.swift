@@ -32,8 +32,9 @@ class CanvasViewController: NSViewController {
 
         self.device = device
         self.volume = volume
-        refresh()
+        refreshAll()
     }
 
     func refresh() { }
+    func refreshAll() { refresh() }
 }

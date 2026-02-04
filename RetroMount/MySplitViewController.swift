@@ -39,17 +39,6 @@ class MySplitViewController: NSSplitViewController {
 
         super.viewDidLoad()
 
-        /*
-        let sidebar = splitViewItems[0]
-        let canvas  = splitViewItems[1]
-
-        // Sidebar resists resizing
-        sidebar.holdingPriority = .defaultHigh
-
-        // Canvas yields to resizing
-        canvas.holdingPriority = .defaultLow
-         */
-
         // Assign the selection handler
         sidebarVC?.selectionHandler = { [weak self] (i1,i2) in
 
@@ -58,18 +47,6 @@ class MySplitViewController: NSSplitViewController {
             self?.showContent()
             self?.current?.set(device: i1, volume: i2)
         }
-        
-        /*
-        sidebarVC?.deletionHandler = { [weak self] (i1,i2) in
-
-            print("Deletion: (\(i1 ?? -1),\(i2 ?? -1))")
-            if let oldRow = self?.sidebarVC?.outlineView.selectedRow {
-                
-            self?.selection = (i1,i2)
-            self?.showContent()
-            self?.current?.set(device: i1, volume: i2)
-        }
-        */
     }
 
     func setCanvasWidth(_ width: CGFloat, animated: Bool = true) {

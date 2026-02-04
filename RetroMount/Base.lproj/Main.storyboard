@@ -1873,9 +1873,9 @@ DQ
                                                     </buttonCell>
                                                 </button>
                                                 <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="upC-le-cbd">
-                                                    <rect key="frame" x="38" y="32" width="70" height="14"/>
+                                                    <rect key="frame" x="38" y="32" width="72" height="14"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                    <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" title="Boot Block" id="QjU-wn-fwY">
+                                                    <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" title="Lorem ipsum" id="QjU-wn-fwY">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -1892,7 +1892,7 @@ DQ
                                                 <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Zz9-DZ-tDa">
                                                     <rect key="frame" x="178" y="32" width="120" height="14"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                    <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" title="Bitmap Block" id="k7z-1J-gRX">
+                                                    <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" title="Lorem ipsum" id="k7z-1J-gRX">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -1907,9 +1907,9 @@ DQ
                                                     </buttonCell>
                                                 </button>
                                                 <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Itf-t4-LbY">
-                                                    <rect key="frame" x="38" y="11" width="70" height="14"/>
+                                                    <rect key="frame" x="38" y="11" width="72" height="14"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                    <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" title="Root Block" id="j5B-vh-afz">
+                                                    <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" title="Lorem ipsum" id="j5B-vh-afz">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -1932,9 +1932,9 @@ DQ
                                                     </buttonCell>
                                                 </button>
                                                 <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Mzy-rM-9LC">
-                                                    <rect key="frame" x="531" y="32" width="113" height="14"/>
+                                                    <rect key="frame" x="531" y="32" width="72" height="14"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                    <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" title="User Directory Block" id="4dc-M6-NBl">
+                                                    <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" title="Lorem ipsum" id="4dc-M6-NBl">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -1949,9 +1949,9 @@ DQ
                                                     </buttonCell>
                                                 </button>
                                                 <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="t84-Mz-G5w">
-                                                    <rect key="frame" x="178" y="11" width="130" height="14"/>
+                                                    <rect key="frame" x="178" y="11" width="72" height="14"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                    <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" title="Bitmap Expansion Block" id="Y03-BF-Iv3">
+                                                    <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" title="Lorem ipsum" id="Y03-BF-Iv3">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -1968,7 +1968,7 @@ DQ
                                                 <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EKj-fX-GbL">
                                                     <rect key="frame" x="367" y="32" width="110" height="14"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                    <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" title="File Header Block" id="HMJ-N0-YCw">
+                                                    <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" title="Lorem ipsum" id="HMJ-N0-YCw">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -1977,7 +1977,7 @@ DQ
                                                 <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DdO-hk-Bld">
                                                     <rect key="frame" x="531" y="11" width="108" height="14"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                    <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" title="Data Block" id="bSf-uL-ANB">
+                                                    <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" title="Lorem ipsum" id="bSf-uL-ANB">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -1994,7 +1994,7 @@ DQ
                                                 <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bzP-KL-PIM">
                                                     <rect key="frame" x="367" y="11" width="88" height="14"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                    <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" title="File List Block" id="Ocp-HN-8nV">
+                                                    <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" title="Lorem ipsum" id="Ocp-HN-8nV">
                                                         <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
