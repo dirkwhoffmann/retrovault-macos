@@ -79,9 +79,10 @@ class VolumeCanvasViewController: CanvasViewController {
     @IBOutlet weak var allocYellowButton: NSButton!
     @IBOutlet weak var allocRedButton: NSButton!
     @IBOutlet weak var allocScanButton: NSButton!
+    @IBOutlet weak var allocStrictButton: NSButton!
     @IBOutlet weak var allocRectifyInfo: NSTextField!
-    @IBOutlet weak var allocProgress: NSProgressIndicator!
     @IBOutlet weak var allocRectifyButton: NSButton!
+    @IBOutlet weak var allocProgress: NSProgressIndicator!
 
     @IBOutlet weak var diagnoseImageButton: NSButton!
     @IBOutlet weak var diagnoseInfo: NSTextField!
@@ -90,13 +91,15 @@ class VolumeCanvasViewController: CanvasViewController {
     @IBOutlet weak var diagnoseNextButton: NSButton!
     @IBOutlet weak var diagnoseNextInfo: NSTextField!
     @IBOutlet weak var diagnoseScanButton: NSButton!
+    @IBOutlet weak var diagnoseStrictButton: NSButton!
+    @IBOutlet weak var diagnoseRectifyInfo: NSTextField!
+    @IBOutlet weak var diagnoseRectifyButton: NSButton!
     @IBOutlet weak var diagnoseProgress: NSProgressIndicator!
 
     @IBOutlet weak var previewScrollView: NSScrollView!
     @IBOutlet weak var previewTable: NSTableView!
     @IBOutlet weak var blockField: NSTextField!
     @IBOutlet weak var blockStepper: NSStepper!
-    @IBOutlet weak var strictButton: NSButton!
     @IBOutlet weak var info1: NSTextField!
     @IBOutlet weak var info2: NSTextField!
     
@@ -125,7 +128,6 @@ class VolumeCanvasViewController: CanvasViewController {
     var usedButUnallocated: [NSNumber]?
     var unusedButAllocated: [NSNumber]?
     
-    var strict: Bool { return strictButton.state == .on }
     var numBlocks: Int { return info.blocks }
     
     override func viewDidLoad() {
@@ -365,6 +367,8 @@ class VolumeCanvasViewController: CanvasViewController {
         diagnoseInfo.isHidden = total == 0
         diagnoseNextInfo.isHidden = total == 0
         diagnoseNextButton.isHidden = total == 0
+        diagnoseRectifyInfo.isHidden = total == 0
+        diagnoseRectifyButton.isHidden = total == 0
     }
    
     func refreshTableViewInfo() {
@@ -487,13 +491,7 @@ class VolumeCanvasViewController: CanvasViewController {
         }
     }
 
-    @IBAction func rectifyAction(_ sender: NSButton!) {
-        
-        proxy?.rectifyAllocationMap()
-        scanBitmapAction(sender)
-    }
-
-    @IBAction func scanBitmapAction(_ sender: NSButton!) {
+    @IBAction func scanAllocationMapAction(_ sender: NSButton!) {
 
         Task {
             
@@ -532,6 +530,17 @@ class VolumeCanvasViewController: CanvasViewController {
         }
     }
     
+    @IBAction func strictAllocationMapAction(_ sender: NSButton!) {
+
+        scanBlocksAction(sender)
+    }
+
+    @IBAction func rectifyAllocationMapAction(_ sender: NSButton!) {
+        
+        proxy?.rectifyAllocationMap(allocStrictButton.state == .on)
+        scanAllocationMapAction(sender)
+    }
+    
     @IBAction func scanBlocksAction(_ sender: NSButton!) {
 
         Task {
@@ -545,15 +554,13 @@ class VolumeCanvasViewController: CanvasViewController {
                 diagnoseImageButton.image = nil
             }
 
-            let strict = (strictButton.state == .on)
-
             // Run heavy work off the main thread
             await Task.detached(priority: .userInitiated) {
 
                 // Artificial delay for testing
                 try? await Task.sleep(nanoseconds: 3_000_000_000)
 
-                await self.proxy?.xray(strict)
+                await self.proxy?.xray(self.diagnoseStrictButton.state == .on)
             }.value
 
             // Back to MainActor for UI updates
@@ -573,11 +580,17 @@ class VolumeCanvasViewController: CanvasViewController {
         }
     }
 
-    @IBAction func strictAction(_ sender: NSButton!) {
+    @IBAction func strictBlocksAction(_ sender: NSButton!) {
 
         scanBlocksAction(sender)
     }
+
+    @IBAction func rectifyBlocksAction(_ sender: NSButton!) {
         
+        proxy?.rectify(diagnoseStrictButton.state == .on)
+        scanBlocksAction(sender)
+    }
+    
     @IBAction func clickAction(_ sender: NSTableView!) {
         
         if sender.clickedColumn >= 1 && sender.clickedRow >= 0 {
@@ -638,6 +651,7 @@ extension VolumeCanvasViewController: NSTableViewDelegate {
         if let col = columnNr(tableColumn) {
             
             let offset = 16 * row + col
+            let strict = diagnoseStrictButton.state == .on
             let error = proxy?.xray(selectedBlock, pos: offset, expected: &exp, strict: strict)
             
             if row == selectedRow && col == selectedCol {

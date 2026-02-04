@@ -10,8 +10,24 @@
 #include "config.h"
 #include "LinearDevice.h"
 #include "utl/storage/Buffer.h"
+#include <format>
 
 namespace retro::vault {
+
+std::vector<std::string>
+LinearDevice::describe() const noexcept
+{
+    double b  = size();
+    double kb = b  / 1024.0;
+    double mb = kb / 1024.0;
+    double gb = mb / 1024.0;
+
+    if (gb >= 1.0) return { std::format("{:.1f} GB", gb) };
+    if (mb >= 1.0) return { std::format("{} MB", isize(mb)) };
+    if (kb >= 1.0) return { std::format("{} KB", isize(kb)) };
+
+    return { std::format("{} Bytes", b) };
+}
 
 u8
 LinearDevice::readByte(isize offset) const

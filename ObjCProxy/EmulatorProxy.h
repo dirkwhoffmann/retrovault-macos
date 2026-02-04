@@ -96,7 +96,8 @@ inline const char *c_str(const std::string &s)
 - (void)xrayBitmap:(BOOL)strict;
 - (void)xray:(BOOL)strict;
 - (NSString *)xray:(NSInteger)nr pos:(NSInteger)pos expected:(unsigned char *)exp strict:(BOOL)strict;
-- (void)rectifyAllocationMap;
+- (void)rectifyAllocationMap:(BOOL)strict;
+- (void)rectify:(BOOL)strict;
 
 // Images
 - (void)createUsageMap:(u8 *)buf length:(NSInteger)len;

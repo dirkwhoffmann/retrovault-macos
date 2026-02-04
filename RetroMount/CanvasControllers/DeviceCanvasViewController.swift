@@ -71,32 +71,6 @@ class DeviceCanvasViewController: CanvasViewController {
         subTitle2.stringValue = description?[safe: 1] ?? ""
         subTitle3.stringValue = description?[safe: 2] ?? ""
         
-        cylinderStepper.maxValue = .greatestFiniteMagnitude
-        headStepper.maxValue = .greatestFiniteMagnitude
-        trackStepper.maxValue = .greatestFiniteMagnitude
-        sectorStepper.maxValue = .greatestFiniteMagnitude
-        blockStepper.maxValue = .greatestFiniteMagnitude
-    }
-
-    override func refresh() {
-         
-        refreshDeviceInfo()
-        refreshSelection()
-    }
-
-    override func activate() {
-        
-    }
-    
-    func refreshDeviceInfo() {
-                
-        // guard let proxy = proxy else { return }
-        // let description = proxy.describe()
-        guard let device = device else { return }
-        info = app.manager.info(device: device)
-
-        // icon.image = info.icon()
-
         cylindersInfo.stringValue = String(format: "%d", info.numCyls)
         headsInfo.stringValue = String(format: "%d", info.numHeads)
         sectorsInfo.stringValue = String(format: "%d", info.minSectors)
@@ -106,6 +80,24 @@ class DeviceCanvasViewController: CanvasViewController {
         blocksInfo.stringValue = String(format: "%d", info.numBlocks)
         bsizeInfo.stringValue = String(format: "%d", info.bsize)
         capacityInfo.stringValue = info.capacityString
+        
+        cylinderStepper.maxValue = .greatestFiniteMagnitude
+        headStepper.maxValue = .greatestFiniteMagnitude
+        trackStepper.maxValue = .greatestFiniteMagnitude
+        sectorStepper.maxValue = .greatestFiniteMagnitude
+        blockStepper.maxValue = .greatestFiniteMagnitude
+        
+        // refreshDeviceInfo()
+    }
+
+    override func refresh() {
+         
+        // refreshDeviceInfo()
+        refreshSelection()
+    }
+
+    override func activate() {
+        
     }
     
     func refreshSelection() {

@@ -107,6 +107,7 @@ D64File::describe() const noexcept
         "Commodore 64 Floppy Disk",
         std::format("{} {}",
                     getDiameterStr(), getDensityStr()),
+        TrackDevice::describe()[0],
         std::format("{} Tracks, {} Blocks",
                     numTracks(), numBlocks())
     };

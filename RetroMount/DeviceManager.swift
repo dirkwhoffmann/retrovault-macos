@@ -63,8 +63,6 @@ class DeviceInfo {
 
     var pictogram: NSImage? {
         
-        var name = ""
-
         if (info.type == .HARDDISK) {
 
             return nil

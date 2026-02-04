@@ -341,6 +341,18 @@ FuseAmigaVolume::unusedButAllocated() const
 }
 
 void
+FuseAmigaVolume::rectifyAllocationMap(bool strict)
+{
+    fs->doctor.rectifyBitmap(strict);
+}
+
+void
+FuseAmigaVolume::rectify(bool strict)
+{
+    fs->doctor.rectify(strict);
+}
+
+void
 FuseAmigaVolume::createUsageMap(u8 *buf, isize len) const
 {
     fs->doctor.createUsageMap(buf, len);
@@ -423,6 +435,18 @@ const std::vector<BlockNr> &
 FuseCBMVolume::unusedButAllocated() const
 {
     return fs->doctor.diagnosis.unusedButAllocated;
+}
+
+void
+FuseCBMVolume::rectifyAllocationMap(bool strict)
+{
+    fs->doctor.rectifyBitmap(strict);
+}
+
+void
+FuseCBMVolume::rectify(bool strict)
+{
+    fs->doctor.rectify(strict);
 }
 
 void

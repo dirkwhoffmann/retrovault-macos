@@ -274,9 +274,14 @@ using namespace utl;
     return 0;
 }
 
-- (void)rectifyAllocationMap
+- (void)rectifyAllocationMap:(BOOL)strict;
 {
-    // [self fs]->doctor.rectifyBitmap();
+    [self volume]->rectifyAllocationMap(strict);
+}
+
+- (void)rectify:(BOOL)strict;
+{
+    [self volume]->rectify(strict);
 }
 
 @end
@@ -288,14 +293,14 @@ using namespace utl;
 
 @implementation FuseDeviceProxy
 
-- (FuseDevice *)adapter
+- (FuseDevice *)device
 {
     return (FuseDevice *)obj;
 }
 
 -(FuseVolumeProxy *)volume:(NSInteger)nr
 {
-    return [FuseVolumeProxy make: &[self adapter]->getVolume(nr)];
+    return [FuseVolumeProxy make: &[self device]->getVolume(nr)];
 }
 
 + (instancetype)make:(FuseDevice *)device
@@ -326,7 +331,7 @@ using namespace utl;
 
 - (NSArray<NSString *> *)describe
 {
-    const auto vec = [self adapter]->describe();
+    const auto vec = [self device]->describe();
 
     NSMutableArray<NSString *> *result =
         [NSMutableArray arrayWithCapacity:vec.size()];
@@ -345,92 +350,92 @@ using namespace utl;
 
 - (ImageInfo)info
 {
-    return [self adapter]->imageInfo();
+    return [self device]->imageInfo();
 }
 
 - (NSInteger)numCyls
 {
-    return [self adapter]->getImage()->numCyls();
+    return [self device]->getImage()->numCyls();
 }
 
 - (NSInteger)numHeads
 {
-    return [self adapter]->getImage()->numHeads();
+    return [self device]->getImage()->numHeads();
 }
 
 - (NSInteger)numSectors:(NSInteger)t
 {
-    return [self adapter]->getImage()->numSectors(t);
+    return [self device]->getImage()->numSectors(t);
 }
 
 - (NSInteger)numSectors:(NSInteger)c head:(NSInteger)h
 {
-    return [self adapter]->getImage()->numSectors(c, h);
+    return [self device]->getImage()->numSectors(c, h);
 }
 
 - (NSInteger)numTracks
 {
-    return [self adapter]->getImage()->numTracks();
+    return [self device]->getImage()->numTracks();
 }
 
 - (NSInteger)numBlocks
 {
-    return [self adapter]->getImage()->numBlocks();
+    return [self device]->getImage()->numBlocks();
 }
 
 - (NSInteger)bsize
 {
-    return [self adapter]->getImage()->bsize();
+    return [self device]->getImage()->bsize();
 }
 
 - (NSInteger)numBytes
 {
-    return [self adapter]->getImage()->numBytes();
+    return [self device]->getImage()->numBytes();
 }
 
 - (NSInteger)numVolumes
 {
-    return [self adapter]->count();
+    return [self device]->count();
 }
 
 -(NSInteger)b2t:(NSInteger)b
 {
-    return [self adapter]->getImage()->b2ts(b).track;
+    return [self device]->getImage()->b2ts(b).track;
 }
 
 -(NSInteger)b2c:(NSInteger)b
 {
-    return [self adapter]->getImage()->b2chs(b).cylinder;
+    return [self device]->getImage()->b2chs(b).cylinder;
 }
 
 -(NSInteger)b2h:(NSInteger)b
 {
-    return [self adapter]->getImage()->b2chs(b).head;
+    return [self device]->getImage()->b2chs(b).head;
 }
 
 -(NSInteger)b2s:(NSInteger)b
 {
-    return [self adapter]->getImage()->b2chs(b).sector;
+    return [self device]->getImage()->b2chs(b).sector;
 }
 
 -(NSInteger)ts2b:(NSInteger)t s:(NSInteger)s
 {
-    return [self adapter]->getImage()->bindex(TrackDevice::TS(t,s));
+    return [self device]->getImage()->bindex(TrackDevice::TS(t,s));
 }
 
 -(NSInteger)chs2b:(NSInteger)c h:(NSInteger)h s:(NSInteger)s
 {
-    return [self adapter]->getImage()->bindex(TrackDevice::CHS(c,h,s));
+    return [self device]->getImage()->bindex(TrackDevice::CHS(c,h,s));
 }
 
 -(NSInteger)readByte:(NSInteger)offset
 {
-    return [self adapter]->getImage()->readByte(offset);
+    return [self device]->getImage()->readByte(offset);
 }
 
 -(NSInteger)readByte:(NSInteger)offset from:(NSInteger)block
 {
-    auto bsize = [self adapter]->getImage()->bsize();
+    auto bsize = [self device]->getImage()->bsize();
     assert(offset >= 0 && offset < bsize);
 
     return [self readByte: block * bsize + offset];
@@ -456,7 +461,7 @@ using namespace utl;
 
 -(NSString *)readASCII:(NSInteger)offset from:(NSInteger)block length:(NSInteger)len
 {
-    auto bsize = [self adapter]->getImage()->bsize();
+    auto bsize = [self device]->getImage()->bsize();
     assert(offset >= 0 && offset < bsize);
 
     return [self readASCII: block * bsize + offset length: len];
@@ -465,40 +470,40 @@ using namespace utl;
 
 - (void)save:(ExceptionWrapper *)ex
 {
-    try { [self adapter]->save(); }
+    try { [self device]->save(); }
     catch (Error &error) { [ex save:error]; }
 }
 
 - (void)mount:(NSURL *)mountpoint exception:(ExceptionWrapper *)ex
 {
-    try { [self adapter]->mount([mountpoint fileSystemRepresentation]); }
+    try { [self device]->mount([mountpoint fileSystemRepresentation]); }
     catch (Error &error) { [ex save:error]; }
 }
 
 - (void)unmount:(NSInteger)volume
 {
-    [self adapter]->unmount(volume);
+    [self device]->unmount(volume);
 }
 
 - (void)unmountAll
 {
-    [self adapter]->unmount();
+    [self device]->unmount();
 }
 
 - (void)setListener:(const void *)listener function:(AdapterCallback *)func
 {
-    [self adapter]->setListener(listener, func);
+    [self device]->setListener(listener, func);
 }
 
 - (void)commit:(ExceptionWrapper *)ex
 {
-    try { [self adapter]->commit(); }
+    try { [self device]->commit(); }
     catch (Error &error) { [ex save:error]; }
 }
 
 - (NSString *)mountPoint:(NSInteger)v
 {
-    return @([self adapter]->getVolume(v).getMountPoint().string().c_str());
+    return @([self device]->getVolume(v).getMountPoint().string().c_str());
 }
 
 @end

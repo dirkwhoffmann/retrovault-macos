@@ -15,8 +15,6 @@
 namespace retro::vault {
 
 class DiskImage : public AnyImage, public TrackDevice {
-
-    // bool writeThrough = true;
     
 public:
 
@@ -24,7 +22,9 @@ public:
     static unique_ptr<DiskImage> tryMake(const fs::path& path);
     static unique_ptr<DiskImage> make(const fs::path& path);
 
+    vector<string> describe() const noexcept override { return {}; }
 
+    
     //
     // Methods from LinearDevice
     //

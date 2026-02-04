@@ -81,7 +81,9 @@ public:
     virtual const std::vector<BlockNr> &blockErrors() const = 0;
     virtual const std::vector<BlockNr> &usedButUnallocated() const = 0;
     virtual const std::vector<BlockNr> &unusedButAllocated() const = 0;
-    
+    virtual void rectifyAllocationMap(bool strict) = 0;
+    virtual void rectify(bool strict) = 0;
+
     // GUI helpers
     virtual void createUsageMap(u8 *buf, isize len) const = 0;
     virtual void createAllocationMap(u8 *buf, isize len) const = 0;
@@ -146,6 +148,8 @@ public:
     const std::vector<BlockNr> &blockErrors() const override;
     const std::vector<BlockNr> &usedButUnallocated() const override;
     const std::vector<BlockNr> &unusedButAllocated() const override;
+    void rectifyAllocationMap(bool strict) override;
+    void rectify(bool strict) override;
 
     void createUsageMap(u8 *buf, isize len) const override;
     void createAllocationMap(u8 *buf, isize len) const override;
@@ -171,6 +175,8 @@ public:
     const std::vector<BlockNr> &blockErrors() const override;
     const std::vector<BlockNr> &usedButUnallocated() const override;
     const std::vector<BlockNr> &unusedButAllocated() const override;
+    void rectifyAllocationMap(bool strict) override;
+    void rectify(bool strict) override;
 
     void createUsageMap(u8 *buf, isize len) const override;
     void createAllocationMap(u8 *buf, isize len) const override;

@@ -81,6 +81,12 @@ FuseDevice::setListener(const void *listener, AdapterCallback *callback)
     for (auto &volume : volumes) volume->setListener(listener, callback);
 }
 
+vector<string>
+FuseDevice::describe() const noexcept
+{
+    return image->describe();
+}
+
 FuseVolume &
 FuseDevice::getVolume(isize v)
 {

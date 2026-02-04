@@ -75,7 +75,7 @@ public:
     FuseVolume &getVolume(isize volume);
     DiskImage *getImage() { return image.get(); }
 
-    vector<string> describe() const noexcept { return image->LinearDevice::describe(); }
+    vector<string> describe() const noexcept;
 
 private:
     

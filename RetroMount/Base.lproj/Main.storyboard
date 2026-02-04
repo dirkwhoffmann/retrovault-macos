@@ -1292,7 +1292,7 @@ DQ
                             <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Jmt-IY-2RX" userLabel="Icon">
                                 <rect key="frame" x="17" y="306" width="112" height="112"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="proportionallyDown" imageFrameStyle="grayBezel" image="dd_adf" id="T7Z-34-8bc"/>
+                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="proportionallyDown" imageFrameStyle="grayBezel" image="floppy_35" id="T7Z-34-8bc"/>
                             </imageView>
                             <box verticalHuggingPriority="750" fixedFrame="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="UlJ-Yk-thy">
                                 <rect key="frame" x="152" y="390" width="558" height="5"/>
@@ -1682,7 +1682,7 @@ DQ
                             <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8VF-gr-QdA" userLabel="Icon">
                                 <rect key="frame" x="17" y="306" width="112" height="112"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="proportionallyDown" imageFrameStyle="grayBezel" image="dd_adf" id="XMn-Qf-OBb"/>
+                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="proportionallyDown" imageFrameStyle="grayBezel" image="volume_amiga" id="XMn-Qf-OBb"/>
                             </imageView>
                             <textField focusRingType="none" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Plu-sU-YZ8">
                                 <rect key="frame" x="530" y="367" width="46" height="14"/>
@@ -1831,17 +1831,17 @@ DQ
                                 </textFieldCell>
                             </textField>
                             <tabView fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wgQ-Je-0UR">
-                                <rect key="frame" x="17" y="177" width="704" height="130"/>
+                                <rect key="frame" x="17" y="172" width="704" height="135"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <font key="font" metaFont="system"/>
                                 <tabViewItems>
                                     <tabViewItem label="Block Map" identifier="0" id="ih9-zS-cf0">
                                         <view key="view" id="N06-WF-NP9">
-                                            <rect key="frame" x="10" y="33" width="684" height="84"/>
+                                            <rect key="frame" x="10" y="33" width="684" height="89"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
                                                 <button tag="2" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ogA-Ff-2M7">
-                                                    <rect key="frame" x="16" y="31" width="16" height="16"/>
+                                                    <rect key="frame" x="16" y="36" width="16" height="16"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" refusesFirstResponder="YES" state="on" borderStyle="border" imageScaling="axesIndependently" inset="2" id="7wc-mR-72n">
                                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -1849,7 +1849,7 @@ DQ
                                                     </buttonCell>
                                                 </button>
                                                 <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="upC-le-cbd">
-                                                    <rect key="frame" x="38" y="32" width="72" height="14"/>
+                                                    <rect key="frame" x="38" y="37" width="72" height="14"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" title="Lorem ipsum" id="QjU-wn-fwY">
                                                         <font key="font" metaFont="smallSystem"/>
@@ -1858,7 +1858,7 @@ DQ
                                                     </textFieldCell>
                                                 </textField>
                                                 <button tag="4" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LRT-c6-Q7z">
-                                                    <rect key="frame" x="156" y="31" width="16" height="16"/>
+                                                    <rect key="frame" x="156" y="36" width="16" height="16"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" refusesFirstResponder="YES" state="on" borderStyle="border" imageScaling="axesIndependently" inset="2" id="cOV-sZ-tLa">
                                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -1866,7 +1866,7 @@ DQ
                                                     </buttonCell>
                                                 </button>
                                                 <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Zz9-DZ-tDa">
-                                                    <rect key="frame" x="178" y="32" width="120" height="14"/>
+                                                    <rect key="frame" x="178" y="37" width="120" height="14"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" title="Lorem ipsum" id="k7z-1J-gRX">
                                                         <font key="font" metaFont="smallSystem"/>
@@ -1875,7 +1875,7 @@ DQ
                                                     </textFieldCell>
                                                 </textField>
                                                 <button tag="3" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LbY-bJ-7Yy">
-                                                    <rect key="frame" x="16" y="10" width="16" height="16"/>
+                                                    <rect key="frame" x="16" y="15" width="16" height="16"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" refusesFirstResponder="YES" state="on" borderStyle="border" imageScaling="axesIndependently" inset="2" id="Jth-jC-6nH">
                                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -1883,7 +1883,7 @@ DQ
                                                     </buttonCell>
                                                 </button>
                                                 <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Itf-t4-LbY">
-                                                    <rect key="frame" x="38" y="11" width="72" height="14"/>
+                                                    <rect key="frame" x="38" y="16" width="72" height="14"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" title="Lorem ipsum" id="j5B-vh-afz">
                                                         <font key="font" metaFont="smallSystem"/>
@@ -1892,7 +1892,7 @@ DQ
                                                     </textFieldCell>
                                                 </textField>
                                                 <button tag="6" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="AeP-bd-OAk">
-                                                    <rect key="frame" x="509" y="31" width="16" height="16"/>
+                                                    <rect key="frame" x="509" y="36" width="16" height="16"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" refusesFirstResponder="YES" state="on" borderStyle="border" imageScaling="axesIndependently" inset="2" id="R4n-95-mI5">
                                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -1900,7 +1900,7 @@ DQ
                                                     </buttonCell>
                                                 </button>
                                                 <button tag="9" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="isJ-Uz-nKT">
-                                                    <rect key="frame" x="509" y="10" width="16" height="16"/>
+                                                    <rect key="frame" x="509" y="15" width="16" height="16"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" refusesFirstResponder="YES" state="on" borderStyle="border" imageScaling="axesIndependently" inset="2" id="AyV-N3-qQH">
                                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -1908,7 +1908,7 @@ DQ
                                                     </buttonCell>
                                                 </button>
                                                 <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Mzy-rM-9LC">
-                                                    <rect key="frame" x="531" y="32" width="72" height="14"/>
+                                                    <rect key="frame" x="531" y="37" width="72" height="14"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" title="Lorem ipsum" id="4dc-M6-NBl">
                                                         <font key="font" metaFont="smallSystem"/>
@@ -1917,7 +1917,7 @@ DQ
                                                     </textFieldCell>
                                                 </textField>
                                                 <button tag="5" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0Zg-YW-URm">
-                                                    <rect key="frame" x="156" y="10" width="16" height="16"/>
+                                                    <rect key="frame" x="156" y="15" width="16" height="16"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" refusesFirstResponder="YES" state="on" borderStyle="border" imageScaling="axesIndependently" inset="2" id="lsx-8e-swZ">
                                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -1925,7 +1925,7 @@ DQ
                                                     </buttonCell>
                                                 </button>
                                                 <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="t84-Mz-G5w">
-                                                    <rect key="frame" x="178" y="11" width="72" height="14"/>
+                                                    <rect key="frame" x="178" y="16" width="72" height="14"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" title="Lorem ipsum" id="Y03-BF-Iv3">
                                                         <font key="font" metaFont="smallSystem"/>
@@ -1934,7 +1934,7 @@ DQ
                                                     </textFieldCell>
                                                 </textField>
                                                 <button tag="7" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Z3U-PY-Vac">
-                                                    <rect key="frame" x="345" y="31" width="16" height="16"/>
+                                                    <rect key="frame" x="345" y="36" width="16" height="16"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" refusesFirstResponder="YES" state="on" borderStyle="border" imageScaling="axesIndependently" inset="2" id="XFO-Nd-q37">
                                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -1942,7 +1942,7 @@ DQ
                                                     </buttonCell>
                                                 </button>
                                                 <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EKj-fX-GbL">
-                                                    <rect key="frame" x="367" y="32" width="110" height="14"/>
+                                                    <rect key="frame" x="367" y="37" width="110" height="14"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" title="Lorem ipsum" id="HMJ-N0-YCw">
                                                         <font key="font" metaFont="smallSystem"/>
@@ -1951,7 +1951,7 @@ DQ
                                                     </textFieldCell>
                                                 </textField>
                                                 <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DdO-hk-Bld">
-                                                    <rect key="frame" x="531" y="11" width="108" height="14"/>
+                                                    <rect key="frame" x="531" y="16" width="108" height="14"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" title="Lorem ipsum" id="bSf-uL-ANB">
                                                         <font key="font" metaFont="smallSystem"/>
@@ -1960,7 +1960,7 @@ DQ
                                                     </textFieldCell>
                                                 </textField>
                                                 <button tag="8" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="AG9-zC-U31">
-                                                    <rect key="frame" x="345" y="10" width="16" height="16"/>
+                                                    <rect key="frame" x="345" y="15" width="16" height="16"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" refusesFirstResponder="YES" state="on" borderStyle="border" imageScaling="axesIndependently" inset="2" id="7V4-zS-mv9">
                                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -1968,7 +1968,7 @@ DQ
                                                     </buttonCell>
                                                 </button>
                                                 <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bzP-KL-PIM">
-                                                    <rect key="frame" x="367" y="11" width="88" height="14"/>
+                                                    <rect key="frame" x="367" y="16" width="88" height="14"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" title="Lorem ipsum" id="Ocp-HN-8nV">
                                                         <font key="font" metaFont="smallSystem"/>
@@ -1977,7 +1977,7 @@ DQ
                                                     </textFieldCell>
                                                 </textField>
                                                 <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lH7-S0-yS7">
-                                                    <rect key="frame" x="16" y="57" width="652" height="22"/>
+                                                    <rect key="frame" x="16" y="62" width="652" height="22"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" refusesFirstResponder="YES" state="on" borderStyle="border" imageScaling="axesIndependently" inset="2" id="3ia-79-WGL">
                                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -1989,11 +1989,11 @@ DQ
                                     </tabViewItem>
                                     <tabViewItem label="Allocation Map" identifier="1" id="rJN-RL-ygo">
                                         <view key="view" id="slb-Nr-6xc">
-                                            <rect key="frame" x="10" y="33" width="684" height="84"/>
+                                            <rect key="frame" x="10" y="33" width="684" height="89"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
                                                 <button tag="2" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="x6t-cv-Uss">
-                                                    <rect key="frame" x="16" y="31" width="16" height="16"/>
+                                                    <rect key="frame" x="16" y="39" width="16" height="16"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" refusesFirstResponder="YES" state="on" borderStyle="border" imageScaling="axesIndependently" inset="2" id="ws3-bq-Nan">
                                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -2001,7 +2001,7 @@ DQ
                                                     </buttonCell>
                                                 </button>
                                                 <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="e8I-WG-5hu">
-                                                    <rect key="frame" x="37" y="32" width="105" height="14"/>
+                                                    <rect key="frame" x="37" y="40" width="105" height="14"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" title="Used and allocated" id="vcc-CW-IiQ">
                                                         <font key="font" metaFont="smallSystem"/>
@@ -2010,7 +2010,7 @@ DQ
                                                     </textFieldCell>
                                                 </textField>
                                                 <button tag="3" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RZr-31-vON">
-                                                    <rect key="frame" x="176" y="31" width="16" height="16"/>
+                                                    <rect key="frame" x="176" y="39" width="16" height="16"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" refusesFirstResponder="YES" state="on" borderStyle="border" imageScaling="axesIndependently" inset="2" id="gVI-VV-aem">
                                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -2018,7 +2018,7 @@ DQ
                                                     </buttonCell>
                                                 </button>
                                                 <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JmJ-dz-OqX">
-                                                    <rect key="frame" x="197" y="32" width="116" height="14"/>
+                                                    <rect key="frame" x="197" y="40" width="116" height="14"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" title="Unused but allocated" id="gBK-H1-10x">
                                                         <font key="font" metaFont="smallSystem"/>
@@ -2027,7 +2027,7 @@ DQ
                                                     </textFieldCell>
                                                 </textField>
                                                 <button tag="3" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GYd-is-Vl0">
-                                                    <rect key="frame" x="336" y="31" width="16" height="16"/>
+                                                    <rect key="frame" x="336" y="39" width="16" height="16"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" refusesFirstResponder="YES" state="on" borderStyle="border" imageScaling="axesIndependently" inset="2" id="CxA-3m-Po0">
                                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -2035,7 +2035,7 @@ DQ
                                                     </buttonCell>
                                                 </button>
                                                 <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Fm5-hw-zrn">
-                                                    <rect key="frame" x="357" y="32" width="124" height="14"/>
+                                                    <rect key="frame" x="357" y="40" width="124" height="14"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" title="Used but unallocated" id="nGe-jg-Vdt">
                                                         <font key="font" metaFont="smallSystem"/>
@@ -2044,7 +2044,7 @@ DQ
                                                     </textFieldCell>
                                                 </textField>
                                                 <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Q9s-5j-z1e">
-                                                    <rect key="frame" x="16" y="57" width="608" height="22"/>
+                                                    <rect key="frame" x="16" y="65" width="655" height="22"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" refusesFirstResponder="YES" state="on" borderStyle="border" imageScaling="axesIndependently" inset="2" id="4rB-Ov-fek">
                                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -2052,27 +2052,27 @@ DQ
                                                     </buttonCell>
                                                 </button>
                                                 <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3d4-OZ-7Yr">
-                                                    <rect key="frame" x="580" y="31" width="47" height="16"/>
+                                                    <rect key="frame" x="585" y="9" width="47" height="14"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                    <textFieldCell key="cell" lineBreakMode="clipping" title="Rectify" id="ZJy-O0-IoJ">
-                                                        <font key="font" usesAppearanceFont="YES"/>
+                                                    <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" alignment="right" title="Rectify" id="ZJy-O0-IoJ">
+                                                        <font key="font" metaFont="smallSystem"/>
                                                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                     </textFieldCell>
                                                 </textField>
-                                                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EJ0-ZY-1Mz">
-                                                    <rect key="frame" x="635" y="23" width="36" height="32"/>
+                                                <button toolTip="Rectify block allocation map" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EJ0-ZY-1Mz">
+                                                    <rect key="frame" x="635" y="0.0" width="36" height="32"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <buttonCell key="cell" type="push" bezelStyle="rounded" image="wrench.adjustable.fill" catalog="system" imagePosition="only" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="rcS-8J-lfd">
                                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                         <font key="font" metaFont="system"/>
                                                     </buttonCell>
                                                     <connections>
-                                                        <action selector="rectifyAction:" target="nnP-dK-1pJ" id="2nc-ip-KAO"/>
+                                                        <action selector="rectifyAllocationMapAction:" target="nnP-dK-1pJ" id="2nc-ip-KAO"/>
                                                     </connections>
                                                 </button>
                                                 <textField focusRingType="none" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Cha-9a-VOJ">
-                                                    <rect key="frame" x="14" y="9" width="658" height="14"/>
+                                                    <rect key="frame" x="14" y="11" width="500" height="14"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <textFieldCell key="cell" controlSize="small" sendsActionOnEndEditing="YES" alignment="left" title="Lorem ipsum" id="GA5-Df-5vO">
                                                         <font key="font" metaFont="smallSystem"/>
@@ -2080,19 +2080,30 @@ DQ
                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                     </textFieldCell>
                                                 </textField>
-                                                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2pt-3D-28Y">
-                                                    <rect key="frame" x="635" y="52" width="36" height="32"/>
+                                                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Bi0-tO-Cym">
+                                                    <rect key="frame" x="529" y="38" width="101" height="18"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                                                    <buttonCell key="cell" type="check" title="Strict checking " bezelStyle="regularSquare" imagePosition="right" alignment="right" controlSize="small" inset="2" id="Cgs-eI-DPk">
+                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                        <font key="font" metaFont="smallSystem"/>
+                                                    </buttonCell>
+                                                    <connections>
+                                                        <action selector="strictAllocationMapAction:" target="nnP-dK-1pJ" id="fSN-Bw-amN"/>
+                                                    </connections>
+                                                </button>
+                                                <button toolTip="Scan block allocation map" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2pt-3D-28Y">
+                                                    <rect key="frame" x="635" y="31" width="36" height="32"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <buttonCell key="cell" type="push" bezelStyle="rounded" image="waveform.badge.magnifyingglass" catalog="system" imagePosition="only" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="6Nq-Tw-Ged">
                                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                         <font key="font" metaFont="system"/>
                                                     </buttonCell>
                                                     <connections>
-                                                        <action selector="scanBitmapAction:" target="nnP-dK-1pJ" id="m56-yA-PsX"/>
+                                                        <action selector="scanAllocationMapAction:" target="nnP-dK-1pJ" id="m56-yA-PsX"/>
                                                     </connections>
                                                 </button>
                                                 <progressIndicator hidden="YES" wantsLayer="YES" fixedFrame="YES" maxValue="100" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="Wek-XJ-zN1">
-                                                    <rect key="frame" x="645" y="60" width="16" height="16"/>
+                                                    <rect key="frame" x="645" y="39" width="16" height="16"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                 </progressIndicator>
                                             </subviews>
@@ -2100,11 +2111,11 @@ DQ
                                     </tabViewItem>
                                     <tabViewItem label="Diagnose" identifier="2" id="HUa-ow-BVm">
                                         <view key="view" id="Kcx-Sh-v2F">
-                                            <rect key="frame" x="10" y="33" width="684" height="84"/>
+                                            <rect key="frame" x="10" y="33" width="684" height="89"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <subviews>
                                                 <button tag="2" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6Xq-9E-QSX">
-                                                    <rect key="frame" x="16" y="32" width="16" height="16"/>
+                                                    <rect key="frame" x="16" y="37" width="16" height="16"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" refusesFirstResponder="YES" state="on" borderStyle="border" imageScaling="axesIndependently" inset="2" id="846-1Z-k6o">
                                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -2112,7 +2123,7 @@ DQ
                                                     </buttonCell>
                                                 </button>
                                                 <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="URL-3q-lbA">
-                                                    <rect key="frame" x="37" y="33" width="98" height="14"/>
+                                                    <rect key="frame" x="37" y="38" width="98" height="14"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" title="Consistent Blocks" id="sYX-HH-fbx">
                                                         <font key="font" metaFont="smallSystem"/>
@@ -2121,7 +2132,7 @@ DQ
                                                     </textFieldCell>
                                                 </textField>
                                                 <button tag="3" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kG9-pa-viw">
-                                                    <rect key="frame" x="156" y="32" width="16" height="16"/>
+                                                    <rect key="frame" x="156" y="37" width="16" height="16"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" refusesFirstResponder="YES" state="on" borderStyle="border" imageScaling="axesIndependently" inset="2" id="FJ8-C8-314">
                                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -2129,7 +2140,7 @@ DQ
                                                     </buttonCell>
                                                 </button>
                                                 <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IHi-Ac-dWh">
-                                                    <rect key="frame" x="178" y="33" width="96" height="14"/>
+                                                    <rect key="frame" x="178" y="38" width="96" height="14"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" title="Corrupted Blocks" id="4q6-SN-hgv">
                                                         <font key="font" metaFont="smallSystem"/>
@@ -2138,7 +2149,7 @@ DQ
                                                     </textFieldCell>
                                                 </textField>
                                                 <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vRX-rB-dBR">
-                                                    <rect key="frame" x="16" y="57" width="608" height="22"/>
+                                                    <rect key="frame" x="16" y="62" width="655" height="22"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" refusesFirstResponder="YES" state="on" borderStyle="border" imageScaling="axesIndependently" inset="2" id="e81-r4-vhQ">
                                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -2146,15 +2157,18 @@ DQ
                                                     </buttonCell>
                                                 </button>
                                                 <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mZ2-uW-XMq">
-                                                    <rect key="frame" x="561" y="30" width="101" height="18"/>
+                                                    <rect key="frame" x="529" y="38" width="101" height="18"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                                     <buttonCell key="cell" type="check" title="Strict checking" bezelStyle="regularSquare" imagePosition="right" alignment="right" controlSize="small" inset="2" id="FpL-rC-yBG">
                                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                         <font key="font" metaFont="smallSystem"/>
                                                     </buttonCell>
+                                                    <connections>
+                                                        <action selector="strictBlocksAction:" target="nnP-dK-1pJ" id="1f8-J1-U5L"/>
+                                                    </connections>
                                                 </button>
                                                 <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZkT-4Z-UOW">
-                                                    <rect key="frame" x="291" y="27.5" width="22.5" height="26"/>
+                                                    <rect key="frame" x="291" y="32.5" width="22.5" height="26"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSTouchBarSearchTemplate" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="jxW-q0-9T6">
                                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -2162,7 +2176,7 @@ DQ
                                                     </buttonCell>
                                                 </button>
                                                 <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="z3j-vj-spx">
-                                                    <rect key="frame" x="317" y="31" width="142" height="17"/>
+                                                    <rect key="frame" x="317" y="36" width="142" height="17"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" alignment="left" title="Goto next corrupted block" id="wPZ-x9-aaB">
                                                         <font key="font" metaFont="smallSystem"/>
@@ -2171,7 +2185,7 @@ DQ
                                                     </textFieldCell>
                                                 </textField>
                                                 <textField focusRingType="none" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jX7-dY-7zo">
-                                                    <rect key="frame" x="13" y="8" width="436" height="14"/>
+                                                    <rect key="frame" x="13" y="13" width="436" height="14"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <textFieldCell key="cell" controlSize="small" sendsActionOnEndEditing="YES" alignment="left" title="Lorem ipsum" id="9ig-O6-sIu">
                                                         <font key="font" metaFont="smallSystem"/>
@@ -2180,7 +2194,7 @@ DQ
                                                     </textFieldCell>
                                                 </textField>
                                                 <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cMO-Cs-op4">
-                                                    <rect key="frame" x="635" y="52" width="36" height="32"/>
+                                                    <rect key="frame" x="635" y="31" width="36" height="32"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <buttonCell key="cell" type="push" bezelStyle="rounded" image="waveform.badge.magnifyingglass" catalog="system" imagePosition="only" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="2Ab-or-pYq">
                                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -2190,10 +2204,30 @@ DQ
                                                         <action selector="scanBlocksAction:" target="nnP-dK-1pJ" id="msD-IT-0ts"/>
                                                     </connections>
                                                 </button>
-                                                <progressIndicator hidden="YES" wantsLayer="YES" fixedFrame="YES" maxValue="100" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="Vue-rr-iZX">
-                                                    <rect key="frame" x="645" y="60" width="16" height="16"/>
+                                                <progressIndicator hidden="YES" toolTip="Scan blocks" wantsLayer="YES" fixedFrame="YES" maxValue="100" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="Vue-rr-iZX">
+                                                    <rect key="frame" x="645" y="39" width="16" height="16"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                 </progressIndicator>
+                                                <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="D7p-HX-ZJD">
+                                                    <rect key="frame" x="585" y="9" width="47" height="14"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                    <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" alignment="right" title="Rectify" id="34J-UJ-8dO">
+                                                        <font key="font" metaFont="smallSystem"/>
+                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                    </textFieldCell>
+                                                </textField>
+                                                <button toolTip="Rectify block errors" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pTJ-Db-seH">
+                                                    <rect key="frame" x="635" y="0.0" width="36" height="32"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                    <buttonCell key="cell" type="push" bezelStyle="rounded" image="wrench.adjustable.fill" catalog="system" imagePosition="only" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="iX2-CT-9lF">
+                                                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                        <font key="font" metaFont="system"/>
+                                                    </buttonCell>
+                                                    <connections>
+                                                        <action selector="rectifyBlocksAction:" target="nnP-dK-1pJ" id="w4V-Zi-SOz"/>
+                                                    </connections>
+                                                </button>
                                             </subviews>
                                         </view>
                                     </tabViewItem>
@@ -2491,7 +2525,10 @@ DQ
                         <outlet property="diagnoseNextInfo" destination="z3j-vj-spx" id="VnL-EX-a6o"/>
                         <outlet property="diagnosePassButton" destination="6Xq-9E-QSX" id="32v-1Y-wKz"/>
                         <outlet property="diagnoseProgress" destination="Vue-rr-iZX" id="CIT-2v-bh8"/>
+                        <outlet property="diagnoseRectifyButton" destination="pTJ-Db-seH" id="0gy-t1-Uw7"/>
+                        <outlet property="diagnoseRectifyInfo" destination="D7p-HX-ZJD" id="Nc4-k5-CKs"/>
                         <outlet property="diagnoseScanButton" destination="cMO-Cs-op4" id="G5E-ZB-cQX"/>
+                        <outlet property="diagnoseStrictButton" destination="mZ2-uW-XMq" id="usk-2F-66b"/>
                         <outlet property="fillIndicator" destination="WWZ-mj-FdS" id="840-uJ-1v9"/>
                         <outlet property="fillInfo" destination="um0-up-0AB" id="d3m-0c-aMR"/>
                         <outlet property="icon" destination="8VF-gr-QdA" id="GND-Ml-Cex"/>
@@ -2502,7 +2539,6 @@ DQ
                         <outlet property="previewScrollView" destination="waV-qq-lh2" id="PHx-qr-Jv1"/>
                         <outlet property="previewTable" destination="zJb-Eo-4GP" id="Xmm-Zp-qK7"/>
                         <outlet property="readInfo" destination="Ee7-gS-a5Q" id="OLf-UJ-nvc"/>
-                        <outlet property="strictButton" destination="mZ2-uW-XMq" id="usk-2F-66b"/>
                         <outlet property="subTitle1" destination="flJ-a0-4w2" id="neu-hl-aDb"/>
                         <outlet property="subTitle2" destination="UUY-HU-dfm" id="Pls-77-Kqb"/>
                         <outlet property="subTitle3" destination="CX0-DG-jTA" id="K2b-IG-ni8"/>
@@ -2519,10 +2555,10 @@ DQ
     <resources>
         <image name="FUSEicon" width="280" height="280"/>
         <image name="NSTouchBarSearchTemplate" width="20" height="20"/>
-        <image name="dd_adf" width="257" height="258"/>
         <image name="floppy_35" width="514" height="512"/>
         <image name="pictogram" width="1024" height="1024"/>
         <image name="stop" width="928" height="509"/>
+        <image name="volume_amiga" width="256" height="256"/>
         <image name="waveform.badge.magnifyingglass" catalog="system" width="18" height="17"/>
         <image name="wrench.adjustable.fill" catalog="system" width="18" height="18"/>
     </resources>

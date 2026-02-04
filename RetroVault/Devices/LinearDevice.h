@@ -25,7 +25,7 @@ public:
     virtual ~LinearDevice() = default;
 
     // Returns a textual description of the file system
-    virtual vector<string> describe() const noexcept { return { }; }
+    virtual vector<string> describe() const noexcept;
 
     // Total size in bytes
     virtual isize size() const = 0;

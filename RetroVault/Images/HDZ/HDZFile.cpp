@@ -24,28 +24,6 @@ HDZFile::about(const fs::path &path)
     return {{ ImageType::HARDDISK, ImageFormat::HDZ }};
 }
 
-/*
-void
-HDZFile::init(const class HDFFile &hdf)
-{
-    this->hdf = hdf;
-    data = hdf.data;
-    
-    loginfo(HDF_DEBUG, "Uncompressed HDF size: %ld bytes\n", data.size);
-
-    {   utl::StopWatch(debug::HDF_DEBUG, "Compressing HDF...");
-
-        try {
-            data.gzip();
-        } catch (std::runtime_error &err) {
-            throw IOError(IOError::ZLIB_ERROR, err.what());
-        }
-    }
-    
-    loginfo(HDF_DEBUG, "Compressed HDF size: %ld bytes.\n", data.size);
-}
-*/
-
 std::vector<string>
 HDZFile::describe() const noexcept
 {

@@ -66,6 +66,7 @@ EADFFile::describe() const noexcept
     return {
         "Amiga Floppy Disk",
         "Extended ADF format",
+        TrackDevice::describe()[0],
         ""
     };
 }

@@ -36,6 +36,7 @@ HDFFile::describe() const noexcept
         "Amiga Hard Drive",
         std::format("{} Partition{}", numPartitions(),
                     numPartitions() != 1 ? "s" : ""),
+        TrackDevice::describe()[0],
         std::format("{} Cylinders, {} Heads, {} Sectors",
                     numCyls(), numHeads(), numSectors())
     };
