@@ -837,14 +837,14 @@ DQ
                         <rect key="frame" x="0.0" y="0.0" width="234" height="370"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView fixedFrame="YES" autohidesScrollers="YES" horizontalLineScroll="42" horizontalPageScroll="10" verticalLineScroll="42" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zhY-qm-vSR">
+                            <scrollView fixedFrame="YES" autohidesScrollers="YES" horizontalLineScroll="32" horizontalPageScroll="10" verticalLineScroll="32" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zhY-qm-vSR">
                                 <rect key="frame" x="0.0" y="0.0" width="234" height="370"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <clipView key="contentView" id="Ucq-m6-TbC">
                                     <rect key="frame" x="1" y="1" width="232" height="368"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnReordering="NO" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowHeight="42" viewBased="YES" indentationPerLevel="16" outlineTableColumn="JyQ-Cx-3OV" id="GMQ-1A-kqo" customClass="MyOutlineView" customModule="RetroMount" customModuleProvider="target">
+                                        <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnReordering="NO" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowHeight="32" viewBased="YES" indentationPerLevel="16" outlineTableColumn="JyQ-Cx-3OV" id="GMQ-1A-kqo" customClass="MyOutlineView" customModule="RetroMount" customModuleProvider="target">
                                             <rect key="frame" x="0.0" y="0.0" width="232" height="368"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <size key="intercellSpacing" width="17" height="0.0"/>
@@ -864,16 +864,16 @@ DQ
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
                                                         <tableCellView identifier="DeviceCell" id="rOE-AA-9WU" customClass="DeviceCell" customModule="RetroMount" customModuleProvider="target">
-                                                            <rect key="frame" x="8" y="0.0" width="215" height="42"/>
+                                                            <rect key="frame" x="8" y="0.0" width="215" height="32"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uLZ-xQ-a7s">
-                                                                    <rect key="frame" x="3" y="5" width="32" height="32"/>
+                                                                    <rect key="frame" x="7" y="6" width="20" height="20"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="floppy_35_dd" id="f97-Qu-L81"/>
+                                                                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyUpOrDown" image="floppy_35" id="f97-Qu-L81"/>
                                                                 </imageView>
                                                                 <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="N0J-hm-uFo">
-                                                                    <rect key="frame" x="41" y="13" width="144" height="16"/>
+                                                                    <rect key="frame" x="41" y="8" width="144" height="16"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="VIA-Uf-9gR">
                                                                         <font key="font" usesAppearanceFont="YES"/>
@@ -881,36 +881,24 @@ DQ
                                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
                                                                 </textField>
-                                                                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="G7J-yd-lnH">
-                                                                    <rect key="frame" x="193.5" y="12" width="16" height="16"/>
-                                                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES"/>
-                                                                    <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="arrow.trianglehead.2.clockwise.rotate.90" catalog="system" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" imageScaling="proportionallyDown" inset="2" id="tfj-tL-IGx">
-                                                                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                                        <font key="font" metaFont="system"/>
-                                                                    </buttonCell>
-                                                                    <connections>
-                                                                        <action selector="syncAction:" target="rOE-AA-9WU" id="8Uo-cL-Rwv"/>
-                                                                    </connections>
-                                                                </button>
                                                             </subviews>
                                                             <connections>
                                                                 <outlet property="controller" destination="W61-1Q-cxU" id="QoF-u2-3RO"/>
                                                                 <outlet property="imageView" destination="uLZ-xQ-a7s" id="Qa7-Yp-PJn"/>
-                                                                <outlet property="syncButton" destination="G7J-yd-lnH" id="luO-n5-3IE"/>
                                                                 <outlet property="textField" destination="N0J-hm-uFo" id="LRS-1i-1z1"/>
                                                             </connections>
                                                         </tableCellView>
                                                         <tableCellView identifier="VolumeCell" id="U7o-mt-e8q" customClass="VolumeCell" customModule="RetroMount" customModuleProvider="target">
-                                                            <rect key="frame" x="8" y="42" width="215" height="42"/>
+                                                            <rect key="frame" x="8" y="32" width="215" height="32"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VNA-Kf-rft">
-                                                                    <rect key="frame" x="3" y="5" width="32" height="32"/>
+                                                                    <rect key="frame" x="4" y="4" width="24" height="24"/>
                                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="proportionallyDown" image="volume_amiga" id="7ch-3L-OTU"/>
+                                                                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="proportionallyUpOrDown" image="FUSEicon" id="7ch-3L-OTU"/>
                                                                 </imageView>
                                                                 <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Mal-dO-y8C">
-                                                                    <rect key="frame" x="41" y="13" width="144" height="16"/>
+                                                                    <rect key="frame" x="41" y="8" width="144" height="16"/>
                                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="KNm-vL-Oic">
                                                                         <font key="font" usesAppearanceFont="YES"/>
@@ -918,23 +906,11 @@ DQ
                                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
                                                                 </textField>
-                                                                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5cl-cs-cfE">
-                                                                    <rect key="frame" x="191" y="13.5" width="17.5" height="16"/>
-                                                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES"/>
-                                                                    <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" image="eject.fill" catalog="system" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" state="on" imageScaling="proportionallyDown" inset="2" id="i8Z-1J-yOv">
-                                                                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                                        <font key="font" metaFont="system"/>
-                                                                    </buttonCell>
-                                                                    <connections>
-                                                                        <action selector="unmountAction:" target="U7o-mt-e8q" id="FDa-tT-Xtr"/>
-                                                                    </connections>
-                                                                </button>
                                                             </subviews>
                                                             <connections>
                                                                 <outlet property="controller" destination="W61-1Q-cxU" id="qn3-JY-HIB"/>
                                                                 <outlet property="imageView" destination="VNA-Kf-rft" id="442-Tk-GZC"/>
                                                                 <outlet property="textField" destination="Mal-dO-y8C" id="pkg-8a-bjI"/>
-                                                                <outlet property="unmountButton" destination="5cl-cs-cfE" id="WnG-X4-9tE"/>
                                                             </connections>
                                                         </tableCellView>
                                                     </prototypeCellViews>
@@ -2543,13 +2519,10 @@ DQ
     <resources>
         <image name="FUSEicon" width="280" height="280"/>
         <image name="NSTouchBarSearchTemplate" width="20" height="20"/>
-        <image name="arrow.trianglehead.2.clockwise.rotate.90" catalog="system" width="16" height="15"/>
         <image name="dd_adf" width="257" height="258"/>
-        <image name="eject.fill" catalog="system" width="16" height="14"/>
-        <image name="floppy_35_dd" width="257" height="258"/>
+        <image name="floppy_35" width="514" height="512"/>
         <image name="pictogram" width="1024" height="1024"/>
         <image name="stop" width="928" height="509"/>
-        <image name="volume_amiga" width="256" height="256"/>
         <image name="waveform.badge.magnifyingglass" catalog="system" width="18" height="17"/>
         <image name="wrench.adjustable.fill" catalog="system" width="18" height="18"/>
     </resources>
