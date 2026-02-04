@@ -304,6 +304,12 @@ FuseAmigaVolume::typeOf(isize blockNr, isize pos) const
 }
 
 void
+FuseAmigaVolume::xrayBitmap(bool strict)
+{
+    fs->doctor.xrayBitmap(strict);
+}
+
+void
 FuseAmigaVolume::xray(bool strict)
 {
     fs->doctor.xray(strict);
@@ -380,6 +386,12 @@ FuseCBMVolume::typeOf(isize blockNr, isize pos) const
 {
     auto type = fs->typeOf(BlockNr(blockNr), pos);
     return cbm::FSItemTypeEnum::key(type);
+}
+
+void
+FuseCBMVolume::xrayBitmap(bool strict)
+{
+    fs->doctor.xrayBitmap(strict);
 }
 
 void

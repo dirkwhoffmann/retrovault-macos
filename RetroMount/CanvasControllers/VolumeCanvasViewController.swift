@@ -78,7 +78,9 @@ class VolumeCanvasViewController: CanvasViewController {
     @IBOutlet weak var allocGreenButton: NSButton!
     @IBOutlet weak var allocYellowButton: NSButton!
     @IBOutlet weak var allocRedButton: NSButton!
+    @IBOutlet weak var allocScanButton: NSButton!
     @IBOutlet weak var allocRectifyInfo: NSTextField!
+    @IBOutlet weak var allocProgress: NSProgressIndicator!
     @IBOutlet weak var allocRectifyButton: NSButton!
 
     @IBOutlet weak var diagnoseImageButton: NSButton!
@@ -87,6 +89,7 @@ class VolumeCanvasViewController: CanvasViewController {
     @IBOutlet weak var diagnoseFailButton: NSButton!
     @IBOutlet weak var diagnoseNextButton: NSButton!
     @IBOutlet weak var diagnoseNextInfo: NSTextField!
+    @IBOutlet weak var diagnoseScanButton: NSButton!
     @IBOutlet weak var diagnoseProgress: NSProgressIndicator!
 
     @IBOutlet weak var previewScrollView: NSScrollView!
@@ -123,9 +126,10 @@ class VolumeCanvasViewController: CanvasViewController {
     let diagnoseImageRenderer = ImageRenderer()
 
     // Result of the consistency checker
-    var erroneousBlocks: [NSNumber] = []
-    var bitMapErrors: [NSNumber] = []
-
+    var erroneousBlocks: [NSNumber]?
+    var usedButUnallocated: [NSNumber]?
+    var unusedButAllocated: [NSNumber]?
+    
     var strict: Bool { return strictButton.state == .on }
     
     // Displayed block in the table view
@@ -198,7 +202,8 @@ class VolumeCanvasViewController: CanvasViewController {
         displayedTab = selectedTab
         
         refreshVolumeInfo()
-
+        refreshHealthInfo()
+        
         if usageImageIsDirty {
             
             refreshUsageInfo()
@@ -324,7 +329,7 @@ class VolumeCanvasViewController: CanvasViewController {
     func refreshAllocInfo() {
      
         // let total = errorReport?.bitmapErrors ?? 0
-        let total = bitMapErrors.count
+        let total = (unusedButAllocated?.count ?? 0) + (usedButUnallocated?.count ?? 0)
 
         if total > 0 {
             
@@ -354,9 +359,7 @@ class VolumeCanvasViewController: CanvasViewController {
         diagnosePassButton.image = NSImage(color: Palette.green, size: size)
         diagnoseFailButton.image = NSImage(color: Palette.red, size: size)
 
-        
-        // let total = errorReport?.corruptedBlocks ?? 0
-        let total = erroneousBlocks.count
+        let total = erroneousBlocks?.count ?? 0
 
         if total > 0 {
             
@@ -467,6 +470,8 @@ class VolumeCanvasViewController: CanvasViewController {
             
     @IBAction func gotoNextCorruptedBlockAction(_ sender: NSButton!) {
 
+        guard let erroneousBlocks = erroneousBlocks else { return }
+        
         var low = 0
         var high = erroneousBlocks.count
 
@@ -494,13 +499,53 @@ class VolumeCanvasViewController: CanvasViewController {
         refresh()
     }
 
-    @IBAction func scanAction(_ sender: NSButton!) {
+    @IBAction func scanBitmapAction(_ sender: NSButton!) {
 
         Task {
             
             // UI updates must be on MainActor
             await MainActor.run {
                 
+                allocScanButton.isHidden = true
+                allocProgress.isHidden = false
+                allocProgress.startAnimation(sender)
+                allocImageButton.image = nil
+            }
+
+            // Run heavy work off the main thread
+            await Task.detached(priority: .userInitiated) {
+
+                // Artificial delay for testing
+                try? await Task.sleep(nanoseconds: 3_000_000_000)
+
+                await self.proxy?.xrayBitmap(true)
+            }.value
+
+            // Back to MainActor for UI updates
+            await MainActor.run {
+
+                let size = allocImageButton.bounds.size
+                allocImageButton.image = allocImage(size: size)
+
+                allocProgress.stopAnimation(sender)
+                allocProgress.isHidden = true
+                allocScanButton.isHidden = false
+            }
+            
+            usedButUnallocated = proxy?.usedButUnallocated
+            unusedButAllocated = proxy?.unusedButAllocated
+            refreshAllocInfo()
+        }
+    }
+    
+    @IBAction func scanBlocksAction(_ sender: NSButton!) {
+
+        Task {
+            
+            // UI updates must be on MainActor
+            await MainActor.run {
+                
+                diagnoseScanButton.isHidden = true
                 diagnoseProgress.isHidden = false
                 diagnoseProgress.startAnimation(sender)
                 diagnoseImageButton.image = nil
@@ -525,13 +570,18 @@ class VolumeCanvasViewController: CanvasViewController {
 
                 diagnoseProgress.stopAnimation(sender)
                 diagnoseProgress.isHidden = true
+                diagnoseScanButton.isHidden = false
             }
+            
+            usedButUnallocated = proxy?.usedButUnallocated
+            unusedButAllocated = proxy?.unusedButAllocated
+            refreshHealthInfo()
         }
     }
 
     @IBAction func strictAction(_ sender: NSButton!) {
 
-        scanAction(sender)
+        scanBlocksAction(sender)
     }
         
     @IBAction func clickAction(_ sender: NSTableView!) {

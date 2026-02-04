@@ -224,6 +224,11 @@ using namespace utl;
     return result;
 }
 
+- (void)xrayBitmap:(BOOL)strict
+{
+    [self volume]->xrayBitmap(strict);
+}
+
 - (void)xray:(BOOL)strict
 {
     [self volume]->xray(strict);

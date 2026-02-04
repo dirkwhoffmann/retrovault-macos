@@ -93,6 +93,7 @@ inline const char *c_str(const std::string &s)
 @property (readonly) NSArray<NSNumber *> *blockErrors;
 @property (readonly) NSArray<NSNumber *> *usedButUnallocated;
 @property (readonly) NSArray<NSNumber *> *unusedButAllocated;
+- (void)xrayBitmap:(BOOL)strict;
 - (void)xray:(BOOL)strict;
 - (NSString *)xray:(NSInteger)nr pos:(NSInteger)pos expected:(unsigned char *)exp strict:(BOOL)strict;
 - (void)rectifyAllocationMap;

@@ -2068,7 +2068,7 @@ DQ
                                                     </textFieldCell>
                                                 </textField>
                                                 <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Q9s-5j-z1e">
-                                                    <rect key="frame" x="16" y="57" width="652" height="22"/>
+                                                    <rect key="frame" x="16" y="57" width="608" height="22"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" refusesFirstResponder="YES" state="on" borderStyle="border" imageScaling="axesIndependently" inset="2" id="4rB-Ov-fek">
                                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -2085,12 +2085,15 @@ DQ
                                                     </textFieldCell>
                                                 </textField>
                                                 <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EJ0-ZY-1Mz">
-                                                    <rect key="frame" x="632" y="23" width="36" height="32"/>
+                                                    <rect key="frame" x="635" y="23" width="36" height="32"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <buttonCell key="cell" type="push" bezelStyle="rounded" image="wrench.adjustable.fill" catalog="system" imagePosition="only" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="rcS-8J-lfd">
                                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                         <font key="font" metaFont="system"/>
                                                     </buttonCell>
+                                                    <connections>
+                                                        <action selector="rectifyAction:" target="nnP-dK-1pJ" id="2nc-ip-KAO"/>
+                                                    </connections>
                                                 </button>
                                                 <textField focusRingType="none" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Cha-9a-VOJ">
                                                     <rect key="frame" x="14" y="9" width="658" height="14"/>
@@ -2101,6 +2104,21 @@ DQ
                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                     </textFieldCell>
                                                 </textField>
+                                                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2pt-3D-28Y">
+                                                    <rect key="frame" x="635" y="52" width="36" height="32"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                    <buttonCell key="cell" type="push" bezelStyle="rounded" image="waveform.badge.magnifyingglass" catalog="system" imagePosition="only" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="6Nq-Tw-Ged">
+                                                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                        <font key="font" metaFont="system"/>
+                                                    </buttonCell>
+                                                    <connections>
+                                                        <action selector="scanBitmapAction:" target="nnP-dK-1pJ" id="m56-yA-PsX"/>
+                                                    </connections>
+                                                </button>
+                                                <progressIndicator hidden="YES" wantsLayer="YES" fixedFrame="YES" maxValue="100" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="Wek-XJ-zN1">
+                                                    <rect key="frame" x="645" y="60" width="16" height="16"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                </progressIndicator>
                                             </subviews>
                                         </view>
                                     </tabViewItem>
@@ -2152,7 +2170,7 @@ DQ
                                                     </buttonCell>
                                                 </button>
                                                 <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mZ2-uW-XMq">
-                                                    <rect key="frame" x="566" y="30" width="101" height="18"/>
+                                                    <rect key="frame" x="561" y="30" width="101" height="18"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                                                     <buttonCell key="cell" type="check" title="Strict checking" bezelStyle="regularSquare" imagePosition="right" alignment="right" controlSize="small" inset="2" id="FpL-rC-yBG">
                                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -2186,18 +2204,18 @@ DQ
                                                     </textFieldCell>
                                                 </textField>
                                                 <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cMO-Cs-op4">
-                                                    <rect key="frame" x="631" y="52" width="36" height="32"/>
+                                                    <rect key="frame" x="635" y="52" width="36" height="32"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <buttonCell key="cell" type="push" bezelStyle="rounded" image="waveform.badge.magnifyingglass" catalog="system" imagePosition="only" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="2Ab-or-pYq">
                                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                         <font key="font" metaFont="system"/>
                                                     </buttonCell>
                                                     <connections>
-                                                        <action selector="scanAction:" target="nnP-dK-1pJ" id="msD-IT-0ts"/>
+                                                        <action selector="scanBlocksAction:" target="nnP-dK-1pJ" id="msD-IT-0ts"/>
                                                     </connections>
                                                 </button>
-                                                <progressIndicator fixedFrame="YES" maxValue="100" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="Vue-rr-iZX">
-                                                    <rect key="frame" x="651" y="8" width="16" height="16"/>
+                                                <progressIndicator hidden="YES" wantsLayer="YES" fixedFrame="YES" maxValue="100" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="Vue-rr-iZX">
+                                                    <rect key="frame" x="645" y="60" width="16" height="16"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                 </progressIndicator>
                                             </subviews>
@@ -2464,9 +2482,11 @@ DQ
                         <outlet property="allocGreenButton" destination="x6t-cv-Uss" id="zKN-0u-OEV"/>
                         <outlet property="allocImageButton" destination="Q9s-5j-z1e" id="XlE-Yd-NeY"/>
                         <outlet property="allocInfo" destination="Cha-9a-VOJ" id="3vQ-hT-Uuh"/>
+                        <outlet property="allocProgress" destination="Wek-XJ-zN1" id="s3A-QT-eV8"/>
                         <outlet property="allocRectifyButton" destination="EJ0-ZY-1Mz" id="HKD-Ki-KuI"/>
                         <outlet property="allocRectifyInfo" destination="3d4-OZ-7Yr" id="Dmk-sD-FFh"/>
                         <outlet property="allocRedButton" destination="GYd-is-Vl0" id="e7i-QX-wUh"/>
+                        <outlet property="allocScanButton" destination="2pt-3D-28Y" id="fVz-eD-nt7"/>
                         <outlet property="allocYellowButton" destination="RZr-31-vON" id="6ON-di-SRP"/>
                         <outlet property="blockField" destination="eFt-S9-8OW" id="4r4-zB-bfx"/>
                         <outlet property="blockImageButton" destination="lH7-S0-yS7" id="KGM-79-m8g"/>
@@ -2495,6 +2515,7 @@ DQ
                         <outlet property="diagnoseNextInfo" destination="z3j-vj-spx" id="VnL-EX-a6o"/>
                         <outlet property="diagnosePassButton" destination="6Xq-9E-QSX" id="32v-1Y-wKz"/>
                         <outlet property="diagnoseProgress" destination="Vue-rr-iZX" id="CIT-2v-bh8"/>
+                        <outlet property="diagnoseScanButton" destination="cMO-Cs-op4" id="G5E-ZB-cQX"/>
                         <outlet property="fillIndicator" destination="WWZ-mj-FdS" id="840-uJ-1v9"/>
                         <outlet property="fillInfo" destination="um0-up-0AB" id="d3m-0c-aMR"/>
                         <outlet property="icon" destination="8VF-gr-QdA" id="GND-Ml-Cex"/>
