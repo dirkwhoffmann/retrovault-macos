@@ -61,6 +61,28 @@ class DeviceInfo {
         return "\(numBytes) Bytes"
     }
 
+    var pictogram: NSImage? {
+        
+        var name = ""
+
+        if (info.type == .HARDDISK) {
+
+            return nil
+
+        } else {
+
+            switch info.format {
+
+            case .ADF, .ADZ, .EADF, .DMS, .IMG, .ST:
+                return NSImage(named: "floppy_35")
+            case .D64:
+                return NSImage(named: "floppy_525")
+            default:
+                return nil
+            }
+        }
+    }
+    
     func icon(wp: Bool = false) -> NSImage? {
 
         var name = ""

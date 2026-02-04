@@ -17,7 +17,7 @@ class DeviceCell: TableCell {
 
         let info = app.manager.info(device: item.device)
 
-        imageView?.image = info.icon()
+        imageView?.image = info.pictogram
         textField?.stringValue = info.name
     }
 

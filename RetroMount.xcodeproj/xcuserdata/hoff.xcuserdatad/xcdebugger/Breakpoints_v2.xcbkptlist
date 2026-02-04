@@ -62,8 +62,8 @@
             filePath = "RetroMount/CanvasControllers/VolumeCanvasViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "561"
-            endingLineNumber = "561"
+            startingLineNumber = "572"
+            endingLineNumber = "572"
             landmarkName = "scanBlocksAction(_:)"
             landmarkType = "7">
          </BreakpointContent>

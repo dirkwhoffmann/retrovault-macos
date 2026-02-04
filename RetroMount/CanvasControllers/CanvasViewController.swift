@@ -28,13 +28,15 @@ class CanvasViewController: NSViewController {
 
     }
 
+    /*
     func set(device: Int?, volume: Int?) {
 
         self.device = device
         self.volume = volume
         refreshAll()
     }
-
+    */
+    
     func refresh() { }
-    func refreshAll() { refresh() }
+    // func refreshAll() { refresh() }
 }

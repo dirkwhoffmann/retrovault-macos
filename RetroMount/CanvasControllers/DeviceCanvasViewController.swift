@@ -37,7 +37,7 @@ class DeviceCanvasViewController: CanvasViewController {
     @IBOutlet weak var blockScrollView: NSScrollView!
     @IBOutlet weak var blockView: NSTableView!
 
-    var info: DeviceInfo?
+    var info = DeviceInfo()
     var proxy: FuseDeviceProxy? { return app.manager.proxy(device: device) }
 
     // Drive geometry
@@ -62,6 +62,15 @@ class DeviceCanvasViewController: CanvasViewController {
 
     override func viewDidLoad() {
 
+        let description = proxy!.describe()
+        info = app.manager.info(device: device!)
+
+        icon.image = info.pictogram
+        mainTitle.stringValue = info.name
+        subTitle1.stringValue = description?[safe: 0] ?? ""
+        subTitle2.stringValue = description?[safe: 1] ?? ""
+        subTitle3.stringValue = description?[safe: 2] ?? ""
+        
         cylinderStepper.maxValue = .greatestFiniteMagnitude
         headStepper.maxValue = .greatestFiniteMagnitude
         trackStepper.maxValue = .greatestFiniteMagnitude
@@ -75,19 +84,18 @@ class DeviceCanvasViewController: CanvasViewController {
         refreshSelection()
     }
 
+    override func activate() {
+        
+    }
+    
     func refreshDeviceInfo() {
                 
-        guard let proxy = proxy else { return }
-        let description = proxy.describe()
+        // guard let proxy = proxy else { return }
+        // let description = proxy.describe()
         guard let device = device else { return }
         info = app.manager.info(device: device)
-        guard let info = info else { return }
 
-        icon.image = info.icon()
-        mainTitle.stringValue = info.name
-        subTitle1.stringValue = description?[safe: 0] ?? ""
-        subTitle2.stringValue = description?[safe: 1] ?? ""
-        subTitle3.stringValue = description?[safe: 2] ?? ""
+        // icon.image = info.icon()
 
         cylindersInfo.stringValue = String(format: "%d", info.numCyls)
         headsInfo.stringValue = String(format: "%d", info.numHeads)

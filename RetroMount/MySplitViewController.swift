@@ -55,18 +55,21 @@ class MySplitViewController: NSSplitViewController {
                 withIdentifier: "InfoCanvasViewController"
             ) as! InfoCanvasViewController
 
-        case .device:
+        case .device(let d):
             vc = main.instantiateController(
                 withIdentifier: "DeviceCanvasViewController"
             ) as! DeviceCanvasViewController
-
-        case .volume:
+            vc.device = d
+            
+        case .volume(let d, let v):
             vc = main.instantiateController(
                 withIdentifier: "VolumeCanvasViewController"
             ) as! VolumeCanvasViewController
+            vc.device = d
+            vc.volume = v
         }
 
-        canvases[key] = vc
+        canvases[key] = vc        
         return vc
     }
 
@@ -85,18 +88,6 @@ class MySplitViewController: NSSplitViewController {
 
         showContent(cell: selection)
     }
-
-    /*
-    private func key(for cell: (Int?, Int?)) -> SidebarKey {
-
-        switch cell {
-            
-        case (nil, _): return .info
-        case (let d?, nil): return .device(d)
-        case (let d?, let v?): return .volume(device: d, volume: v)
-        }
-    }
-    */
     
     func showContent(cell: (Int?, Int?)) {
         
@@ -115,7 +106,7 @@ class MySplitViewController: NSSplitViewController {
             let newItem = NSSplitViewItem(viewController: vc)
             addSplitViewItem(newItem)
             
-            vc.set(device: cell.0, volume: cell.1)
+            // vc.set(device: cell.0, volume: cell.1)
         }
     }
 

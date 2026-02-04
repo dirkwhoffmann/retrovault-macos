@@ -135,6 +135,8 @@ class VolumeCanvasViewController: CanvasViewController {
                 
         let click = NSClickGestureRecognizer(target: self, action: #selector(buttonClicked(_:)))
         blockImageButton.addGestureRecognizer(click)
+
+        activate()
     }
     
     private var timer: Timer?
@@ -150,7 +152,7 @@ class VolumeCanvasViewController: CanvasViewController {
         super.viewWillDisappear()
         stopPeriodicTask()
     }
-
+    
     private func startPeriodicTask() {
 
         guard timer == nil else { return }
@@ -175,8 +177,17 @@ class VolumeCanvasViewController: CanvasViewController {
     // Updating
     //
 
-    override func refreshAll() {
-       
+    override func activate() {
+        
+        let description = proxy!.describe()
+        info = app.manager.info(device: device!, volume: volume!)
+        
+        icon.image = info.icon()
+        mainTitle.stringValue = info.name
+        subTitle1.stringValue = description?[safe: 0] ?? ""
+        subTitle2.stringValue = description?[safe: 1] ?? ""
+        subTitle3.stringValue = description?[safe: 2] ?? ""
+                
         /*
         let indicatorColor = NSColor.systemGray
         fillIndicator.fillColor = indicatorColor
