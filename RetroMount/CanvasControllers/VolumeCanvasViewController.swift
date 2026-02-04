@@ -54,7 +54,7 @@ class VolumeCanvasViewController: CanvasViewController {
     @IBOutlet weak var cachedBlocksInfo: NSTextField!
 
     @IBOutlet weak var tabView: NSTabView!
-    
+
     @IBOutlet weak var blockImageButton: NSButton!
     @IBOutlet weak var blockType1Button: NSButton!
     @IBOutlet weak var blockType2Button: NSButton!
@@ -87,6 +87,7 @@ class VolumeCanvasViewController: CanvasViewController {
     @IBOutlet weak var diagnoseFailButton: NSButton!
     @IBOutlet weak var diagnoseNextButton: NSButton!
     @IBOutlet weak var diagnoseNextInfo: NSTextField!
+    @IBOutlet weak var diagnoseProgress: NSProgressIndicator!
 
     @IBOutlet weak var previewScrollView: NSScrollView!
     @IBOutlet weak var previewTable: NSTableView!
@@ -493,19 +494,46 @@ class VolumeCanvasViewController: CanvasViewController {
         refresh()
     }
 
+    @IBAction func scanAction(_ sender: NSButton!) {
+
+        Task {
+            
+            // UI updates must be on MainActor
+            await MainActor.run {
+                
+                diagnoseProgress.isHidden = false
+                diagnoseProgress.startAnimation(sender)
+                diagnoseImageButton.image = nil
+            }
+
+            let strict = (strictButton.state == .on)
+
+            // Run heavy work off the main thread
+            await Task.detached(priority: .userInitiated) {
+
+                // Artificial delay for testing
+                try? await Task.sleep(nanoseconds: 3_000_000_000)
+
+                await self.proxy?.xray(strict)
+            }.value
+
+            // Back to MainActor for UI updates
+            await MainActor.run {
+
+                let size = diagnoseImageButton.bounds.size
+                diagnoseImageButton.image = diagnoseImage(size: size)
+
+                diagnoseProgress.stopAnimation(sender)
+                diagnoseProgress.isHidden = true
+            }
+        }
+    }
+
     @IBAction func strictAction(_ sender: NSButton!) {
 
-        // Examine all blocks
-        // vol.xrayBlocks(strict)
-        // erroneousBlocks = vol.xrayBlocks
-
-        // Examime the bitmap
-        // vol.xrayBitmap(strict)
-        // bitMapErrors = vol.xrayBitmap
-
-        refresh()
+        scanAction(sender)
     }
-    
+        
     @IBAction func clickAction(_ sender: NSTableView!) {
         
         if sender.clickedColumn >= 1 && sender.clickedRow >= 0 {
@@ -566,7 +594,7 @@ extension VolumeCanvasViewController: NSTableViewDelegate {
         if let col = columnNr(tableColumn) {
             
             let offset = 16 * row + col
-            let error = proxy?.check(selectedBlock, pos: offset, expected: &exp, strict: strict)
+            let error = proxy?.xray(selectedBlock, pos: offset, expected: &exp, strict: strict)
             
             if row == selectedRow && col == selectedCol {
                 cell?.textColor = .white

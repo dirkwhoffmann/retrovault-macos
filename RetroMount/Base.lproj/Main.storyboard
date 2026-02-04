@@ -2144,7 +2144,7 @@ DQ
                                                     </textFieldCell>
                                                 </textField>
                                                 <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vRX-rB-dBR">
-                                                    <rect key="frame" x="16" y="57" width="652" height="22"/>
+                                                    <rect key="frame" x="16" y="57" width="608" height="22"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <buttonCell key="cell" type="smallSquare" bezelStyle="smallSquare" imagePosition="overlaps" alignment="center" lineBreakMode="truncatingTail" refusesFirstResponder="YES" state="on" borderStyle="border" imageScaling="axesIndependently" inset="2" id="e81-r4-vhQ">
                                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -2152,15 +2152,15 @@ DQ
                                                     </buttonCell>
                                                 </button>
                                                 <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mZ2-uW-XMq">
-                                                    <rect key="frame" x="565" y="31" width="101" height="18"/>
+                                                    <rect key="frame" x="566" y="30" width="101" height="18"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
-                                                    <buttonCell key="cell" type="check" title="Strict checking" bezelStyle="regularSquare" imagePosition="left" alignment="right" controlSize="small" inset="2" id="FpL-rC-yBG">
+                                                    <buttonCell key="cell" type="check" title="Strict checking" bezelStyle="regularSquare" imagePosition="right" alignment="right" controlSize="small" inset="2" id="FpL-rC-yBG">
                                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                         <font key="font" metaFont="smallSystem"/>
                                                     </buttonCell>
                                                 </button>
                                                 <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZkT-4Z-UOW">
-                                                    <rect key="frame" x="500" y="6.5" width="22.5" height="26"/>
+                                                    <rect key="frame" x="291" y="27.5" width="22.5" height="26"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSTouchBarSearchTemplate" imagePosition="only" alignment="center" imageScaling="proportionallyUpOrDown" inset="2" id="jxW-q0-9T6">
                                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -2168,7 +2168,7 @@ DQ
                                                     </buttonCell>
                                                 </button>
                                                 <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="z3j-vj-spx">
-                                                    <rect key="frame" x="526" y="10" width="142" height="17"/>
+                                                    <rect key="frame" x="317" y="31" width="142" height="17"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" alignment="left" title="Goto next corrupted block" id="wPZ-x9-aaB">
                                                         <font key="font" metaFont="smallSystem"/>
@@ -2177,7 +2177,7 @@ DQ
                                                     </textFieldCell>
                                                 </textField>
                                                 <textField focusRingType="none" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jX7-dY-7zo">
-                                                    <rect key="frame" x="13" y="13" width="436" height="14"/>
+                                                    <rect key="frame" x="13" y="8" width="436" height="14"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                     <textFieldCell key="cell" controlSize="small" sendsActionOnEndEditing="YES" alignment="left" title="Lorem ipsum" id="9ig-O6-sIu">
                                                         <font key="font" metaFont="smallSystem"/>
@@ -2185,6 +2185,21 @@ DQ
                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                     </textFieldCell>
                                                 </textField>
+                                                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cMO-Cs-op4">
+                                                    <rect key="frame" x="631" y="52" width="36" height="32"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                    <buttonCell key="cell" type="push" bezelStyle="rounded" image="waveform.badge.magnifyingglass" catalog="system" imagePosition="only" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="2Ab-or-pYq">
+                                                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                        <font key="font" metaFont="system"/>
+                                                    </buttonCell>
+                                                    <connections>
+                                                        <action selector="scanAction:" target="nnP-dK-1pJ" id="msD-IT-0ts"/>
+                                                    </connections>
+                                                </button>
+                                                <progressIndicator fixedFrame="YES" maxValue="100" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="Vue-rr-iZX">
+                                                    <rect key="frame" x="651" y="8" width="16" height="16"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                </progressIndicator>
                                             </subviews>
                                         </view>
                                     </tabViewItem>
@@ -2479,6 +2494,7 @@ DQ
                         <outlet property="diagnoseNextButton" destination="ZkT-4Z-UOW" id="sW1-Fh-t8G"/>
                         <outlet property="diagnoseNextInfo" destination="z3j-vj-spx" id="VnL-EX-a6o"/>
                         <outlet property="diagnosePassButton" destination="6Xq-9E-QSX" id="32v-1Y-wKz"/>
+                        <outlet property="diagnoseProgress" destination="Vue-rr-iZX" id="CIT-2v-bh8"/>
                         <outlet property="fillIndicator" destination="WWZ-mj-FdS" id="840-uJ-1v9"/>
                         <outlet property="fillInfo" destination="um0-up-0AB" id="d3m-0c-aMR"/>
                         <outlet property="icon" destination="8VF-gr-QdA" id="GND-Ml-Cex"/>
@@ -2513,6 +2529,7 @@ DQ
         <image name="pictogram" width="1024" height="1024"/>
         <image name="stop" width="928" height="509"/>
         <image name="volume_amiga" width="256" height="256"/>
+        <image name="waveform.badge.magnifyingglass" catalog="system" width="18" height="17"/>
         <image name="wrench.adjustable.fill" catalog="system" width="18" height="18"/>
     </resources>
 </document>
