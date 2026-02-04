@@ -324,16 +324,14 @@ FSDoctor::xrayBitmap(bool strict)
         if (allocated && !contained) {
 
             diagnosis.unusedButAllocated.push_back(BlockNr(i));
-            diagnosis.bitmapErrors[BlockNr(i)] = 1;
 
         } else if (!allocated && contained) {
 
             diagnosis.usedButUnallocated.push_back(BlockNr(i));
-            diagnosis.bitmapErrors[BlockNr(i)] = 2;
         }
     }
 
-    return (isize)diagnosis.bitmapErrors.size();
+    return isize(diagnosis.unusedButAllocated.size() + diagnosis.usedButUnallocated.size());
 }
 
 isize

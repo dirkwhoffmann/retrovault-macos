@@ -19,14 +19,6 @@
 
 using namespace retro::vault;
 
-/*
-namespace vamiga {
-
-// class FileSystem;
-// class PosixFileSystem;
-
-}
-*/
 
 class FuseDevice;
 
@@ -70,14 +62,25 @@ public:
     FUSE_CREATE   override;
     FUSE_UTIMENS  override;
 
+    Volume &getVolume() { return *vol; }
+    
     virtual vector<string> describe() const noexcept = 0;
 
     FSPosixStat stat();
     
     Range<isize> getRange() const { return vol->getRange(); }
     
+    virtual vector<string> blockTypes() const = 0;
     virtual string blockType(isize blockNr) const = 0;
+    virtual string typeOf(isize blockNr, isize pos) const = 0;
+
+    // FS doctor
+    virtual void xray(bool strict) = 0;
+    virtual const std::vector<BlockNr> &blockErrors() const = 0;
+    virtual const std::vector<BlockNr> &usedButUnallocated() const = 0;
+    virtual const std::vector<BlockNr> &unusedButAllocated() const = 0;
     
+    // GUI helpers
     virtual void createUsageMap(u8 *buf, isize len) const = 0;
     virtual void createAllocationMap(u8 *buf, isize len) const = 0;
     virtual void createHealthMap(u8 *buf, isize len) const = 0;
@@ -130,11 +133,16 @@ class FuseAmigaVolume : public FuseVolume {
 public:
     
     FuseAmigaVolume(FuseDevice &device, unique_ptr<Volume> vol);
-    vector<string> describe() const noexcept override {
-        return fs->describe();
-    }
+    vector<string> describe() const noexcept override { return fs->describe(); }
+    vector<string> blockTypes() const noexcept override;
     string blockType(isize blockNr) const override;
+    string typeOf(isize blockNr, isize pos) const override;
     
+    void xray(bool strict) override;
+    const std::vector<BlockNr> &blockErrors() const override;
+    const std::vector<BlockNr> &usedButUnallocated() const override;
+    const std::vector<BlockNr> &unusedButAllocated() const override;
+
     void createUsageMap(u8 *buf, isize len) const override;
     void createAllocationMap(u8 *buf, isize len) const override;
     void createHealthMap(u8 *buf, isize len) const override;
@@ -149,8 +157,15 @@ public:
     
     FuseCBMVolume(FuseDevice &device, unique_ptr<Volume> vol);
     vector<string> describe() const noexcept override { return fs->describe(); }
+    vector<string> blockTypes() const noexcept override;
     string blockType(isize blockNr) const override;
-    
+    string typeOf(isize blockNr, isize pos) const override;
+
+    void xray(bool strict) override;
+    const std::vector<BlockNr> &blockErrors() const override;
+    const std::vector<BlockNr> &usedButUnallocated() const override;
+    const std::vector<BlockNr> &unusedButAllocated() const override;
+
     void createUsageMap(u8 *buf, isize len) const override;
     void createAllocationMap(u8 *buf, isize len) const override;
     void createHealthMap(u8 *buf, isize len) const override;

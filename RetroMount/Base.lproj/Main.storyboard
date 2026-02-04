@@ -2416,6 +2416,10 @@ DQ
                                                     <tableColumnResizingMask key="resizingMask" userResizable="YES"/>
                                                 </tableColumn>
                                             </tableColumns>
+                                            <connections>
+                                                <outlet property="dataSource" destination="nnP-dK-1pJ" id="ctE-eo-j94"/>
+                                                <outlet property="delegate" destination="nnP-dK-1pJ" id="dQI-gz-dv9"/>
+                                            </connections>
                                         </tableView>
                                     </subviews>
                                 </clipView>
@@ -2452,19 +2456,29 @@ DQ
                         <outlet property="blockField" destination="eFt-S9-8OW" id="4r4-zB-bfx"/>
                         <outlet property="blockImageButton" destination="lH7-S0-yS7" id="KGM-79-m8g"/>
                         <outlet property="blockStepper" destination="a5Y-po-BVW" id="MUG-0H-yIz"/>
-                        <outlet property="bmBlockButton" destination="LRT-c6-Q7z" id="HdL-FA-F20"/>
-                        <outlet property="bmExtBlockButton" destination="0Zg-YW-URm" id="fWX-1P-cfV"/>
-                        <outlet property="bootBlockButton" destination="ogA-Ff-2M7" id="4Hf-8B-wec"/>
-                        <outlet property="cachedBlocksInfo" destination="8Cp-n5-y8e" id="6cO-4z-oUC"/>
-                        <outlet property="dataBlockButton" destination="isJ-Uz-nKT" id="zjl-h6-hC7"/>
+                        <outlet property="blockType1Button" destination="ogA-Ff-2M7" id="4Hf-8B-wec"/>
+                        <outlet property="blockType1Label" destination="upC-le-cbd" id="x5q-xC-3Uf"/>
+                        <outlet property="blockType2Button" destination="LbY-bJ-7Yy" id="1PK-cE-D5O"/>
+                        <outlet property="blockType2Label" destination="Itf-t4-LbY" id="bEm-ry-fye"/>
+                        <outlet property="blockType3Button" destination="LRT-c6-Q7z" id="HdL-FA-F20"/>
+                        <outlet property="blockType3Label" destination="Zz9-DZ-tDa" id="5Da-PU-UDw"/>
+                        <outlet property="blockType4Button" destination="0Zg-YW-URm" id="fWX-1P-cfV"/>
+                        <outlet property="blockType4Label" destination="t84-Mz-G5w" id="Dgr-77-Vz8"/>
+                        <outlet property="blockType5Button" destination="Z3U-PY-Vac" id="SyO-OG-gb6"/>
+                        <outlet property="blockType5Label" destination="EKj-fX-GbL" id="rIe-ZU-ThR"/>
+                        <outlet property="blockType6Button" destination="AG9-zC-U31" id="YtV-cX-9BP"/>
+                        <outlet property="blockType6Label" destination="bzP-KL-PIM" id="U0B-Xu-Vzd"/>
+                        <outlet property="blockType7Button" destination="AeP-bd-OAk" id="GnY-4l-Iq7"/>
+                        <outlet property="blockType7Label" destination="Mzy-rM-9LC" id="Llx-ht-tLZ"/>
+                        <outlet property="blockType8Button" destination="isJ-Uz-nKT" id="zjl-h6-hC7"/>
+                        <outlet property="blockType8Label" destination="DdO-hk-Bld" id="Oqp-CG-Fgq"/>
+                        <outlet property="cachedBlocksInfo" destination="8Cp-n5-y8e" id="GsJ-tJ-VwK"/>
                         <outlet property="diagnoseFailButton" destination="kG9-pa-viw" id="qeA-VQ-Ug7"/>
                         <outlet property="diagnoseImageButton" destination="vRX-rB-dBR" id="BEg-13-WuE"/>
                         <outlet property="diagnoseInfo" destination="jX7-dY-7zo" id="9Kb-tJ-fCf"/>
                         <outlet property="diagnoseNextButton" destination="ZkT-4Z-UOW" id="sW1-Fh-t8G"/>
                         <outlet property="diagnoseNextInfo" destination="z3j-vj-spx" id="VnL-EX-a6o"/>
                         <outlet property="diagnosePassButton" destination="6Xq-9E-QSX" id="32v-1Y-wKz"/>
-                        <outlet property="fileHeaderBlockButton" destination="Z3U-PY-Vac" id="SyO-OG-gb6"/>
-                        <outlet property="fileListBlockButton" destination="AG9-zC-U31" id="YtV-cX-9BP"/>
                         <outlet property="fillIndicator" destination="WWZ-mj-FdS" id="840-uJ-1v9"/>
                         <outlet property="fillInfo" destination="um0-up-0AB" id="d3m-0c-aMR"/>
                         <outlet property="icon" destination="8VF-gr-QdA" id="GND-Ml-Cex"/>
@@ -2475,13 +2489,12 @@ DQ
                         <outlet property="previewScrollView" destination="waV-qq-lh2" id="PHx-qr-Jv1"/>
                         <outlet property="previewTable" destination="zJb-Eo-4GP" id="Xmm-Zp-qK7"/>
                         <outlet property="readInfo" destination="Ee7-gS-a5Q" id="OLf-UJ-nvc"/>
-                        <outlet property="rootBlockButton" destination="LbY-bJ-7Yy" id="1PK-cE-D5O"/>
                         <outlet property="strictButton" destination="mZ2-uW-XMq" id="usk-2F-66b"/>
                         <outlet property="subTitle1" destination="flJ-a0-4w2" id="neu-hl-aDb"/>
                         <outlet property="subTitle2" destination="UUY-HU-dfm" id="Pls-77-Kqb"/>
                         <outlet property="subTitle3" destination="CX0-DG-jTA" id="K2b-IG-ni8"/>
+                        <outlet property="tabView" destination="wgQ-Je-0UR" id="2vZ-f9-9gX"/>
                         <outlet property="usedBlocksInfo" destination="nC3-DT-q2r" id="x9S-9A-P3D"/>
-                        <outlet property="userDirBlockButton" destination="AeP-bd-OAk" id="GnY-4l-Iq7"/>
                         <outlet property="writeInfo" destination="hxX-sx-uPR" id="KCx-Kp-aKf"/>
                     </connections>
                 </viewController>

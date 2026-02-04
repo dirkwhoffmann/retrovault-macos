@@ -279,20 +279,69 @@ FuseVolume::commit()
 // Amiga volume
 //
 
+vector<string>
+FuseAmigaVolume::blockTypes() const noexcept
+{
+    vector<string> result;
+    result.reserve(amiga::FSBlockTypeEnum::maxVal);
+    for (isize i = 0; i < amiga::FSBlockTypeEnum::maxVal; ++i) {
+        result.push_back(string(amiga::FSBlockTypeEnum::help(amiga::FSBlockType(i))));
+    }
+    return result;
+}
+
 string
-FuseAmigaVolume::blockType(isize blockNr) const {
+FuseAmigaVolume::blockType(isize blockNr) const
+{
     return amiga::FSBlockTypeEnum::help(fs->typeOf(BlockNr(blockNr)));
 }
+
+string
+FuseAmigaVolume::typeOf(isize blockNr, isize pos) const
+{
+    auto type = fs->typeOf(BlockNr(blockNr), pos);
+    return amiga::FSItemTypeEnum::key(type);
+}
+
 void
-FuseAmigaVolume::createUsageMap(u8 *buf, isize len) const {
+FuseAmigaVolume::xray(bool strict)
+{
+    fs->doctor.xray(strict);
+}
+
+const std::vector<BlockNr> &
+FuseAmigaVolume::blockErrors() const
+{
+    return fs->doctor.diagnosis.blockErrors;
+}
+
+const std::vector<BlockNr> &
+FuseAmigaVolume::usedButUnallocated() const
+{
+    return fs->doctor.diagnosis.usedButUnallocated;
+}
+    
+const std::vector<BlockNr> &
+FuseAmigaVolume::unusedButAllocated() const
+{
+    return fs->doctor.diagnosis.unusedButAllocated;
+}
+
+void
+FuseAmigaVolume::createUsageMap(u8 *buf, isize len) const
+{
     fs->doctor.createUsageMap(buf, len);
 }
+
 void
-FuseAmigaVolume::createAllocationMap(u8 *buf, isize len) const {
+FuseAmigaVolume::createAllocationMap(u8 *buf, isize len) const
+{
     fs->doctor.createAllocationMap(buf, len);
 }
+
 void
-FuseAmigaVolume::createHealthMap(u8 *buf, isize len) const {
+FuseAmigaVolume::createHealthMap(u8 *buf, isize len) const
+{
     fs->doctor.createHealthMap(buf, len);
 }
 
@@ -301,19 +350,69 @@ FuseAmigaVolume::createHealthMap(u8 *buf, isize len) const {
 // CBM volume
 //
 
+vector<string>
+FuseCBMVolume::blockTypes() const noexcept
+{
+    
+    vector<string> result;
+    result.reserve(cbm::FSBlockTypeEnum::maxVal);
+    for (isize i = 0; i < cbm::FSBlockTypeEnum::maxVal; ++i) {
+        result.push_back(string(cbm::FSBlockTypeEnum::help(cbm::FSBlockType(i))));
+    }
+    return result;
+}
+
 string
-FuseCBMVolume::blockType(isize blockNr) const {
+FuseCBMVolume::blockType(isize blockNr) const
+{
     return cbm::FSBlockTypeEnum::help(fs->typeOf(BlockNr(blockNr)));
 }
+
+string
+FuseCBMVolume::typeOf(isize blockNr, isize pos) const
+{
+    auto type = fs->typeOf(BlockNr(blockNr), pos);
+    return cbm::FSItemTypeEnum::key(type);
+}
+
 void
-FuseCBMVolume::createUsageMap(u8 *buf, isize len) const {
+FuseCBMVolume::xray(bool strict)
+{
+    fs->doctor.xray(strict);
+}
+
+const std::vector<BlockNr> &
+FuseCBMVolume::blockErrors() const
+{
+    return fs->doctor.diagnosis.blockErrors;
+}
+
+const std::vector<BlockNr> &
+FuseCBMVolume::usedButUnallocated() const
+{
+    return fs->doctor.diagnosis.usedButUnallocated;
+}
+    
+const std::vector<BlockNr> &
+FuseCBMVolume::unusedButAllocated() const
+{
+    return fs->doctor.diagnosis.unusedButAllocated;
+}
+
+void
+FuseCBMVolume::createUsageMap(u8 *buf, isize len) const
+{
     fs->doctor.createUsageMap(buf, len);
 }
+
 void
-FuseCBMVolume::createAllocationMap(u8 *buf, isize len) const {
+FuseCBMVolume::createAllocationMap(u8 *buf, isize len) const
+{
     fs->doctor.createAllocationMap(buf, len);
 }
+
 void
-FuseCBMVolume::createHealthMap(u8 *buf, isize len) const {
+FuseCBMVolume::createHealthMap(u8 *buf, isize len) const
+{
     fs->doctor.createHealthMap(buf, len);
 }

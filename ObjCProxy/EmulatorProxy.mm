@@ -128,9 +128,110 @@ using namespace utl;
     return [self volume]->writes();
 }
 
-- (NSString *)blockType:(NSInteger)blockNr
+-(NSInteger)readByte:(NSInteger)offset
+{
+    return [self volume]->getVolume().readByte(offset);
+}
+
+-(NSInteger)readByte:(NSInteger)offset from:(NSInteger)block
+{
+    auto bsize = [self volume]->getVolume().bsize();
+    assert(offset >= 0 && offset < bsize);
+
+    return [self readByte: block * bsize + offset];
+}
+
+-(NSString *)readASCII:(NSInteger)offset length:(NSInteger)len
+{
+    NSMutableString *result = [NSMutableString stringWithCapacity:len];
+
+    for (NSInteger i = 0; i < len; i++) {
+
+        unsigned char byte = (unsigned char)[self readByte:offset + i];
+
+        if (isprint(byte)) {
+            [result appendFormat:@"%c", byte];
+        } else {
+            [result appendString:@"."];
+        }
+    }
+
+    return result;
+}
+
+-(NSString *)readASCII:(NSInteger)offset from:(NSInteger)block length:(NSInteger)len
+{
+    auto bsize = [self volume]->getVolume().bsize();
+    assert(offset >= 0 && offset < bsize);
+
+    return [self readASCII: block * bsize + offset length: len];
+
+}
+
+- (NSArray<NSString *> *)blockTypes
+{
+    const auto vec = [self volume]->blockTypes();
+
+    NSMutableArray<NSString *> *result =
+        [NSMutableArray arrayWithCapacity:vec.size()];
+
+    for (const auto &s : vec) {
+        [result addObject:[NSString stringWithUTF8String:s.c_str()]];
+    }
+
+    return result;
+}
+
+- (NSArray<NSNumber *> *)blockErrors
+{
+    const auto vec = [self volume]->blockErrors();
+
+    NSMutableArray<NSNumber *> *result =
+        [NSMutableArray arrayWithCapacity:vec.size()];
+
+    for (auto b : vec) {
+        [result addObject:@(b)];
+    }
+
+    return result;
+}
+
+- (NSArray<NSNumber *> *)usedButUnallocated
+{
+    const auto vec = [self volume]->usedButUnallocated();
+
+    NSMutableArray<NSNumber *> *result =
+        [NSMutableArray arrayWithCapacity:vec.size()];
+
+    for (auto b : vec) {
+        [result addObject:@(b)];
+    }
+
+    return result;
+}
+
+- (NSArray<NSNumber *> *)unusedButAllocated
+{
+    const auto vec = [self volume]->unusedButAllocated();
+
+    NSMutableArray<NSNumber *> *result =
+        [NSMutableArray arrayWithCapacity:vec.size()];
+
+    for (auto b : vec) {
+        [result addObject:@(b)];
+    }
+
+    return result;
+}
+
+- (NSString *)typeOf:(NSInteger)blockNr
 {
     return @([self volume]->blockType(blockNr).c_str());
+}
+
+- (NSString *)typeOf:(NSInteger)blockNr pos:(NSInteger)pos
+{
+    return @([self volume]->typeOf(blockNr, pos).c_str());
 }
 
 - (void)createUsageMap:(u8 *)buf length:(NSInteger)len

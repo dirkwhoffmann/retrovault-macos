@@ -53,16 +53,26 @@ class VolumeCanvasViewController: CanvasViewController {
     @IBOutlet weak var usedBlocksInfo: NSTextField!
     @IBOutlet weak var cachedBlocksInfo: NSTextField!
 
+    @IBOutlet weak var tabView: NSTabView!
+    
     @IBOutlet weak var blockImageButton: NSButton!
-    @IBOutlet weak var bootBlockButton: NSButton!
-    @IBOutlet weak var rootBlockButton: NSButton!
-    @IBOutlet weak var bmBlockButton: NSButton!
-    @IBOutlet weak var bmExtBlockButton: NSButton!
-    @IBOutlet weak var fileHeaderBlockButton: NSButton!
-    @IBOutlet weak var fileListBlockButton: NSButton!
-    @IBOutlet weak var userDirBlockButton: NSButton!
-    @IBOutlet weak var dataBlockButton: NSButton!
-
+    @IBOutlet weak var blockType1Button: NSButton!
+    @IBOutlet weak var blockType2Button: NSButton!
+    @IBOutlet weak var blockType3Button: NSButton!
+    @IBOutlet weak var blockType4Button: NSButton!
+    @IBOutlet weak var blockType5Button: NSButton!
+    @IBOutlet weak var blockType6Button: NSButton!
+    @IBOutlet weak var blockType7Button: NSButton!
+    @IBOutlet weak var blockType8Button: NSButton!
+    @IBOutlet weak var blockType1Label: NSTextField!
+    @IBOutlet weak var blockType2Label: NSTextField!
+    @IBOutlet weak var blockType3Label: NSTextField!
+    @IBOutlet weak var blockType4Label: NSTextField!
+    @IBOutlet weak var blockType5Label: NSTextField!
+    @IBOutlet weak var blockType6Label: NSTextField!
+    @IBOutlet weak var blockType7Label: NSTextField!
+    @IBOutlet weak var blockType8Label: NSTextField!
+    
     @IBOutlet weak var allocImageButton: NSButton!
     @IBOutlet weak var allocInfo: NSTextField!
     @IBOutlet weak var allocGreenButton: NSButton!
@@ -88,11 +98,21 @@ class VolumeCanvasViewController: CanvasViewController {
     
     var proxy: FuseVolumeProxy? { return app.manager.proxy(device: device)?.volume(volume!) }
     
-    // Generation counter (use inside the refresh logic)
-    var generation: Int?
+    // Currently displayed items (used to trigger refresh actions)
+    var displayedGeneration: Int?
+    var displayedBlock: Int?
+    var displayedTab: Int?
 
+    // Current selection
+    var selectedBlock = 0
+    
+    var selectedCell: Int?
+    var selectedRow: Int? { return selectedCell == nil ? nil : selectedCell! / 16 }
+    var selectedCol: Int? { return selectedCell == nil ? nil : selectedCell! % 16 }
+
+    
     // Selected tab view panel
-    var selectedTab = 0
+    // var selectedTab = 0
     
     // Cached volume info
     var info = VolumeInfo()
@@ -105,13 +125,10 @@ class VolumeCanvasViewController: CanvasViewController {
     var erroneousBlocks: [NSNumber] = []
     var bitMapErrors: [NSNumber] = []
 
-    var selection: Int?
-    var selectedRow: Int? { return selection == nil ? nil : selection! / 16 }
-    var selectedCol: Int? { return selection == nil ? nil : selection! % 16 }
     var strict: Bool { return strictButton.state == .on }
     
     // Displayed block in the table view
-    var blockNr = 0
+    // var blockNr = 0
     
     // Cached volume properties
     var numBlocks: Int { return proxy?.stat.blocks ?? 0 }
@@ -167,18 +184,46 @@ class VolumeCanvasViewController: CanvasViewController {
 
         guard let device = device else { return }
         guard let volume = volume else { return }
-
         info = app.manager.info(device: device, volume: volume)
-        if generation == info.generation { return }
-        generation = info.generation
+
+        // Determine dirty items
+        let contentIsDirty = info.generation != displayedGeneration
+        let usageImageIsDirty = contentIsDirty
+        let allocImageIsDirty = contentIsDirty
+        let tableViewIsDirty = displayedBlock != selectedBlock || contentIsDirty
+        
+        displayedGeneration = info.generation
+        displayedBlock = selectedBlock
+        displayedTab = selectedTab
         
         refreshVolumeInfo()
-        refreshUsageInfo()
-        refreshAllocInfo()
-        refreshHealthInfo()
-        refredshBlockInfo()
-        previewTable.reloadData()
+
+        if usageImageIsDirty {
+            
+            refreshUsageInfo()
+            Task {
+                await usageImageRenderer.render(renderer: { await self.renderUsageImage() })
+                { image in self.blockImageButton.image = image }
+            }
+        }
         
+        if allocImageIsDirty {
+            
+            refreshAllocInfo()
+            Task {
+                await allocImageRenderer.render(renderer: { await self.renderAllocImage() })
+                { image in self.allocImageButton.image = image }
+            }
+        }
+        
+        if tableViewIsDirty {
+            
+            refreshTableViewInfo()
+            previewTable.reloadData()
+        }
+        
+        // refreshHealthInfo()
+        /*
         switch selectedTab {
             
         case 0:
@@ -202,14 +247,9 @@ class VolumeCanvasViewController: CanvasViewController {
         default:
             break
         }
+        */
     }
-    
-    func forceRefresh() {
-    
-        generation = nil
-        refresh();
-    }
-    
+        
     func refreshVolumeInfo() {
             
         guard let proxy = proxy else { return }
@@ -251,14 +291,14 @@ class VolumeCanvasViewController: CanvasViewController {
         let size = NSSize(width: 16, height: 16)
 
         // UI setup
-        bootBlockButton.image       = NSImage(color: palette[2], size: size)
-        rootBlockButton.image       = NSImage(color: palette[3], size: size)
-        bmBlockButton.image         = NSImage(color: palette[4], size: size)
-        bmExtBlockButton.image      = NSImage(color: palette[5], size: size)
-        fileListBlockButton.image   = NSImage(color: palette[8], size: size)
-        fileHeaderBlockButton.image = NSImage(color: palette[7], size: size)
-        userDirBlockButton.image    = NSImage(color: palette[6], size: size)
-        dataBlockButton.image       = NSImage(color: palette[9], size: size)
+        blockType1Button.image = NSImage(color: palette[2], size: size)
+        blockType2Button.image = NSImage(color: palette[3], size: size)
+        blockType3Button.image = NSImage(color: palette[4], size: size)
+        blockType4Button.image = NSImage(color: palette[5], size: size)
+        blockType6Button.image = NSImage(color: palette[8], size: size)
+        blockType5Button.image = NSImage(color: palette[7], size: size)
+        blockType7Button.image = NSImage(color: palette[6], size: size)
+        blockType8Button.image = NSImage(color: palette[9], size: size)
     }
     
     @MainActor
@@ -306,16 +346,7 @@ class VolumeCanvasViewController: CanvasViewController {
             diagnoseImage(size: size)
         }.value
     }
-    
-    /*
-    func refreshHealthImage() {
-            
-        let size = NSSize(width: 16, height: 16)
-        diagnosePassButton.image = NSImage(color: Palette.green, size: size)
-        diagnoseFailButton.image = NSImage(color: Palette.red, size: size)
-    }
-    */
-    
+        
     func refreshHealthInfo() {
 
         let size = NSSize(width: 16, height: 16)
@@ -337,17 +368,16 @@ class VolumeCanvasViewController: CanvasViewController {
         diagnoseNextButton.isHidden = total == 0
     }
    
-    func refredshBlockInfo() {
+    func refreshTableViewInfo() {
                 
         guard let info = proxy?.stat else { return }
         
-        print("blockNr \(blockNr)")
-        blockField.stringValue = String(format: "%d", blockNr)
+        blockField.stringValue = String(format: "%d", selectedBlock)
         blockStepper.minValue = Double(0)
         blockStepper.maxValue = Double(info.blocks - 1)
-        blockStepper.integerValue = blockNr
+        blockStepper.integerValue = selectedBlock
 
-        if selection == nil {
+        if selectedCell == nil {
             updateBlockInfoUnselected()
             updateErrorInfoUnselected()
         } else {
@@ -358,14 +388,14 @@ class VolumeCanvasViewController: CanvasViewController {
     
     func updateBlockInfoUnselected() {
         
-        let type = proxy?.blockType(blockNr)
+        let type = proxy?.type(of: selectedBlock)
         info1.stringValue = type ?? "?"
     }
     
     func updateBlockInfoSelected() {
         
-        // let usage = vol.itemType(blockNr, pos: selection!)
-        info1.stringValue = "???" // usage.description
+        let usage = proxy?.type(of: selectedBlock, pos: selectedCell!)
+        info1.stringValue = usage ?? "?"
     }
 
     func updateErrorInfoUnselected() {
@@ -387,11 +417,11 @@ class VolumeCanvasViewController: CanvasViewController {
     func setBlock(_ newValue: Int) {
         
         print("setBlock \(newValue) \(numBlocks)")
-        if newValue != blockNr {
+        if newValue != selectedBlock {
                         
-            blockNr = max(0, min(newValue, numBlocks - 1))
-            print("blockNr set to \(blockNr)")
-            selection = nil
+            selectedBlock = max(0, min(newValue, numBlocks - 1))
+            print("blockNr set to \(selectedBlock)")
+            selectedCell = nil
             refresh()
         }
     }
@@ -442,7 +472,7 @@ class VolumeCanvasViewController: CanvasViewController {
         while low < high {
 
             let mid = (low + high) / 2
-            if erroneousBlocks[mid].intValue > blockNr {
+            if erroneousBlocks[mid].intValue > selectedBlock {
                 high = mid
             } else {
                 low = mid + 1
@@ -473,7 +503,7 @@ class VolumeCanvasViewController: CanvasViewController {
         // vol.xrayBitmap(strict)
         // bitMapErrors = vol.xrayBitmap
 
-        forceRefresh()
+        refresh()
     }
     
     @IBAction func clickAction(_ sender: NSTableView!) {
@@ -481,11 +511,15 @@ class VolumeCanvasViewController: CanvasViewController {
         if sender.clickedColumn >= 1 && sender.clickedRow >= 0 {
             
             let newValue = 16 * sender.clickedRow + sender.clickedColumn - 1
-            selection = selection != newValue ? newValue : nil
+            selectedCell = selectedCell != newValue ? newValue : nil
             refresh()
         }
     }
 }
+
+//
+// Data source
+//
 
 @MainActor
 extension VolumeCanvasViewController: NSTableViewDataSource {
@@ -497,28 +531,27 @@ extension VolumeCanvasViewController: NSTableViewDataSource {
         
     func numberOfRows(in tableView: NSTableView) -> Int {
         
-        return 512 / 16
+        return (deviceProxy?.bsize ?? 0) / 16
     }
     
     func tableView(_ tableView: NSTableView,
                    objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
-                
+        
         switch tableColumn?.identifier.rawValue {
-
+            
         case "Offset":
             return String(format: "%X", row)
             
         case "Ascii":
-            return "?" // vol.ascii(blockNr, offset: 16 * row, length: 16)
+            return proxy?.readASCII(row * 16, from: selectedBlock, length: 16) ?? ""
             
         default:
-            if let col = columnNr(tableColumn) {
-
-                let byte = col // vol.readByte(blockNr, offset: 16 * row + col)
-                return String(format: "%02X", byte)
-            }
+            
+            guard let col = columnNr(tableColumn),
+                  let byte = proxy?.readByte(16 * row + col, from: selectedBlock) else { return "--" }
+            
+            return String(format: "%02X", byte)
         }
-        fatalError()
     }
 }
 
@@ -555,11 +588,20 @@ extension VolumeCanvasViewController: NSTableViewDelegate {
 @MainActor
 extension VolumeCanvasViewController: NSTabViewDelegate {
     
+    var selectedTab: Int? {
+            
+        guard let id = tabView.selectedTabViewItem?.identifier as? String else { return nil }
+        return Int(id)
+    }
+    
     func tabView(_ tabView: NSTabView, didSelect tabViewItem: NSTabViewItem?) {
         
+        /*
         let id = tabViewItem?.identifier as? String
         selectedTab = Int(id ?? "") ?? 0
         forceRefresh()
+        */
+        refresh()
     }
 }
 

@@ -72,16 +72,33 @@ inline const char *c_str(const std::string &s)
 
 - (void)commit:(ExceptionWrapper *)ex;
 
+// Properties
 @property (readonly) FSPosixStat stat;
 @property (readonly) NSInteger bytesRead;
 @property (readonly) NSInteger bytesWritten;
 
-- (NSString *)blockType:(NSInteger)blockNr;
+// Data
+-(NSInteger)readByte:(NSInteger)offset;
+-(NSInteger)readByte:(NSInteger)offset from:(NSInteger)block;
 
+-(NSString *)readASCII:(NSInteger)offset length:(NSInteger)len;
+-(NSString *)readASCII:(NSInteger)offset from:(NSInteger)block length:(NSInteger)len;
+
+// Analysis
+@property (readonly) NSArray<NSString *> *blockTypes;
+- (NSString *)typeOf:(NSInteger)blockNr;
+- (NSString *)typeOf:(NSInteger)blockNr pos:(NSInteger)pos;
+
+// Doctor
+@property (readonly) NSArray<NSNumber *> *blockErrors;
+@property (readonly) NSArray<NSNumber *> *usedButUnallocated;
+@property (readonly) NSArray<NSNumber *> *unusedButAllocated;
+- (void)rectifyAllocationMap;
+
+// Images
 - (void)createUsageMap:(u8 *)buf length:(NSInteger)len;
 - (void)createAllocationMap:(u8 *)buf length:(NSInteger)len;
 - (void)createHealthMap:(u8 *)buf length:(NSInteger)len;
-- (void)rectifyAllocationMap;
 
 @end
 
@@ -99,12 +116,12 @@ inline const char *c_str(const std::string &s)
 
 -(FuseVolumeProxy *) volume:(NSInteger)nr;
 
+// Properties
 - (NSArray<NSString *> *)describe;
 
 @property (readonly, strong) NSURL *url;
 @property (readonly) ImageInfo info;
 
-// Device properties
 @property (readonly) NSInteger numCyls;
 @property (readonly) NSInteger numHeads;
 -(NSInteger)numSectors:(NSInteger)t;
@@ -115,6 +132,7 @@ inline const char *c_str(const std::string &s)
 @property (readonly) NSInteger numBytes;
 @property (readonly) NSInteger numVolumes;
 
+// Translation
 -(NSInteger)b2t:(NSInteger)b;
 -(NSInteger)b2c:(NSInteger)b;
 -(NSInteger)b2h:(NSInteger)b;
@@ -122,12 +140,14 @@ inline const char *c_str(const std::string &s)
 -(NSInteger)ts2b:(NSInteger)t s:(NSInteger)s;
 -(NSInteger)chs2b:(NSInteger)c h:(NSInteger)h s:(NSInteger)s;
 
+// Data
 -(NSInteger)readByte:(NSInteger)offset;
 -(NSInteger)readByte:(NSInteger)offset from:(NSInteger)block;
 
 -(NSString *)readASCII:(NSInteger)offset length:(NSInteger)len;
 -(NSString *)readASCII:(NSInteger)offset from:(NSInteger)block length:(NSInteger)len;
 
+// Actions
 - (void)save:(ExceptionWrapper *)ex;
 
 - (void)mount:(NSURL *)url exception:(ExceptionWrapper *)ex;

@@ -261,7 +261,7 @@ class DeviceCanvasViewController: CanvasViewController {
 }
 
 //
-// Extensions
+// Data source
 //
 
 @MainActor

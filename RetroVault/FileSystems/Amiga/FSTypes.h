@@ -464,8 +464,6 @@ typedef struct
     // Bitmap errors
     std::vector<BlockNr> usedButUnallocated;
     std::vector<BlockNr> unusedButAllocated;
-
-    std::unordered_map<BlockNr,isize> bitmapErrors; // DEPRECATED
 }
 FSDiagnosis;
 
