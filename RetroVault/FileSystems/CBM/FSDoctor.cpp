@@ -219,7 +219,7 @@ FSDoctor::xray(BlockNr ref, bool strict) const
     for (isize i = 0; i < node.bsize(); ++i) {
 
         std::optional<u8> expected;
-        auto error = xray8(ref, i, strict, dirBlocks, expected);
+        auto error = xray8(ref, i, strict, expected, dirBlocks);
 
         if ( error != FSBlockError::OK) {
 
@@ -232,8 +232,15 @@ FSDoctor::xray(BlockNr ref, bool strict) const
 }
 
 FSBlockError
+FSDoctor::xray8(BlockNr ref, isize pos, bool strict, optional<u8> &expected) const
+{
+    auto dirBlocks = fs.collectDirBlocks();
+    return xray8(ref, pos, strict, expected, dirBlocks);
+}
+
+FSBlockError
 FSDoctor::xray8(BlockNr ref, isize pos, bool strict,
-                const std::vector<BlockNr> &dirBlocks, optional<u8> &expected) const
+                optional<u8> &expected, const std::vector<BlockNr> &dirBlocks) const
 {
     assert(pos >= 0 && pos < 256);
 
@@ -340,7 +347,7 @@ FSDoctor::xray(BlockNr ref, bool strict, std::ostream &os) const
     for (isize i = 0; i < traits.bsize; ++i) {
 
         std::optional<u8> expected;
-        const auto fault = xray8(ref, i, strict, dirBlocks, expected);
+        const auto fault = xray8(ref, i, strict, expected, dirBlocks);
 
         if (fault == FSBlockError::OK) continue;
 
@@ -384,7 +391,7 @@ FSDoctor::rectify(BlockNr ref, bool strict)
     for (isize i = 0; i < traits.bsize; ++i) {
 
         optional<u8> expected;
-        auto fault = xray8(ref, i, strict, dirBlocks, expected);
+        auto fault = xray8(ref, i, strict, expected, dirBlocks);
 
         if (fault != FSBlockError::OK) {
 

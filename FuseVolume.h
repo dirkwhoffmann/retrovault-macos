@@ -76,6 +76,7 @@ public:
 
     // FS doctor
     virtual void xray(bool strict) = 0;
+    virtual const char *xray(isize blockNr, isize pos, bool strict, optional<u8> &expected) const = 0;
     virtual const std::vector<BlockNr> &blockErrors() const = 0;
     virtual const std::vector<BlockNr> &usedButUnallocated() const = 0;
     virtual const std::vector<BlockNr> &unusedButAllocated() const = 0;
@@ -139,6 +140,7 @@ public:
     string typeOf(isize blockNr, isize pos) const override;
     
     void xray(bool strict) override;
+    const char *xray(isize blockNr, isize pos, bool strict, optional<u8> &expected) const override;
     const std::vector<BlockNr> &blockErrors() const override;
     const std::vector<BlockNr> &usedButUnallocated() const override;
     const std::vector<BlockNr> &unusedButAllocated() const override;
@@ -162,6 +164,7 @@ public:
     string typeOf(isize blockNr, isize pos) const override;
 
     void xray(bool strict) override;
+    const char *xray(isize blockNr, isize pos, bool strict, optional<u8> &expected) const override;
     const std::vector<BlockNr> &blockErrors() const override;
     const std::vector<BlockNr> &usedButUnallocated() const override;
     const std::vector<BlockNr> &unusedButAllocated() const override;

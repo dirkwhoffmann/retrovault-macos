@@ -560,19 +560,19 @@ extension VolumeCanvasViewController: NSTableViewDelegate {
     
     func tableView(_ tableView: NSTableView, willDisplayCell cell: Any, for tableColumn: NSTableColumn?, row: Int) {
 
-        // let exp = UInt8(0)
+        var exp = UInt8(0)
         let cell = cell as? NSTextFieldCell
 
         if let col = columnNr(tableColumn) {
             
-            // let offset = 16 * row + col
-            let error = Int.random(in: 0..<6) // = vol.check(blockNr, pos: offset, expected: &exp, strict: strict)
+            let offset = 16 * row + col
+            let error = proxy?.check(selectedBlock, pos: offset, expected: &exp, strict: strict)
             
             if row == selectedRow && col == selectedCol {
                 cell?.textColor = .white
-                cell?.backgroundColor = error == 0 ? .selectedContentBackgroundColor : .systemRed
+                cell?.backgroundColor = error == "" ? .selectedContentBackgroundColor : .systemRed
             } else {
-                cell?.textColor = error == 0 ? .textColor : .systemRed
+                cell?.textColor = error == "" ? .textColor : .systemRed
                 cell?.backgroundColor = NSColor.alternatingContentBackgroundColors[row % 2]
             }
         } else {

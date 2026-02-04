@@ -309,6 +309,13 @@ FuseAmigaVolume::xray(bool strict)
     fs->doctor.xray(strict);
 }
 
+const char *
+FuseAmigaVolume::xray(isize blockNr, isize pos, bool strict, optional<u8> &expected) const
+{
+    auto error = fs->doctor.xray8(BlockNr(blockNr), pos, strict, expected);
+    return error == amiga::FSBlockError::OK ? "" : amiga::FSBlockErrorEnum::key(error);
+}
+
 const std::vector<BlockNr> &
 FuseAmigaVolume::blockErrors() const
 {
@@ -379,6 +386,13 @@ void
 FuseCBMVolume::xray(bool strict)
 {
     fs->doctor.xray(strict);
+}
+
+const char *
+FuseCBMVolume::xray(isize blockNr, isize pos, bool strict, optional<u8> &expected) const
+{
+    auto error = fs->doctor.xray8(BlockNr(blockNr), pos, strict, expected);
+    return error == cbm::FSBlockError::OK ? "" : cbm::FSBlockErrorEnum::key(error);
 }
 
 const std::vector<BlockNr> &

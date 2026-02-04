@@ -224,6 +224,15 @@ using namespace utl;
     return result;
 }
 
+- (NSString *)check:(NSInteger)nr pos:(NSInteger)pos expected:(unsigned char *)exp strict:(BOOL)strict
+{
+    std::optional<u8> expected;
+    auto result = [self volume]->xray(nr, pos, strict, expected);
+    if (expected) *exp = *expected;
+
+    return @(result);
+}
+
 - (NSString *)typeOf:(NSInteger)blockNr
 {
     return @([self volume]->blockType(blockNr).c_str());
