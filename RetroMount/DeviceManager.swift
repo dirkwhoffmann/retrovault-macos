@@ -21,7 +21,8 @@ class DeviceInfo {
     var numHeads = 0
     var minSectors = 0
     var maxSectors = 0
-
+    var numSectors: [Int] = []
+    
     // Volumes
     var numPartitions = 0
 
@@ -214,6 +215,10 @@ class DeviceManager {
         result.numPartitions = dev.numVolumes
         result.info = dev.info
 
+        for i in 0..<result.numTracks {
+            result.numSectors.append(dev.numSectors(i))
+        }
+        
         return result
     }
 
