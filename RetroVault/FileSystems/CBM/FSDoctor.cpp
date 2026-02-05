@@ -162,15 +162,22 @@ FSDoctor::xrayBitmap(bool strict)
     // Read allocation map
     auto bitmap = allocator.readBitmap();
 
+    // Start from scratch
+    diagnosis.unusedButAllocated.clear();
+    diagnosis.usedButUnallocated.clear();
+
     // Check all blocks
     for (isize i = 0; i < fs.blocks(); ++i) {
 
         bool allocated = !bitmap[i];
         bool contained = used.contains(BlockNr(i));
 
-        if (allocated && !contained) {
+        if (strict && allocated && !contained) {
+            
             diagnosis.unusedButAllocated.push_back(BlockNr(i));
+            
         } else if (!allocated && contained) {
+            
             diagnosis.usedButUnallocated.push_back(BlockNr(i));
         }
     }

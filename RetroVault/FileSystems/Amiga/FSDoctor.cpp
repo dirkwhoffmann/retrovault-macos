@@ -315,13 +315,17 @@ FSDoctor::xrayBitmap(bool strict)
     used.insert(fs.getBmBlocks().begin(), fs.getBmBlocks().end());
     used.insert(fs.getBmExtBlocks().begin(), fs.getBmExtBlocks().end());
 
+    // Start from scratch
+    diagnosis.unusedButAllocated.clear();
+    diagnosis.usedButUnallocated.clear();
+
     // Check all blocks (ignoring the first two boot blocks)
     for (isize i = 2, capacity = fs.blocks(); i < capacity; i++) {
 
         bool allocated = allocator.isAllocated(BlockNr(i));
         bool contained = used.contains(BlockNr(i));
 
-        if (allocated && !contained) {
+        if (strict && allocated && !contained) {
 
             diagnosis.unusedButAllocated.push_back(BlockNr(i));
 
@@ -773,7 +777,7 @@ FSDoctor::createAllocationMap(u8 *buffer, isize len) const
     // Mark all used blocks
     for (isize i = 0; i < max; i++) {
 
-        if (auto type = allocator.isAllocated(i)) { // } typeOf(BlockNr(i)); type != FSBlockType::EMPTY) {
+        if (auto type = fs.typeOf(BlockNr(i)); type != FSBlockType::EMPTY) {
             buffer[i * (len - 1) / (max - 1)] = 1;
         }
     }

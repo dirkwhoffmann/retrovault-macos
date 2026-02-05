@@ -81,14 +81,6 @@ class DeviceCanvasViewController: CanvasViewController {
         bsizeInfo.stringValue = String(format: "%d Bytes", info.bsize)
         capacityInfo.stringValue = info.capacityString
         
-        /*
-        cylinderStepper.maxValue = Double(info.numCyls - 1)
-        headStepper.maxValue = Double(info.numHeads - 1)
-        trackStepper.maxValue = Double(info.numTracks - 1)
-        sectorStepper.maxValue = .greatestFiniteMagnitude
-        blockStepper.maxValue = Double(info.numBlocks - 1)
-        */
-        
         refresh()
     }
 
@@ -108,7 +100,6 @@ class DeviceCanvasViewController: CanvasViewController {
         trackStepper.maxValue = Double(info.numTracks - 1)
         sectorStepper.maxValue = Double(upperSector(track: currentTrack))
         blockStepper.maxValue = Double(info.numBlocks - 1)
-        
         
         cylinderField.stringValue      = String(format: "%d", currentCyl)
         cylinderStepper.integerValue   = currentCyl

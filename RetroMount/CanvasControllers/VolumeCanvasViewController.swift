@@ -108,11 +108,11 @@ class VolumeCanvasViewController: CanvasViewController {
     // Currently displayed items (used to trigger refresh actions)
     var displayedGeneration: Int?
     var displayedBlock: Int?
+    var displayedCell: Int?
     var displayedTab: Int?
 
     // Current selection
     var selectedBlock = 0
-    
     var selectedCell: Int?
     var selectedRow: Int? { return selectedCell == nil ? nil : selectedCell! / 16 }
     var selectedCol: Int? { return selectedCell == nil ? nil : selectedCell! % 16 }
@@ -135,55 +135,6 @@ class VolumeCanvasViewController: CanvasViewController {
     
     override func viewDidLoad() {
         
-        // Register to receive mouse click events
-        previewTable.action = #selector(clickAction(_:))
-                
-        let click = NSClickGestureRecognizer(target: self, action: #selector(buttonClicked(_:)))
-        blockImageButton.addGestureRecognizer(click)
-
-        activate()
-    }
-    
-    private var timer: Timer?
-
-    override func viewWillAppear() {
-
-        super.viewWillAppear()
-        startPeriodicTask()
-    }
-
-    override func viewWillDisappear() {
-
-        super.viewWillDisappear()
-        stopPeriodicTask()
-    }
-    
-    private func startPeriodicTask() {
-
-        guard timer == nil else { return }
-
-        timer = Timer.scheduledTimer(
-            withTimeInterval: 0.25,
-            repeats: true
-        ) { [weak self] _ in
-
-            guard let self else { return }
-            Task { @MainActor in self.refresh() }
-        }
-    }
-
-    private func stopPeriodicTask() {
-
-        timer?.invalidate()
-        timer = nil
-    }
-
-    //
-    // Updating
-    //
-
-    override func activate() {
-        
         func updateBlockButton(_ button: NSButton, _ label: NSTextField,
                                _ col: NSColor = .white, _ txt: String = "") {
             
@@ -191,6 +142,12 @@ class VolumeCanvasViewController: CanvasViewController {
             button.isHidden = txt.isEmpty
             label.stringValue = txt
         }
+
+        // Register to receive mouse click events
+        previewTable.action = #selector(clickAction(_:))
+                
+        let click = NSClickGestureRecognizer(target: self, action: #selector(buttonClicked(_:)))
+        blockImageButton.addGestureRecognizer(click)
 
         let description = proxy!.describe()
         info = app.manager.info(device: device!, volume: volume!)
@@ -257,11 +214,56 @@ class VolumeCanvasViewController: CanvasViewController {
         allocGreenButton.image = NSImage(color: Palette.green, size: size)
         allocYellowButton.image = NSImage(color: Palette.yellow, size: size)
         allocRedButton.image = NSImage(color: Palette.red, size: size)
-
+        
         displayedBlock = nil
         displayedTab = nil
         displayedGeneration = nil
+        
+        refreshAllocInfo()
+        refreshHealthInfo()
         refresh()
+    }
+    
+    private var timer: Timer?
+
+    override func viewWillAppear() {
+
+        super.viewWillAppear()
+        startPeriodicTask()
+    }
+
+    override func viewWillDisappear() {
+
+        super.viewWillDisappear()
+        stopPeriodicTask()
+    }
+    
+    private func startPeriodicTask() {
+
+        guard timer == nil else { return }
+
+        timer = Timer.scheduledTimer(
+            withTimeInterval: 0.25,
+            repeats: true
+        ) { [weak self] _ in
+
+            guard let self else { return }
+            Task { @MainActor in self.refresh() }
+        }
+    }
+
+    private func stopPeriodicTask() {
+
+        timer?.invalidate()
+        timer = nil
+    }
+
+    //
+    // Updating
+    //
+
+    override func activate() {
+        
     }
     
     override func refresh() {
@@ -272,14 +274,16 @@ class VolumeCanvasViewController: CanvasViewController {
 
         // Determine dirty items
         let contentIsDirty = info.generation != displayedGeneration
-        let tableViewIsDirty = displayedBlock != selectedBlock || contentIsDirty
+        let tableViewIsDirty =
+        displayedCell != selectedCell ||
+        displayedBlock != selectedBlock ||
+        contentIsDirty
         
         displayedGeneration = info.generation
         displayedBlock = selectedBlock
         displayedTab = selectedTab
-        
+        displayedCell = selectedCell
         refreshVolumeInfo()
-        refreshHealthInfo()
         
         if info.generation != displayedGeneration || blockImageButton.image == nil {
             
@@ -546,9 +550,9 @@ class VolumeCanvasViewController: CanvasViewController {
             await Task.detached(priority: .userInitiated) {
 
                 // Artificial delay for testing
-                try? await Task.sleep(nanoseconds: 3_000_000_000)
+                try? await Task.sleep(nanoseconds: 500_000_000)
 
-                await self.proxy?.xrayBitmap(true)
+                await self.proxy?.xrayBitmap(self.allocStrictButton.state == .on)
             }.value
 
             // Back to MainActor for UI updates
@@ -596,7 +600,7 @@ class VolumeCanvasViewController: CanvasViewController {
             await Task.detached(priority: .userInitiated) {
 
                 // Artificial delay for testing
-                try? await Task.sleep(nanoseconds: 3_000_000_000)
+                try? await Task.sleep(nanoseconds: 500_000_000)
 
                 await self.proxy?.xray(self.diagnoseStrictButton.state == .on)
             }.value
@@ -612,15 +616,14 @@ class VolumeCanvasViewController: CanvasViewController {
                 diagnoseScanButton.isHidden = false
             }
             
-            usedButUnallocated = proxy?.usedButUnallocated
-            unusedButAllocated = proxy?.unusedButAllocated
+            erroneousBlocks = proxy?.blockErrors
             refreshHealthInfo()
         }
     }
 
     @IBAction func strictBlocksAction(_ sender: NSButton!) {
 
-        scanBlocksAction(sender)
+        // scanBlocksAction(sender)
     }
 
     @IBAction func rectifyBlocksAction(_ sender: NSButton!) {

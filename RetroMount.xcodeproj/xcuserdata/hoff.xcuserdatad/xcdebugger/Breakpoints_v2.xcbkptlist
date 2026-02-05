@@ -55,16 +55,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "D9C49C92-B883-45CA-BA80-65B595CD4D44"
+            uuid = "C12C1304-21FE-4F46-BFEF-E1A4D336AC05"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "RetroMount/CanvasControllers/VolumeCanvasViewController.swift"
+            filePath = "RetroVault/FileSystems/Amiga/FSDoctor.cpp"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "617"
-            endingLineNumber = "617"
-            landmarkName = "scanBlocksAction(_:)"
+            startingLineNumber = "702"
+            endingLineNumber = "702"
+            landmarkName = "FSDoctor::rectifyBitmap(strict)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
