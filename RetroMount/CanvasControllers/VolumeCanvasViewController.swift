@@ -123,6 +123,9 @@ class VolumeCanvasViewController: CanvasViewController {
     // Renderer for the block usage image
     let usageImageRenderer = ImageRenderer()
 
+    // Color palette
+    var palette: [NSColor] = []
+    
     // Result of the consistency checker
     var erroneousBlocks: [NSNumber]?
     var usedButUnallocated: [NSNumber]?
@@ -181,6 +184,14 @@ class VolumeCanvasViewController: CanvasViewController {
 
     override func activate() {
         
+        func updateBlockButton(_ button: NSButton, _ label: NSTextField,
+                               _ col: NSColor = .white, _ txt: String = "") {
+            
+            button.image = NSImage(color: col, size: NSSize(width: 16, height: 16))
+            button.isHidden = txt.isEmpty
+            label.stringValue = txt
+        }
+
         let description = proxy!.describe()
         info = app.manager.info(device: device!, volume: volume!)
         
@@ -189,32 +200,57 @@ class VolumeCanvasViewController: CanvasViewController {
         subTitle1.stringValue = description?[safe: 0] ?? ""
         subTitle2.stringValue = description?[safe: 1] ?? ""
         subTitle3.stringValue = description?[safe: 2] ?? ""
+                        
+        switch info.deviceInfo.info.format {
+
+        case .ADF, .ADZ, .EADF, .DMS:
+
+            palette = [
                 
-        /*
-        let indicatorColor = NSColor.systemGray
-        fillIndicator.fillColor = indicatorColor
-        fillIndicator.warningFillColor = indicatorColor
-        fillIndicator.criticalFillColor = indicatorColor
-        */
-        
-        if let types = proxy?.blockTypes {
-            
-            let count = types.count
-            
-            func updateBlockButton(_ nr: Int, label: NSTextField, button: NSButton) {
+                Palette.white,
+                Palette.gray,
+                Palette.orange,
+                Palette.red,
+                Palette.purple,
+                Palette.pink,
+                Palette.yellow,
+                Palette.blue,
+                Palette.dgreen,
+                Palette.green,
+                Palette.green
+            ]
+
+            updateBlockButton(blockType1Button, blockType1Label, palette[2], "Boot Block")
+            updateBlockButton(blockType2Button, blockType2Label, palette[3], "Root Block")
+            updateBlockButton(blockType3Button, blockType3Label, palette[4], "Bitmap Block")
+            updateBlockButton(blockType4Button, blockType4Label, palette[5], "Bitmap Extension Block")
+            updateBlockButton(blockType5Button, blockType5Label, palette[6], "User Directory Block")
+            updateBlockButton(blockType6Button, blockType6Label, palette[7], "File Header Block")
+            updateBlockButton(blockType7Button, blockType7Label, palette[8], "File List Block")
+            updateBlockButton(blockType8Button, blockType8Label, palette[9], "Data Block")
+
+        case .D64:
+
+            palette = [
                 
-                label.stringValue = count <= nr ? "" : types[nr]
-                button.isHidden = count <= nr
-            }
+                Palette.white,
+                Palette.gray,
+                Palette.red,
+                Palette.yellow,
+                Palette.green
+            ]
             
-            updateBlockButton(0, label: blockType1Label, button: blockType1Button)
-            updateBlockButton(1, label: blockType2Label, button: blockType2Button)
-            updateBlockButton(2, label: blockType3Label, button: blockType3Button)
-            updateBlockButton(3, label: blockType4Label, button: blockType4Button)
-            updateBlockButton(4, label: blockType5Label, button: blockType5Button)
-            updateBlockButton(5, label: blockType6Label, button: blockType6Button)
-            updateBlockButton(6, label: blockType7Label, button: blockType7Button)
-            updateBlockButton(7, label: blockType8Label, button: blockType8Button)
+            updateBlockButton(blockType1Button, blockType1Label, palette[2], "BAM")
+            updateBlockButton(blockType2Button, blockType2Label, palette[3], "Directory Block")
+            updateBlockButton(blockType3Button, blockType3Label, palette[4], "Data Block")
+            updateBlockButton(blockType4Button, blockType4Label)
+            updateBlockButton(blockType5Button, blockType5Label)
+            updateBlockButton(blockType6Button, blockType6Label)
+            updateBlockButton(blockType7Button, blockType7Label)
+            updateBlockButton(blockType8Button, blockType8Label)
+
+        default:
+            break
         }
 
         let size = NSSize(width: 16, height: 16)
@@ -298,6 +334,7 @@ class VolumeCanvasViewController: CanvasViewController {
 
     func refreshUsageInfo() {
 
+        /*
         let palette = VolumeCanvasViewController.palette
         let size = NSSize(width: 16, height: 16)
 
@@ -310,6 +347,7 @@ class VolumeCanvasViewController: CanvasViewController {
         blockType5Button.image = NSImage(color: palette[7], size: size)
         blockType7Button.image = NSImage(color: palette[6], size: size)
         blockType8Button.image = NSImage(color: palette[9], size: size)
+        */
     }
     
     @MainActor
@@ -714,21 +752,6 @@ extension VolumeCanvasViewController {
         static let pink = NSColor(r: 0xff, g: 0x66, b: 0xff, a: 0xff)
     }
     
-    static let palette: [NSColor] = [
-        
-        Palette.white,
-        Palette.gray,
-        Palette.orange,
-        Palette.red,
-        Palette.purple,
-        Palette.pink,
-        Palette.yellow,
-        Palette.blue,
-        Palette.dgreen,
-        Palette.green,
-        Palette.green
-    ]
-    
     func layoutImage(size: NSSize) -> NSImage? {
         
         var data = Data(count: Int(size.width))
@@ -741,7 +764,7 @@ extension VolumeCanvasViewController {
                 
         return createImage(data: data, size: size, colorize: { (x: UInt8) -> NSColor in
             
-            return VolumeCanvasViewController.palette[Int(x)]
+            return palette[Int(x)]
         })
     }
 
