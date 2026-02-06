@@ -118,12 +118,12 @@ using namespace utl;
     return [self volume]->stat();
 }
 
-- (NSInteger)bytesRead:(NSInteger)volume
+- (NSInteger)bytesRead
 {
     return [self volume]->reads();
 }
 
-- (NSInteger)bytesWritten:(NSInteger)volume
+- (NSInteger)bytesWritten
 {
     return [self volume]->writes();
 }
