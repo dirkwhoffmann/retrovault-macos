@@ -56,6 +56,7 @@ class VolumeCanvasViewController: CanvasViewController {
     @IBOutlet weak var tabView: NSTabView!
 
     @IBOutlet weak var blockImageButton: NSButton!
+    @IBOutlet weak var blockSlider: NSSlider!
     @IBOutlet weak var blockType1Button: NSButton!
     @IBOutlet weak var blockType2Button: NSButton!
     @IBOutlet weak var blockType3Button: NSButton!
@@ -74,6 +75,7 @@ class VolumeCanvasViewController: CanvasViewController {
     @IBOutlet weak var blockType8Label: NSTextField!
     
     @IBOutlet weak var allocImageButton: NSButton!
+    @IBOutlet weak var allocSlider: NSSlider!
     @IBOutlet weak var allocInfo: NSTextField!
     @IBOutlet weak var allocGreenButton: NSButton!
     @IBOutlet weak var allocYellowButton: NSButton!
@@ -85,6 +87,7 @@ class VolumeCanvasViewController: CanvasViewController {
     @IBOutlet weak var allocProgress: NSProgressIndicator!
 
     @IBOutlet weak var diagnoseImageButton: NSButton!
+    @IBOutlet weak var diagnoseSlider: NSSlider!
     @IBOutlet weak var diagnoseInfo: NSTextField!
     @IBOutlet weak var diagnosePassButton: NSButton!
     @IBOutlet weak var diagnoseFailButton: NSButton!
@@ -157,7 +160,16 @@ class VolumeCanvasViewController: CanvasViewController {
         subTitle1.stringValue = description?[safe: 0] ?? ""
         subTitle2.stringValue = description?[safe: 1] ?? ""
         subTitle3.stringValue = description?[safe: 2] ?? ""
-                        
+                     
+        blockStepper.minValue = Double(0)
+        blockStepper.maxValue = Double(info.blocks - 1)
+        blockSlider.minValue = 0
+        blockSlider.maxValue = Double(info.blocks - 1)
+        allocSlider.minValue = 0
+        allocSlider.maxValue = Double(info.blocks - 1)
+        diagnoseSlider.minValue = 0
+        diagnoseSlider.maxValue = Double(info.blocks - 1)
+        
         switch info.deviceInfo.info.format {
 
         case .ADF, .ADZ, .EADF, .DMS:
@@ -399,9 +411,10 @@ class VolumeCanvasViewController: CanvasViewController {
         guard let info = proxy?.stat else { return }
         
         blockField.stringValue = String(format: "%d", selectedBlock)
-        blockStepper.minValue = Double(0)
-        blockStepper.maxValue = Double(info.blocks - 1)
         blockStepper.integerValue = selectedBlock
+        blockSlider.integerValue = selectedBlock
+        allocSlider.integerValue = selectedBlock
+        diagnoseSlider.integerValue = selectedBlock
 
         if selectedCell == nil {
             updateBlockInfoUnselected()
@@ -468,6 +481,11 @@ class VolumeCanvasViewController: CanvasViewController {
         print("Clicked \(x)")
         
         setBlock(Int(x * CGFloat(numBlocks)))
+    }
+    
+    @IBAction func sliderAction(_ sender: NSSlider!) {
+
+        setBlock(sender.integerValue)
     }
     
     @IBAction func blockTypeAction(_ sender: NSButton!) {

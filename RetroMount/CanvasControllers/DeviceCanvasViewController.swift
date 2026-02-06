@@ -111,7 +111,7 @@ class DeviceCanvasViewController: CanvasViewController {
         sectorStepper.integerValue     = currentSector
         blockField.stringValue         = String(format: "%d", currentBlock)
         blockStepper.integerValue      = currentBlock
-
+        
         blockView.reloadData()
     }
 
