@@ -52,6 +52,7 @@ class VolumeCanvasViewController: CanvasViewController {
     @IBOutlet weak var numBlocksInfo: NSTextField!
     @IBOutlet weak var usedBlocksInfo: NSTextField!
     @IBOutlet weak var cachedBlocksInfo: NSTextField!
+    @IBOutlet weak var dirtyBlocksInfo: NSTextField!
 
     @IBOutlet weak var tabView: NSTabView!
 
@@ -333,7 +334,8 @@ class VolumeCanvasViewController: CanvasViewController {
         fillIndicator.doubleValue = (info.fill * 100.0).rounded()
         numBlocksInfo.stringValue = "\(info.blocks) Blocks"
         usedBlocksInfo.stringValue = "\(info.usedBlocks) Blocks"
-        cachedBlocksInfo.stringValue = "\(info.dirtyBlocks) Blocks"
+        cachedBlocksInfo.stringValue = "\(info.cachedBlocks) Blocks"
+        dirtyBlocksInfo.stringValue = "\(info.dirtyBlocks) Blocks"
     }
 
     @MainActor

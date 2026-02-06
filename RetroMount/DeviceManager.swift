@@ -129,6 +129,7 @@ class VolumeInfo {
     var freeBytes = 0
     var usedBlocks = 0
     var usedBytes = 0
+    var cachedBlocks = 0
     var dirtyBlocks = 0
     var fill = 0.0
 
@@ -245,6 +246,7 @@ class DeviceManager {
         result.freeBytes = stat.freeBlocks * stat.bsize
         result.usedBlocks = stat.usedBlocks
         result.usedBytes = stat.usedBlocks * stat.bsize
+        result.cachedBlocks = stat.cachedBlocks
         result.dirtyBlocks = stat.dirtyBlocks
         result.fill = Double(stat.usedBlocks) / Double(stat.blocks)
 

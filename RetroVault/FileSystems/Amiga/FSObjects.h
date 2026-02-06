@@ -147,6 +147,7 @@ struct FSStat {
     // Usage information
     isize freeBlocks;
     isize usedBlocks;
+    isize cachedBlocks;
     isize dirtyBlocks;
     double fill;
     

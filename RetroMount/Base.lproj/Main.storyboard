@@ -2511,6 +2511,24 @@ DQ
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                 <levelIndicatorCell key="cell" controlSize="small" alignment="left" doubleValue="2" maxValue="100" warningValue="80" criticalValue="90" levelIndicatorStyle="continuousCapacity" id="xSa-5k-FNb"/>
                             </levelIndicator>
+                            <textField focusRingType="none" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jHX-3P-A0n">
+                                <rect key="frame" x="346" y="372" width="80" height="14"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" controlSize="small" sendsActionOnEndEditing="YES" alignment="right" title="Dirty:" id="2wS-YH-nRX">
+                                    <font key="font" metaFont="smallSystem"/>
+                                    <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField focusRingType="none" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4Mi-Vu-fIK">
+                                <rect key="frame" x="431" y="373" width="88" height="14"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <textFieldCell key="cell" controlSize="small" sendsActionOnEndEditing="YES" alignment="left" title="Lorem" id="Bjx-d3-pin">
+                                    <font key="font" metaFont="smallSystem"/>
+                                    <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="ad6-cN-UvM"/>
                         <viewLayoutGuide key="layoutMargins" id="K8H-lV-S9f"/>
@@ -2560,6 +2578,7 @@ DQ
                         <outlet property="diagnoseScanButton" destination="cMO-Cs-op4" id="G5E-ZB-cQX"/>
                         <outlet property="diagnoseSlider" destination="1zx-ri-6gK" id="CgY-Rl-LBn"/>
                         <outlet property="diagnoseStrictButton" destination="mZ2-uW-XMq" id="usk-2F-66b"/>
+                        <outlet property="dirtyBlocksInfo" destination="4Mi-Vu-fIK" id="fOW-pa-PVS"/>
                         <outlet property="fillIndicator" destination="WWZ-mj-FdS" id="840-uJ-1v9"/>
                         <outlet property="fillInfo" destination="um0-up-0AB" id="d3m-0c-aMR"/>
                         <outlet property="icon" destination="8VF-gr-QdA" id="GND-Ml-Cex"/>

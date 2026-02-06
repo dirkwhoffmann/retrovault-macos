@@ -49,6 +49,7 @@ PosixAdapter::stat() const noexcept
 
         .freeBlocks     = stat.freeBlocks,
         .usedBlocks     = stat.usedBlocks,
+        .cachedBlocks   = stat.cachedBlocks,
         .dirtyBlocks    = stat.dirtyBlocks,
         
         .btime          = time_t{0},

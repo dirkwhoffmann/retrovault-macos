@@ -266,8 +266,9 @@ struct FSStat {
 
     isize freeBlocks;   // Available blocks
     isize usedBlocks;   // Occupied blocks
-    isize dirtyBlocks;  // Cached, yet unflushed blocks
-    
+    isize cachedBlocks; // Total number of cached blocks
+    isize dirtyBlocks;  // Number of modified cached blocks
+
     // Access statistics
 
     isize generation;   // File system generation counter

@@ -63,8 +63,9 @@ struct FSPosixStat {
 
     isize freeBlocks;   // Available blocks
     isize usedBlocks;   // Occupied blocks
-    isize dirtyBlocks;  // Unflushed blocks
-
+    isize cachedBlocks; // Total number of cached blocks
+    isize dirtyBlocks;  // Number of modified cached blocks
+    
     // Access times
 
     time_t btime;       // Time of birth

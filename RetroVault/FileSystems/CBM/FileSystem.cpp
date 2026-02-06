@@ -131,6 +131,7 @@ FileSystem::stat() const noexcept
         .blocks         = traits.blocks,
         .freeBlocks     = allocator.numUnallocated(),
         .usedBlocks     = allocator.numAllocated(),
+        .cachedBlocks   = cache.cachedBlocks(),
         .dirtyBlocks    = cache.dirtyBlocks(),
         .generation     = generation
     };

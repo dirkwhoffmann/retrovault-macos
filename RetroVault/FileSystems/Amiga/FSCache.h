@@ -141,6 +141,7 @@ public:
     // Caching
     //
 
+    isize cachedBlocks() const { return (isize)blocks.size(); }
     isize dirtyBlocks() const { return (isize)dirty.size(); }
     void markAsDirty(BlockNr nr);
     

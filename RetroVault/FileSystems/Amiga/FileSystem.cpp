@@ -188,6 +188,7 @@ FileSystem::stat() const noexcept
 
         .freeBlocks     = numUnallocated,
         .usedBlocks     = numAllocated,
+        .cachedBlocks   = cache.cachedBlocks(),
         .dirtyBlocks    = cache.dirtyBlocks(),
         .fill           = (double)numAllocated / (double)traits.blocks,
 
