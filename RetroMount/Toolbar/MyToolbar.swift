@@ -12,7 +12,6 @@ extension NSToolbarItem.Identifier {
     static let commit = NSToolbarItem.Identifier("Commit")
     static let unmount = NSToolbarItem.Identifier("Unmount")
     static let protect = NSToolbarItem.Identifier("Protect")
-    static let github = NSToolbarItem.Identifier("GitHub")
 }
 
 @MainActor
@@ -23,7 +22,6 @@ class MyToolbar: NSToolbar, NSToolbarDelegate {
     var commit: MyToolbarItemGroup!
     var unmount: MyToolbarItemGroup!
     var protect: MyToolbarItemGroup!
-    var github: MyToolbarItemGroup!
 
     // Set to true to gray out all toolbar items
     var globalDisable = false
@@ -60,7 +58,6 @@ class MyToolbar: NSToolbar, NSToolbarDelegate {
                  .commit,
                  .unmount,
                  .protect,
-                 .github,
                  .space,
                  .flexibleSpace ]
     }
@@ -70,12 +67,13 @@ class MyToolbar: NSToolbar, NSToolbarDelegate {
         return [ .flexibleSpace,
                  .toggleSidebar,
                  .sidebarTrackingSeparator,
+                 .flexibleSpace,
                  .commit,
+                 // .space,
                  .unmount,
                  .space,
                  .protect,
-                 .flexibleSpace,
-                 .github ]
+                 .flexibleSpace ]
     }
     
     func toolbar(_ toolbar: NSToolbar,
@@ -95,12 +93,12 @@ class MyToolbar: NSToolbar, NSToolbarDelegate {
 
         case .unmount:
             
-            commit = MyToolbarItemGroup(identifier: .unmount,
-                                      images: [.eject],
-                                      actions: [#selector(unmountAction)],
-                                      target: self,
-                                      label: "Unmount")
-            return commit
+            unmount = MyToolbarItemGroup(identifier: .unmount,
+                                         images: [.eject],
+                                         actions: [#selector(unmountAction)],
+                                         target: self,
+                                         label: "Unmount")
+            return unmount
 
         case .protect:
             
@@ -110,16 +108,7 @@ class MyToolbar: NSToolbar, NSToolbarDelegate {
                                       target: self,
                                       label: "Protect")
             return protect
- 
-        case .github:
-            
-            github = MyToolbarItemGroup(identifier: .github,
-                                        images: [.github],
-                                        actions: [#selector(gitHubAction)],
-                                        target: self,
-                                        label: "GitHub")
-            return github
-            
+             
         default:
             return nil
         }
@@ -140,8 +129,9 @@ class MyToolbar: NSToolbar, NSToolbarDelegate {
 
         // Unmount button
 
-        // Write-protection button
-        protect.isHidden = svc.selectedVolume == nil
+        commit.isHidden = svc.selectedDevice == nil
+        unmount.isHidden = svc.selectedDevice == nil
+        protect.isHidden = svc.selectedDevice == nil || svc.selectedVolume == nil
         if let vol = svc.selectedVolume, let proxy = proxy?.volume(vol) {
             protect.setImage(Symbol.get(proxy.iswriteProtected ? .unlocked : .locked), forSegment: 0)
         }
@@ -183,12 +173,5 @@ class MyToolbar: NSToolbar, NSToolbarDelegate {
         }
         
         updateToolbar()
-    }
-    
-    @objc private func gitHubAction() {
-        
-        print("gitHubAction")
-        
-        // TODO: Open web browser with URL https://github.com/dirkwhoffmann/vAMIGA
     }
 }

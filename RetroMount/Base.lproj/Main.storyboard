@@ -1035,6 +1035,17 @@ DQ
                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
                                         </textField>
+                                        <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Fs5-8f-JMe">
+                                            <rect key="frame" x="686" y="20" width="24" height="24"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                                            <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="github" imagePosition="only" alignment="center" imageScaling="axesIndependently" inset="2" id="SUN-jS-dGz">
+                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <action selector="gitHubAction:" target="Wj9-ru-zix" id="0Q9-gn-ULa"/>
+                                            </connections>
+                                        </button>
                                     </subviews>
                                 </view>
                             </box>
@@ -2606,6 +2617,7 @@ DQ
         <image name="FUSEicon" width="280" height="280"/>
         <image name="NSTouchBarSearchTemplate" width="20" height="20"/>
         <image name="floppy_35" width="514" height="512"/>
+        <image name="github" width="294" height="288"/>
         <image name="pictogram" width="1024" height="1024"/>
         <image name="stop" width="928" height="509"/>
         <image name="volume_amiga" width="256" height="256"/>

@@ -19,4 +19,11 @@ class InfoCanvasViewController: CanvasViewController {
     override func refresh() {
 
     }
+    
+    @IBAction private func gitHubAction(_ sender: Any) {
+        
+        if let url = URL(string: "https://github.com/dirkwhoffmann/vAMIGA") {
+            NSWorkspace.shared.open(url)
+        }
+    }
 }
