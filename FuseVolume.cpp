@@ -15,6 +15,7 @@
 #include "FileSystems/Amiga/FileSystem.h"
 #include "FileSystems/CBM/PosixAdapter.h"
 #include "FileSystems/CBM/FileSystem.h"
+#include <format>
 
 using namespace retro::vault;
 
@@ -300,7 +301,7 @@ string
 FuseAmigaVolume::typeOf(isize blockNr, isize pos) const
 {
     auto type = fs->typeOf(BlockNr(blockNr), pos);
-    return amiga::FSItemTypeEnum::key(type);
+    return amiga::FSItemTypeEnum::help(type);
 }
 
 void
@@ -315,11 +316,48 @@ FuseAmigaVolume::xray(bool strict)
     fs->doctor.xray(strict);
 }
 
-const char *
+string
 FuseAmigaVolume::xray(isize blockNr, isize pos, bool strict, optional<u8> &expected) const
 {
+    using amiga::FSBlockError;
+    
     auto error = fs->doctor.xray8(BlockNr(blockNr), pos, strict, expected);
-    return error == amiga::FSBlockError::OK ? "" : amiga::FSBlockErrorEnum::key(error);
+    
+    switch (error) {
+            
+        case FSBlockError::OK:
+            return "";
+        case FSBlockError::EXPECTED_VALUE:
+            return std::format("Expected ${:02X}", *expected);
+        case FSBlockError::EXPECTED_SMALLER_VALUE:
+            return std::format("Expected a value less or equal ${:02X}", *expected);
+        case FSBlockError::EXPECTED_NO_REF:
+            return "Did not expect a block reference here";
+        case FSBlockError::EXPECTED_REF:
+            return "Expected a block reference";
+        case FSBlockError::EXPECTED_SELFREF:
+            return "Expected a self-reference";
+        case FSBlockError::EXPECTED_BITMAP_BLOCK:
+            return "Expected a link to a bitmap block";
+        case FSBlockError::EXPECTED_BITMAP_EXT_BLOCK:
+            return "Expected a link to a bitmap extension block";
+        case FSBlockError::EXPECTED_HASHABLE_BLOCK:
+            return "Expected a link to a hashable block";
+        case FSBlockError::EXPECTED_USERDIR_OR_ROOT:
+            return "Expected a link to a directory";
+        case FSBlockError::EXPECTED_DATA_BLOCK:
+            return "Expected a link to a data block";
+        case FSBlockError::EXPECTED_FILE_HEADER_BLOCK:
+            return "Expected a link to a file header block";
+        case FSBlockError::EXPECTED_FILE_LIST_BLOCK:
+            return "Expected a link to a file extension block";
+        case FSBlockError::EXPECTED_DATABLOCK_NR:
+            return "Invalid data block position number";
+        case FSBlockError::INVALID_HASHTABLE_SIZE:
+            return "Expected $48 (72 hash table entries)";
+        default:
+            return "???";
+    }
 }
 
 const std::vector<BlockNr> &
@@ -397,7 +435,7 @@ string
 FuseCBMVolume::typeOf(isize blockNr, isize pos) const
 {
     auto type = fs->typeOf(BlockNr(blockNr), pos);
-    return cbm::FSItemTypeEnum::key(type);
+    return cbm::FSItemTypeEnum::help(type);
 }
 
 void
@@ -412,11 +450,26 @@ FuseCBMVolume::xray(bool strict)
     fs->doctor.xray(strict);
 }
 
-const char *
+string
 FuseCBMVolume::xray(isize blockNr, isize pos, bool strict, optional<u8> &expected) const
 {
+    using cbm::FSBlockError;
+    
     auto error = fs->doctor.xray8(BlockNr(blockNr), pos, strict, expected);
-    return error == cbm::FSBlockError::OK ? "" : cbm::FSBlockErrorEnum::key(error);
+    
+    switch (error) {
+            
+        case FSBlockError::OK:
+            return "";
+        case FSBlockError::EXPECTED_VALUE:
+            return std::format("Expected ${:02X}", *expected);
+        case FSBlockError::EXPECTED_SMALLER_VALUE:
+            return std::format("Expected a value greater or equal {}", *expected);
+        case FSBlockError::EXPECTED_LARGER_VALUE:
+            return std::format("Expected a value less or equal {}", *expected);
+        default:
+            return "???";
+    }
 }
 
 const std::vector<BlockNr> &

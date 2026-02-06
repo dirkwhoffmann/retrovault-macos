@@ -285,9 +285,8 @@ class VolumeCanvasViewController: CanvasViewController {
         displayedCell = selectedCell
         refreshVolumeInfo()
         
-        if info.generation != displayedGeneration || blockImageButton.image == nil {
+        if contentIsDirty {
             
-            refreshUsageInfo()
             Task {
                 await usageImageRenderer.render(renderer: { await self.renderUsageImage() })
                 { image in self.blockImageButton.image = image }
@@ -334,24 +333,6 @@ class VolumeCanvasViewController: CanvasViewController {
         return await Task(priority: .utility) {
             layoutImage(size: size)
         }.value
-    }
-
-    func refreshUsageInfo() {
-
-        /*
-        let palette = VolumeCanvasViewController.palette
-        let size = NSSize(width: 16, height: 16)
-
-        // UI setup
-        blockType1Button.image = NSImage(color: palette[2], size: size)
-        blockType2Button.image = NSImage(color: palette[3], size: size)
-        blockType3Button.image = NSImage(color: palette[4], size: size)
-        blockType4Button.image = NSImage(color: palette[5], size: size)
-        blockType6Button.image = NSImage(color: palette[8], size: size)
-        blockType5Button.image = NSImage(color: palette[7], size: size)
-        blockType7Button.image = NSImage(color: palette[6], size: size)
-        blockType8Button.image = NSImage(color: palette[9], size: size)
-        */
     }
     
     @MainActor
@@ -450,9 +431,13 @@ class VolumeCanvasViewController: CanvasViewController {
 
     func updateErrorInfoSelected() {
         
-        // var exp = UInt8(0)
-        // let error = vol.check(blockNr, pos: selection!, expected: &exp, strict: strict)
-        info2.stringValue = "???" // error.description(expected: Int(exp))
+        var exp = UInt8(0)
+        let error = proxy?.xray(selectedBlock,
+                                pos: selectedCell!,
+                                expected: &exp,
+                                strict: self.diagnoseStrictButton.state == .on)
+
+        info2.stringValue = error ?? "???"
     }
     
     //

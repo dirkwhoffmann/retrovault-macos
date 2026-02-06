@@ -240,7 +240,7 @@ using namespace utl;
     auto result = [self volume]->xray(nr, pos, strict, expected);
     if (expected) *exp = *expected;
 
-    return @(result);
+    return @(result.c_str());
 }
 
 - (NSString *)typeOf:(NSInteger)blockNr
