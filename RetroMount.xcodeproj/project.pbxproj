@@ -107,7 +107,6 @@
 		50900C0F2F1E727400A4A81B /* D64File.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900B882F1E727400A4A81B /* D64File.cpp */; };
 		50900C302F1E729A00A4A81B /* SidebarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50900C212F1E729A00A4A81B /* SidebarViewController.swift */; };
 		50900C312F1E729A00A4A81B /* TableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50900C222F1E729A00A4A81B /* TableCell.swift */; };
-		50900C322F1E729A00A4A81B /* Volume.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50900C2E2F1E729A00A4A81B /* Volume.swift */; };
 		50900C332F1E729A00A4A81B /* DeviceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50900C262F1E729A00A4A81B /* DeviceManager.swift */; };
 		50900C342F1E729A00A4A81B /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50900C282F1E729A00A4A81B /* Extensions.swift */; };
 		50900C352F1E729A00A4A81B /* Errors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50900C272F1E729A00A4A81B /* Errors.swift */; };
@@ -137,6 +136,7 @@
 		50D89C7F2F1E7C7B00ECC73D /* getbits.c in Sources */ = {isa = PBXBuildFile; fileRef = 50D89C582F1E7C7B00ECC73D /* getbits.c */; };
 		50D89C802F1E7C7B00ECC73D /* u_quick.c in Sources */ = {isa = PBXBuildFile; fileRef = 50D89C682F1E7C7B00ECC73D /* u_quick.c */; };
 		50D89C812F1E7C7B00ECC73D /* xdms.c in Sources */ = {isa = PBXBuildFile; fileRef = 50D89C6B2F1E7C7B00ECC73D /* xdms.c */; };
+		50E3B3572F376A0300218927 /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50E3B3562F376A0100218927 /* Device.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -403,7 +403,6 @@
 		50900C2A2F1E729A00A4A81B /* Loggable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Loggable.swift; sourceTree = "<group>"; };
 		50900C2B2F1E729A00A4A81B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		50900C2D2F1E729A00A4A81B /* MyWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyWindowController.swift; sourceTree = "<group>"; };
-		50900C2E2F1E729A00A4A81B /* Volume.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Volume.swift; sourceTree = "<group>"; };
 		5097DD922F24DC1500738B5A /* InfoCanvasViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoCanvasViewController.swift; sourceTree = "<group>"; };
 		5097DD942F24DC2900738B5A /* VolumeCanvasViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VolumeCanvasViewController.swift; sourceTree = "<group>"; };
 		50AB50B72F23E1F300BFBA99 /* LaunchInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchInfoViewController.swift; sourceTree = "<group>"; };
@@ -446,6 +445,7 @@
 		50D89C6F2F1E7C7B00ECC73D /* httplib.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = httplib.h; sourceTree = "<group>"; };
 		50D89C702F1E7C7B00ECC73D /* json.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = json.h; sourceTree = "<group>"; };
 		50D89C712F1E7C7B00ECC73D /* json_fwd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = json_fwd.h; sourceTree = "<group>"; };
+		50E3B3562F376A0100218927 /* Device.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Device.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1053,6 +1053,7 @@
 				50900C282F1E729A00A4A81B /* Extensions.swift */,
 				50900C272F1E729A00A4A81B /* Errors.swift */,
 				50900C262F1E729A00A4A81B /* DeviceManager.swift */,
+				50E3B3562F376A0100218927 /* Device.swift */,
 				50900C2A2F1E729A00A4A81B /* Loggable.swift */,
 				50900C2D2F1E729A00A4A81B /* MyWindowController.swift */,
 				5045033A2F21608D007A7268 /* MySplitViewController.swift */,
@@ -1060,7 +1061,6 @@
 				5038461E2F2B491400945B2B /* Toolbar */,
 				50900C232F1E729A00A4A81B /* Sidebar */,
 				5097DD912F24DC0C00738B5A /* CanvasControllers */,
-				50900C2E2F1E729A00A4A81B /* Volume.swift */,
 				50900C292F1E729A00A4A81B /* Info.plist */,
 				50900C2C2F1E729A00A4A81B /* Main.storyboard */,
 				50900C252F1E729A00A4A81B /* Assets.xcassets */,
@@ -1207,7 +1207,6 @@
 				50900B142F1E726D00A4A81B /* Hashable.cpp in Sources */,
 				50900C302F1E729A00A4A81B /* SidebarViewController.swift in Sources */,
 				50900C312F1E729A00A4A81B /* TableCell.swift in Sources */,
-				50900C322F1E729A00A4A81B /* Volume.swift in Sources */,
 				50900C332F1E729A00A4A81B /* DeviceManager.swift in Sources */,
 				50900C342F1E729A00A4A81B /* Extensions.swift in Sources */,
 				50900C352F1E729A00A4A81B /* Errors.swift in Sources */,
@@ -1276,6 +1275,7 @@
 				50900BDF2F1E727400A4A81B /* DeviceDescriptors.cpp in Sources */,
 				50900BE02F1E727400A4A81B /* FSContract.cpp in Sources */,
 				50900BE12F1E727400A4A81B /* FSBlock.cpp in Sources */,
+				50E3B3572F376A0300218927 /* Device.swift in Sources */,
 				50900BE22F1E727400A4A81B /* AmigaEncoder.cpp in Sources */,
 				50900BE32F1E727400A4A81B /* FileSystemLayer3.cpp in Sources */,
 				50900BE42F1E727400A4A81B /* FSAllocator.cpp in Sources */,

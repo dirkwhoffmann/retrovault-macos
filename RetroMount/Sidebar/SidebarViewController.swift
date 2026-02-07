@@ -148,6 +148,7 @@ extension SidebarViewController: NSOutlineViewDelegate {
     }
 
     
+    /*
     func outlineViewItemDidExpand(_ notification: Notification) {
 
         guard let item = notification.userInfo?["NSObject"] else { return }
@@ -163,7 +164,7 @@ extension SidebarViewController: NSOutlineViewDelegate {
             cell.view?.updateIcon(expanded: false)
         }
     }
-    
+    */
     
     func outlineViewSelectionDidChange(_ notification: Notification) {
 
