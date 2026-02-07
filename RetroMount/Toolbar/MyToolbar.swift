@@ -9,7 +9,7 @@
 
 extension NSToolbarItem.Identifier {
     
-    static let commit = NSToolbarItem.Identifier("Commit")
+    static let push = NSToolbarItem.Identifier("Push")
     static let unmount = NSToolbarItem.Identifier("Unmount")
     static let protect = NSToolbarItem.Identifier("Protect")
 }
@@ -19,7 +19,7 @@ class MyToolbar: NSToolbar, NSToolbarDelegate {
     
     var controller: MyWindowController!
 
-    var commit: MyToolbarItemGroup!
+    var push: MyToolbarItemGroup!
     var unmount: MyToolbarItemGroup!
     var protect: MyToolbarItemGroup!
 
@@ -55,7 +55,7 @@ class MyToolbar: NSToolbar, NSToolbarDelegate {
         
         return [ .toggleSidebar,
                  .sidebarTrackingSeparator,
-                 .commit,
+                 .push,
                  .unmount,
                  .protect,
                  .space,
@@ -68,7 +68,7 @@ class MyToolbar: NSToolbar, NSToolbarDelegate {
                  .toggleSidebar,
                  .sidebarTrackingSeparator,
                  .flexibleSpace,
-                 .commit,
+                 .push,
                  // .space,
                  .unmount,
                  .space,
@@ -82,14 +82,14 @@ class MyToolbar: NSToolbar, NSToolbarDelegate {
                 
         switch id {
                         
-        case .commit:
+        case .push:
             
-            commit = MyToolbarItemGroup(identifier: .commit,
+            push = MyToolbarItemGroup(identifier: .push,
                                       images: [.sync],
-                                      actions: [#selector(commitAction)],
+                                      actions: [#selector(pushAction)],
                                       target: self,
-                                      label: "Commit")
-            return commit
+                                      label: "Push")
+            return push
 
         case .unmount:
             
@@ -124,12 +124,12 @@ class MyToolbar: NSToolbar, NSToolbarDelegate {
         // Take care of the global disable flag
         for item in items { item.isEnabled = !globalDisable }
         
-        // Commit button
-        // commit.isEnabled = svc.selectedVolume == nil
+        // Push button
+        // push.isEnabled = svc.selectedVolume == nil
 
         // Unmount button
 
-        commit.isHidden = svc.selectedDevice == nil
+        push.isHidden = svc.selectedDevice == nil
         unmount.isHidden = svc.selectedDevice == nil
         protect.isHidden = svc.selectedDevice == nil || svc.selectedVolume == nil
         if let vol = svc.selectedVolume, let proxy = proxy?.volume(vol) {
@@ -141,14 +141,14 @@ class MyToolbar: NSToolbar, NSToolbarDelegate {
     // Action methods
     //
     
-    @objc private func commitAction() {
+    @objc private func pushAction() {
 
         if let vol = svc.selectedVolume, let proxy = proxy?.volume(vol) {
-            print("commit \(vol)")
-            try? proxy.commit()
+            print("push \(vol)")
+            try? proxy.push()
         } else {
-            print("commit all")
-            try? proxy?.commit()
+            print("push all")
+            try? proxy?.push()
         }
         svc.refresh()
     }

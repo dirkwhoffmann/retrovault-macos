@@ -154,7 +154,7 @@ FuseDevice::writeProtect(bool yesno, isize volume)
 }
 
 void
-FuseDevice::commit()
+FuseDevice::push()
 {
     for (auto &volume : volumes)
         image->save(volume->getRange());    

@@ -100,7 +100,7 @@ public:
     void writeProtect(bool yesno, isize volume);
     
     // Writes all changes back to the image file
-    void commit();
+    void push();
     
     // Writes all changes back to the image file (DEPRECATED)
     void save();

@@ -9,10 +9,10 @@
 
 extension FuseVolumeProxy {
     
-    func commit() throws {
+    func push() throws {
 
         let exception = ExceptionWrapper()
-        commit(exception)
+        push(exception)
         if exception.fault != 0 { throw AppError(exception) }
     }
 }
@@ -50,10 +50,10 @@ extension FuseDeviceProxy {
         if exception.fault != 0 { throw AppError(exception) }
     }
 
-    func commit() throws {
+    func push() throws {
 
         let exception = ExceptionWrapper()
-        commit(exception)
+        push(exception)
         if exception.fault != 0 { throw AppError(exception) }
     }
 }

@@ -107,9 +107,9 @@ using namespace utl;
     return [NSURL fileURLWithPath:nsPath];
 }
 
-- (void)commit:(ExceptionWrapper *)ex
+- (void)push:(ExceptionWrapper *)ex
 {
-    try { [self volume]->commit(); }
+    try { [self volume]->push(); }
     catch (Error &error) { [ex save:error]; }
 }
 
@@ -495,9 +495,9 @@ using namespace utl;
     [self device]->setListener(listener, func);
 }
 
-- (void)commit:(ExceptionWrapper *)ex
+- (void)push:(ExceptionWrapper *)ex
 {
-    try { [self device]->commit(); }
+    try { [self device]->push(); }
     catch (Error &error) { [ex save:error]; }
 }
 

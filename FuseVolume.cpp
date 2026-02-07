@@ -266,7 +266,7 @@ FuseVolume::stat()
 }
 
 void
-FuseVolume::commit()
+FuseVolume::push()
 {
     // Write all dirty blocks back to the image
     flush();

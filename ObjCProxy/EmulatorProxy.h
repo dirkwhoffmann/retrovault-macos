@@ -70,7 +70,7 @@ inline const char *c_str(const std::string &s)
 @property (readonly) BOOL iswriteProtected;
 - (void)writeProtect:(BOOL)wp;
 
-- (void)commit:(ExceptionWrapper *)ex;
+- (void)push:(ExceptionWrapper *)ex;
 
 // Properties
 @property (readonly) FSPosixStat stat;
@@ -159,6 +159,6 @@ inline const char *c_str(const std::string &s)
 - (void)unmountAll;
 - (void)setListener:(const void *)listener function:(AdapterCallback *)func;
 
-- (void)commit:(ExceptionWrapper *)ex;
+- (void)push:(ExceptionWrapper *)ex;
 
 @end
