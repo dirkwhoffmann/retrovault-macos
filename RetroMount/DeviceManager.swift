@@ -84,35 +84,35 @@ class VolumeInfo {
 
 class DeviceManager {
 
-    private var devices: [Device] = []
+    private var devices: [FuseDeviceProxy] = []
 
     var count: Int { devices.count }
 
     func proxy(device: Int?) -> FuseDeviceProxy? {
 
         guard let device = device else { return nil }
-        return devices[device].proxy
+        return devices[device]
     }
 
     func info(device: Int) -> DeviceInfo {
 
         let result = DeviceInfo.init()
-        let proxy = devices[device].proxy
+        let dev = devices[device]
 
-        result.name = proxy.url?.lastPathComponent ?? ""
+        result.name = dev.url?.lastPathComponent ?? ""
 
-        result.numBlocks = proxy.numBlocks
-        result.bsize = proxy.bsize
+        result.numBlocks = dev.numBlocks
+        result.bsize = dev.bsize
 
-        result.numCyls = proxy.numCyls
-        result.numHeads = proxy.numHeads
-        result.minSectors = proxy.numSectors(0)
-        result.maxSectors = proxy.numSectors(proxy.numTracks - 1)
-        result.numPartitions = proxy.numVolumes
-        result.info = proxy.info
+        result.numCyls = dev.numCyls
+        result.numHeads = dev.numHeads
+        result.minSectors = dev.numSectors(0)
+        result.maxSectors = dev.numSectors(dev.numTracks - 1)
+        result.numPartitions = dev.numVolumes
+        result.info = dev.info
 
         for i in 0..<result.numTracks {
-            result.numSectors.append(proxy.numSectors(i))
+            result.numSectors.append(dev.numSectors(i))
         }
         
         return result
@@ -122,7 +122,7 @@ class DeviceManager {
 
         let result = VolumeInfo.init()
 
-        let proxy = devices[device].proxy.volume(volume)!
+        let proxy = devices[device].volume(volume)!
         let stat = proxy.stat
         let mp = proxy.mountPoint
 
@@ -193,7 +193,7 @@ class DeviceManager {
             }
 
             print("Success.")
-            devices.append(Device(proxy: proxy))
+            devices.append(proxy)
 
         } catch { print("Error launching DeviceManager: \(error)") }
     }
@@ -212,9 +212,9 @@ class DeviceManager {
         guard devices.indices.contains(device) else { return }
 
         print("Unmounting device \(device) volume: \(volume)")
-        devices[device].proxy.unmount(volume)
+        devices[device].unmount(volume)
         
-        if devices[device].proxy.numVolumes == 0 {
+        if devices[device].numVolumes == 0 {
             devices.remove(at: device)
         }
     }
@@ -222,7 +222,7 @@ class DeviceManager {
     func unmount(device: Int) {
                 
         print("Unmounting device \(device)")
-        let numVolumes = devices[device].proxy.numVolumes
+        let numVolumes = devices[device].numVolumes
         for i in 0 ..< numVolumes { unmount(device: device, volume: i) }
     }
 
