@@ -155,13 +155,8 @@ class MyToolbar: NSToolbar, NSToolbarDelegate {
 
     @objc private func unmountAction() {
         
-        if let volume = svc.selectedVolume {
-
-            print("TODO: unmount \(volume)")
-        } else {
-            print("TODO: unmount all")
-        }
-        
+        guard let device = svc.selectedDevice else { return }
+        svc.sidebarVC?.unmount(item: TableItem(device: device, volume: svc.selectedVolume))
     }
 
     @objc private func protectAction() {

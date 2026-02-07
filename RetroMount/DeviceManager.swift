@@ -306,26 +306,35 @@ class DeviceManager {
     func unmount(item: TableItem) {
         
         if let volume = item.volume {
-         
             unmount(device: item.device, volume: volume)
+        } else {
+            unmount(device: item.device)
         }
     }
     
     func unmount(device: Int, volume: Int) {
         
         guard devices.indices.contains(device) else { return }
-        
+
+        print("Unmounting device \(device) volume: \(volume)")
         devices[device].unmount(volume)
         
         if devices[device].numVolumes == 0 {
             devices.remove(at: device)
         }
     }
-    
+
+    func unmount(device: Int) {
+                
+        print("Unmounting device \(device)")
+        let numVolumes = devices[device].numVolumes
+        for i in 0 ..< numVolumes { unmount(device: device, volume: i) }
+    }
+
     func unmountAll() {
 
         print("Unmounting all devices...")
-        for device in devices { device.unmountAll() }
-        devices.removeAll()
+        let numDevices = devices.count
+        for i in 0 ..< numDevices { unmount(device: i) }
     }
 }
