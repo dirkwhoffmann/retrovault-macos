@@ -409,9 +409,7 @@ class VolumeCanvasViewController: CanvasViewController {
     }
    
     func refreshTableViewInfo() {
-                
-        guard let info = proxy?.stat else { return }
-        
+                        
         blockField.stringValue = String(format: "%d", selectedBlock)
         blockStepper.integerValue = selectedBlock
         blockSlider.integerValue = selectedBlock
