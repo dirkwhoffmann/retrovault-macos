@@ -38,9 +38,29 @@ actor ImageRenderer {
 }
 
 @MainActor
+class VolumeImage: NSImageView {
+
+    var mountPoint : String?
+
+    override func mouseDown(with event: NSEvent) {
+        
+        let clickCount: Int = event.clickCount
+                
+        if clickCount > 1 {
+            
+            if let mp = mountPoint {
+                
+                let url = URL(fileURLWithPath: mp)
+                NSWorkspace.shared.open(url)
+            }
+        }
+    }
+}
+
+@MainActor
 class VolumeCanvasViewController: CanvasViewController {
 
-    @IBOutlet weak var icon: NSImageView!
+    @IBOutlet weak var icon: VolumeImage!
     @IBOutlet weak var mainTitle: NSTextField!
     @IBOutlet weak var subTitle1: NSTextField!
     @IBOutlet weak var subTitle2: NSTextField!
@@ -205,6 +225,7 @@ class VolumeCanvasViewController: CanvasViewController {
         info = app.manager.info(device: device!, volume: volume!)
 
         icon.image = info.icon()
+        icon.mountPoint = info.mountPoint
         mainTitle.stringValue = info.name
         subTitle1.stringValue = description?[safe: 0] ?? ""
         subTitle2.stringValue = description?[safe: 1] ?? ""
@@ -323,9 +344,6 @@ class VolumeCanvasViewController: CanvasViewController {
             
         guard let proxy = proxy else { return }
         let description = proxy.describe()
-        // guard let device = device else { return }
-        // guard let volume = volume else { return }
-        // let info = app.manager.info(device: device, volume: volume)
                 
         mainTitle.stringValue = info.mountPoint
         subTitle1.stringValue = description?[safe: 0] ?? ""
@@ -486,18 +504,6 @@ class VolumeCanvasViewController: CanvasViewController {
     //
     // Action methods
     //
-
-    /*
-    @objc func buttonClicked(_ sender: NSClickGestureRecognizer) {
-
-        let point = sender.location(in: sender.view)
-        let x = point.x / blockImageButton.bounds.width
-    
-        print("Clicked \(x)")
-        
-        setBlock(Int(x * CGFloat(numBlocks)))
-    }
-    */
     
     @IBAction func sliderAction(_ sender: NSSlider!) {
 

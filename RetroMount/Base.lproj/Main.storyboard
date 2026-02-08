@@ -1690,13 +1690,10 @@ DQ
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8VF-gr-QdA" userLabel="Icon">
+                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8VF-gr-QdA" userLabel="Icon" customClass="VolumeImage" customModule="RetroMount" customModuleProvider="target">
                                 <rect key="frame" x="17" y="366" width="112" height="112"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="proportionallyDown" imageFrameStyle="grayBezel" image="volume_amiga" id="XMn-Qf-OBb"/>
-                                <connections>
-                                    <action selector="doubleClicked:" target="nnP-dK-1pJ" id="pxK-9L-gRQ"/>
-                                </connections>
+                                <imageCell key="cell" alignment="left" animates="YES" imageScaling="proportionallyDown" imageFrameStyle="grayBezel" image="volume_amiga" id="XMn-Qf-OBb"/>
                             </imageView>
                             <textField focusRingType="none" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Plu-sU-YZ8">
                                 <rect key="frame" x="530" y="409" width="46" height="14"/>

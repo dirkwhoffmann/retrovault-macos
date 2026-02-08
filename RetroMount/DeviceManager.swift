@@ -78,7 +78,10 @@ class VolumeInfo {
             return nil
         }
 
-        return NSImage(named: name)
+        let img = NSImage(named: name)
+        img?.isTemplate = false
+        
+        return img
     }
 }
 
