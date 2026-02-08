@@ -49,6 +49,7 @@ class VolumeCanvasViewController: CanvasViewController {
     @IBOutlet weak var writeInfo: NSTextField!
     @IBOutlet weak var fillInfo: NSTextField!
     @IBOutlet weak var fillIndicator: NSLevelIndicator!
+    @IBOutlet weak var fill: NSProgressIndicator!
     @IBOutlet weak var numBlocksInfo: NSTextField!
     @IBOutlet weak var usedBlocksInfo: NSTextField!
     @IBOutlet weak var cachedBlocksInfo: NSTextField!
@@ -337,10 +338,11 @@ class VolumeCanvasViewController: CanvasViewController {
         writeInfo.stringValue = "\(w) KB"
         fillInfo.stringValue = info.fillString
         fillIndicator.doubleValue = (info.fill * 100.0).rounded()
+        fill.doubleValue = (info.fill * 100.0).rounded()
         numBlocksInfo.stringValue = "\(info.blocks) Blocks"
-        usedBlocksInfo.stringValue = "\(info.usedBlocks) Blocks"
+        usedBlocksInfo.stringValue = "\(info.usedBlocks) Blocks (\(info.fillString))"
         cachedBlocksInfo.stringValue = "\(info.cachedBlocks) Blocks"
-        dirtyBlocksInfo.stringValue = "\(info.dirtyBlocks) Blocks"
+        dirtyBlocksInfo.stringValue = "\(info.dirtyBlocks) Blocks"        
     }
 
     @MainActor
