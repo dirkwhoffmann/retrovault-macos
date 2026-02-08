@@ -137,7 +137,50 @@ class VolumeCanvasViewController: CanvasViewController {
     
     var numBlocks: Int { return info.blocks }
     
+    private var timer: Timer?
+
+    override func viewWillAppear() {
+
+        super.viewWillAppear()
+        startPeriodicTask()
+    }
+
+    override func viewWillDisappear() {
+
+        super.viewWillDisappear()
+        stopPeriodicTask()
+    }
+    
+    private func startPeriodicTask() {
+
+        guard timer == nil else { return }
+
+        timer = Timer.scheduledTimer(
+            withTimeInterval: 0.25,
+            repeats: true
+        ) { [weak self] _ in
+
+            guard let self else { return }
+            Task { @MainActor in self.refresh() }
+        }
+    }
+
+    private func stopPeriodicTask() {
+
+        timer?.invalidate()
+        timer = nil
+    }
+
+    //
+    // Initializing / Updating
+    //
+
     override func viewDidLoad() {
+        
+        activate()
+    }
+
+    override func activate() {
         
         func updateBlockButton(_ button: NSButton, _ label: NSTextField,
                                _ col: NSColor = .white, _ txt: String = "") {
@@ -147,15 +190,19 @@ class VolumeCanvasViewController: CanvasViewController {
             label.stringValue = txt
         }
 
+        displayedGeneration = nil
+        blockImageButton.image = nil
+        allocImageButton.image = nil
+        diagnoseImageButton.image = nil
+
         // Register to receive mouse click events
         previewTable.action = #selector(clickAction(_:))
-                
-        let click = NSClickGestureRecognizer(target: self, action: #selector(buttonClicked(_:)))
-        blockImageButton.addGestureRecognizer(click)
-
+        // let click = NSClickGestureRecognizer(target: self, action: #selector(buttonClicked(_:)))
+        // blockImageButton.addGestureRecognizer(click)
+        
         let description = proxy!.describe()
         info = app.manager.info(device: device!, volume: volume!)
-        
+
         icon.image = info.icon()
         mainTitle.stringValue = info.name
         subTitle1.stringValue = description?[safe: 0] ?? ""
@@ -235,48 +282,6 @@ class VolumeCanvasViewController: CanvasViewController {
         refreshAllocInfo()
         refreshHealthInfo()
         refresh()
-    }
-    
-    private var timer: Timer?
-
-    override func viewWillAppear() {
-
-        super.viewWillAppear()
-        startPeriodicTask()
-    }
-
-    override func viewWillDisappear() {
-
-        super.viewWillDisappear()
-        stopPeriodicTask()
-    }
-    
-    private func startPeriodicTask() {
-
-        guard timer == nil else { return }
-
-        timer = Timer.scheduledTimer(
-            withTimeInterval: 0.25,
-            repeats: true
-        ) { [weak self] _ in
-
-            guard let self else { return }
-            Task { @MainActor in self.refresh() }
-        }
-    }
-
-    private func stopPeriodicTask() {
-
-        timer?.invalidate()
-        timer = nil
-    }
-
-    //
-    // Updating
-    //
-
-    override func activate() {
-        
     }
     
     override func refresh() {
@@ -362,8 +367,11 @@ class VolumeCanvasViewController: CanvasViewController {
         
     func refreshAllocInfo() {
      
-        // let total = errorReport?.bitmapErrors ?? 0
-        let total = (unusedButAllocated?.count ?? 0) + (usedButUnallocated?.count ?? 0)
+        var total = 0
+        
+        if allocImageButton.image != nil {
+            total = (unusedButAllocated?.count ?? 0) + (usedButUnallocated?.count ?? 0)
+        }
 
         if total > 0 {
             
@@ -393,7 +401,11 @@ class VolumeCanvasViewController: CanvasViewController {
         diagnosePassButton.image = NSImage(color: Palette.green, size: size)
         diagnoseFailButton.image = NSImage(color: Palette.red, size: size)
 
-        let total = erroneousBlocks?.count ?? 0
+        var total = 0
+        
+        if diagnoseImageButton.image != nil {
+            total = erroneousBlocks?.count ?? 0
+        }
 
         if total > 0 {
             

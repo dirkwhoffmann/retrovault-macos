@@ -111,6 +111,9 @@ class MySplitViewController: NSSplitViewController {
         // Create a new split view item for the new content
         let newItem = NSSplitViewItem(viewController: current!)
         addSplitViewItem(newItem)
+
+        current!.activate()
+
     }
 
     func refresh() {

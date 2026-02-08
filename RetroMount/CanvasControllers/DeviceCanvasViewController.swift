@@ -61,6 +61,11 @@ class DeviceCanvasViewController: CanvasViewController {
     var currentBlock = 0
 
     override func viewDidLoad() {
+        
+        activate()
+    }
+
+    override func activate() {
 
         let description = proxy!.describe()
         info = app.manager.info(device: device!)
@@ -89,10 +94,6 @@ class DeviceCanvasViewController: CanvasViewController {
         refreshSelection()
     }
 
-    override func activate() {
-        
-    }
-    
     func refreshSelection() {
 
         cylinderStepper.maxValue = Double(info.numCyls - 1)

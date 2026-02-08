@@ -24,19 +24,16 @@ class CanvasViewController: NSViewController {
         return deviceProxy?.volume(volume)
     }
 
+    func activate(device: Int?, volume: Int?) {
+        
+        self.device = device
+        self.volume = volume
+        activate()
+    }
+    
     func activate() {
 
     }
-
-    /*
-    func set(device: Int?, volume: Int?) {
-
-        self.device = device
-        self.volume = volume
-        refreshAll()
-    }
-    */
     
     func refresh() { }
-    // func refreshAll() { refresh() }
 }
