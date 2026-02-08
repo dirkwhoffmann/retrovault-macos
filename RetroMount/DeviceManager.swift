@@ -247,12 +247,13 @@ class DeviceManager {
         return false
     }
 
-    func needsSaving(device: Int, volume: Int) -> Bool {
+    func needsSaving(device: Int, volume: Int?) -> Bool {
+        
+        guard let volume = volume else { return needsSaving(device: device) }
         
         if devices.indices.contains(device) {
             return devices[device].volume(volume).stat.dirtyBlocks > 0
         }
         return false
     }
-
 }

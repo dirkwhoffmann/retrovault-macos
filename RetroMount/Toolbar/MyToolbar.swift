@@ -120,21 +120,33 @@ class MyToolbar: NSToolbar, NSToolbarDelegate {
     }
     
     func updateToolbar() {
-        
-        // Take care of the global disable flag
-        for item in items { item.isEnabled = !globalDisable }
-        
+                
         // Push button
-        // push.isEnabled = svc.selectedVolume == nil
+        if let dev = svc.selectedDevice {
+            
+            if let vol = svc.selectedVolume {
+                push.isHidden = !app.manager.needsSaving(device: dev, volume: vol)
+            } else {
+                push.isHidden = !app.manager.needsSaving(device: dev)
+            }
+            
+        } else {
 
+            push.isHidden = true
+        }
+        
         // Unmount button
-
-        push.isHidden = svc.selectedDevice == nil
         unmount.isHidden = svc.selectedDevice == nil
+        
+        // Protect button
         protect.isHidden = svc.selectedDevice == nil || svc.selectedVolume == nil
         if let vol = svc.selectedVolume, let proxy = proxy?.volume(vol) {
             protect.setImage(Symbol.get(proxy.iswriteProtected ? .unlocked : .locked), forSegment: 0)
         }
+            
+            // Global disable flag
+            for item in items { item.isEnabled = !globalDisable }
+
     }
     
     //
