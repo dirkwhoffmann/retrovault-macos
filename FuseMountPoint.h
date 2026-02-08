@@ -22,9 +22,12 @@ class FuseMountPoint {
     // Gateway to the FUSE backend
     struct fuse *gateway = nullptr;
 
+    // Volume name
+    string volname;
+
     // Mount point in the host file system ("/Volumes/...")
     fs::path mountPoint;
-
+    
 public:
 
     // Set to true to enable debug messages

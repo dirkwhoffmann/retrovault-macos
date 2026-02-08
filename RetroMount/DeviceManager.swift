@@ -86,59 +86,59 @@ class VolumeInfo {
 }
 
 class DeviceManager {
-
+    
     private var devices: [FuseDeviceProxy] = []
-
+    
     var count: Int { devices.count }
-
+    
     func proxy(device: Int?) -> FuseDeviceProxy? {
-
+        
         guard let device = device else { return nil }
         return devices[device]
     }
-
+    
     func info(device: Int) -> DeviceInfo {
-
+        
         let result = DeviceInfo.init()
         let dev = devices[device]
-
+        
         result.name = dev.url?.lastPathComponent ?? ""
-
+        
         result.numBlocks = dev.numBlocks
         result.bsize = dev.bsize
-
+        
         result.numCyls = dev.numCyls
         result.numHeads = dev.numHeads
         result.minSectors = dev.numSectors(0)
         result.maxSectors = dev.numSectors(dev.numTracks - 1)
         result.numPartitions = dev.numVolumes
         result.info = dev.info
-
+        
         for i in 0..<result.numTracks {
             result.numSectors.append(dev.numSectors(i))
         }
         
         return result
     }
-
+    
     func info(device: Int, volume: Int) -> VolumeInfo {
-
+        
         let result = VolumeInfo.init()
-
+        
         let proxy = devices[device].volume(volume)!
         let stat = proxy.stat
         let mp = proxy.mountPoint
-
+        
         // Mount point
         result.mountPoint = mp?.relativePath ?? ""
-
+        
         // Image info
         result.deviceInfo = info(device: device)
-
+        
         // File system properties
         result.blocks = stat.blocks
         result.bsize = stat.bsize
-
+        
         // Usage date
         result.freeBlocks = stat.freeBlocks
         result.freeBytes = stat.freeBlocks * stat.bsize
@@ -147,14 +147,14 @@ class DeviceManager {
         result.cachedBlocks = stat.cachedBlocks
         result.dirtyBlocks = stat.dirtyBlocks
         result.fill = Double(stat.usedBlocks) / Double(stat.blocks)
-
+        
         // Root block metadata
         let bt = Date(timeIntervalSince1970: TimeInterval(stat.btime))
         let mt = Date(timeIntervalSince1970: TimeInterval(stat.mtime))
         result.name = String(cString: c_str(stat.name))
         result.bDate = bt.formatted(date: .numeric, time: .standard)
         result.mDate = mt.formatted(date: .numeric, time: .standard)
-
+        
         // Access statistics
         result.reads = proxy.bytesRead
         result.writes = proxy.bytesWritten
@@ -162,45 +162,45 @@ class DeviceManager {
         
         return result
     }
-
+    
     func process(message msg: Int) {
-
+        
         print("Holla, die Waldfee")
     }
-
+    
     func mount(url: URL) {
-
+        
         let myself = UnsafeRawPointer(Unmanaged.passUnretained(self).toOpaque())
-
+        
         do {
-
+            
             let proxy = try FuseDeviceProxy.make(with: url)
             let volumeProxy = proxy.volume(0)!
             
             let traits = volumeProxy.stat
-
+            
             print("Blocks: \(traits.blocks)")
             print("Bsize: \(traits.bsize)")
-
+            
             let mountPoint = URL(fileURLWithPath: "/Volumes")
                 .appendingPathComponent(url.deletingPathExtension().lastPathComponent)
-
+            
             print("Mounting file system at \(mountPoint)...")
             try proxy.mount(at: mountPoint, myself) { (ptr, msg: Int32) in
-
+                
                 // Convert void pointer back to 'self'
                 let myself = Unmanaged<DeviceManager>.fromOpaque(ptr!).takeUnretainedValue()
-
+                
                 // Process message in the main thread
                 Task { @MainActor in myself.process(message: Int(msg)) }
             }
-
+            
             print("Success.")
             devices.append(proxy)
-
+            
         } catch { print("Error launching DeviceManager: \(error)") }
     }
-
+    
     func unmount(item: TableItem) {
         
         if let volume = item.volume {
@@ -213,7 +213,7 @@ class DeviceManager {
     func unmount(device: Int, volume: Int) {
         
         guard devices.indices.contains(device) else { return }
-
+        
         print("Unmounting device \(device) volume: \(volume)")
         devices[device].unmount(volume)
         
@@ -221,18 +221,38 @@ class DeviceManager {
             devices.remove(at: device)
         }
     }
-
+    
     func unmount(device: Int) {
-                
+        
         print("Unmounting device \(device)")
         let numVolumes = devices[device].numVolumes
         for i in 0 ..< numVolumes { unmount(device: device, volume: i) }
     }
-
+    
     func unmountAll() {
-
+        
         print("Unmounting all devices...")
         let numDevices = devices.count
         for i in 0 ..< numDevices { unmount(device: i) }
     }
+    
+    func needsSaving(device: Int) -> Bool {
+
+        if devices.indices.contains(device) {
+            
+            for vol in 0 ..< devices[device].numVolumes {
+                if needsSaving(device: device, volume: vol) { return true }
+            }
+        }
+        return false
+    }
+
+    func needsSaving(device: Int, volume: Int) -> Bool {
+        
+        if devices.indices.contains(device) {
+            return devices[device].volume(volume).stat.dirtyBlocks > 0
+        }
+        return false
+    }
+
 }

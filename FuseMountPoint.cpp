@@ -47,6 +47,7 @@ void
 FuseMountPoint::mount(const fs::path &mp)
 {
     mountPoint = mp;
+    volname = mp.stem().string();
 
     // Unmount existing volume (if any)
     mylog("Unmounting existing volume %s...\n", mountPoint.string().c_str());
@@ -54,10 +55,12 @@ FuseMountPoint::mount(const fs::path &mp)
 
     fuseThread = std::thread([&]() {
 
+        auto volopt = "-ovolname=" + volname;
+        
         struct fuse_args args = FUSE_ARGS_INIT(0, nullptr);
         fuse_opt_add_arg(&args, "-f"); // Force foreground
         fuse_opt_add_arg(&args, "-olocal"); // Make the volume appear in Finder
-        fuse_opt_add_arg(&args, "-ovolname=ADF");
+        fuse_opt_add_arg(&args, volopt.c_str());
 
         try {
 
