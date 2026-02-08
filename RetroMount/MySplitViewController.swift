@@ -11,6 +11,18 @@ import Cocoa
 
 class MySplitViewController: NSSplitViewController {
 
+    let main = NSStoryboard(name: "Main", bundle: nil)
+
+    private lazy var infoVC: InfoCanvasViewController = {
+        return main.instantiateController(withIdentifier: "InfoCanvasViewController") as! InfoCanvasViewController
+    }()
+    private lazy var deviceVC: DeviceCanvasViewController = {
+        return main.instantiateController(withIdentifier: "DeviceCanvasViewController") as! DeviceCanvasViewController
+    }()
+    private lazy var volumeVC: VolumeCanvasViewController = {
+        return main.instantiateController(withIdentifier: "VolumeCanvasViewController") as! VolumeCanvasViewController
+    }()
+
     enum SidebarKey: Hashable {
         
         case info
@@ -27,7 +39,7 @@ class MySplitViewController: NSSplitViewController {
         }
     }
     
-    private var canvases: [SidebarKey: CanvasViewController] = [:]
+    // private var canvases: [SidebarKey: CanvasViewController] = [:]
         
     var sidebarVC: SidebarViewController? {
         return splitViewItems.first?.viewController as? SidebarViewController
@@ -41,73 +53,64 @@ class MySplitViewController: NSSplitViewController {
     // The currently active canvas controller
     var current: CanvasViewController?
 
-    private func makeCanvas(for key: SidebarKey) -> CanvasViewController {
-
-        if let existing = canvases[key] { return existing }
-
-        let main = NSStoryboard(name: "Main", bundle: nil)
-        let vc: CanvasViewController
-
-        switch key {
-            
-        case .info:
-            vc = main.instantiateController(
-                withIdentifier: "InfoCanvasViewController"
-            ) as! InfoCanvasViewController
-
-        case .device(let d):
-            vc = main.instantiateController(
-                withIdentifier: "DeviceCanvasViewController"
-            ) as! DeviceCanvasViewController
-            vc.device = d
-            
-        case .volume(let d, let v):
-            vc = main.instantiateController(
-                withIdentifier: "VolumeCanvasViewController"
-            ) as! VolumeCanvasViewController
-            vc.device = d
-            vc.volume = v
-        }
-
-        canvases[key] = vc        
-        return vc
-    }
-
     override func viewDidLoad() {
 
         super.viewDidLoad()
 
         // Assign the selection handler
-        sidebarVC?.selectionHandler = { [weak self] (i1, i2) in
-            self?.selection = (i1, i2)
-            self?.showContent(cell: (i1, i2))
+        sidebarVC?.selectionHandler = { [weak self] (i1,i2) in
+
+            print("Selected: (\(i1 ?? -1),\(i2 ?? -1))")
+            self?.selection = (i1,i2)
+            self?.showContent()
+            // self?.current?.set(device: i1, volume: i2)
         }
     }
 
+    /*
+    func setCanvasWidth(_ width: CGFloat, animated: Bool = true) {
+
+        let clamped = max(0, min(400, width))
+
+        guard splitView.isVertical else { return }
+
+        let totalWidth = splitView.bounds.width
+        let dividerThickness = splitView.dividerThickness
+
+        // Sidebar stays fixed, so divider position = sidebar width
+        let sidebarWidth = totalWidth - clamped - dividerThickness
+
+        if animated {
+            NSAnimationContext.runAnimationGroup { ctx in
+                ctx.duration = 0.25
+                splitView.setPosition(sidebarWidth, ofDividerAt: 0)
+            }
+        } else {
+            splitView.setPosition(sidebarWidth, ofDividerAt: 0)
+        }
+    }
+    */
+    
     private func showContent() {
 
         showContent(cell: selection)
     }
     
     func showContent(cell: (Int?, Int?)) {
-        
-        let key = SidebarKey(cell: cell)
-        let vc = makeCanvas(for: key)
 
-        if current !== vc {
-            
-            current = vc
-            
-            // Remove old content pane
-            if splitViewItems.count > 1 {
-                removeSplitViewItem(splitViewItems[1])
-            }
-            
-            let newItem = NSSplitViewItem(viewController: vc)
-            addSplitViewItem(newItem)
-            
-            // vc.set(device: cell.0, volume: cell.1)
-        }
+        let isDevice = cell.0 != nil && cell.1 == nil
+        let isVolume = cell.0 != nil && cell.1 != nil
+
+        current = isDevice ? deviceVC : isVolume ? volumeVC : infoVC
+        current!.device = cell.0
+        current!.volume = cell.1
+        
+        // Remove the old content pane
+        removeSplitViewItem(splitViewItems[1])
+
+        // Create a new split view item for the new content
+        let newItem = NSSplitViewItem(viewController: current!)
+        addSplitViewItem(newItem)
     }
 
     func refresh() {
@@ -117,8 +120,5 @@ class MySplitViewController: NSSplitViewController {
     
     override func splitViewDidResizeSubviews(_ notification: Notification) {
 
-        // User dragged the divider
-        // let left = splitViewItems[0].viewController.view.frame
-        // let right = splitViewItems[1].viewController.view.frame
     }
 }

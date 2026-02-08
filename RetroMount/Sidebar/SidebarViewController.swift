@@ -151,18 +151,10 @@ extension SidebarViewController: NSOutlineViewDelegate {
     /*
     func outlineViewItemDidExpand(_ notification: Notification) {
 
-        guard let item = notification.userInfo?["NSObject"] else { return }
-        if let cell = item as? Device {
-            cell.view?.updateIcon(expanded: true)
-        }
     }
 
     func outlineViewItemDidCollapse(_ notification: Notification) {
 
-        guard let item = notification.userInfo?["NSObject"] else { return }
-        if let cell = item as? Device {
-            cell.view?.updateIcon(expanded: false)
-        }
     }
     */
     
