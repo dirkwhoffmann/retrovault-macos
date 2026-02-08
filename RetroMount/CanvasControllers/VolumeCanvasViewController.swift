@@ -487,6 +487,7 @@ class VolumeCanvasViewController: CanvasViewController {
     // Action methods
     //
 
+    /*
     @objc func buttonClicked(_ sender: NSClickGestureRecognizer) {
 
         let point = sender.location(in: sender.view)
@@ -496,6 +497,7 @@ class VolumeCanvasViewController: CanvasViewController {
         
         setBlock(Int(x * CGFloat(numBlocks)))
     }
+    */
     
     @IBAction func sliderAction(_ sender: NSSlider!) {
 

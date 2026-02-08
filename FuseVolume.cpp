@@ -183,16 +183,16 @@ FuseVolume::statfs(const char *path, struct statvfs *st)
     const auto total = (fsblkcnt_t)stat.blocks;
     const auto free  = (fsblkcnt_t)stat.freeBlocks;
 
-    st->f_bsize   = bsize;         // Preferred block size
-    st->f_frsize  = bsize;         // Fundamental block size
+    st->f_bsize   = bsize;          // Preferred block size
+    st->f_frsize  = bsize;          // Fundamental block size
 
-    st->f_blocks  = total;             // Total data blocks in FS
-    st->f_bfree   = free;              // Free blocks
-    st->f_bavail  = free;              // Same as bfree (no root user concept)
+    st->f_blocks  = total;          // Total data blocks in FS
+    st->f_bfree   = free;           // Free blocks
+    st->f_bavail  = free;           // Same as bfree (no root user concept)
 
-    st->f_fsid    = 0;                 // Not required — FUSE ignores this
-    st->f_flag    = 0;                 // No mount flags
-    st->f_namemax = 30;                // Amiga filename limit (OFS/FFS)
+    st->f_fsid    = 0;              // Not required — FUSE ignores this
+    st->f_flag    = 0;              // No mount flags
+    st->f_namemax = 30;             // Amiga filename limit (OFS/FFS)
 
     return 0;
 }
@@ -216,6 +216,9 @@ FuseVolume::readdir(const char *path, void *buf, fuse_fill_dir_t filler,
         filler(buf, ".",  NULL, 0);
         filler(buf, "..", NULL, 0);
 
+        for (auto &name : dos->readDir(path)) {
+            printf("dir: %s\n", name.c_str());
+        }
         for (auto &name : dos->readDir(path)) {
             filler(buf, name.c_str(), NULL, 0);
         }

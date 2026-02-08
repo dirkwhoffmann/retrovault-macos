@@ -541,6 +541,7 @@ FSAttr::mode() const
     if (mode & posix::IWUSR) mode |= posix::IWGRP | posix::IWOTH;
     if (mode & posix::IXUSR) mode |= posix::IXGRP | posix::IXOTH;
 
+    printf("mode = %x\n", mode);
     return mode;
 }
 
