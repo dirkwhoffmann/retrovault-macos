@@ -92,5 +92,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             NSApp.activate(ignoringOtherApps: true)
         }
     }
+    
+    var needsSaving: Bool {
+        
+        if let dev = svc?.selectedDevice, let vol = svc?.selectedVolume {
+            return manager.needsSaving(device: dev, volume: vol)
+        }
+        if let dev = svc?.selectedDevice {
+            return manager.needsSaving(device: dev)
+        }
+        return false
+    }
 }
 

@@ -159,7 +159,7 @@ class MyToolbar: NSToolbar, NSToolbarDelegate {
         unmount.isEnabled = !globalDisable
         unmount.toolTip = "Unmount the device"
 
-        push.isHidden = !app.manager.needsSaving(device: dev, volume: vol)
+        push.isHidden = !app.needsSaving
         push.isEnabled = !globalDisable
         push.toolTip = "Write changes back to the image file"
 
@@ -183,8 +183,24 @@ class MyToolbar: NSToolbar, NSToolbarDelegate {
     }
 
     @objc private func unmountAction() {
-        
+
         guard let device = svc.selectedDevice else { return }
+
+        if app.needsSaving {
+            
+            let item = svc.selectedVolume != nil ? "Volume" : "Device"
+            
+            let alert = NSAlert()
+            
+            alert.messageText = "Unmount \(item)?"
+            alert.informativeText = "All changes that you made will be lost."
+            alert.alertStyle = .warning
+            alert.addButton(withTitle: "Unmount")
+            alert.addButton(withTitle: "Cancel")
+            
+            if alert.runModal() != .alertFirstButtonReturn { return }
+        }
+        
         svc.sidebarVC?.unmount(item: TableItem(device: device, volume: svc.selectedVolume))
     }
 
