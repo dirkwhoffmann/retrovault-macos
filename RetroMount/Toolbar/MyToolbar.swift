@@ -67,13 +67,12 @@ class MyToolbar: NSToolbar, NSToolbarDelegate {
         return [ .flexibleSpace,
                  .toggleSidebar,
                  .sidebarTrackingSeparator,
-                 .flexibleSpace,
-                 .push,
-                 // .space,
+                 .space,
                  .unmount,
                  .space,
-                 .protect,
-                 .flexibleSpace ]
+                 .push,
+                 .flexibleSpace,
+                 .protect]
     }
     
     func toolbar(_ toolbar: NSToolbar,
@@ -121,34 +120,54 @@ class MyToolbar: NSToolbar, NSToolbarDelegate {
     
     func updateToolbar() {
                 
-        // Push button
+        if let dev = svc.selectedDevice, let vol = svc.selectedVolume {
+            
+            updateToolbar(device: dev, volume: vol)
+            return
+        }
+
         if let dev = svc.selectedDevice {
             
-            if let vol = svc.selectedVolume {
-                push.isHidden = !app.manager.needsSaving(device: dev, volume: vol)
-            } else {
-                push.isHidden = !app.manager.needsSaving(device: dev)
-            }
-            
-        } else {
-
-            push.isHidden = true
+            updateToolbar(device: dev)
+            return
         }
-        
-        // Unmount button
-        unmount.isHidden = svc.selectedDevice == nil
-        
-        // Protect button
-        protect.isHidden = svc.selectedDevice == nil || svc.selectedVolume == nil
-        if let vol = svc.selectedVolume, let proxy = proxy?.volume(vol) {
-            protect.setImage(Symbol.get(proxy.iswriteProtected ? .unlocked : .locked), forSegment: 0)
-        }
-            
-            // Global disable flag
-            for item in items { item.isEnabled = !globalDisable }
 
+        unmount.isHidden = true
+        push.isHidden = true
+        protect.isHidden = true
     }
     
+    func updateToolbar(device dev: Int) {
+        
+        unmount.isHidden = false
+        unmount.isEnabled = !globalDisable
+        unmount.toolTip = "Unmount the device"
+
+        push.isHidden = !app.manager.needsSaving(device: dev)
+        push.isEnabled = !globalDisable
+        push.toolTip = "Write changes back to the image file"
+
+        protect.isHidden = true
+        protect.isEnabled = !globalDisable
+    }
+
+    func updateToolbar(device dev: Int, volume vol: Int) {
+        
+        let wenable = proxy?.volume(vol).iswriteProtected == false
+
+        unmount.isHidden = false
+        unmount.isEnabled = !globalDisable
+        unmount.toolTip = "Unmount the device"
+
+        push.isHidden = !app.manager.needsSaving(device: dev, volume: vol)
+        push.isEnabled = !globalDisable
+        push.toolTip = "Write changes back to the image file"
+
+        protect.isHidden = false
+        protect.setImage(Symbol.get(wenable ? .unlocked : .locked), forSegment: 0)
+        protect.isEnabled = !globalDisable
+    }
+
     //
     // Action methods
     //
