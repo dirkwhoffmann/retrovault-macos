@@ -165,7 +165,7 @@ class DeviceManager {
     
     func process(message msg: Int) {
         
-        print("Holla, die Waldfee")
+        // print("Holla, die Waldfee")
     }
     
     func mount(url: URL) {

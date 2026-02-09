@@ -28,12 +28,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     // View controller of the devices window
     var vc: SidebarViewController?
 
-    /*
-    var windowController: WindowController? {
-        return NSApplication.shared.windows.first?.windowController as? WindowController
-    }
-    */
-
+    // Split view controller
+    var svc: MySplitViewController?
+    
     func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
 
         return true
@@ -45,18 +42,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
 
+        if let fileMenuItem = NSApp.mainMenu?.item(withTitle: "File") {
+            fileMenuItem.isHidden = true
+        }
+
         if AppDelegate.hasFUSE {
             showVolumeWindow()
         } else {
             showLaunchErrorWindow()
         }
     }
-
-    /*
-    func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
-        return false
-    }
-    */
 
     func applicationWillTerminate(_ aNotification: Notification) {
 
@@ -69,9 +64,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func application(_ application: NSApplication, open urls: [URL]) {
 
-        print("application open: urls = \(urls)")
         urls.forEach { manager.mount(url: $0) }
-
+        
+        svc?.isCollapsed = false
         vc?.outlineView.reloadAndSelectLast()
     }
 

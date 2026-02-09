@@ -53,17 +53,22 @@ class MySplitViewController: NSSplitViewController {
     // The currently active canvas controller
     var current: CanvasViewController?
 
+    var isCollapsed: Bool = false {
+        didSet { splitViewItems[0].isCollapsed = isCollapsed }
+    }
+    
     override func viewDidLoad() {
 
         super.viewDidLoad()
 
+        app.svc = self
+        isCollapsed = true
+        
         // Assign the selection handler
         sidebarVC?.selectionHandler = { [weak self] (i1,i2) in
 
-            print("Selected: (\(i1 ?? -1),\(i2 ?? -1))")
             self?.selection = (i1,i2)
             self?.showContent()
-            // self?.current?.set(device: i1, volume: i2)
         }
     }
 

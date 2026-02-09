@@ -39,6 +39,7 @@ final class MySplitView: NSSplitView {
         }
 
         urls.forEach { app.manager.mount(url: $0) }
+        svc.isCollapsed = false
         svc.sidebarVC?.outlineView.reloadAndSelectLast()
 
         return true
