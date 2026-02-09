@@ -61,7 +61,7 @@ class FuseDevice {
 
     
     //
-    // Methods
+    // Initializing
     //
 
 public:
@@ -72,15 +72,36 @@ public:
     // Registers a listener together with it's callback function
     void setListener(const void *listener, AdapterCallback *func);
 
+private:
+    
+    // Create a volume (I = image type, V = volume type)
+    template<typename I, typename V> void makeVolumeFor(const fs::path& filename);
+
+    
+    //
+    // Querying information
+    //
+
+public:
+    
     FuseVolume &getVolume(isize volume);
     DiskImage *getImage() { return image.get(); }
 
     vector<string> describe() const noexcept;
-
-private:
-    
-    template<typename I, typename V> void makeVolumeFor(const fs::path& filename);
  
+    
+    //
+    // Configuring
+    //
+    
+public:
+
+    // Returns true if the specified volume is mounted read-only
+    bool isWriteProtected(isize volume);
+
+    // Changes the write protection status for the specified volume
+    void writeProtect(bool yesno, isize volume);
+
     
     //
     // Mounting and unmounting volumes
@@ -88,22 +109,31 @@ private:
     
 public:
     
+    void open(const fs::path &url);
+    
+    void close();
+    void close(isize volume);
+    
+    void save();
+    void save(isize volume);
+    
+    void saveAs(const fs::path &url);
+    void saveAs(const fs::path &url, isize volume);
+    
+    void revert();
+    void revert(isize volume);
+
+    // DEPRECATED
     void mount(isize volume, const fs::path &mountPoint);
     void mount(const fs::path &mountPoint);
     void unmount(isize volume);
     void unmount();
 
-    // Returns true if the specified volume is mounted read-only
-    bool isWriteProtected(isize volume);
-
-    // Changes the write protection status for the specified volume
-    void writeProtect(bool yesno, isize volume);
-    
     // Writes all changes back to the image file
-    void push();
+    // void push();
     
     // Writes all changes back to the image file (DEPRECATED)
-    void save();
+    // void save();
     
     
     //

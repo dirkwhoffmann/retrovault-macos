@@ -107,11 +107,13 @@ using namespace utl;
     return [NSURL fileURLWithPath:nsPath];
 }
 
+/*
 - (void)push:(ExceptionWrapper *)ex
 {
     try { [self volume]->push(); }
     catch (Error &error) { [ex save:error]; }
 }
+*/
 
 - (FSPosixStat)stat
 {
@@ -468,11 +470,67 @@ using namespace utl;
 
 }
 
+- (void)open:(NSURL *)url exception:(ExceptionWrapper *)ex
+{
+    try { [self device]->open([url fileSystemRepresentation]); }
+    catch (Error &error) { [ex save:error]; }
+}
+
+- (void)close:(ExceptionWrapper *)ex
+{
+    try { [self device]->close(); }
+    catch (Error &error) { [ex save:error]; }
+}
+
+- (void)close:(NSInteger)volume exception:(ExceptionWrapper *)ex
+{
+    try { [self device]->close(volume); }
+    catch (Error &error) { [ex save:error]; }
+}
+
 - (void)save:(ExceptionWrapper *)ex
 {
     try { [self device]->save(); }
     catch (Error &error) { [ex save:error]; }
 }
+
+- (void)save:(NSInteger)volume exception:(ExceptionWrapper *)ex
+{
+    try { [self device]->save(volume); }
+    catch (Error &error) { [ex save:error]; }
+}
+
+- (void)saveAs:(NSURL *)url exception:(ExceptionWrapper *)ex
+{
+    try { [self device]->saveAs([url fileSystemRepresentation]); }
+    catch (Error &error) { [ex save:error]; }
+}
+
+- (void)saveAs:(NSURL *)url volume:(NSInteger)volume exception:(ExceptionWrapper *)ex
+{
+    try { [self device]->saveAs([url fileSystemRepresentation], volume); }
+    catch (Error &error) { [ex save:error]; }
+}
+
+- (void)revert:(ExceptionWrapper *)ex
+{
+    try { [self device]->revert(); }
+    catch (Error &error) { [ex save:error]; }
+}
+
+- (void)revert:(NSInteger)volume exception:(ExceptionWrapper *)ex
+{
+    try { [self device]->revert(volume); }
+    catch (Error &error) { [ex save:error]; }
+}
+
+/*
+- (void)save:(ExceptionWrapper *)ex
+{
+    try { [self device]->save(); }
+    catch (Error &error) { [ex save:error]; }
+}
+*/
 
 - (void)mount:(NSURL *)mountpoint exception:(ExceptionWrapper *)ex
 {
@@ -495,11 +553,13 @@ using namespace utl;
     [self device]->setListener(listener, func);
 }
 
+/*
 - (void)push:(ExceptionWrapper *)ex
 {
     try { [self device]->push(); }
     catch (Error &error) { [ex save:error]; }
 }
+*/
 
 - (NSString *)mountPoint:(NSInteger)v
 {

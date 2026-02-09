@@ -174,12 +174,10 @@ class MyToolbar: NSToolbar, NSToolbarDelegate {
     
     @objc private func pushAction() {
 
-        if let vol = svc.selectedVolume, let proxy = proxy?.volume(vol) {
-            print("push \(vol)")
-            try? proxy.push()
+        if let vol = svc.selectedVolume {
+            try? proxy?.save(volume: vol)
         } else {
-            print("push all")
-            try? proxy?.push()
+            try? proxy?.save()
         }
         svc.refresh()
     }
@@ -191,13 +189,10 @@ class MyToolbar: NSToolbar, NSToolbarDelegate {
     }
 
     @objc private func protectAction() {
-        
-        print("protectAction")
-                        
+
         if let vol = svc.selectedVolume, let proxy = proxy?.volume(vol) {
             proxy.writeProtect(!proxy.iswriteProtected)
         }
-        
         updateToolbar()
     }
 }

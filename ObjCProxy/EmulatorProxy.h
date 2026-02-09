@@ -70,7 +70,7 @@ inline const char *c_str(const std::string &s)
 @property (readonly) BOOL iswriteProtected;
 - (void)writeProtect:(BOOL)wp;
 
-- (void)push:(ExceptionWrapper *)ex;
+// - (void)push:(ExceptionWrapper *)ex;
 
 // Properties
 @property (readonly) FSPosixStat stat;
@@ -136,6 +136,9 @@ inline const char *c_str(const std::string &s)
 @property (readonly) NSInteger numBytes;
 @property (readonly) NSInteger numVolumes;
 
+// Initialization
+- (void)setListener:(const void *)listener function:(AdapterCallback *)func;
+
 // Translation
 -(NSInteger)b2t:(NSInteger)b;
 -(NSInteger)b2c:(NSInteger)b;
@@ -152,13 +155,20 @@ inline const char *c_str(const std::string &s)
 -(NSString *)readASCII:(NSInteger)offset from:(NSInteger)block length:(NSInteger)len;
 
 // Actions
+- (void)open:(NSURL *)url exception:(ExceptionWrapper *)ex;
+- (void)close:(ExceptionWrapper *)ex;
+- (void)close:(NSInteger)volume exception:(ExceptionWrapper *)ex;
 - (void)save:(ExceptionWrapper *)ex;
+- (void)save:(NSInteger)volume exception:(ExceptionWrapper *)ex;
+- (void)saveAs:(NSURL *)url exception:(ExceptionWrapper *)ex;
+- (void)saveAs:(NSURL *)url volume:(NSInteger)volume exception:(ExceptionWrapper *)ex;
+- (void)revert:(ExceptionWrapper *)ex;
+- (void)revert:(NSInteger)volume exception:(ExceptionWrapper *)ex;
 
+// DEPRECATED
 - (void)mount:(NSURL *)url exception:(ExceptionWrapper *)ex;
 - (void)unmount:(NSInteger)volume;
 - (void)unmountAll;
-- (void)setListener:(const void *)listener function:(AdapterCallback *)func;
-
-- (void)push:(ExceptionWrapper *)ex;
+// - (void)push:(ExceptionWrapper *)ex;
 
 @end
