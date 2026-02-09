@@ -94,7 +94,7 @@ FuseDevice::getVolume(isize v)
 }
 
 void
-FuseDevice::mount(isize partition, const fs::path &mountPoint)
+FuseDevice::mount(const fs::path &mountPoint, isize partition)
 {
     assert(partition >= 0 && partition < volumes.size());
     volumes[partition]->mount(mountPoint);
@@ -103,16 +103,14 @@ FuseDevice::mount(isize partition, const fs::path &mountPoint)
 void
 FuseDevice::mount(const fs::path &mountPoint)
 {
-    // this->mountPoint = mountPoint;
-
     if (volumes.size() == 1) {
 
-        mount(0, mountPoint);
+        mount(mountPoint, 0);
         return;
     }
 
     for (isize i = 0; i < volumes.size(); i++) {
-        mount(i, mountPoint / std::to_string(i));
+        mount(mountPoint / std::to_string(i), i);
     }
 }
 
@@ -139,64 +137,42 @@ FuseDevice::unmount()
     while (!volumes.empty()) { unmount(0); }
 }
 
-bool
-FuseDevice::isWriteProtected(isize volume)
-{
-    assert(volume >= 0 && volume < volumes.size());
-    return volumes[volume]->isWriteProtected();
-}
-
-void
-FuseDevice::writeProtect(bool yesno, isize volume)
-{
-    assert(volume >= 0 && volume < volumes.size());
-    volumes[volume]->writeProtect(yesno);
-}
-
-void
-FuseDevice::open(const fs::path &url)
-{
-    
-}
-
-void
-FuseDevice::close()
-{
-    
-}
-
-void
-FuseDevice::close(isize volume)
-{
-    
-}
-
 void
 FuseDevice::save()
 {
     // Flush all volumes
-    for (auto &volume: volumes) { volume->flush(); }
+    for (auto &volume : volumes) { volume->flush(); }
     
     // Update image
-    for (auto &volume : volumes) { image->save(volume->getRange()); }
+    image->save();
 }
 
 void
 FuseDevice::save(isize volume)
 {
+    assert(volume < isize(volumes.size()));
+
+    // Flush volume
+    volumes[volume]->flush();
     
+    // Update image
+    image->saveBlocks(volumes[volume]->getRange());
 }
 
 void
 FuseDevice::saveAs(const fs::path &url)
 {
-
+    // Flush all volumes
+    for (auto &volume : volumes) { volume->flush(); }
+    
+    // Save image under the new name
+    image->saveAs(url);
 }
 
 void
 FuseDevice::saveAs(const fs::path &url, isize volume)
 {
-
+    // TODO
 }
 
 void
@@ -211,24 +187,19 @@ FuseDevice::revert(isize volume)
     
 }
 
-/*
-void
-FuseDevice::push()
+bool
+FuseDevice::isWriteProtected(isize volume)
 {
-    for (auto &volume : volumes)
-        image->save(volume->getRange());    
+    assert(volume >= 0 && volume < volumes.size());
+    return volumes[volume]->isWriteProtected();
 }
 
 void
-FuseDevice::save()
+FuseDevice::writeProtect(bool yesno, isize volume)
 {
-    // Flush all volumes
-    for (auto &volume: volumes) { volume->flush(); }
-    
-    // Save image
-    image->save();
+    assert(volume >= 0 && volume < volumes.size());
+    volumes[volume]->writeProtect(yesno);
 }
-*/
 
 FSPosixStat
 FuseDevice::stat(isize partition)

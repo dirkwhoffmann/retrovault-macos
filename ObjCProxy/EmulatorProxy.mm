@@ -470,6 +470,7 @@ using namespace utl;
 
 }
 
+/*
 - (void)open:(NSURL *)url exception:(ExceptionWrapper *)ex
 {
     try { [self device]->open([url fileSystemRepresentation]); }
@@ -487,6 +488,7 @@ using namespace utl;
     try { [self device]->close(volume); }
     catch (Error &error) { [ex save:error]; }
 }
+*/
 
 - (void)save:(ExceptionWrapper *)ex
 {

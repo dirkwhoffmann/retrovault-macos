@@ -147,14 +147,65 @@ AnyImage::copy(u8 *buf, isize offset) const
 }
 
 void
-AnyImage::save() const
+AnyImage::save()
 {
-    if (path.empty())
-        throw IOError(IOError::FILE_NOT_FOUND, "");
+    save(Range<isize>{0,size()});
+}
+
+void
+AnyImage::save(const Range<BlockNr> range)
+{
+    if (!file) throw IOError(IOError::FILE_NOT_FOUND, path);
     
-    printf("Writing to file %s\n", path.string().c_str());
-    writeToFile(path);
-    printf("Done.\n");
+    printf("Saving range %ld - %ld...\n", range.lower, range.upper - 1);
+    
+    // Move to the correct position
+    file.seekp(range.lower, std::ios::beg);
+    
+    // Write the data to the stream
+    file.write((char *)(data.ptr + range.lower), range.size());
+    
+    // Update the file on disk
+    file.flush();
+}
+
+void
+AnyImage::save(const std::vector<Range<BlockNr>> ranges)
+{
+    for (auto &range: ranges) save(range);
+}
+
+void
+AnyImage::saveAs(const fs::path &newPath)
+{
+    // Fallback to the standard save function of paths match
+    if (newPath == path) { save(); return; }
+
+    // Make sure pending writes hit the disk
+    file.flush();
+    if (!file)
+        throw IOError(IOError::FILE_CANT_CREATE, path);
+
+    // Copy file
+    try {
+
+        fs::copy_file(path, newPath,
+                      fs::copy_options::overwrite_existing);
+
+    } catch (const fs::filesystem_error &) {
+
+        throw IOError(IOError::FILE_CANT_WRITE, newPath);
+    }
+
+    // Close current stream
+    file.close();
+
+    // Reopen the stream with the new file
+    file.open(newPath, std::ios::binary | std::ios::in | std::ios::out);
+    if (!file)
+        throw IOError(IOError::FILE_CANT_READ, newPath);
+
+    path = newPath;
 }
 
 isize

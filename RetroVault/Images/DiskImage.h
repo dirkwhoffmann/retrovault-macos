@@ -64,9 +64,8 @@ public:
 public:
 
     // Update portions of the image file on disk with the current contents
-    void save() const { AnyImage::save(); }
-    void save(const Range<BlockNr>);
-    void save(const std::vector<Range<BlockNr>>);
+    void saveBlocks(const Range<BlockNr>);
+    void saveBlocks(const std::vector<Range<BlockNr>>);
 };
 
 }

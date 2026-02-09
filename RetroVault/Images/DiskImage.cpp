@@ -107,25 +107,13 @@ DiskImage::byteView(TrackNr t, SectorNr s)
 }
 
 void
-DiskImage::save(const Range<BlockNr> range)
+DiskImage::saveBlocks(const Range<BlockNr> range)
 {
-    if (file) {
-        
-        printf("Saving blocks %ld - %ld...\n", range.lower, range.upper - 1);
-        
-        // Move to the correct position
-        file.seekp(range.lower * bsize(), std::ios::beg);
-
-        // Write the data to the stream
-        file.write((char *)(data.ptr + range.lower * bsize()), range.size() * bsize());
-        
-        // Update the file on disk
-        file.flush();
-    }
+    save(Range<isize>{range.lower * bsize(), range.upper * bsize()});
 }
 
 void
-DiskImage::save(const std::vector<Range<BlockNr>> ranges)
+DiskImage::saveBlocks(const std::vector<Range<BlockNr>> ranges)
 {
     for (auto &range: ranges) save(range);
 }

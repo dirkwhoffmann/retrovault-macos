@@ -12,6 +12,7 @@
 #include "ImageTypes.h"
 #include "utl/abilities.h"
 #include "utl/storage.h"
+#include "utl/primitives/Range.h"
 #include <iostream>
 
 namespace retro::vault {
@@ -109,9 +110,12 @@ public:
     // Checking consistency
     //
 
+public:
+    
     // Scans the image and throws an exception if an inconsistency is found
     virtual void checkIntegrity() { };
 
+    
     //
     // Accessing data
     //
@@ -134,8 +138,13 @@ public:
 
 public:
 
-    // Update the image file on disk with the current contents
-    void save() const;
+    // Update the image or a portion of the image on disk
+    void save();
+    void save(const Range<isize> range);
+    void save(const std::vector<Range<isize>> ranges);
+    
+    // Create a new image file on disk and update it with the current contents
+    void saveAs(const fs::path &path);
     
     isize writeToStream(std::ostream &stream) const;
     isize writeToFile(const fs::path &path) const;

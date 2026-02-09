@@ -155,9 +155,9 @@ inline const char *c_str(const std::string &s)
 -(NSString *)readASCII:(NSInteger)offset from:(NSInteger)block length:(NSInteger)len;
 
 // Actions
-- (void)open:(NSURL *)url exception:(ExceptionWrapper *)ex;
-- (void)close:(ExceptionWrapper *)ex;
-- (void)close:(NSInteger)volume exception:(ExceptionWrapper *)ex;
+// - (void)open:(NSURL *)url exception:(ExceptionWrapper *)ex;
+// - (void)close:(ExceptionWrapper *)ex;
+// - (void)close:(NSInteger)volume exception:(ExceptionWrapper *)ex;
 - (void)save:(ExceptionWrapper *)ex;
 - (void)save:(NSInteger)volume exception:(ExceptionWrapper *)ex;
 - (void)saveAs:(NSURL *)url exception:(ExceptionWrapper *)ex;

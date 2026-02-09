@@ -30,6 +30,7 @@ extension FuseDeviceProxy {
         return result!
     }
  
+    /*
     func open(url: URL) throws {
         
         let exception = ExceptionWrapper()
@@ -50,7 +51,8 @@ extension FuseDeviceProxy {
         close(volume, exception: exception)
         if exception.fault != 0 { throw AppError(exception) }
     }
-
+    */
+    
     func save() throws {
         
         let exception = ExceptionWrapper()

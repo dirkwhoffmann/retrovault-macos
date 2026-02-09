@@ -109,10 +109,17 @@ public:
     
 public:
     
-    void open(const fs::path &url);
-    
+    // void open(const fs::path &url);
+    void mount(const fs::path &mountPoint, isize volume);
+    void mount(const fs::path &mountPoint);
+
+    void unmount(isize volume);
+    void unmount();
+
+    /*
     void close();
     void close(isize volume);
+    */
     
     void save();
     void save(isize volume);
@@ -124,10 +131,6 @@ public:
     void revert(isize volume);
 
     // DEPRECATED
-    void mount(isize volume, const fs::path &mountPoint);
-    void mount(const fs::path &mountPoint);
-    void unmount(isize volume);
-    void unmount();
 
     // Writes all changes back to the image file
     // void push();
