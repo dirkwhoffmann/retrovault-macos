@@ -358,7 +358,7 @@ class VolumeCanvasViewController: CanvasViewController {
         fillIndicator.doubleValue = (info.fill * 100.0).rounded()
         fill.doubleValue = (info.fill * 100.0).rounded()
         numBlocksInfo.stringValue = "\(info.blocks) Blocks"
-        usedBlocksInfo.stringValue = "\(info.usedBlocks) Blocks (\(info.fillString))"
+        usedBlocksInfo.stringValue = "\(info.usedBlocks) Blocks" //  (\(info.fillString))"
         cachedBlocksInfo.stringValue = "\(info.cachedBlocks) Blocks"
         dirtyBlocksInfo.stringValue = "\(info.dirtyBlocks) Blocks"        
     }
