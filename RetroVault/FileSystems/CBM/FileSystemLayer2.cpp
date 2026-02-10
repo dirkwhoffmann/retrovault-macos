@@ -442,8 +442,8 @@ FileSystem::reclaim(BlockNr b)
 {
     for (auto &block : collectDataBlocks(b)) {
 
-        cache.erase(block);
         allocator.markAsFree(block);
+        cache.erase(block);
     }
 }
 

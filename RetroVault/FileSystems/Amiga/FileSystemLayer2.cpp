@@ -581,7 +581,7 @@ FileSystem::reclaim(BlockNr fhb)
     if (node.isDirectory()) {
 
         // Remove user directory block
-        cache.erase(node.nr); allocator.markAsFree(node.nr);
+        allocator.markAsFree(node.nr); cache.erase(node.nr);
 
     } else if (node.isFile()) {
 
