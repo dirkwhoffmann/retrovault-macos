@@ -158,7 +158,11 @@ FuseVolume::read(const char *path, char *buf, size_t size, off_t offset, struct 
 {
     return fsexec([&]{
 
-        auto count = dos->read(HandleRef(fi->fh), std::span{(u8 *)buf, size});
+        auto handle = HandleRef(fi->fh);
+        
+        dos->lseek(handle, offset);
+        auto count = dos->read(handle, std::span{(u8 *)buf, size});
+        
         return int(count);
     });
 }
@@ -168,7 +172,11 @@ FuseVolume::write(const char *path, const char *buf, size_t size, off_t offset, 
 {
     return fsexec([&]{
 
-        auto count = dos->write(HandleRef(fi->fh), std::span{(u8 *)buf, size});
+        auto handle = HandleRef(fi->fh);
+        
+        dos->lseek(handle, offset);
+        auto count = dos->write(handle, std::span{(u8 *)buf, size});
+        
         return int(count);
     });
 }
@@ -194,6 +202,8 @@ FuseVolume::statfs(const char *path, struct statvfs *st)
     st->f_flag    = 0;              // No mount flags
     st->f_namemax = 30;             // Amiga filename limit (OFS/FFS)
 
+    printf("Free blocks: %u\n", free);
+    
     return 0;
 }
 

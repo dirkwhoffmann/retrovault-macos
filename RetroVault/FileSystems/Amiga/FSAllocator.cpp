@@ -284,7 +284,7 @@ FSAllocator::locateAllocationBit(BlockNr nr, isize *byte, isize *bit) const noex
     isize bmNr = nr / bitsPerBlock;
 
     // Get the bitmap block
-    if (bmNr <= (isize)bmBlocks.size()) {
+    if (bmNr >= (isize)bmBlocks.size()) {
         loginfo(FS_DEBUG, "Bitmap block index %ld for block %ld is out of range \n", bmNr, nr);
         return nullptr;
     }
@@ -387,8 +387,11 @@ FSAllocator::setAllocBit(BlockNr nr, bool value)
 {
     isize byte, bit;
 
+    printf("setAllocBit(%ld,%d)\n", nr, value);
+    
     if (auto *bm = locateAllocationBit(nr, &byte, &bit)) {
 
+        printf("bm = %p\n", bm);
         auto *data = bm->mutate().data();
         REPLACE_BIT(data[byte], bit, value);
     }

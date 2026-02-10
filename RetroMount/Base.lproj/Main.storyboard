@@ -1576,10 +1576,10 @@ DQ
                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                     </textFieldCell>
                                                 </textField>
-                                                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Bi0-tO-Cym">
+                                                <button hidden="YES" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Bi0-tO-Cym">
                                                     <rect key="frame" x="529" y="46" width="101" height="18"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
-                                                    <buttonCell key="cell" type="check" title="Strict checking " bezelStyle="regularSquare" imagePosition="right" alignment="right" controlSize="small" inset="2" id="Cgs-eI-DPk">
+                                                    <buttonCell key="cell" type="check" title="Strict checking " bezelStyle="regularSquare" imagePosition="right" alignment="right" controlSize="small" state="on" inset="2" id="Cgs-eI-DPk">
                                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                         <font key="font" metaFont="smallSystem"/>
                                                     </buttonCell>
