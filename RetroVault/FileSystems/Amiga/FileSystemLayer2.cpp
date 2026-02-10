@@ -590,9 +590,9 @@ FileSystem::reclaim(BlockNr fhb)
         auto listBlocks = collectListBlocks(node.nr);
 
         // Remove all blocks
-        cache.erase(node.nr); allocator.markAsFree(node.nr);
-        for (auto &it : dataBlocks) { cache.erase(it); allocator.markAsFree(it); }
-        for (auto &it : listBlocks) { cache.erase(it); allocator.markAsFree(it); }
+        allocator.markAsFree(node.nr); cache.erase(node.nr);
+        for (auto &it : dataBlocks) { allocator.markAsFree(it); cache.erase(it); }
+        for (auto &it : listBlocks) { allocator.markAsFree(it); cache.erase(it); }
     }
 }
 
