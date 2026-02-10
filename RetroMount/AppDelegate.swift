@@ -16,12 +16,8 @@ var app: AppDelegate { NSApp.delegate as! AppDelegate }
 class AppDelegate: NSObject, NSApplicationDelegate {
 
     // Indicates if FUSE is installed
-    static var hasFUSE: Bool {
-
-        let RTLD_DEFAULT = UnsafeMutableRawPointer(bitPattern: -2)!
-        return dlsym(RTLD_DEFAULT, "fuse_mount") != nil
-    }
-
+    var hasFuse = false
+    
     // Device manager
     var manager = DeviceManager()
 
@@ -41,12 +37,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
+        
+        // Check if FUSE is installed
+        let RTLD_DEFAULT = UnsafeMutableRawPointer(bitPattern: -2)!
+        hasFuse = dlsym(RTLD_DEFAULT, "fuse_mount") != nil
 
+        // Disable the File menu (for now)
         if let fileMenuItem = NSApp.mainMenu?.item(withTitle: "File") {
             fileMenuItem.isHidden = true
         }
 
-        if AppDelegate.hasFUSE {
+        if hasFuse {
             showVolumeWindow()
         } else {
             showLaunchErrorWindow()

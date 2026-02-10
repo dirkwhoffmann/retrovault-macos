@@ -40,6 +40,7 @@ enum Symbol {
     // Pictograms
     case biohazard
     case exclamationmark
+    case folder
     case gear
     case magnifyingglass
     case shell
@@ -106,6 +107,7 @@ enum Symbol {
             // Pictograms
         case .biohazard:        return [ "biohazardTemplate" ]
         case .exclamationmark:  return [ "exclamationmark.octagon" ]
+        case .folder:           return [ "folder.circle" ]
         case .gear:             return [ "gear" ]
         case .magnifyingglass:  return [ "magnifyingglass" ]
         case .shell:            return [ "fossil.shell" ]

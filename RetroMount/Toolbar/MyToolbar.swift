@@ -11,6 +11,7 @@ extension NSToolbarItem.Identifier {
     
     static let push = NSToolbarItem.Identifier("Push")
     static let unmount = NSToolbarItem.Identifier("Unmount")
+    static let open = NSToolbarItem.Identifier("Open")
     static let protect = NSToolbarItem.Identifier("Protect")
 }
 
@@ -21,6 +22,7 @@ class MyToolbar: NSToolbar, NSToolbarDelegate {
 
     var push: MyToolbarItemGroup!
     var unmount: MyToolbarItemGroup!
+    var open: MyToolbarItemGroup!
     var protect: MyToolbarItemGroup!
 
     // Set to true to gray out all toolbar items
@@ -56,6 +58,7 @@ class MyToolbar: NSToolbar, NSToolbarDelegate {
         return [ .toggleSidebar,
                  .sidebarTrackingSeparator,
                  .push,
+                 .open,
                  .unmount,
                  .protect,
                  .space,
@@ -68,6 +71,8 @@ class MyToolbar: NSToolbar, NSToolbarDelegate {
                  .toggleSidebar,
                  .sidebarTrackingSeparator,
                  .space,
+                 .open,
+                 // .space,
                  .unmount,
                  .space,
                  .push,
@@ -99,6 +104,15 @@ class MyToolbar: NSToolbar, NSToolbarDelegate {
                                          label: "Unmount")
             return unmount
 
+        case .open:
+            
+            open = MyToolbarItemGroup(identifier: .open,
+                                        images: [.folder],
+                                        actions: [#selector(openAction)],
+                                        target: self,
+                                        label: "Open")
+            return open
+            
         case .protect:
             
             protect = MyToolbarItemGroup(identifier: .protect,
@@ -134,6 +148,7 @@ class MyToolbar: NSToolbar, NSToolbarDelegate {
 
         unmount.isHidden = true
         push.isHidden = true
+        open.isHidden = true
         protect.isHidden = true
     }
     
@@ -147,8 +162,8 @@ class MyToolbar: NSToolbar, NSToolbarDelegate {
         push.isEnabled = !globalDisable
         push.toolTip = "Write changes back to the image file"
 
+        open.isHidden = true
         protect.isHidden = true
-        protect.isEnabled = !globalDisable
     }
 
     func updateToolbar(device dev: Int, volume vol: Int) {
@@ -162,6 +177,10 @@ class MyToolbar: NSToolbar, NSToolbarDelegate {
         push.isHidden = !app.needsSaving
         push.isEnabled = !globalDisable
         push.toolTip = "Write changes back to the image file"
+
+        open.isHidden = false
+        open.isEnabled = !globalDisable
+        open.toolTip = "Open in Finder"
 
         protect.isHidden = false
         protect.setImage(Symbol.get(wenable ? .unlocked : .locked), forSegment: 0)
@@ -202,6 +221,16 @@ class MyToolbar: NSToolbar, NSToolbarDelegate {
         }
         
         svc.sidebarVC?.unmount(item: TableItem(device: device, volume: svc.selectedVolume))
+    }
+
+    @objc private func openAction() {
+
+        if let vol = svc.selectedVolume, let proxy = proxy?.volume(vol) {
+            
+            if let url = proxy.mountPoint {
+                NSWorkspace.shared.open(url)
+            }
+        }
     }
 
     @objc private func protectAction() {
