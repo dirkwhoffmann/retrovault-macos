@@ -115,11 +115,6 @@ public:
 
     void unmount(isize volume);
     void unmount();
-
-    /*
-    void close();
-    void close(isize volume);
-    */
     
     void save();
     void save(isize volume);
@@ -129,14 +124,6 @@ public:
     
     void revert();
     void revert(isize volume);
-
-    // DEPRECATED
-
-    // Writes all changes back to the image file
-    // void push();
-    
-    // Writes all changes back to the image file (DEPRECATED)
-    // void save();
     
     
     //

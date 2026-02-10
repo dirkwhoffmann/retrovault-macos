@@ -386,12 +386,9 @@ void
 FSAllocator::setAllocBit(BlockNr nr, bool value)
 {
     isize byte, bit;
-
-    printf("setAllocBit(%ld,%d)\n", nr, value);
     
     if (auto *bm = locateAllocationBit(nr, &byte, &bit)) {
 
-        printf("bm = %p\n", bm);
         auto *data = bm->mutate().data();
         REPLACE_BIT(data[byte], bit, value);
     }

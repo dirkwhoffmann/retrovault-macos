@@ -377,22 +377,16 @@ PosixAdapter::write(HandleRef ref, std::span<const u8> buffer)
     auto &meta   = ensureMeta(handle.node);
 
     // Cache the file if necessary
-    printf("meta.cache.empty() = %d\n", meta.cache.empty());
     if (meta.cache.empty()) { fs.fetch(handle.node).extractData(meta.cache); }
 
     // Determine the new file size
-    printf("handle.offset = %ld, buffer.size() = %ld\n", handle.offset, (isize)buffer.size());
     auto newSize = std::max(meta.cache.size, handle.offset + (isize)buffer.size());
-    printf("newSize = %ld\n", newSize);
 
     // Resize the cached file if necessary (pad with 0)
-    printf("Before resize = %ld\n", meta.cache.size);
     meta.cache.resize(newSize, 0);
-    printf("After resize = %ld\n", meta.cache.size);
 
     // Compute the number of bytes to write
     auto count = buffer.size();
-    printf("count = %ld\n", count);
 
     // Update data
     std::memcpy(meta.cache.ptr + handle.offset, buffer.data(), count);

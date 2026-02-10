@@ -461,6 +461,7 @@ FileSystem::replace(BlockNr fhb,
     fhbNode.setFileSize(u32(size));
 
     // Allocate blocks
+    printf("replace: size = %ld listBlocks: %ld dataBlocks: %ld\n", size, listBlocks.size(), dataBlocks.size());
     allocator.allocateFileBlocks(size, listBlocks, dataBlocks);
 
     for (usize i = 0; i < listBlocks.size(); i++) {
@@ -689,7 +690,7 @@ FileSystem::collectListBlocks(const BlockNr ref) const
     std::vector<BlockNr> result;
 
     if (auto *ptr = tryFetch(ref)) {
-        for (auto &it: collectDataBlocks(*ptr)) result.push_back(it->nr);
+        for (auto &it: collectListBlocks(*ptr)) result.push_back(it->nr);
     }
     return result;
 }
