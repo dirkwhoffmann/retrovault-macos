@@ -62,7 +62,7 @@ class MySplitViewController: NSSplitViewController {
         super.viewDidLoad()
 
         app.svc = self
-        isCollapsed = true
+        // isCollapsed = true
         
         // Assign the selection handler
         sidebarVC?.selectionHandler = { [weak self] (i1,i2) in

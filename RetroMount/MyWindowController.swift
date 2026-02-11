@@ -10,7 +10,7 @@
 import Cocoa
 
 class MyWindowController: NSWindowController {
-
+    
     var vc: MySplitViewController? { contentViewController as? MySplitViewController }
 
     required init?(coder: NSCoder) {
@@ -22,6 +22,8 @@ class MyWindowController: NSWindowController {
         // Create toolbar
         window!.toolbarStyle = .unified
         window!.toolbar = MyToolbar(controller: self)
+        
+        window?.registerForDraggedTypes([.fileURL])
         
         // Show window
         window!.center()

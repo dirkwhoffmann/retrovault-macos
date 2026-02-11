@@ -150,7 +150,7 @@ class MyToolbar: NSToolbar, NSToolbarDelegate {
         eject.isEnabled = !globalDisable
         eject.toolTip = "Unmount the device"
         
-        folder.isHidden = false
+        folder.isHidden = !app.hasFuse
         folder.isEnabled = !globalDisable
         folder.toolTip = "Open in Finder"
 

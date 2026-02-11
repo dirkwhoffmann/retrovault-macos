@@ -11,8 +11,11 @@ import Cocoa
 
 class InfoCanvasViewController: CanvasViewController {
 
+    @IBOutlet var splashImage: NSImageView!
+
     override func viewDidLoad() {
 
+        splashImage.unregisterDraggedTypes()
         refresh()
     }
 

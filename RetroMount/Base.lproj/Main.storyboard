@@ -427,6 +427,11 @@ DQ
                         <rect key="frame" x="0.0" y="0.0" width="730" height="540"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
+                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8DZ-5u-zS1">
+                                <rect key="frame" x="0.0" y="131" width="730" height="409"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
+                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="axesIndependently" image="kevberon-floppy2" id="kEI-D9-Qoa"/>
+                            </imageView>
                             <box fixedFrame="YES" boxType="custom" borderType="none" cornerRadius="4" title="Box" translatesAutoresizingMaskIntoConstraints="NO" id="48W-3K-KSD">
                                 <rect key="frame" x="0.0" y="0.0" width="730" height="475"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -463,7 +468,7 @@ DQ
                                                     <textField focusRingType="none" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="X5R-cb-Cfu">
                                                         <rect key="frame" x="146" y="75" width="336" height="31"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="RetroMount" id="Ot8-EP-FJL">
+                                                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="RetroVault" id="Ot8-EP-FJL">
                                                             <font key="font" textStyle="largeTitle" name=".SFNS-Regular"/>
                                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -472,18 +477,9 @@ DQ
                                                     <textField focusRingType="none" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Kix-UP-MTo">
                                                         <rect key="frame" x="146" y="40" width="336" height="31"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="Mount Yesterday’s Disks Today" id="MrN-mM-5na">
+                                                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="Where Sectors Come to Life." id="MrN-mM-5na">
                                                             <font key="font" textStyle="title2" name=".SFNS-Regular"/>
                                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                                        </textFieldCell>
-                                                    </textField>
-                                                    <textField focusRingType="none" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LP6-KN-Q36">
-                                                        <rect key="frame" x="146" y="10" width="154" height="16"/>
-                                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                        <textFieldCell key="cell" controlSize="small" sendsActionOnEndEditing="YES" alignment="left" title="Powered by macFUSE" id="Dq7-yK-oKe">
-                                                            <font key="font" textStyle="body" name=".SFNS-Regular"/>
-                                                            <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
                                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                         </textFieldCell>
                                                     </textField>
@@ -505,7 +501,7 @@ DQ
                                                     <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="td2-he-U8d">
                                                         <rect key="frame" x="18" y="82" width="461" height="61"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                        <textFieldCell key="cell" selectable="YES" title="To mount a file system, drag an image file onto this window." id="QwF-ia-jJa">
+                                                        <textFieldCell key="cell" selectable="YES" title="Add a file system by drag an image file onto this window." id="QwF-ia-jJa">
                                                             <font key="font" textStyle="title2" name=".SFNS-Regular"/>
                                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -541,6 +537,20 @@ DQ
                                                 </subviews>
                                             </view>
                                         </box>
+                                        <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Xpe-aJ-vfW">
+                                            <rect key="frame" x="20" y="16" width="32" height="32"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="proportionallyDown" image="FUSEicon" id="gJB-dz-ngk"/>
+                                        </imageView>
+                                        <textField focusRingType="none" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LP6-KN-Q36">
+                                            <rect key="frame" x="58" y="24" width="154" height="16"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <textFieldCell key="cell" controlSize="small" sendsActionOnEndEditing="YES" alignment="left" title="Powered by macFUSE" id="Dq7-yK-oKe">
+                                                <font key="font" textStyle="body" name=".SFNS-Regular"/>
+                                                <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
                                     </subviews>
                                 </view>
                             </box>
@@ -548,6 +558,9 @@ DQ
                         <viewLayoutGuide key="safeArea" id="1sJ-lS-Xxc"/>
                         <viewLayoutGuide key="layoutMargins" id="8xq-0K-0VL"/>
                     </view>
+                    <connections>
+                        <outlet property="splashImage" destination="8DZ-5u-zS1" id="f4A-UM-qt6"/>
+                    </connections>
                 </viewController>
                 <customObject id="ARd-Sc-qld" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -2110,6 +2123,7 @@ DQ
         <image name="NSTouchBarSearchTemplate" width="20" height="20"/>
         <image name="floppy_35" width="514" height="512"/>
         <image name="github" width="294" height="288"/>
+        <image name="kevberon-floppy2" width="800" height="540"/>
         <image name="pictogram" width="1024" height="1024"/>
         <image name="stop" width="928" height="509"/>
         <image name="volume_amiga" width="256" height="256"/>

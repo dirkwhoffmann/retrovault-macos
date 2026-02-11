@@ -42,16 +42,21 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         let RTLD_DEFAULT = UnsafeMutableRawPointer(bitPattern: -2)!
         hasFuse = dlsym(RTLD_DEFAULT, "fuse_mount") != nil
 
+        hasFuse = false
+        
         // Disable the File menu (for now)
         if let fileMenuItem = NSApp.mainMenu?.item(withTitle: "File") {
             fileMenuItem.isHidden = true
         }
 
+        showVolumeWindow()
+        /*
         if hasFuse {
             showVolumeWindow()
         } else {
             showLaunchErrorWindow()
         }
+        */
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
@@ -71,6 +76,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         vc?.outlineView.reloadAndSelectLast()
     }
 
+    /*
     func showLaunchErrorWindow() {
 
         let storyboard = NSStoryboard(name: "Main", bundle: nil)
@@ -83,7 +89,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             NSApp.activate(ignoringOtherApps: true)
         }
     }
-
+    */
+    
     func showVolumeWindow() {
 
         let storyboard = NSStoryboard(name: "Main", bundle: nil)

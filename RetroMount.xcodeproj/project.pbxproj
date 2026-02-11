@@ -118,6 +118,7 @@
 		5097DD932F24DC1D00738B5A /* InfoCanvasViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5097DD922F24DC1500738B5A /* InfoCanvasViewController.swift */; };
 		5097DD952F24DC2900738B5A /* VolumeCanvasViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5097DD942F24DC2900738B5A /* VolumeCanvasViewController.swift */; };
 		50AB50B82F23E1F900BFBA99 /* LaunchInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50AB50B72F23E1F300BFBA99 /* LaunchInfoViewController.swift */; };
+		50BBECF52F3CFCAD0017D5EF /* MyWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BBECF42F3CFCA70017D5EF /* MyWindow.swift */; };
 		50BCBDFA2EEBF79B000C53CF /* FuseDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50BCBDF92EEBF798000C53CF /* FuseDevice.cpp */; };
 		50CD7A1F2F2571B6007E5803 /* MySplitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CD7A1E2F2571B1007E5803 /* MySplitView.swift */; };
 		50CD7A212F2605CC007E5803 /* VolumeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CD7A202F2605CA007E5803 /* VolumeCell.swift */; };
@@ -406,6 +407,7 @@
 		5097DD922F24DC1500738B5A /* InfoCanvasViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoCanvasViewController.swift; sourceTree = "<group>"; };
 		5097DD942F24DC2900738B5A /* VolumeCanvasViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VolumeCanvasViewController.swift; sourceTree = "<group>"; };
 		50AB50B72F23E1F300BFBA99 /* LaunchInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchInfoViewController.swift; sourceTree = "<group>"; };
+		50BBECF42F3CFCA70017D5EF /* MyWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyWindow.swift; sourceTree = "<group>"; };
 		50BCBDC22EE866B0000C53CF /* config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
 		50BCBDF82EEBF791000C53CF /* FuseDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FuseDevice.h; sourceTree = "<group>"; };
 		50BCBDF92EEBF798000C53CF /* FuseDevice.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FuseDevice.cpp; sourceTree = "<group>"; };
@@ -1056,6 +1058,7 @@
 				50E3B3562F376A0100218927 /* Device.swift */,
 				50900C2A2F1E729A00A4A81B /* Loggable.swift */,
 				50900C2D2F1E729A00A4A81B /* MyWindowController.swift */,
+				50BBECF42F3CFCA70017D5EF /* MyWindow.swift */,
 				5045033A2F21608D007A7268 /* MySplitViewController.swift */,
 				50CD7A1E2F2571B1007E5803 /* MySplitView.swift */,
 				5038461E2F2B491400945B2B /* Toolbar */,
@@ -1324,6 +1327,7 @@
 				50900C0C2F1E727400A4A81B /* FSObjects.cpp in Sources */,
 				50900C0D2F1E727400A4A81B /* EADFFile.cpp in Sources */,
 				50900C0E2F1E727400A4A81B /* EXEFile.cpp in Sources */,
+				50BBECF52F3CFCAD0017D5EF /* MyWindow.swift in Sources */,
 				50900C0F2F1E727400A4A81B /* D64File.cpp in Sources */,
 				5045033B2F216094007A7268 /* MySplitViewController.swift in Sources */,
 			);
