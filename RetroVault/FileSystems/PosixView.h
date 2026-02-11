@@ -18,12 +18,12 @@ class PosixView {
 public:
     
     virtual ~PosixView() = default;
-
+    
     
     //
     // Configuring
     //
-
+    
     virtual bool isWriteProtected() const noexcept = 0;
     virtual void writeProtect(bool yesno) noexcept = 0;
     
@@ -98,6 +98,9 @@ public:
     
     // Writes dirty cache blocks back to the block device
     virtual void flush() = 0;
+
+    // Invalidates all cache entries
+    virtual void invalidate() = 0;
 };
 
 }

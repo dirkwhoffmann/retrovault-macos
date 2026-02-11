@@ -355,6 +355,11 @@ using namespace utl;
     return [self device]->imageInfo();
 }
 
+- (BOOL)needsSaving
+{
+    return [self device]->needsSaving();
+}
+
 - (NSInteger)numCyls
 {
     return [self device]->getImage()->numCyls();
@@ -467,28 +472,20 @@ using namespace utl;
     assert(offset >= 0 && offset < bsize);
 
     return [self readASCII: block * bsize + offset length: len];
-
 }
 
-/*
-- (void)open:(NSURL *)url exception:(ExceptionWrapper *)ex
+-(void)writeByte:(NSInteger)offset value:(NSInteger)value
 {
-    try { [self device]->open([url fileSystemRepresentation]); }
-    catch (Error &error) { [ex save:error]; }
+    [self device]->getImage()->writeByte(offset, value);
 }
 
-- (void)close:(ExceptionWrapper *)ex
+-(void)writeByte:(NSInteger)offset to:(NSInteger)block value:(NSInteger)value
 {
-    try { [self device]->close(); }
-    catch (Error &error) { [ex save:error]; }
-}
+    auto bsize = [self device]->getImage()->bsize();
+    assert(offset >= 0 && offset < bsize);
 
-- (void)close:(NSInteger)volume exception:(ExceptionWrapper *)ex
-{
-    try { [self device]->close(volume); }
-    catch (Error &error) { [ex save:error]; }
+    [self writeByte: block * bsize + offset value: value];
 }
-*/
 
 - (void)save:(ExceptionWrapper *)ex
 {
@@ -555,13 +552,15 @@ using namespace utl;
     [self device]->setListener(listener, func);
 }
 
-/*
-- (void)push:(ExceptionWrapper *)ex
+- (void)flush
 {
-    try { [self device]->push(); }
-    catch (Error &error) { [ex save:error]; }
+    [self device]->flush();
 }
-*/
+
+- (void)invalidate
+{
+    [self device]->invalidate();
+}
 
 - (NSString *)mountPoint:(NSInteger)v
 {

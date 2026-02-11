@@ -164,6 +164,7 @@ private:
 public:
     
     void flush() override;
+    void invalidate() override;
 };
 
 }

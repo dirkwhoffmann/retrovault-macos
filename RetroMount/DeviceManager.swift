@@ -236,6 +236,7 @@ class DeviceManager {
         for i in 0 ..< numDevices { unmount(device: i) }
     }
     
+    /*
     func needsSaving(device: Int) -> Bool {
 
         if devices.indices.contains(device) {
@@ -246,7 +247,8 @@ class DeviceManager {
         }
         return false
     }
-
+    */
+    /*
     func needsSaving(device: Int, volume: Int?) -> Bool {
         
         guard let volume = volume else { return needsSaving(device: device) }
@@ -256,4 +258,5 @@ class DeviceManager {
         }
         return false
     }
+    */
 }

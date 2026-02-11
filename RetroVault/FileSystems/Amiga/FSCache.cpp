@@ -282,4 +282,11 @@ FSCache::flush()
     dirty.clear();
 }
 
+void
+FSCache::invalidate()
+{
+    blocks.clear();
+    dirty.clear();
+}
+
 }

@@ -125,6 +125,7 @@ inline const char *c_str(const std::string &s)
 
 @property (readonly, strong) NSURL *url;
 @property (readonly) ImageInfo info;
+@property (readonly) BOOL needsSaving;
 
 @property (readonly) NSInteger numCyls;
 @property (readonly) NSInteger numHeads;
@@ -154,10 +155,10 @@ inline const char *c_str(const std::string &s)
 -(NSString *)readASCII:(NSInteger)offset length:(NSInteger)len;
 -(NSString *)readASCII:(NSInteger)offset from:(NSInteger)block length:(NSInteger)len;
 
+-(void)writeByte:(NSInteger)offset value:(NSInteger)value;
+-(void)writeByte:(NSInteger)offset to:(NSInteger)block value:(NSInteger)value;
+
 // Actions
-// - (void)open:(NSURL *)url exception:(ExceptionWrapper *)ex;
-// - (void)close:(ExceptionWrapper *)ex;
-// - (void)close:(NSInteger)volume exception:(ExceptionWrapper *)ex;
 - (void)save:(ExceptionWrapper *)ex;
 - (void)save:(NSInteger)volume exception:(ExceptionWrapper *)ex;
 - (void)saveAs:(NSURL *)url exception:(ExceptionWrapper *)ex;
@@ -165,10 +166,11 @@ inline const char *c_str(const std::string &s)
 - (void)revert:(ExceptionWrapper *)ex;
 - (void)revert:(NSInteger)volume exception:(ExceptionWrapper *)ex;
 
-// DEPRECATED
 - (void)mount:(NSURL *)url exception:(ExceptionWrapper *)ex;
 - (void)unmount:(NSInteger)volume;
 - (void)unmountAll;
-// - (void)push:(ExceptionWrapper *)ex;
+
+- (void)flush;
+- (void)invalidate;
 
 @end

@@ -34,11 +34,12 @@ LinearDevice::readByte(isize offset) const
 {
     u8 value;
     read(&value, offset, 1);
+
     return value;
 }
 
 void
-LinearDevice::writeByte(u8 value, isize offset)
+LinearDevice::writeByte(isize offset, u8 value)
 {
     write(&value, offset, 1);
 }

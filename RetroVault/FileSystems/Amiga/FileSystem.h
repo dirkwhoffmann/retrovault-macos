@@ -264,6 +264,9 @@ public:
     // Writes back dirty cache blocks to the block device
     void flush();
 
+    // Invalidates all cached blocks
+    void invalidate();
+    
     // Operator overload for fetch
     const FSBlock &operator[](size_t nr) { return cache.fetch(BlockNr(nr)); }
 

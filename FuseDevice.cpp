@@ -87,6 +87,16 @@ FuseDevice::describe() const noexcept
     return image->describe();
 }
 
+bool
+FuseDevice::needsSaving() const
+{
+    for (auto &volume: volumes) {
+        if (volume->stat().dirtyBlocks > 0) return true;
+    }
+    
+    return dirty;
+}
+
 FuseVolume &
 FuseDevice::getVolume(isize v)
 {
@@ -152,20 +162,14 @@ FuseDevice::save(isize volume)
 {
     assert(volume < isize(volumes.size()));
 
-    // Flush volume
-    volumes[volume]->flush();
-    
-    // Update image
+    flush(volume);
     image->saveBlocks(volumes[volume]->getRange());
 }
 
 void
 FuseDevice::saveAs(const fs::path &url)
 {
-    // Flush all volumes
-    for (auto &volume : volumes) { volume->flush(); }
-    
-    // Save image under the new name
+    flush();
     image->saveAs(url);
 }
 
@@ -184,7 +188,38 @@ FuseDevice::revert()
 void
 FuseDevice::revert(isize volume)
 {
-    
+    assert(volume < isize(volumes.size()));
+}
+
+void
+FuseDevice::flush()
+{
+    for (isize i = 0; i < volumes.size(); ++i) { flush(i); }
+}
+
+void
+FuseDevice::flush(isize volume)
+{
+    assert(volume < isize(volumes.size()));
+        
+    if (volumes[volume]->stat().dirtyBlocks > 0) {
+        
+        volumes[volume]->flush();
+        dirty = true;
+    }
+}
+
+void
+FuseDevice::invalidate()
+{
+    for (auto &volume : volumes) { volume->invalidate(); }
+}
+
+void
+FuseDevice::invalidate(isize volume)
+{
+    assert(volume < isize(volumes.size()));
+    volumes[volume]->invalidate();
 }
 
 bool
@@ -206,4 +241,37 @@ FuseDevice::stat(isize partition)
 {
     assert(partition >= 0 && partition < volumes.size());
     return volumes[partition]->stat();
+}
+
+u8
+FuseDevice::readByte(isize offset) const
+{
+    return image->readByte(offset);
+}
+
+u8
+FuseDevice::readByte(isize offset, isize volume) const
+{
+    return volumes[volume]->getVolume().readByte(offset);
+}
+
+void
+FuseDevice::writeByte(isize offset, u8 value)
+{
+    if (image->readByte(offset) != value) {
+     
+        image->writeByte(offset, value);
+        dirty = true;
+    }
+    
+}
+
+void
+FuseDevice::writeByte(isize offset, u8 value, isize volume)
+{
+    if (volumes[volume]->getVolume().readByte(offset) != value) {
+        
+        volumes[volume]->getVolume().writeByte(offset, value);
+        dirty = true;
+    }
 }

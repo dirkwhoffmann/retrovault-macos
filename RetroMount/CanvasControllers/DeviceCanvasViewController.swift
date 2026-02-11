@@ -266,35 +266,68 @@ class DeviceCanvasViewController: CanvasViewController {
 
 @MainActor
 extension DeviceCanvasViewController: NSTableViewDataSource {
-
+    
     func columnNr(_ column: NSTableColumn?) -> Int? {
-
+        
         return column == nil ? nil : Int(column!.identifier.rawValue)
     }
-
+    
     func numberOfRows(in tableView: NSTableView) -> Int {
-
+        
         return (proxy?.bsize ?? 0) / 16
     }
-
+    
     func tableView(_ tableView: NSTableView,
                    objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
-
+        
         switch tableColumn?.identifier.rawValue {
-
+            
         case "Offset":
             return String(format: "%X", row)
-
+            
         case "Ascii":
             return proxy?.readASCII(row * 16, from: currentBlock, length: 16) ?? ""
-
+            
         default:
             let offset = row * 16 + columnNr(tableColumn)!
             if let byte = proxy?.readByte(offset, from: currentBlock) {
+                if columnNr(tableColumn)! == 0 { print("Reading \(byte) from block \(currentBlock) at offset \(offset)") }
                 return String(format: "%02X", byte)
             } else {
                 return "--"
             }
+        }
+    }
+
+    func tableView(_ tableView: NSTableView,
+                   setObjectValue object: Any?, for tableColumn: NSTableColumn?, row: Int) {
+        
+        guard var string = object as? String else { return }
+
+        // Remove padding (if any)
+        string = string.trimmingCharacters(in: .whitespacesAndNewlines)
+
+        // Remove 0x (if present)
+        if string.lowercased().hasPrefix("0x") { string.removeFirst(2) }
+        
+        if let value = Int(string, radix: 16) {
+            
+            print("Parsed hex value:", value)
+            
+            // Make the image the source of truth
+            proxy?.flush()
+            proxy?.invalidate()
+            
+            // Write byte
+            let offset = row * 16 + columnNr(tableColumn)!
+            print("Writing \(value) to block \(currentBlock) at offset \(offset)")
+            proxy?.writeByte(offset, to: currentBlock, value: value)
+            tableView.reloadData()
+            
+        } else {
+            
+            NSSound.beep()
+            tableView.reloadData()
         }
     }
 }
@@ -302,7 +335,9 @@ extension DeviceCanvasViewController: NSTableViewDataSource {
 @MainActor
 extension DeviceCanvasViewController: NSTableViewDelegate {
 
+    /*
     func tableView(_ tableView: NSTableView, shouldSelectRow row: Int) -> Bool {
         return false
     }
+    */
 }

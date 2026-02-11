@@ -94,6 +94,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
     
+    /*
     var needsSaving: Bool {
         
         if let dev = svc?.selectedDevice, let vol = svc?.selectedVolume {
@@ -104,5 +105,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
         return false
     }
+    */
 }
 

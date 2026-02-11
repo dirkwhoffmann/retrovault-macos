@@ -19,6 +19,7 @@ enum Symbol {
     case play
     case power
     case reset
+    case save
     case stepInto
     case stepOver
     case stepCycle
@@ -86,6 +87,7 @@ enum Symbol {
         case .play:             return [ "play.circle" ]
         case .power:            return [ "power" ]
         case .reset:            return [ "arrow.counterclockwise.circle" ]
+        case .save:             return [ "square.and.arrow.down" ]
         case .stepInto:         return [ "stepIntoTemplate" ]
         case .stepOver:         return [ "stepOverTemplate" ]
         case .stepCycle:        return [ "stepCycleTemplate" ]

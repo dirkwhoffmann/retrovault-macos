@@ -374,4 +374,10 @@ PosixAdapter::flush()
     fs.flush();
 }
 
+void
+PosixAdapter::invalidate()
+{
+    fs.invalidate();
+}
+
 }

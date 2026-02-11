@@ -59,6 +59,9 @@ class FuseDevice {
     // Logical volumes
     std::vector<std::unique_ptr<FuseVolume>> volumes;
 
+    // Indicates if the image file has been modified
+    bool dirty = false;
+    
     
     //
     // Initializing
@@ -89,6 +92,8 @@ public:
 
     vector<string> describe() const noexcept;
  
+    bool needsSaving() const;
+    
     
     //
     // Configuring
@@ -125,6 +130,12 @@ public:
     void revert();
     void revert(isize volume);
     
+    void flush();
+    void flush(isize volume);
+
+    void invalidate();
+    void invalidate(isize volume);
+
     
     //
     // Querying properties
@@ -135,4 +146,17 @@ public:
     isize imageSize() const { return image->size(); }
     isize bsize() const { return image->bsize(); }
     isize count() const { return volumes.size(); }
+    
+    
+    //
+    // Reading and writing bytes
+    //
+    
+    // Reads a byte from the image file
+    u8 readByte(isize offset) const;
+    u8 readByte(isize offset, isize volume) const;
+
+    // Writes a byte to the image file
+    void writeByte(isize offset, u8 value);
+    void writeByte(isize offset, u8 value, isize volume);
 };

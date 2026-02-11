@@ -99,6 +99,7 @@ public:
     void push();
     
     void flush() { dos->flush(); }
+    void invalidate() { dos->invalidate(); }
     
 protected:
 

@@ -9,9 +9,9 @@
 
 extension NSToolbarItem.Identifier {
     
-    static let push = NSToolbarItem.Identifier("Push")
-    static let unmount = NSToolbarItem.Identifier("Unmount")
-    static let open = NSToolbarItem.Identifier("Open")
+    static let save = NSToolbarItem.Identifier("Save")
+    static let eject = NSToolbarItem.Identifier("Eject")
+    static let folder = NSToolbarItem.Identifier("Folder")
     static let protect = NSToolbarItem.Identifier("Protect")
 }
 
@@ -20,9 +20,9 @@ class MyToolbar: NSToolbar, NSToolbarDelegate {
     
     var controller: MyWindowController!
 
-    var push: MyToolbarItemGroup!
-    var unmount: MyToolbarItemGroup!
-    var open: MyToolbarItemGroup!
+    var save: MyToolbarItemGroup!
+    var eject: MyToolbarItemGroup!
+    var folder: MyToolbarItemGroup!
     var protect: MyToolbarItemGroup!
 
     // Set to true to gray out all toolbar items
@@ -31,13 +31,15 @@ class MyToolbar: NSToolbar, NSToolbarDelegate {
     var svc: MySplitViewController { controller.vc! }
     var proxy: FuseDeviceProxy? { app.manager.proxy(device: svc.selectedDevice) }
 
+    /*
     init() {
         
         super.init(identifier: "MyToolbar")
         self.delegate = self
-        self.allowsUserCustomization = true
+        self.allowsUserCustomization = false
         self.displayMode = .iconOnly
     }
+    */
     
     override init(identifier: NSToolbar.Identifier) {
         
@@ -57,9 +59,9 @@ class MyToolbar: NSToolbar, NSToolbarDelegate {
         
         return [ .toggleSidebar,
                  .sidebarTrackingSeparator,
-                 .push,
-                 .open,
-                 .unmount,
+                 .save,
+                 .folder,
+                 .eject,
                  .protect,
                  .space,
                  .flexibleSpace ]
@@ -71,11 +73,9 @@ class MyToolbar: NSToolbar, NSToolbarDelegate {
                  .toggleSidebar,
                  .sidebarTrackingSeparator,
                  .space,
-                 .open,
-                 // .space,
-                 .unmount,
-                 .space,
-                 .push,
+                 .folder,
+                 .eject,
+                 .save,
                  .flexibleSpace,
                  .protect]
     }
@@ -86,32 +86,32 @@ class MyToolbar: NSToolbar, NSToolbarDelegate {
                 
         switch id {
                         
-        case .push:
+        case .save:
             
-            push = MyToolbarItemGroup(identifier: .push,
+            save = MyToolbarItemGroup(identifier: .save,
                                       images: [.sync],
-                                      actions: [#selector(pushAction)],
+                                      actions: [#selector(saveAction)],
                                       target: self,
-                                      label: "Push")
-            return push
+                                      label: "Save")
+            return save
 
-        case .unmount:
+        case .eject:
             
-            unmount = MyToolbarItemGroup(identifier: .unmount,
+            eject = MyToolbarItemGroup(identifier: .eject,
                                          images: [.eject],
-                                         actions: [#selector(unmountAction)],
+                                         actions: [#selector(ejectAction)],
                                          target: self,
-                                         label: "Unmount")
-            return unmount
+                                         label: "Eject")
+            return eject
 
-        case .open:
+        case .folder:
             
-            open = MyToolbarItemGroup(identifier: .open,
+            folder = MyToolbarItemGroup(identifier: .folder,
                                         images: [.folder],
-                                        actions: [#selector(openAction)],
+                                        actions: [#selector(finderAction)],
                                         target: self,
-                                        label: "Open")
-            return open
+                                        label: "Finder")
+            return folder
             
         case .protect:
             
@@ -133,65 +133,46 @@ class MyToolbar: NSToolbar, NSToolbarDelegate {
     }
     
     func updateToolbar() {
-                
-        if let dev = svc.selectedDevice, let vol = svc.selectedVolume {
+           
+        let dev = svc.selectedDevice
+        let vol = svc.selectedVolume
+        
+        if dev == nil && vol == nil {
             
-            updateToolbar(device: dev, volume: vol)
+            eject.isHidden = true
+            save.isHidden = true
+            folder.isHidden = true
+            protect.isHidden = true
             return
         }
+        
+        eject.isHidden = false
+        eject.isEnabled = !globalDisable
+        eject.toolTip = "Unmount the device"
+        
+        folder.isHidden = false
+        folder.isEnabled = !globalDisable
+        folder.toolTip = "Open in Finder"
 
-        if let dev = svc.selectedDevice {
+        save.isHidden = proxy?.needsSaving == false
+        save.isEnabled = !globalDisable
+        save.toolTip = "Write changes back to the image file"
+
+        protect.isHidden = vol == nil
+        if vol != nil {
             
-            updateToolbar(device: dev)
-            return
+            let wenable = proxy?.volume(vol!).iswriteProtected == false
+            protect.setImage(Symbol.get(wenable ? .unlocked : .locked), forSegment: 0)
+            protect.isEnabled = !globalDisable
         }
-
-        unmount.isHidden = true
-        push.isHidden = true
-        open.isHidden = true
-        protect.isHidden = true
     }
     
-    func updateToolbar(device dev: Int) {
-        
-        unmount.isHidden = false
-        unmount.isEnabled = !globalDisable
-        unmount.toolTip = "Unmount the device"
-
-        push.isHidden = !app.manager.needsSaving(device: dev)
-        push.isEnabled = !globalDisable
-        push.toolTip = "Write changes back to the image file"
-
-        open.isHidden = true
-        protect.isHidden = true
-    }
-
-    func updateToolbar(device dev: Int, volume vol: Int) {
-        
-        let wenable = proxy?.volume(vol).iswriteProtected == false
-
-        unmount.isHidden = false
-        unmount.isEnabled = !globalDisable
-        unmount.toolTip = "Unmount the device"
-
-        push.isHidden = !app.needsSaving
-        push.isEnabled = !globalDisable
-        push.toolTip = "Write changes back to the image file"
-
-        open.isHidden = false
-        open.isEnabled = !globalDisable
-        open.toolTip = "Open in Finder"
-
-        protect.isHidden = false
-        protect.setImage(Symbol.get(wenable ? .unlocked : .locked), forSegment: 0)
-        protect.isEnabled = !globalDisable
-    }
-
+    
     //
     // Action methods
     //
     
-    @objc private func pushAction() {
+    @objc private func saveAction() {
 
         if let vol = svc.selectedVolume {
             try? proxy?.save(volume: vol)
@@ -201,11 +182,11 @@ class MyToolbar: NSToolbar, NSToolbarDelegate {
         svc.refresh()
     }
 
-    @objc private func unmountAction() {
+    @objc private func ejectAction() {
 
         guard let device = svc.selectedDevice else { return }
 
-        if app.needsSaving {
+        if proxy?.needsSaving == true {
             
             let item = svc.selectedVolume != nil ? "Volume" : "Device"
             
@@ -223,9 +204,9 @@ class MyToolbar: NSToolbar, NSToolbarDelegate {
         svc.sidebarVC?.unmount(item: TableItem(device: device, volume: svc.selectedVolume))
     }
 
-    @objc private func openAction() {
+    @objc private func finderAction() {
 
-        if let vol = svc.selectedVolume, let proxy = proxy?.volume(vol) {
+        if let proxy = proxy?.volume(svc.selectedVolume ?? 0) {
             
             if let url = proxy.mountPoint {
                 NSWorkspace.shared.open(url)
