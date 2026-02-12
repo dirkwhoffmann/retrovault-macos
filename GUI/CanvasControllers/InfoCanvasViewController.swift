@@ -19,7 +19,7 @@ class InfoCanvasViewController: CanvasViewController {
 
         if app.hasFuse {
             
-            fuseInfoText.stringValue = "macFUSE up and running"
+            fuseInfoText.stringValue = "macFUSE enabled"
             fuseInfoText.textColor = .secondaryLabelColor
             fuseIcon.image = NSImage(named: "LEDgreen")
             
