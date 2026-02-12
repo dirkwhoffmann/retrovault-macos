@@ -84,6 +84,11 @@ inline const char *c_str(const std::string &s)
 -(NSString *)readASCII:(NSInteger)offset length:(NSInteger)len;
 -(NSString *)readASCII:(NSInteger)offset from:(NSInteger)block length:(NSInteger)len;
 
+/*
+-(void)writeByte:(NSInteger)offset value:(NSInteger)value;
+-(void)writeByte:(NSInteger)offset to:(NSInteger)block value:(NSInteger)value;
+*/
+
 // Analysis
 @property (readonly) NSArray<NSString *> *blockTypes;
 - (NSString *)typeOf:(NSInteger)blockNr;
@@ -156,7 +161,9 @@ inline const char *c_str(const std::string &s)
 -(NSString *)readASCII:(NSInteger)offset from:(NSInteger)block length:(NSInteger)len;
 
 -(void)writeByte:(NSInteger)offset value:(NSInteger)value;
--(void)writeByte:(NSInteger)offset to:(NSInteger)block value:(NSInteger)value;
+-(void)writeByte:(NSInteger)offset block:(NSInteger)block value:(NSInteger)value;
+-(void)writeByte:(NSInteger)offset volume:(NSInteger)volume value:(NSInteger)value;
+-(void)writeByte:(NSInteger)offset volume:(NSInteger)volume block:(NSInteger)block value:(NSInteger)value;
 
 // Actions
 - (void)save:(ExceptionWrapper *)ex;

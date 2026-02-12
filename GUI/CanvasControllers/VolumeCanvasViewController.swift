@@ -218,6 +218,8 @@ class VolumeCanvasViewController: CanvasViewController {
 
         // Register to receive mouse click events
         previewTable.action = #selector(clickAction(_:))
+        previewTable.doubleAction = #selector(doubleClickAction(_:))
+
         // let click = NSClickGestureRecognizer(target: self, action: #selector(buttonClicked(_:)))
         // blockImageButton.addGestureRecognizer(click)
         
@@ -666,6 +668,20 @@ class VolumeCanvasViewController: CanvasViewController {
             refresh()
         }
     }
+        
+    @IBAction func doubleClickAction(_ sender: NSTableView) {
+        
+        print("double")
+        let row = sender.clickedRow
+        let column = sender.clickedColumn
+        
+        guard row >= 0, column >= 1 else { return }
+        
+        sender.editColumn(column,
+                          row: row,
+                          with: nil,
+                          select: true)
+    }
 }
 
 //
@@ -702,6 +718,38 @@ extension VolumeCanvasViewController: NSTableViewDataSource {
                   let byte = proxy?.readByte(16 * row + col, from: selectedBlock) else { return "--" }
             
             return String(format: "%02X", byte)
+        }
+    }
+    
+    func tableView(_ tableView: NSTableView,
+                   setObjectValue object: Any?, for tableColumn: NSTableColumn?, row: Int) {
+        
+        guard var string = object as? String else { return }
+
+        // Remove padding (if any)
+        string = string.trimmingCharacters(in: .whitespacesAndNewlines)
+
+        // Remove 0x (if present)
+        if string.lowercased().hasPrefix("0x") { string.removeFirst(2) }
+        
+        if let value = Int(string, radix: 16) {
+            
+            print("Parsed hex value:", value)
+            
+            // Make the image the source of truth
+            deviceProxy?.flush()
+            deviceProxy?.invalidate()
+            
+            // Write byte
+            let offset = row * 16 + columnNr(tableColumn)!
+            print("Writing \(value) to block \(selectedBlock) at offset \(offset)")
+            deviceProxy?.writeByte(offset, volume: volume!, block: selectedBlock, value: value)
+            tableView.reloadData()
+            
+        } else {
+            
+            NSSound.beep()
+            tableView.reloadData()
         }
     }
 }
@@ -748,11 +796,6 @@ extension VolumeCanvasViewController: NSTabViewDelegate {
     
     func tabView(_ tabView: NSTabView, didSelect tabViewItem: NSTabViewItem?) {
         
-        /*
-        let id = tabViewItem?.identifier as? String
-        selectedTab = Int(id ?? "") ?? 0
-        forceRefresh()
-        */
         refresh()
     }
 }

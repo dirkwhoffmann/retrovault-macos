@@ -170,6 +170,21 @@ using namespace utl;
 
 }
 
+/*
+-(void)writeByte:(NSInteger)offset value:(NSInteger)value
+{
+    [self volume]->getVolume().writeByte(offset, value);
+}
+
+-(void)writeByte:(NSInteger)offset to:(NSInteger)block value:(NSInteger)value
+{
+    auto bsize = [self volume]->getVolume().bsize();
+    assert(offset >= 0 && offset < bsize);
+
+    [self writeByte: block * bsize + offset value: value];
+}
+*/
+
 - (NSArray<NSString *> *)blockTypes
 {
     const auto vec = [self volume]->blockTypes();
@@ -476,15 +491,28 @@ using namespace utl;
 
 -(void)writeByte:(NSInteger)offset value:(NSInteger)value
 {
-    [self device]->getImage()->writeByte(offset, value);
+    [self device]->writeByte(offset, value);
 }
 
--(void)writeByte:(NSInteger)offset to:(NSInteger)block value:(NSInteger)value
+-(void)writeByte:(NSInteger)offset block:(NSInteger)block value:(NSInteger)value
 {
     auto bsize = [self device]->getImage()->bsize();
     assert(offset >= 0 && offset < bsize);
 
-    [self writeByte: block * bsize + offset value: value];
+    [self device]->writeByte(block * bsize + offset, value);
+}
+
+-(void)writeByte:(NSInteger)offset volume:(NSInteger)volume value:(NSInteger)value
+{
+    [self device]->writeByte(offset, value, volume);
+}
+
+-(void)writeByte:(NSInteger)offset volume:(NSInteger)volume block:(NSInteger)block value:(NSInteger)value
+{
+    auto bsize = [self device]->getImage()->bsize();
+    assert(offset >= 0 && offset < bsize);
+
+    [self device]->writeByte(block * bsize + offset, value, volume);
 }
 
 - (void)save:(ExceptionWrapper *)ex

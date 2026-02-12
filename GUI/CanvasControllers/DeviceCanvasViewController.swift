@@ -54,11 +54,11 @@ class DeviceCanvasViewController: CanvasViewController {
     var upperBlock: Int { return max(numBlocks - 1, 0) }
 
     // Current selection
-    var currentCyl = 0
-    var currentHead = 0
-    var currentTrack = 0
-    var currentSector = 0
-    var currentBlock = 0
+    var selectedCyl = 0
+    var selectedHead = 0
+    var selectedTrack = 0
+    var selectedSector = 0
+    var selectedBlock = 0
 
     override func viewDidLoad() {
         
@@ -99,19 +99,19 @@ class DeviceCanvasViewController: CanvasViewController {
         cylinderStepper.maxValue = Double(info.numCyls - 1)
         headStepper.maxValue = Double(info.numHeads - 1)
         trackStepper.maxValue = Double(info.numTracks - 1)
-        sectorStepper.maxValue = Double(upperSector(track: currentTrack))
+        sectorStepper.maxValue = Double(upperSector(track: selectedTrack))
         blockStepper.maxValue = Double(info.numBlocks - 1)
         
-        cylinderField.stringValue      = String(format: "%d", currentCyl)
-        cylinderStepper.integerValue   = currentCyl
-        headField.stringValue          = String(format: "%d", currentHead)
-        headStepper.integerValue       = currentHead
-        trackField.stringValue         = String(format: "%d", currentTrack)
-        trackStepper.integerValue      = currentTrack
-        sectorField.stringValue        = String(format: "%d", currentSector)
-        sectorStepper.integerValue     = currentSector
-        blockField.stringValue         = String(format: "%d", currentBlock)
-        blockStepper.integerValue      = currentBlock
+        cylinderField.stringValue      = String(format: "%d", selectedCyl)
+        cylinderStepper.integerValue   = selectedCyl
+        headField.stringValue          = String(format: "%d", selectedHead)
+        headStepper.integerValue       = selectedHead
+        trackField.stringValue         = String(format: "%d", selectedTrack)
+        trackStepper.integerValue      = selectedTrack
+        sectorField.stringValue        = String(format: "%d", selectedSector)
+        sectorStepper.integerValue     = selectedSector
+        blockField.stringValue         = String(format: "%d", selectedBlock)
+        blockStepper.integerValue      = selectedBlock
         
         blockView.reloadData()
     }
@@ -132,14 +132,14 @@ class DeviceCanvasViewController: CanvasViewController {
 
     func setCylinder(_ newValue: Int) {
 
-        if newValue != currentCyl {
+        if newValue != selectedCyl {
 
             let value = clamp(newValue, to: 0...upperCyl)
 
-            currentCyl      = value
-            currentTrack    = numHeads * currentCyl + currentHead
-            currentSector   = clamp(currentSector, to: 0...upperSector(track: currentTrack))
-            currentBlock    = proxy?.chs2b(currentCyl, h: currentHead, s: currentSector) ?? 0
+            selectedCyl      = value
+            selectedTrack    = numHeads * selectedCyl + selectedHead
+            selectedSector   = clamp(selectedSector, to: 0...upperSector(track: selectedTrack))
+            selectedBlock    = proxy?.chs2b(selectedCyl, h: selectedHead, s: selectedSector) ?? 0
 
             refreshSelection()
         }
@@ -147,14 +147,14 @@ class DeviceCanvasViewController: CanvasViewController {
 
     func setHead(_ newValue: Int) {
 
-        if newValue != currentHead {
+        if newValue != selectedHead {
 
             let value = clamp(newValue, to: 0...upperHead)
 
-            currentHead     = value
-            currentTrack    = numHeads * currentCyl + currentHead
-            currentSector   = clamp(currentSector, to: 0...upperSector(track: currentTrack))
-            currentBlock    = proxy?.chs2b(currentCyl, h: currentHead, s: currentSector) ?? 0
+            selectedHead     = value
+            selectedTrack    = numHeads * selectedCyl + selectedHead
+            selectedSector   = clamp(selectedSector, to: 0...upperSector(track: selectedTrack))
+            selectedBlock    = proxy?.chs2b(selectedCyl, h: selectedHead, s: selectedSector) ?? 0
 
             refreshSelection()
         }
@@ -162,15 +162,15 @@ class DeviceCanvasViewController: CanvasViewController {
 
     func setTrack(_ newValue: Int) {
 
-        if newValue != currentTrack {
+        if newValue != selectedTrack {
 
             let value = clamp(newValue, to: 0...upperTrack)
 
-            currentTrack    = value
-            currentSector   = clamp(currentSector, to: 0...upperSector(track: currentTrack))
-            currentCyl      = currentTrack / numHeads
-            currentHead     = currentTrack % numHeads
-            currentBlock    = proxy?.chs2b(currentCyl, h: currentHead, s: currentSector) ?? 0
+            selectedTrack    = value
+            selectedSector   = clamp(selectedSector, to: 0...upperSector(track: selectedTrack))
+            selectedCyl      = selectedTrack / numHeads
+            selectedHead     = selectedTrack % numHeads
+            selectedBlock    = proxy?.chs2b(selectedCyl, h: selectedHead, s: selectedSector) ?? 0
 
             refreshSelection()
         }
@@ -178,12 +178,12 @@ class DeviceCanvasViewController: CanvasViewController {
 
     func setSector(_ newValue: Int) {
 
-        if newValue != currentSector {
+        if newValue != selectedSector {
 
-            let value = clamp(newValue, to: 0...upperSector(track: currentTrack))
+            let value = clamp(newValue, to: 0...upperSector(track: selectedTrack))
 
-            currentSector   = value
-            currentBlock    = proxy?.chs2b(currentCyl, h: currentHead, s: currentSector) ?? 0
+            selectedSector   = value
+            selectedBlock    = proxy?.chs2b(selectedCyl, h: selectedHead, s: selectedSector) ?? 0
 
             refreshSelection()
         }
@@ -191,15 +191,15 @@ class DeviceCanvasViewController: CanvasViewController {
 
     func setBlock(_ newValue: Int) {
 
-        if newValue != currentBlock {
+        if newValue != selectedBlock {
 
             let value = clamp(newValue, to: 0...upperBlock)
 
-            currentBlock    = value
-            currentTrack    = proxy?.b2t(currentBlock) ?? 0
-            currentCyl      = proxy?.b2c(currentBlock) ?? 0
-            currentHead     = proxy?.b2h(currentBlock) ?? 0
-            currentSector   = proxy?.b2s(currentBlock) ?? 0
+            selectedBlock    = value
+            selectedTrack    = proxy?.b2t(selectedBlock) ?? 0
+            selectedCyl      = proxy?.b2c(selectedBlock) ?? 0
+            selectedHead     = proxy?.b2h(selectedBlock) ?? 0
+            selectedSector   = proxy?.b2s(selectedBlock) ?? 0
 
             refreshSelection()
         }
@@ -286,12 +286,12 @@ extension DeviceCanvasViewController: NSTableViewDataSource {
             return String(format: "%X", row)
             
         case "Ascii":
-            return proxy?.readASCII(row * 16, from: currentBlock, length: 16) ?? ""
+            return proxy?.readASCII(row * 16, from: selectedBlock, length: 16) ?? ""
             
         default:
             let offset = row * 16 + columnNr(tableColumn)!
-            if let byte = proxy?.readByte(offset, from: currentBlock) {
-                if columnNr(tableColumn)! == 0 { print("Reading \(byte) from block \(currentBlock) at offset \(offset)") }
+            if let byte = proxy?.readByte(offset, from: selectedBlock) {
+                if columnNr(tableColumn)! == 0 { print("Reading \(byte) from block \(selectedBlock) at offset \(offset)") }
                 return String(format: "%02X", byte)
             } else {
                 return "--"
@@ -320,8 +320,8 @@ extension DeviceCanvasViewController: NSTableViewDataSource {
             
             // Write byte
             let offset = row * 16 + columnNr(tableColumn)!
-            print("Writing \(value) to block \(currentBlock) at offset \(offset)")
-            proxy?.writeByte(offset, to: currentBlock, value: value)
+            print("Writing \(value) to block \(selectedBlock) at offset \(offset)")
+            proxy?.writeByte(offset, block: selectedBlock, value: value)
             tableView.reloadData()
             
         } else {

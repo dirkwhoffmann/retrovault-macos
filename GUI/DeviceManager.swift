@@ -182,17 +182,20 @@ class DeviceManager {
             print("Blocks: \(traits.blocks)")
             print("Bsize: \(traits.bsize)")
             
-            let mountPoint = URL(fileURLWithPath: "/Volumes")
-                .appendingPathComponent(url.deletingPathExtension().lastPathComponent)
-            
-            print("Mounting file system at \(mountPoint)...")
-            try proxy.mount(at: mountPoint, myself) { (ptr, msg: Int32) in
+            if app.hasFuse {
                 
-                // Convert void pointer back to 'self'
-                let myself = Unmanaged<DeviceManager>.fromOpaque(ptr!).takeUnretainedValue()
+                let mountPoint = URL(fileURLWithPath: "/Volumes")
+                    .appendingPathComponent(url.deletingPathExtension().lastPathComponent)
                 
-                // Process message in the main thread
-                Task { @MainActor in myself.process(message: Int(msg)) }
+                print("Mounting file system at \(mountPoint)...")
+                try proxy.mount(at: mountPoint, myself) { (ptr, msg: Int32) in
+                    
+                    // Convert void pointer back to 'self'
+                    let myself = Unmanaged<DeviceManager>.fromOpaque(ptr!).takeUnretainedValue()
+                    
+                    // Process message in the main thread
+                    Task { @MainActor in myself.process(message: Int(msg)) }
+                }
             }
             
             print("Success.")
@@ -215,7 +218,9 @@ class DeviceManager {
         guard devices.indices.contains(device) else { return }
         
         print("Unmounting device \(device) volume: \(volume)")
-        devices[device].unmount(volume)
+        if app.hasFuse {
+            devices[device].unmount(volume)
+        }
         
         if devices[device].numVolumes == 0 {
             devices.remove(at: device)
@@ -235,28 +240,4 @@ class DeviceManager {
         let numDevices = devices.count
         for i in 0 ..< numDevices { unmount(device: i) }
     }
-    
-    /*
-    func needsSaving(device: Int) -> Bool {
-
-        if devices.indices.contains(device) {
-            
-            for vol in 0 ..< devices[device].numVolumes {
-                if needsSaving(device: device, volume: vol) { return true }
-            }
-        }
-        return false
-    }
-    */
-    /*
-    func needsSaving(device: Int, volume: Int?) -> Bool {
-        
-        guard let volume = volume else { return needsSaving(device: device) }
-        
-        if devices.indices.contains(device) {
-            return devices[device].volume(volume).stat.dirtyBlocks > 0
-        }
-        return false
-    }
-    */
 }

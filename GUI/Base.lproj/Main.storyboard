@@ -1676,7 +1676,7 @@
                                     <rect key="frame" x="1" y="1" width="688" height="146"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="none" emptySelection="NO" autosaveColumns="NO" typeSelect="NO" rowHeight="15" headerView="Dbo-ki-SYL" id="zJb-Eo-4GP">
+                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="none" columnReordering="NO" multipleSelection="NO" autosaveColumns="NO" typeSelect="NO" rowHeight="15" headerView="Dbo-ki-SYL" id="zJb-Eo-4GP">
                                             <rect key="frame" x="0.0" y="-22" width="692" height="118"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <size key="intercellSpacing" width="1" height="2"/>
@@ -1688,18 +1688,18 @@
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                     </tableHeaderCell>
-                                                    <textFieldCell key="dataCell" lineBreakMode="truncatingTail" continuous="YES" refusesFirstResponder="YES" alignment="center" identifier="Offset" title="Text Cell" drawsBackground="YES" id="Fl0-ag-EMT">
+                                                    <textFieldCell key="dataCell" lineBreakMode="truncatingTail" continuous="YES" alignment="center" identifier="Offset" title="Text Cell" drawsBackground="YES" id="Fl0-ag-EMT">
                                                         <font key="font" metaFont="cellTitle"/>
                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                     </textFieldCell>
                                                 </tableColumn>
-                                                <tableColumn identifier="0" editable="NO" width="32" minWidth="32" maxWidth="1000" id="rGj-7r-dh5">
+                                                <tableColumn identifier="0" width="32" minWidth="32" maxWidth="1000" id="rGj-7r-dh5">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="center" title="0">
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
                                                     </tableHeaderCell>
-                                                    <textFieldCell key="dataCell" lineBreakMode="truncatingTail" continuous="YES" refusesFirstResponder="YES" alignment="center" title="Text Cell" drawsBackground="YES" id="uWc-8H-0gX">
+                                                    <textFieldCell key="dataCell" lineBreakMode="truncatingTail" continuous="YES" alignment="center" title="Text Cell" drawsBackground="YES" id="uWc-8H-0gX">
                                                         <font key="font" size="12" name="Menlo-Regular"/>
                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -1870,7 +1870,7 @@
                                                         <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                     </textFieldCell>
                                                 </tableColumn>
-                                                <tableColumn identifier="Ascii" width="127" minWidth="10" maxWidth="3.4028234663852886e+38" id="kV6-az-lRD" userLabel="Ascii">
+                                                <tableColumn identifier="Ascii" editable="NO" width="127" minWidth="10" maxWidth="3.4028234663852886e+38" id="kV6-az-lRD" userLabel="Ascii">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="ASCII">
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

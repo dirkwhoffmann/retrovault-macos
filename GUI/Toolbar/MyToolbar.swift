@@ -89,7 +89,7 @@ class MyToolbar: NSToolbar, NSToolbarDelegate {
         case .save:
             
             save = MyToolbarItemGroup(identifier: .save,
-                                      images: [.sync],
+                                      images: [.save],
                                       actions: [#selector(saveAction)],
                                       target: self,
                                       label: "Save")
