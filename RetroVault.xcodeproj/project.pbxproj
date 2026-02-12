@@ -162,7 +162,7 @@
 		5045033E2F21619E007A7268 /* DeviceCanvasViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceCanvasViewController.swift; sourceTree = "<group>"; };
 		504503402F21685E007A7268 /* MyOutlineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyOutlineView.swift; sourceTree = "<group>"; };
 		504503422F216BAC007A7268 /* CanvasViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasViewController.swift; sourceTree = "<group>"; };
-		504EA7BD2ECE39E8008CF9FC /* RetroMount.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RetroMount.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		504EA7BD2ECE39E8008CF9FC /* RetroVault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RetroVault.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		504EAD1F2ECF00CE008CF9FC /* Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
 		504EAD202ECF00CE008CF9FC /* EmulatorProxy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EmulatorProxy.h; sourceTree = "<group>"; };
 		504EAD212ECF00CE008CF9FC /* EmulatorProxy.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = EmulatorProxy.mm; sourceTree = "<group>"; };
@@ -500,7 +500,7 @@
 		504EA7BE2ECE39E8008CF9FC /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				504EA7BD2ECE39E8008CF9FC /* RetroMount.app */,
+				504EA7BD2ECE39E8008CF9FC /* RetroVault.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1132,9 +1132,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		504EA7BC2ECE39E8008CF9FC /* RetroMount */ = {
+		504EA7BC2ECE39E8008CF9FC /* RetroVault */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 504EA7CB2ECE39E9008CF9FC /* Build configuration list for PBXNativeTarget "RetroMount" */;
+			buildConfigurationList = 504EA7CB2ECE39E9008CF9FC /* Build configuration list for PBXNativeTarget "RetroVault" */;
 			buildPhases = (
 				504EA7B92ECE39E8008CF9FC /* Sources */,
 				504EAD3F2ECF14AA008CF9FC /* Embed Libraries */,
@@ -1145,11 +1145,11 @@
 			);
 			dependencies = (
 			);
-			name = RetroMount;
+			name = RetroVault;
 			packageProductDependencies = (
 			);
 			productName = RetroMount;
-			productReference = 504EA7BD2ECE39E8008CF9FC /* RetroMount.app */;
+			productReference = 504EA7BD2ECE39E8008CF9FC /* RetroVault.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -1167,7 +1167,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 504EA7B82ECE39E8008CF9FC /* Build configuration list for PBXProject "RetroMount" */;
+			buildConfigurationList = 504EA7B82ECE39E8008CF9FC /* Build configuration list for PBXProject "RetroVault" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -1181,7 +1181,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				504EA7BC2ECE39E8008CF9FC /* RetroMount */,
+				504EA7BC2ECE39E8008CF9FC /* RetroVault */,
 			);
 		};
 /* End PBXProject section */
@@ -1599,7 +1599,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		504EA7B82ECE39E8008CF9FC /* Build configuration list for PBXProject "RetroMount" */ = {
+		504EA7B82ECE39E8008CF9FC /* Build configuration list for PBXProject "RetroVault" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				504EA7C92ECE39E9008CF9FC /* Debug */,
@@ -1608,7 +1608,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		504EA7CB2ECE39E9008CF9FC /* Build configuration list for PBXNativeTarget "RetroMount" */ = {
+		504EA7CB2ECE39E9008CF9FC /* Build configuration list for PBXNativeTarget "RetroVault" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				504EA7CC2ECE39E9008CF9FC /* Debug */,

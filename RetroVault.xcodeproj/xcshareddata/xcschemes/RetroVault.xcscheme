@@ -16,9 +16,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "504EA7BC2ECE39E8008CF9FC"
-               BuildableName = "RetroMount.app"
-               BlueprintName = "RetroMount"
-               ReferencedContainer = "container:RetroMount.xcodeproj">
+               BuildableName = "RetroVault.app"
+               BlueprintName = "RetroVault"
+               ReferencedContainer = "container:RetroVault.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -45,9 +45,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "504EA7BC2ECE39E8008CF9FC"
-            BuildableName = "RetroMount.app"
-            BlueprintName = "RetroMount"
-            ReferencedContainer = "container:RetroMount.xcodeproj">
+            BuildableName = "RetroVault.app"
+            BlueprintName = "RetroVault"
+            ReferencedContainer = "container:RetroVault.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -62,9 +62,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "504EA7BC2ECE39E8008CF9FC"
-            BuildableName = "RetroMount.app"
-            BlueprintName = "RetroMount"
-            ReferencedContainer = "container:RetroMount.xcodeproj">
+            BuildableName = "RetroVault.app"
+            BlueprintName = "RetroVault"
+            ReferencedContainer = "container:RetroVault.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
