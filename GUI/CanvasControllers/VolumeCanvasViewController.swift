@@ -128,7 +128,7 @@ class VolumeCanvasViewController: CanvasViewController {
     @IBOutlet weak var info1: NSTextField!
     @IBOutlet weak var info2: NSTextField!
     
-    var proxy: FuseVolumeProxy? { volumeProxy }
+    var proxy: FuseDeviceProxy? { deviceProxy }
     
     // Currently displayed items (used to trigger refresh actions)
     var displayedGeneration: Int?
@@ -345,6 +345,8 @@ class VolumeCanvasViewController: CanvasViewController {
     func refreshVolumeInfo() {
             
         guard let proxy = proxy else { return }
+        guard let v = volume else { return }
+        
         let description = proxy.describe()
                 
         mainTitle.stringValue = info.mountPoint
@@ -352,8 +354,8 @@ class VolumeCanvasViewController: CanvasViewController {
         subTitle2.stringValue = description?[safe: 1] ?? ""
         subTitle3.stringValue = description?[safe: 2] ?? ""
         
-        let r = Int(Double(proxy.bytesRead) / 1024.0)
-        let w = Int(Double(proxy.bytesWritten) / 1024.0)
+        let r = Int(Double(proxy.bytesRead(v)) / 1024.0)
+        let w = Int(Double(proxy.bytesWritten(v)) / 1024.0)
         readInfo.stringValue = "\(r) KB"
         writeInfo.stringValue = "\(w) KB"
         fillInfo.stringValue = info.fillString
@@ -461,13 +463,13 @@ class VolumeCanvasViewController: CanvasViewController {
     
     func updateBlockInfoUnselected() {
         
-        let type = proxy?.type(of: selectedBlock)
+        let type = proxy?.type(of: selectedBlock, volume: volume!)
         info1.stringValue = type ?? "?"
     }
     
     func updateBlockInfoSelected() {
         
-        let usage = proxy?.type(of: selectedBlock, pos: selectedCell!)
+        let usage = proxy?.type(of: selectedBlock, pos: selectedCell!, volume: volume!)
         info1.stringValue = usage ?? "?"
     }
 
@@ -479,7 +481,8 @@ class VolumeCanvasViewController: CanvasViewController {
     func updateErrorInfoSelected() {
         
         var exp = UInt8(0)
-        let error = proxy?.xray(selectedBlock,
+        let error = proxy?.xray(volume!,
+                                block: selectedBlock,
                                 pos: selectedCell!,
                                 expected: &exp,
                                 strict: self.diagnoseStrictButton.state == .on)
@@ -579,7 +582,7 @@ class VolumeCanvasViewController: CanvasViewController {
                 // Artificial delay for testing
                 try? await Task.sleep(nanoseconds: 500_000_000)
 
-                await self.proxy?.xrayBitmap(self.allocStrictButton.state == .on)
+                await self.proxy?.xrayBitmap(self.volume!, strict: self.allocStrictButton.state == .on)
             }.value
 
             // Back to MainActor for UI updates
@@ -593,8 +596,8 @@ class VolumeCanvasViewController: CanvasViewController {
                 allocScanButton.isHidden = false
             }
             
-            usedButUnallocated = proxy?.usedButUnallocated
-            unusedButAllocated = proxy?.unusedButAllocated
+            usedButUnallocated = proxy?.usedButUnallocated(self.volume!)
+            unusedButAllocated = proxy?.unusedButAllocated(self.volume!)
             refreshAllocInfo()
         }
     }
@@ -606,7 +609,7 @@ class VolumeCanvasViewController: CanvasViewController {
 
     @IBAction func rectifyAllocationMapAction(_ sender: NSButton!) {
         
-        proxy?.rectifyAllocationMap(allocStrictButton.state == .on)
+        proxy?.rectifyAllocationMap(volume!, strict: allocStrictButton.state == .on)
         scanAllocationMapAction(sender)
     }
     
@@ -629,7 +632,7 @@ class VolumeCanvasViewController: CanvasViewController {
                 // Artificial delay for testing
                 try? await Task.sleep(nanoseconds: 500_000_000)
 
-                await self.proxy?.xray(self.diagnoseStrictButton.state == .on)
+                await self.proxy?.xray(self.volume!, strict: self.diagnoseStrictButton.state == .on)
             }.value
 
             // Back to MainActor for UI updates
@@ -643,7 +646,7 @@ class VolumeCanvasViewController: CanvasViewController {
                 diagnoseScanButton.isHidden = false
             }
             
-            erroneousBlocks = proxy?.blockErrors
+            erroneousBlocks = proxy?.blockErrors(self.volume!)
             refreshHealthInfo()
         }
     }
@@ -655,7 +658,7 @@ class VolumeCanvasViewController: CanvasViewController {
 
     @IBAction func rectifyBlocksAction(_ sender: NSButton!) {
         
-        proxy?.rectify(diagnoseStrictButton.state == .on)
+        proxy?.rectify(volume!, strict: diagnoseStrictButton.state == .on)
         scanBlocksAction(sender)
     }
     
@@ -710,12 +713,12 @@ extension VolumeCanvasViewController: NSTableViewDataSource {
             return String(format: "%X", row)
             
         case "Ascii":
-            return proxy?.readASCII(row * 16, from: selectedBlock, length: 16) ?? ""
+            return proxy?.readASCII(row * 16, block: selectedBlock, length: 16) ?? ""
             
         default:
             
             guard let col = columnNr(tableColumn),
-                  let byte = proxy?.readByte(16 * row + col, from: selectedBlock) else { return "--" }
+                  let byte = proxy?.readByte(16 * row + col, block: selectedBlock) else { return "--" }
             
             return String(format: "%02X", byte)
         }
@@ -743,7 +746,7 @@ extension VolumeCanvasViewController: NSTableViewDataSource {
             // Write byte
             let offset = row * 16 + columnNr(tableColumn)!
             print("Writing \(value) to block \(selectedBlock) at offset \(offset)")
-            deviceProxy?.writeByte(offset, volume: volume!, block: selectedBlock, value: value)
+            deviceProxy?.writeByte(offset, block: selectedBlock, volume: volume!, value: value)
             tableView.reloadData()
             
         } else {
@@ -766,7 +769,7 @@ extension VolumeCanvasViewController: NSTableViewDelegate {
             
             let offset = 16 * row + col
             let strict = diagnoseStrictButton.state == .on
-            let error = proxy?.xray(selectedBlock, pos: offset, expected: &exp, strict: strict)
+            let error = proxy?.xray(volume!, block: selectedBlock, pos: offset, expected: &exp, strict: strict)
             
             if row == selectedRow && col == selectedCol {
                 cell?.textColor = .white
@@ -829,7 +832,7 @@ extension VolumeCanvasViewController {
                 
         data.withUnsafeMutableBytes { ptr in
             if let baseAddress = ptr.baseAddress {
-                proxy?.createUsageMap(baseAddress, length: Int(size.width))
+                proxy?.createUsageMap(volume!, buffer: baseAddress, length: Int(size.width))
             }
         }
                 
@@ -845,7 +848,7 @@ extension VolumeCanvasViewController {
                 
         data.withUnsafeMutableBytes { ptr in
             if let baseAddress = ptr.baseAddress {
-                proxy?.createAllocationMap(baseAddress, length: Int(size.width))
+                proxy?.createAllocationMap(volume!, buffer: baseAddress, length: Int(size.width))
             }
         }
         
@@ -867,7 +870,7 @@ extension VolumeCanvasViewController {
                 
         data.withUnsafeMutableBytes { ptr in
             if let baseAddress = ptr.baseAddress {
-                proxy?.createHealthMap(baseAddress, length: Int(size.width))
+                proxy?.createHealthMap(volume!, buffer: baseAddress, length: Int(size.width))
             }
         }
         

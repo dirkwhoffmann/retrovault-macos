@@ -8,7 +8,7 @@
 // -----------------------------------------------------------------------------
 
 #import "config.h"
-#import "EmulatorProxy.h"
+#import "Proxy.h"
 #import "FuseDevice.h"
 #import "FileSystem.h"
 
@@ -360,6 +360,65 @@ using namespace utl;
     return result;
 }
 
+- (NSArray<NSString *> *)describe:(NSInteger)v
+{
+    const auto vec = [self device]->getVolume(v).describe();
+
+    NSMutableArray<NSString *> *result =
+        [NSMutableArray arrayWithCapacity:vec.size()];
+
+    for (const auto &s : vec) {
+        [result addObject:[NSString stringWithUTF8String:s.c_str()]];
+    }
+
+    return result;
+}
+-(NSURL *)mountPoint:(NSInteger)v
+{
+    auto nsPath = @([self device]->getVolume(v).getMountPoint().string().c_str());
+    return [NSURL fileURLWithPath:nsPath];
+}
+
+-(BOOL)iswriteProtected:(NSInteger)v
+{
+    return [self device]->getVolume(v).isWriteProtected();
+}
+
+-(void)toggleWriteProtection:(NSInteger)v
+{
+    [self device]->getVolume(v).writeProtect(![self iswriteProtected:v]);
+}
+
+-(void)writeProtect:(BOOL)wp volume:(NSInteger)v
+{
+    [self device]->getVolume(v).writeProtect(wp);
+}
+
+-(NSArray<NSString *> *)blockTypes:(NSInteger)v
+{
+    const auto vec = [self device]->getVolume(v).blockTypes();
+
+    NSMutableArray<NSString *> *result =
+        [NSMutableArray arrayWithCapacity:vec.size()];
+
+    for (const auto &s : vec) {
+        [result addObject:[NSString stringWithUTF8String:s.c_str()]];
+    }
+
+    return result;
+    
+}
+
+-(NSString *)typeOf:(NSInteger)blockNr volume:(NSInteger)v
+{
+    return @([self device]->getVolume(v).blockType(blockNr).c_str());
+}
+
+-(NSString *)typeOf:(NSInteger)blockNr pos:(NSInteger)pos volume:(NSInteger)v
+{
+    return @([self device]->getVolume(v).typeOf(blockNr, pos).c_str());
+}
+
 - (NSURL *)url
 {
     return url;
@@ -450,21 +509,39 @@ using namespace utl;
     return [self device]->getImage()->bindex(TrackDevice::CHS(c,h,s));
 }
 
+-(NSInteger)b2b:(NSInteger)b volume:(NSInteger)v
+{
+    return b + [self device]->getVolume(v).getVolume().getRange().lower;
+}
+
 -(NSInteger)readByte:(NSInteger)offset
 {
+    assert(offset >= 0 && offset < [self bsize]);
     return [self device]->getImage()->readByte(offset);
 }
 
--(NSInteger)readByte:(NSInteger)offset from:(NSInteger)block
+-(NSInteger)readByte:(NSInteger)offset block:(NSInteger)block
 {
-    auto bsize = [self device]->getImage()->bsize();
-    assert(offset >= 0 && offset < bsize);
+    assert(offset >= 0 && offset < [self bsize]);
+    return [self device]->getImage()->readByte(block * [self bsize] + offset);
+}
 
-    return [self readByte: block * bsize + offset];
+-(NSInteger)readByte:(NSInteger)offset volume:(NSInteger)volume
+{
+    assert(offset >= 0 && offset < [self bsize]);
+    return [self device]->getVolume(volume).getVolume().readByte(offset);
+}
+
+-(NSInteger)readByte:(NSInteger)offset block:(NSInteger)block volume:(NSInteger)volume
+{
+    assert(offset >= 0 && offset < [self bsize]);
+    return [self device]->getVolume(volume).getVolume().readByte(block * [self bsize] + offset);
 }
 
 -(NSString *)readASCII:(NSInteger)offset length:(NSInteger)len
 {
+    assert(offset >= 0 && offset < [self bsize]);
+    
     NSMutableString *result = [NSMutableString stringWithCapacity:len];
 
     for (NSInteger i = 0; i < len; i++) {
@@ -481,13 +558,17 @@ using namespace utl;
     return result;
 }
 
--(NSString *)readASCII:(NSInteger)offset from:(NSInteger)block length:(NSInteger)len
+-(NSString *)readASCII:(NSInteger)offset block:(NSInteger)block length:(NSInteger)len
 {
-    auto bsize = [self device]->getImage()->bsize();
-    assert(offset >= 0 && offset < bsize);
-
-    return [self readASCII: block * bsize + offset length: len];
+    return [self readASCII: block * [self bsize] + offset length: len];
 }
+
+-(NSString *)readASCII:(NSInteger)offset block:(NSInteger)block volume:(NSInteger)volume length:(NSInteger)len
+{
+    auto lower = [self device]->getVolume(volume).getVolume().getRange().lower;
+    return [self readASCII: (lower + block) * [self bsize] + offset length: len];
+}
+
 
 -(void)writeByte:(NSInteger)offset value:(NSInteger)value
 {
@@ -507,12 +588,27 @@ using namespace utl;
     [self device]->writeByte(offset, value, volume);
 }
 
--(void)writeByte:(NSInteger)offset volume:(NSInteger)volume block:(NSInteger)block value:(NSInteger)value
+-(void)writeByte:(NSInteger)offset block:(NSInteger)block volume:(NSInteger)volume value:(NSInteger)value
 {
     auto bsize = [self device]->getImage()->bsize();
     assert(offset >= 0 && offset < bsize);
 
     [self device]->writeByte(block * bsize + offset, value, volume);
+}
+
+-(FSPosixStat)stat:(NSInteger)volume
+{
+    return [self device]->getVolume(volume).stat();
+}
+
+-(NSInteger)bytesRead:(NSInteger)volume
+{
+    return [self device]->getVolume(volume).reads();
+}
+
+-(NSInteger)bytesWritten:(NSInteger)volume
+{
+    return [self device]->getVolume(volume).writes();
 }
 
 - (void)save:(ExceptionWrapper *)ex
@@ -590,9 +686,90 @@ using namespace utl;
     [self device]->invalidate();
 }
 
-- (NSString *)mountPoint:(NSInteger)v
+-(NSArray<NSNumber *> *)blockErrors:(NSInteger)v
 {
-    return @([self device]->getVolume(v).getMountPoint().string().c_str());
+    const auto vec = [self device]->getVolume(v).blockErrors();
+
+    NSMutableArray<NSNumber *> *result =
+        [NSMutableArray arrayWithCapacity:vec.size()];
+
+    for (auto b : vec) {
+        [result addObject:@(b)];
+    }
+
+    return result;
+}
+
+-(NSArray<NSNumber *> *)usedButUnallocated:(NSInteger)v
+{
+    const auto vec = [self device]->getVolume(v).usedButUnallocated();
+
+    NSMutableArray<NSNumber *> *result =
+        [NSMutableArray arrayWithCapacity:vec.size()];
+
+    for (auto b : vec) {
+        [result addObject:@(b)];
+    }
+
+    return result;
+}
+
+-(NSArray<NSNumber *> *)unusedButAllocated:(NSInteger)v
+{
+    const auto vec = [self device]->getVolume(v).unusedButAllocated();
+
+    NSMutableArray<NSNumber *> *result =
+        [NSMutableArray arrayWithCapacity:vec.size()];
+
+    for (auto b : vec) {
+        [result addObject:@(b)];
+    }
+
+    return result;
+}
+
+-(void)xrayBitmap:(NSInteger)v strict:(BOOL)strict
+{
+    [self device]->getVolume(v).xrayBitmap(strict);
+}
+
+-(void)xray:(NSInteger)v strict:(BOOL)strict
+{
+    [self device]->getVolume(v).xray(strict);
+}
+
+-(NSString *)xray:(NSInteger)v block:(NSInteger)b pos:(NSInteger)pos expected:(unsigned char *)exp strict:(BOOL)strict
+{
+    std::optional<u8> expected;
+    auto result = [self device]->getVolume(v).xray(b, pos, strict, expected);
+    if (expected) *exp = *expected;
+
+    return @(result.c_str());
+}
+
+-(void)rectifyAllocationMap:(NSInteger)v strict:(BOOL)strict
+{
+    [self device]->getVolume(v).rectifyAllocationMap(strict);
+}
+
+-(void)rectify:(NSInteger)v strict:(BOOL)strict
+{
+    [self device]->getVolume(v).rectify(strict);
+}
+
+-(void)createUsageMap:(NSInteger)v buffer:(u8 *)buf length:(NSInteger)len
+{
+    [self device]->getVolume(v).createUsageMap((u8 *)buf, len);
+}
+
+-(void)createAllocationMap:(NSInteger)v buffer:(u8 *)buf length:(NSInteger)len
+{
+    [self device]->getVolume(v).createAllocationMap((u8 *)buf, len);
+}
+
+-(void)createHealthMap:(NSInteger)v buffer:(u8 *)buf length:(NSInteger)len
+{
+    [self device]->getVolume(v).createHealthMap((u8 *)buf, len);
 }
 
 @end

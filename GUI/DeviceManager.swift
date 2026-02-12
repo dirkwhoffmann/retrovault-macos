@@ -125,9 +125,10 @@ class DeviceManager {
         
         let result = VolumeInfo.init()
         
-        let proxy = devices[device].volume(volume)!
-        let stat = proxy.stat
-        let mp = proxy.mountPoint
+        guard let proxy = proxy(device: device) else { return result }
+        
+        let stat = proxy.stat(volume)
+        let mp = proxy.mountPoint(volume)
         
         // Mount point
         result.mountPoint = mp?.relativePath ?? ""
@@ -156,8 +157,8 @@ class DeviceManager {
         result.mDate = mt.formatted(date: .numeric, time: .standard)
         
         // Access statistics
-        result.reads = proxy.bytesRead
-        result.writes = proxy.bytesWritten
+        result.reads = proxy.bytesRead(volume)
+        result.writes = proxy.bytesWritten(volume)
         result.generation = stat.generation
         
         return result
@@ -174,10 +175,8 @@ class DeviceManager {
         
         do {
             
-            let proxy = try FuseDeviceProxy.make(with: url)
-            let volumeProxy = proxy.volume(0)!
-            
-            let traits = volumeProxy.stat
+            let proxy = try FuseDeviceProxy.make(with: url)            
+            let traits = proxy.stat(0)
             
             print("Blocks: \(traits.blocks)")
             print("Bsize: \(traits.bsize)")

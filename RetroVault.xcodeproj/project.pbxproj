@@ -14,7 +14,7 @@
 		5045033F2F2161A4007A7268 /* DeviceCanvasViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5045033E2F21619E007A7268 /* DeviceCanvasViewController.swift */; };
 		504503412F216864007A7268 /* MyOutlineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504503402F21685E007A7268 /* MyOutlineView.swift */; };
 		504503432F216BC4007A7268 /* CanvasViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504503422F216BAC007A7268 /* CanvasViewController.swift */; };
-		504EAD252ECF00CE008CF9FC /* EmulatorProxy.mm in Sources */ = {isa = PBXBuildFile; fileRef = 504EAD212ECF00CE008CF9FC /* EmulatorProxy.mm */; };
+		504EAD252ECF00CE008CF9FC /* Proxy.mm in Sources */ = {isa = PBXBuildFile; fileRef = 504EAD212ECF00CE008CF9FC /* Proxy.mm */; };
 		504EAD262ECF00CE008CF9FC /* TypeExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504EAD232ECF00CE008CF9FC /* TypeExtensions.swift */; };
 		504EAD272ECF00CE008CF9FC /* ProxyExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504EAD222ECF00CE008CF9FC /* ProxyExtensions.swift */; };
 		504EAD2D2ECF0266008CF9FC /* FuseMountPoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 504EAD2C2ECF0263008CF9FC /* FuseMountPoint.cpp */; };
@@ -163,8 +163,8 @@
 		504503422F216BAC007A7268 /* CanvasViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasViewController.swift; sourceTree = "<group>"; };
 		504EA7BD2ECE39E8008CF9FC /* RetroVault.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RetroVault.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		504EAD1F2ECF00CE008CF9FC /* Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
-		504EAD202ECF00CE008CF9FC /* EmulatorProxy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EmulatorProxy.h; sourceTree = "<group>"; };
-		504EAD212ECF00CE008CF9FC /* EmulatorProxy.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = EmulatorProxy.mm; sourceTree = "<group>"; };
+		504EAD202ECF00CE008CF9FC /* Proxy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Proxy.h; sourceTree = "<group>"; };
+		504EAD212ECF00CE008CF9FC /* Proxy.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = Proxy.mm; sourceTree = "<group>"; };
 		504EAD222ECF00CE008CF9FC /* ProxyExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProxyExtensions.swift; sourceTree = "<group>"; };
 		504EAD232ECF00CE008CF9FC /* TypeExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypeExtensions.swift; sourceTree = "<group>"; };
 		504EAD2A2ECF024E008CF9FC /* FuseMountPoint.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FuseMountPoint.h; sourceTree = "<group>"; };
@@ -507,8 +507,8 @@
 			isa = PBXGroup;
 			children = (
 				504EAD1F2ECF00CE008CF9FC /* Bridging-Header.h */,
-				504EAD202ECF00CE008CF9FC /* EmulatorProxy.h */,
-				504EAD212ECF00CE008CF9FC /* EmulatorProxy.mm */,
+				504EAD202ECF00CE008CF9FC /* Proxy.h */,
+				504EAD212ECF00CE008CF9FC /* Proxy.mm */,
 				504EAD222ECF00CE008CF9FC /* ProxyExtensions.swift */,
 				504EAD232ECF00CE008CF9FC /* TypeExtensions.swift */,
 			);
@@ -1249,7 +1249,7 @@
 				5077249F2ECFA78E00DB04C5 /* FuseDebug.cpp in Sources */,
 				50BCBDFA2EEBF79B000C53CF /* FuseDevice.cpp in Sources */,
 				507724A62ED0843800DB04C5 /* FuseVolume.cpp in Sources */,
-				504EAD252ECF00CE008CF9FC /* EmulatorProxy.mm in Sources */,
+				504EAD252ECF00CE008CF9FC /* Proxy.mm in Sources */,
 				504EAD262ECF00CE008CF9FC /* TypeExtensions.swift in Sources */,
 				504EAD272ECF00CE008CF9FC /* ProxyExtensions.swift in Sources */,
 				50900BCE2F1E727400A4A81B /* TrackDevice.cpp in Sources */,

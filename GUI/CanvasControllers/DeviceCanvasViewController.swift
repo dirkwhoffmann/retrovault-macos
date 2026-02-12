@@ -286,11 +286,11 @@ extension DeviceCanvasViewController: NSTableViewDataSource {
             return String(format: "%X", row)
             
         case "Ascii":
-            return proxy?.readASCII(row * 16, from: selectedBlock, length: 16) ?? ""
+            return proxy?.readASCII(row * 16, block: selectedBlock, length: 16) ?? ""
             
         default:
             let offset = row * 16 + columnNr(tableColumn)!
-            if let byte = proxy?.readByte(offset, from: selectedBlock) {
+            if let byte = proxy?.readByte(offset, block: selectedBlock) {
                 if columnNr(tableColumn)! == 0 { print("Reading \(byte) from block \(selectedBlock) at offset \(offset)") }
                 return String(format: "%02X", byte)
             } else {

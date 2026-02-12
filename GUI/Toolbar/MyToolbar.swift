@@ -159,9 +159,9 @@ class MyToolbar: NSToolbar, NSToolbarDelegate {
         save.toolTip = "Write changes back to the image file"
 
         protect.isHidden = vol == nil
-        if vol != nil {
+        if let vol = vol {
             
-            let wenable = proxy?.volume(vol!).iswriteProtected == false
+            let wenable = proxy?.iswriteProtected(vol) == false
             protect.setImage(Symbol.get(wenable ? .unlocked : .locked), forSegment: 0)
             protect.isEnabled = !globalDisable
         }
@@ -206,18 +206,15 @@ class MyToolbar: NSToolbar, NSToolbarDelegate {
 
     @objc private func finderAction() {
 
-        if let proxy = proxy?.volume(svc.selectedVolume ?? 0) {
-            
-            if let url = proxy.mountPoint {
-                NSWorkspace.shared.open(url)
-            }
+        if let url = proxy?.mountPoint(svc.selectedVolume ?? 0) {
+            NSWorkspace.shared.open(url)
         }
     }
 
     @objc private func protectAction() {
 
-        if let vol = svc.selectedVolume, let proxy = proxy?.volume(vol) {
-            proxy.writeProtect(!proxy.iswriteProtected)
+        if let vol = svc.selectedVolume {
+            proxy?.toggleWriteProtection(vol)
         }
         updateToolbar()
     }
