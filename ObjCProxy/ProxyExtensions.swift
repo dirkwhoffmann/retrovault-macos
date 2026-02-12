@@ -7,18 +7,6 @@
 // See https://www.gnu.org for license information
 // -----------------------------------------------------------------------------
 
-extension FuseVolumeProxy {
-    
-    /*
-    func push() throws {
-
-        let exception = ExceptionWrapper()
-        push(exception)
-        if exception.fault != 0 { throw AppError(exception) }
-    }
-    */
-}
-
 extension FuseDeviceProxy {
     
     static func make(with url: URL) throws -> FuseDeviceProxy {

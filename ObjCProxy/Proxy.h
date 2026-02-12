@@ -59,63 +59,6 @@ inline const char *c_str(const std::string &s)
 
 
 //
-// FuseVolumeProxy
-//
-
-@interface FuseVolumeProxy : Proxy { }
-
-- (NSArray<NSString *> *)describe __attribute__((deprecated));
-
-/*
-@property (readonly) NSURL *mountPoint __attribute__((deprecated));
-@property (readonly) BOOL iswriteProtected __attribute__((deprecated));
-- (void)writeProtect:(BOOL)wp __attribute__((deprecated));
-*/
-// - (void)push:(ExceptionWrapper *)ex;
-
-// Properties
-/*
-@property (readonly) FSPosixStat stat __attribute__((deprecated));
-@property (readonly) NSInteger bytesRead __attribute__((deprecated));
-@property (readonly) NSInteger bytesWritten __attribute__((deprecated));
-*/
-
-// Data
-/*
--(NSInteger)readByte:(NSInteger)offset __attribute__((deprecated));
--(NSInteger)readByte:(NSInteger)offset from:(NSInteger)block __attribute__((deprecated));
-
--(NSString *)readASCII:(NSInteger)offset length:(NSInteger)len __attribute__((deprecated));
--(NSString *)readASCII:(NSInteger)offset from:(NSInteger)block length:(NSInteger)len __attribute__((deprecated));
-*/
-
-// Analysis
-/*
-@property (readonly) NSArray<NSString *> *blockTypes __attribute__((deprecated));
-- (NSString *)typeOf:(NSInteger)blockNr __attribute__((deprecated));
-- (NSString *)typeOf:(NSInteger)blockNr pos:(NSInteger)pos __attribute__((deprecated));
-*/
-// Doctor
-/*
-@property (readonly) NSArray<NSNumber *> *blockErrors __attribute__((deprecated));
-@property (readonly) NSArray<NSNumber *> *usedButUnallocated __attribute__((deprecated));
-@property (readonly) NSArray<NSNumber *> *unusedButAllocated __attribute__((deprecated));
-- (void)xrayBitmap:(BOOL)strict __attribute__((deprecated));
-- (void)xray:(BOOL)strict __attribute__((deprecated));
-- (NSString *)xray:(NSInteger)nr pos:(NSInteger)pos expected:(unsigned char *)exp strict:(BOOL)strict __attribute__((deprecated));
-- (void)rectifyAllocationMap:(BOOL)strict __attribute__((deprecated));
-- (void)rectify:(BOOL)strict __attribute__((deprecated));
-*/
-// Images
-/*
-- (void)createUsageMap:(u8 *)buf length:(NSInteger)len __attribute__((deprecated));
-- (void)createAllocationMap:(u8 *)buf length:(NSInteger)len __attribute__((deprecated));
-- (void)createHealthMap:(u8 *)buf length:(NSInteger)len __attribute__((deprecated));
-*/
-@end
-
-
-//
 // FuseDeviceProxy
 //
 
@@ -128,7 +71,7 @@ inline const char *c_str(const std::string &s)
 
 - (void)setListener:(const void *)listener function:(AdapterCallback *)func;
 
--(FuseVolumeProxy *) volume:(NSInteger)nr; // DEPRECATED
+// -(FuseVolume *)volume:(NSInteger)nr;
 
 //
 // Querying device properties
