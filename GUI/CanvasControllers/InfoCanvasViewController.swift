@@ -12,9 +12,24 @@ import Cocoa
 class InfoCanvasViewController: CanvasViewController {
 
     @IBOutlet var splashImage: NSImageView!
+    @IBOutlet var fuseIcon: NSImageView!
+    @IBOutlet var fuseInfoText: NSTextField!
 
     override func viewDidLoad() {
 
+        if app.hasFuse {
+            
+            fuseInfoText.stringValue = "macFUSE support enabled"
+            fuseInfoText.textColor = .secondaryLabelColor
+            fuseIcon.image = NSImage(named: "LEDgreen")
+            
+        } else {
+
+            fuseInfoText.stringValue = "macFUSE is not installed. Mounted volumes won't appear in Finder."
+            fuseIcon.image = NSImage(named: "LEDred")
+            fuseInfoText.textColor = .labelColor
+        }
+        
         splashImage.unregisterDraggedTypes()
         refresh()
     }
@@ -25,7 +40,7 @@ class InfoCanvasViewController: CanvasViewController {
     
     @IBAction private func gitHubAction(_ sender: Any) {
         
-        if let url = URL(string: "https://github.com/dirkwhoffmann/vAMIGA") {
+        if let url = URL(string: "https://github.com/dirkwhoffmann/retrovault-macos") {
             NSWorkspace.shared.open(url)
         }
     }

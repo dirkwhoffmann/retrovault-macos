@@ -117,7 +117,6 @@
 		50900C3B2F1E729A00A4A81B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 50900C252F1E729A00A4A81B /* Assets.xcassets */; };
 		5097DD932F24DC1D00738B5A /* InfoCanvasViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5097DD922F24DC1500738B5A /* InfoCanvasViewController.swift */; };
 		5097DD952F24DC2900738B5A /* VolumeCanvasViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5097DD942F24DC2900738B5A /* VolumeCanvasViewController.swift */; };
-		50AB50B82F23E1F900BFBA99 /* LaunchInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50AB50B72F23E1F300BFBA99 /* LaunchInfoViewController.swift */; };
 		50BBECF52F3CFCAD0017D5EF /* MyWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BBECF42F3CFCA70017D5EF /* MyWindow.swift */; };
 		50BCBDFA2EEBF79B000C53CF /* FuseDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50BCBDF92EEBF798000C53CF /* FuseDevice.cpp */; };
 		50CD7A1F2F2571B6007E5803 /* MySplitView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CD7A1E2F2571B1007E5803 /* MySplitView.swift */; };
@@ -406,7 +405,6 @@
 		50900C2D2F1E729A00A4A81B /* MyWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyWindowController.swift; sourceTree = "<group>"; };
 		5097DD922F24DC1500738B5A /* InfoCanvasViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoCanvasViewController.swift; sourceTree = "<group>"; };
 		5097DD942F24DC2900738B5A /* VolumeCanvasViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VolumeCanvasViewController.swift; sourceTree = "<group>"; };
-		50AB50B72F23E1F300BFBA99 /* LaunchInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchInfoViewController.swift; sourceTree = "<group>"; };
 		50BBECF42F3CFCA70017D5EF /* MyWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyWindow.swift; sourceTree = "<group>"; };
 		50BCBDC22EE866B0000C53CF /* config.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
 		50BCBDF82EEBF791000C53CF /* FuseDevice.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FuseDevice.h; sourceTree = "<group>"; };
@@ -490,7 +488,7 @@
 				50900B102F1E726D00A4A81B /* utlib */,
 				50900BCD2F1E727400A4A81B /* RetroVault */,
 				504EAD242ECF00CE008CF9FC /* ObjCProxy */,
-				50900C2F2F1E729A00A4A81B /* RetroMount */,
+				50900C2F2F1E729A00A4A81B /* GUI */,
 				50D89C722F1E7C7B00ECC73D /* ThirdParty */,
 				504EAD362ECF10DC008CF9FC /* Frameworks */,
 				504EA7BE2ECE39E8008CF9FC /* Products */,
@@ -1047,7 +1045,7 @@
 			path = Sidebar;
 			sourceTree = "<group>";
 		};
-		50900C2F2F1E729A00A4A81B /* RetroMount */ = {
+		50900C2F2F1E729A00A4A81B /* GUI */ = {
 			isa = PBXGroup;
 			children = (
 				5038461A2F2B489C00945B2B /* Symbols.swift */,
@@ -1068,13 +1066,12 @@
 				50900C2C2F1E729A00A4A81B /* Main.storyboard */,
 				50900C252F1E729A00A4A81B /* Assets.xcassets */,
 			);
-			path = RetroMount;
+			path = GUI;
 			sourceTree = "<group>";
 		};
 		5097DD912F24DC0C00738B5A /* CanvasControllers */ = {
 			isa = PBXGroup;
 			children = (
-				50AB50B72F23E1F300BFBA99 /* LaunchInfoViewController.swift */,
 				504503422F216BAC007A7268 /* CanvasViewController.swift */,
 				5097DD922F24DC1500738B5A /* InfoCanvasViewController.swift */,
 				5045033E2F21619E007A7268 /* DeviceCanvasViewController.swift */,
@@ -1148,7 +1145,7 @@
 			name = RetroVault;
 			packageProductDependencies = (
 			);
-			productName = RetroMount;
+			productName = RetroVault;
 			productReference = 504EA7BD2ECE39E8008CF9FC /* RetroVault.app */;
 			productType = "com.apple.product-type.application";
 		};
@@ -1305,7 +1302,6 @@
 				50CD7A232F2605DB007E5803 /* DeviceCell.swift in Sources */,
 				50900BF82F1E727400A4A81B /* FileSystemLayer2.cpp in Sources */,
 				50900BF92F1E727400A4A81B /* Volume.cpp in Sources */,
-				50AB50B82F23E1F900BFBA99 /* LaunchInfoViewController.swift in Sources */,
 				50900BFA2F1E727400A4A81B /* C64Decoder.cpp in Sources */,
 				50900BFB2F1E727400A4A81B /* FileSystem.cpp in Sources */,
 				50900BFC2F1E727400A4A81B /* HardDiskImage.cpp in Sources */,
@@ -1507,7 +1503,7 @@
 					utlib/include,
 					RetroVault,
 				);
-				INFOPLIST_FILE = RetroMount/Info.plist;
+				INFOPLIST_FILE = GUI/Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_NSMainStoryboardFile = Main;
 				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
@@ -1522,7 +1518,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 15.6;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = de.dirkwhoffmann.de.retroMount;
+				PRODUCT_BUNDLE_IDENTIFIER = de.dirkwhoffmann.de.retroVault;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
 				RUNTIME_EXCEPTION_ALLOW_DYLD_ENVIRONMENT_VARIABLES = NO;
@@ -1562,7 +1558,7 @@
 					utlib/include,
 					RetroVault,
 				);
-				INFOPLIST_FILE = RetroMount/Info.plist;
+				INFOPLIST_FILE = GUI/Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_NSMainStoryboardFile = Main;
 				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
@@ -1577,7 +1573,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 15.6;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = de.dirkwhoffmann.de.retroMount;
+				PRODUCT_BUNDLE_IDENTIFIER = de.dirkwhoffmann.de.retroVault;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
 				RUNTIME_EXCEPTION_ALLOW_DYLD_ENVIRONMENT_VARIABLES = NO;

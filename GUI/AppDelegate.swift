@@ -41,8 +41,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // Check if FUSE is installed
         let RTLD_DEFAULT = UnsafeMutableRawPointer(bitPattern: -2)!
         hasFuse = dlsym(RTLD_DEFAULT, "fuse_mount") != nil
-
-        hasFuse = false
         
         // Disable the File menu (for now)
         if let fileMenuItem = NSApp.mainMenu?.item(withTitle: "File") {
@@ -50,13 +48,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
 
         showVolumeWindow()
-        /*
-        if hasFuse {
-            showVolumeWindow()
-        } else {
-            showLaunchErrorWindow()
-        }
-        */
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {

@@ -29,6 +29,7 @@ enum Symbol {
     case trash
 
     // Status
+    case info
     case locked
     case serverListening
     case serverConnected
@@ -97,6 +98,7 @@ enum Symbol {
         case .trash:            return [ "trash" ]
 
             // Status
+        case .info:             return [ "info.circle" ]
         case .locked:           return [ "lock" ]
         case .serverListening:  return [ "point.3.connected.trianglepath.dotted" ]
         case .serverConnected:  return [ "point.3.filled.connected.trianglepath.dotted" ]
