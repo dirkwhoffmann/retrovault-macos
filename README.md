@@ -1,6 +1,6 @@
 <img width="1486" height="541" alt="Image" src="https://github.com/user-attachments/assets/8be1de0f-0394-49e3-af98-8a83a274f23a" />
 
-# RetroVault (macOS)
+# Overview
 
 **RetroVault** is a macOS application for accessing and maintaining legacy disk image formats. It enables users to mount, inspect, 
 and repair classic floppy disk images within a modern macOS environment.
@@ -9,17 +9,12 @@ and repair classic floppy disk images within a modern macOS environment.
 > Feedback and bug reports are welcome via the GitHub project page.  
 > Before mounting disk images, ensure that you have created backups. Data corruption may occur during testing.
 
----
+## Formats 
 
-## Overview
-
-RetroVault provides tools for working with historical disk image formats on macOS.  
-Currently supported formats include:
+RetroVault provides tools for working with historical disk image formats on macOS. Currently, the following formats are supported:
 
 - **Amiga** – ADF (Amiga Disk File)
 - **Commodore 64** – D64 (1541 disk images)
-
----
 
 ## Features
 
@@ -31,8 +26,6 @@ Once mounted, images can be accessed through Finder or standard command-line too
 If macFUSE is not installed, mounting functionality is unavailable; however, all other features of RetroVault 
 remain fully operational.
 
----
-
 ### Explore
 
 A built-in block viewer allows low-level inspection of disk images. Users can:
@@ -43,8 +36,6 @@ A built-in block viewer allows low-level inspection of disk images. Users can:
 
 This functionality is intended for advanced users who require precise control over file system structures.
 
----
-
 ### Repair
 
 RetroVault analyzes internal file system structures, including:
@@ -54,8 +45,6 @@ RetroVault analyzes internal file system structures, including:
 - Structural consistency  
 
 Detected inconsistencies are reported clearly. Where possible, errors can be repaired to restore file system integrity.
-
----
 
 ## Notes
 
