@@ -1,3 +1,5 @@
+<img width="1486" height="541" alt="Image" src="https://github.com/user-attachments/assets/8be1de0f-0394-49e3-af98-8a83a274f23a" />
+
 # RetroVault (macOS)
 
 **RetroVault** is a macOS application for accessing and maintaining legacy disk image formats. It enables users to mount, inspect, 
