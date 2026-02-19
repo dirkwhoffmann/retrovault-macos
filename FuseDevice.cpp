@@ -84,7 +84,7 @@ FuseDevice::setListener(const void *listener, AdapterCallback *callback)
 vector<string>
 FuseDevice::describe() const noexcept
 {
-    return image->describe();
+    return image->describeImage();
 }
 
 bool

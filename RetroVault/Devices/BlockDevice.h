@@ -29,11 +29,11 @@ public:
     virtual isize capacity() const;
 
     // Reads a single block or a range of blocks
-    void readBlock(u8 *dst, isize nr) const { readBlocks(dst, Range{nr,nr+1}); }
+    virtual void readBlock(u8 *dst, isize nr) const { readBlocks(dst, Range{nr,nr+1}); }
     virtual void readBlocks(u8 *dst, Range<isize> range) const;
 
     // Writes a block
-    void writeBlock(const u8 *src, isize nr) { writeBlocks(src, Range{nr,nr+1}); };
+    virtual void writeBlock(const u8 *src, isize nr) { writeBlocks(src, Range{nr,nr+1}); };
     virtual void writeBlocks(const  u8 *src, Range<isize> range);
 
     // Safety wrappers

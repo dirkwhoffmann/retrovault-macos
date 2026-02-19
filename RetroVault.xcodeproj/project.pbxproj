@@ -220,7 +220,6 @@
 		50900AEE2F1E726D00A4A81B /* primitives.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = primitives.h; sourceTree = "<group>"; };
 		50900AEF2F1E726D00A4A81B /* storage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = storage.h; sourceTree = "<group>"; };
 		50900AF02F1E726D00A4A81B /* support.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = support.h; sourceTree = "<group>"; };
-		50900AF12F1E726D00A4A81B /* types.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = types.h; sourceTree = "<group>"; };
 		50900AF22F1E726D00A4A81B /* wrappers.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = wrappers.h; sourceTree = "<group>"; };
 		50900AF52F1E726D00A4A81B /* Compressible.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Compressible.cpp; sourceTree = "<group>"; };
 		50900AF62F1E726D00A4A81B /* Dumpable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Dumpable.cpp; sourceTree = "<group>"; };
@@ -642,7 +641,6 @@
 				50900AEE2F1E726D00A4A81B /* primitives.h */,
 				50900AEF2F1E726D00A4A81B /* storage.h */,
 				50900AF02F1E726D00A4A81B /* support.h */,
-				50900AF12F1E726D00A4A81B /* types.h */,
 				50900AF22F1E726D00A4A81B /* wrappers.h */,
 			);
 			path = utl;

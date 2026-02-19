@@ -275,7 +275,7 @@ using namespace utl;
 
 -(NSInteger)readByte:(NSInteger)offset
 {
-    assert(offset >= 0 && offset < [self bsize]);
+    assert(offset >= 0);
     return [self image]->readByte(offset);
 }
 
@@ -287,7 +287,7 @@ using namespace utl;
 
 -(NSInteger)readByte:(NSInteger)offset volume:(NSInteger)v
 {
-    assert(offset >= 0 && offset < [self bsize]);
+    assert(offset >= 0);
     return [self volume:v].getVolume().readByte(offset);
 }
 
@@ -299,7 +299,7 @@ using namespace utl;
 
 -(NSString *)readASCII:(NSInteger)offset length:(NSInteger)len
 {
-    assert(offset >= 0 && offset < [self bsize]);
+    assert(offset >= 0);
     
     NSMutableString *result = [NSMutableString stringWithCapacity:len];
 

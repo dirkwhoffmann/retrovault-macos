@@ -1,5 +1,5 @@
 // -----------------------------------------------------------------------------
-// This file is part of RetroVault
+// This file is part of utlib - A lightweight utility library
 //
 // Copyright (C) Dirk W. Hoffmann. www.dirkwhoffmann.de
 // Licensed under the Mozilla Public License v2

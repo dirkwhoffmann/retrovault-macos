@@ -10,7 +10,6 @@
 #include "config.h"
 #include "HDFFile.h"
 #include "FileSystems/Amiga/FSBlock.h"
-#include "Memory.h"
 #include "DeviceError.h"
 #include "utl/common.h"
 #include "utl/chrono.h"
@@ -30,13 +29,12 @@ HDFFile::about(const fs::path &path)
 }
 
 std::vector<string>
-HDFFile::describe() const noexcept
+HDFFile::describeImage() const noexcept
 {
     return {
         "Amiga Hard Drive",
         std::format("{} Partition{}", numPartitions(),
                     numPartitions() != 1 ? "s" : ""),
-        TrackDevice::describe()[0],
         std::format("{} Cylinders, {} Heads, {} Sectors",
                     numCyls(), numHeads(), numSectors())
     };

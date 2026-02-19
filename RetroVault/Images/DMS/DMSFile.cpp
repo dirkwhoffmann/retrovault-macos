@@ -35,13 +35,12 @@ DMSFile::about(const fs::path &path)
 }
 
 std::vector<string>
-DMSFile::describe() const noexcept
+DMSFile::describeImage() const noexcept
 {
     return {
         "Amiga Floppy Disk",
         std::format("{} {}",
                     getDiameterStr(), getDensityStr()),
-        TrackDevice::describe()[0],
         std::format("{} Cylinders, {} Sides, {} Sectors",
                     numCyls(), numHeads(), numSectors(0))
     };
@@ -54,7 +53,7 @@ DMSFile::didInitialize()
     size_t adfSize = 0;
 
     int verbose = 0;
-    if constexpr (debug::DMS_DEBUG) verbose = 1;
+    if constexpr (debug::IMG_DEBUG) verbose = 1;
     if (extractDMS(data.ptr, (size_t)data.size, &adfData, &adfSize, verbose) == 0) {
 
         if constexpr (!force::DMS_CANT_CREATE) {

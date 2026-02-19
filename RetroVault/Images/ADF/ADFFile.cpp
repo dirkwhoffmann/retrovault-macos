@@ -132,13 +132,12 @@ ADFFile::init(const FileSystem &volume)
 }
 
 std::vector<string>
-ADFFile::describe() const noexcept
+ADFFile::describeImage() const noexcept
 {
     return {
         "Amiga Floppy Disk",
         std::format("{} {}",
                     getDiameterStr(), getDensityStr()),
-        TrackDevice::describe()[0],
         std::format("{} Cylinders, {} Sides, {} Sectors",
                     numCyls(), numHeads(), numSectors())
     };
@@ -236,7 +235,7 @@ ADFFile::formatDisk(FSFormat dos, BootBlockId id, string name)
 {
     retro::vault::amiga::FSFormatEnum::validate(dos);
 
-    loginfo(ADF_DEBUG,
+    loginfo(IMG_DEBUG,
             "Formatting disk (%ld, %s)\n",
             numBlocks(), retro::vault::amiga::FSFormatEnum::key(dos));
 

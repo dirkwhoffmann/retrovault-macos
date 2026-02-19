@@ -61,12 +61,11 @@ EADFFile::numSectors() const
 }
 
 std::vector<string>
-EADFFile::describe() const noexcept
+EADFFile::describeImage() const noexcept
 {
     return {
         "Amiga Floppy Disk",
         "Extended ADF format",
-        TrackDevice::describe()[0],
         ""
     };
 }
@@ -153,7 +152,7 @@ EADFFile::didInitialize()
 
         if (isExtendedTrack(t)) {
 
-            loginfo(ADF_DEBUG, "Reading extended track %ld from EADF\n", t);
+            loginfo(IMG_DEBUG, "Reading extended track %ld from EADF\n", t);
 
             // Copy MFM bits from the EADF
             track.mfm.assign(trackData(t), trackData(t) + availableBytesForTrack(t));
