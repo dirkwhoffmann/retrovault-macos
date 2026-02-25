@@ -9,6 +9,7 @@
 
 #include "config.h"
 #include "HDFFile.h"
+#include "Images/ImageError.h"
 #include "FileSystems/Amiga/FSBlock.h"
 #include "DeviceError.h"
 #include "utl/common.h"
@@ -23,9 +24,26 @@ optional<ImageInfo>
 HDFFile::about(const fs::path &path)
 {
     auto suffix = utl::uppercased(path.extension().string());
-    if (suffix != ".HDF") return {};
 
-    return {{ ImageType::HARDDISK, ImageFormat::HDF }};
+    if (suffix == ".HDZ") {
+        
+        return {{ ImageType::HARDDISK, ImageFormat::HDF }};
+    }
+    
+    if (suffix == ".HDF") {
+        
+        ensureHDF(nullptr, utl::getSizeOfFile(path));
+        return {{ ImageType::HARDDISK, ImageFormat::HDF }};
+    }
+    
+    return {};
+}
+
+void
+HDFFile::ensureHDF(u8 *buf, isize len)
+{
+    // The size must be a multiple of 512 (block size)
+    if (len % 512) throw ImageError(ImageError::SIZE_MISMATCH);
 }
 
 std::vector<string>
@@ -40,9 +58,49 @@ HDFFile::describeImage() const noexcept
     };
 }
 
+isize
+HDFFile::writeToFile(const fs::path &path) const
+{
+    return writeToFile(path, 0, size());
+}
+
+isize
+HDFFile::writeToFile(const fs::path &path, isize offset, isize len) const
+{
+    if (utl::lowercased(path.extension().string()) == ".hdz") {
+     
+        auto copy = data;
+        copy.gzip();
+        copy.write(path, offset, len);
+        return copy.size;
+        
+    } else {
+        
+        data.write(path, offset, len);
+        return data.size;
+    }
+}
+
 void
 HDFFile::didInitialize()
 {
+    if (utl::lowercased(path.extension().string()) == ".hdz") {
+        
+        loginfo(IMG_DEBUG, "Decompressing %ld bytes...\n", data.size);
+        
+        try {
+            data.gunzip();
+            data.write("/tmp/hd.hdf");
+        } catch (std::exception &err) {
+            throw IOError(IOError::ZLIB_ERROR, err.what());
+        }
+        
+        loginfo(IMG_DEBUG, "Restored %ld bytes.\n", data.size);
+    }
+        
+    // Run a consistency check on the buffer contents
+    ensureHDF(data.ptr, data.size);
+    
     // Retrieve geometry and partition information
     geometry = getGeometryDescriptor();
     ptable = getPartitionDescriptors();

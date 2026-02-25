@@ -12,10 +12,8 @@
 #include "utl/support/Strings.h"
 
 #include "ADFFile.h"
-#include "ADZFile.h"
 #include "EADFFile.h"
 #include "HDFFile.h"
-#include "HDZFile.h"
 #include "IMGFile.h"
 #include "STFile.h"
 #include "DMSFile.h"

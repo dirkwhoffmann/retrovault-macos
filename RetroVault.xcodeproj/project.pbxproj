@@ -44,7 +44,6 @@
 		50900BCF2F1E727400A4A81B /* BlockDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900B252F1E727400A4A81B /* BlockDevice.cpp */; };
 		50900BD02F1E727400A4A81B /* FSExporter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900B4A2F1E727400A4A81B /* FSExporter.cpp */; };
 		50900BD12F1E727400A4A81B /* DOSEncoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900BA12F1E727400A4A81B /* DOSEncoder.cpp */; };
-		50900BD22F1E727400A4A81B /* ADZFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900B832F1E727400A4A81B /* ADZFile.cpp */; };
 		50900BD32F1E727400A4A81B /* FSImporter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900B6E2F1E727400A4A81B /* FSImporter.cpp */; };
 		50900BD42F1E727400A4A81B /* DeviceError.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900B2A2F1E727400A4A81B /* DeviceError.cpp */; };
 		50900BD52F1E727400A4A81B /* HDFFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900BAD2F1E727400A4A81B /* HDFFile.cpp */; };
@@ -79,7 +78,6 @@
 		50900BF22F1E727400A4A81B /* FSDoctor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900B682F1E727400A4A81B /* FSDoctor.cpp */; };
 		50900BF32F1E727400A4A81B /* GCR.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900BA32F1E727400A4A81B /* GCR.cpp */; };
 		50900BF42F1E727400A4A81B /* MFM.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900BA52F1E727400A4A81B /* MFM.cpp */; };
-		50900BF52F1E727400A4A81B /* HDZFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900BB12F1E727400A4A81B /* HDZFile.cpp */; };
 		50900BF62F1E727400A4A81B /* FSDirEntry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900B662F1E727400A4A81B /* FSDirEntry.cpp */; };
 		50900BF72F1E727400A4A81B /* DiskDecoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900B9C2F1E727400A4A81B /* DiskDecoder.cpp */; };
 		50900BF82F1E727400A4A81B /* FileSystemLayer2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50900B372F1E727400A4A81B /* FileSystemLayer2.cpp */; };
@@ -327,9 +325,6 @@
 		50900B7E2F1E727400A4A81B /* ADFFile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ADFFile.h; sourceTree = "<group>"; };
 		50900B7F2F1E727400A4A81B /* ADFFile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ADFFile.cpp; sourceTree = "<group>"; };
 		50900B802F1E727400A4A81B /* CMakeLists.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
-		50900B822F1E727400A4A81B /* ADZFile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ADZFile.h; sourceTree = "<group>"; };
-		50900B832F1E727400A4A81B /* ADZFile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ADZFile.cpp; sourceTree = "<group>"; };
-		50900B842F1E727400A4A81B /* CMakeLists.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
 		50900B862F1E727400A4A81B /* CMakeLists.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
 		50900B872F1E727400A4A81B /* D64File.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = D64File.h; sourceTree = "<group>"; };
 		50900B882F1E727400A4A81B /* D64File.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = D64File.cpp; sourceTree = "<group>"; };
@@ -365,9 +360,6 @@
 		50900BAB2F1E727400A4A81B /* CMakeLists.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
 		50900BAC2F1E727400A4A81B /* HDFFile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HDFFile.h; sourceTree = "<group>"; };
 		50900BAD2F1E727400A4A81B /* HDFFile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = HDFFile.cpp; sourceTree = "<group>"; };
-		50900BAF2F1E727400A4A81B /* CMakeLists.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
-		50900BB02F1E727400A4A81B /* HDZFile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HDZFile.h; sourceTree = "<group>"; };
-		50900BB12F1E727400A4A81B /* HDZFile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = HDZFile.cpp; sourceTree = "<group>"; };
 		50900BB32F1E727400A4A81B /* CMakeLists.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = CMakeLists.txt; sourceTree = "<group>"; };
 		50900BB42F1E727400A4A81B /* IMGFile.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IMGFile.h; sourceTree = "<group>"; };
 		50900BB52F1E727400A4A81B /* IMGFile.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = IMGFile.cpp; sourceTree = "<group>"; };
@@ -869,16 +861,6 @@
 			path = ADF;
 			sourceTree = "<group>";
 		};
-		50900B852F1E727400A4A81B /* ADZ */ = {
-			isa = PBXGroup;
-			children = (
-				50900B822F1E727400A4A81B /* ADZFile.h */,
-				50900B832F1E727400A4A81B /* ADZFile.cpp */,
-				50900B842F1E727400A4A81B /* CMakeLists.txt */,
-			);
-			path = ADZ;
-			sourceTree = "<group>";
-		};
 		50900B892F1E727400A4A81B /* D64 */ = {
 			isa = PBXGroup;
 			children = (
@@ -956,16 +938,6 @@
 			path = HDF;
 			sourceTree = "<group>";
 		};
-		50900BB22F1E727400A4A81B /* HDZ */ = {
-			isa = PBXGroup;
-			children = (
-				50900BAF2F1E727400A4A81B /* CMakeLists.txt */,
-				50900BB02F1E727400A4A81B /* HDZFile.h */,
-				50900BB12F1E727400A4A81B /* HDZFile.cpp */,
-			);
-			path = HDZ;
-			sourceTree = "<group>";
-		};
 		50900BB62F1E727400A4A81B /* IMG */ = {
 			isa = PBXGroup;
 			children = (
@@ -990,14 +962,12 @@
 			isa = PBXGroup;
 			children = (
 				50900B812F1E727400A4A81B /* ADF */,
-				50900B852F1E727400A4A81B /* ADZ */,
 				50900B892F1E727400A4A81B /* D64 */,
 				50900B8D2F1E727400A4A81B /* DMS */,
 				50900B912F1E727400A4A81B /* EADF */,
 				50900BA62F1E727400A4A81B /* Encoders */,
 				50900BAA2F1E727400A4A81B /* EXE */,
 				50900BAE2F1E727400A4A81B /* HDF */,
-				50900BB22F1E727400A4A81B /* HDZ */,
 				50900BB62F1E727400A4A81B /* IMG */,
 				50900BBA2F1E727400A4A81B /* ST */,
 				50900BBB2F1E727400A4A81B /* AnyImage.h */,
@@ -1254,7 +1224,6 @@
 				50900BCF2F1E727400A4A81B /* BlockDevice.cpp in Sources */,
 				50900BD02F1E727400A4A81B /* FSExporter.cpp in Sources */,
 				50900BD12F1E727400A4A81B /* DOSEncoder.cpp in Sources */,
-				50900BD22F1E727400A4A81B /* ADZFile.cpp in Sources */,
 				50900BD32F1E727400A4A81B /* FSImporter.cpp in Sources */,
 				50900BD42F1E727400A4A81B /* DeviceError.cpp in Sources */,
 				5097DD932F24DC1D00738B5A /* InfoCanvasViewController.swift in Sources */,
@@ -1294,7 +1263,6 @@
 				50900BF32F1E727400A4A81B /* GCR.cpp in Sources */,
 				50D89C512F1E775100ECC73D /* debug.cpp in Sources */,
 				50900BF42F1E727400A4A81B /* MFM.cpp in Sources */,
-				50900BF52F1E727400A4A81B /* HDZFile.cpp in Sources */,
 				50900BF62F1E727400A4A81B /* FSDirEntry.cpp in Sources */,
 				50900BF72F1E727400A4A81B /* DiskDecoder.cpp in Sources */,
 				50CD7A232F2605DB007E5803 /* DeviceCell.swift in Sources */,
